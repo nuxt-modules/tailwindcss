@@ -26,7 +26,7 @@
 ## Usage
 
 This module will automatically create two files in your [srcDir](https://nuxtjs.org/api/configuration-srcdir):
-- `./tailwind.config.js`
+- `~/tailwind.config.js`
 - `~/assets/css/tailwind.css`
 
 It will also inject the CSS file globally and configure [nuxt-purgecss](https://github.com/Developmint/nuxt-purgecss).
