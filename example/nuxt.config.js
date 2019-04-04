@@ -8,6 +8,6 @@ module.exports = {
     resourceHints: false
   },
   modules: [
-    resolve(__dirname, '../')
+    { handler: require('../') }
   ]
 }
