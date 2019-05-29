@@ -18,7 +18,7 @@
 ```js
 {
   modules: [
-    'nuxt-tailwindcss'
+    '@nuxtjs/tailwindcss'
   ]
 }
 ```
