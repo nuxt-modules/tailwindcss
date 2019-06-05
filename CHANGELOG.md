@@ -1,6 +1,15 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [0.0.4](https://github.com/Atinux/nuxt-tailwindcss/compare/v0.0.3...v0.0.4) (2019-06-05)
+
+
+### Bug Fixes
+
+* use correct links ([7835051](https://github.com/Atinux/nuxt-tailwindcss/commit/7835051))
+
+
 
 ## [0.0.2](https://github.com/Atinux/nuxt-tailwindcss/compare/v0.0.1...v0.0.2) (2019-04-04)
 
