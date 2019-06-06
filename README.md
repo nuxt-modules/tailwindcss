@@ -7,7 +7,7 @@
 [![Dependencies][david-dm-src]][david-dm-href]
 [![Standard JS][standard-js-src]][standard-js-href]
 
-> TailwindCSS module for Nuxt.js with [nuxt-purgecss](https://github.com/Developmint/nuxt-purgecss) ⚡️
+> [TailwindCSS](https://tailwindcss.com) module for [Nuxt.js](https://nuxtjs.org) with [nuxt-purgecss](https://github.com/Developmint/nuxt-purgecss) + [modern css](https://tailwindcss.com/docs/using-with-preprocessors#future-css-features) ⚡️
 
 [📖 **Release Notes**](./CHANGELOG.md)
 
