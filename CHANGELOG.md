@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.1.1](https://github.com/Atinux/nuxt-tailwindcss/compare/v0.1.0...v0.1.1) (2019-06-11)
 
-
+* feat: config and css path options (#3)
+* fix: use modules only for building and add logs
+* feat: add cssPath and configPath options
+* chore: update example
+* chore: upgrade dependencies
+* chore: add test
 
 ## [0.1.0](https://github.com/Atinux/nuxt-tailwindcss/compare/v0.0.3...v0.1.0) (2019-06-06)
 
