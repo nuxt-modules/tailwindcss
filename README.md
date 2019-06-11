@@ -9,7 +9,10 @@
 
 > [TailwindCSS](https://tailwindcss.com) module for [Nuxt.js](https://nuxtjs.org) with [nuxt-purgecss](https://github.com/Developmint/nuxt-purgecss) + [modern css](https://tailwindcss.com/docs/using-with-preprocessors#future-css-features) ⚡️
 
-[📖 **Release Notes**](./CHANGELOG.md)
+## Infos
+
+- 📖 [Release Notes](./CHANGELOG.md)
+- 🏀 [Online playground](https://codesandbox.io/s/o4vn5pvp7q)
 
 ## Setup
 
