@@ -18,13 +18,13 @@
 
 1. Add `@nuxtjs/tailwindcss` dependency to your project
 ```bash
-npm install @nuxtjs/tailwindcss # or yarn add @nuxtjs/tailwindcss
+npm install --save-dev @nuxtjs/tailwindcss # or yarn add --dev @nuxtjs/tailwindcss
 ```
 
-2. Add `@nuxtjs/tailwindcss` to the `modules` section of `nuxt.config.js`
+2. Add `@nuxtjs/tailwindcss` to the `devModules` section of `nuxt.config.js`
 ```js
 {
-  modules: [
+  devModules: [
     '@nuxtjs/tailwindcss'
   ]
 }
@@ -45,7 +45,7 @@ If you want to set a different path for the configuration file or css file, you 
 ```js
 // nuxt.config.js
 {
-  modules: [
+  devModules: [
     '@nuxtjs/tailwindcss'
   ],
   tailwindcss: {
