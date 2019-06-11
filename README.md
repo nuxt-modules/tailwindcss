@@ -1,3 +1,5 @@
+<p align="center"><img src="https://user-images.githubusercontent.com/904724/59273671-0972b080-8c59-11e9-94dd-ef6fa181668d.png" alt="nuxt-tailwindcss" width="500"/></p>
+
 # nuxt-tailwindcss
 
 [![npm version][npm-version-src]][npm-version-href]
