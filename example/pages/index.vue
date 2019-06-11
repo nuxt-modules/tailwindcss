@@ -12,10 +12,13 @@
 .banner {
   @apply bg-indigo-900 text-center py-4;
   @screen lg {
-    @apply px-4
+    @apply bg-yellow-500;
   }
   &:hover {
     @apply bg-indigo-800;
+    @screen lg {
+      @apply bg-yellow-600;
+    }
   }
 }
 </style>
