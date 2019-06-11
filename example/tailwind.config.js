@@ -1,9 +1,11 @@
 /*
 ** TailwindCSS Configuration File
-** https://next.tailwindcss.com/docs/configuration
+**
+** Docs: https://tailwindcss.com/docs/configuration
+** Default: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
 */
 module.exports = {
   theme: {},
   variants: {},
-  plugins: [],
+  plugins: []
 }

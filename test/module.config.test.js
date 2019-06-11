@@ -5,8 +5,13 @@ const request = require('request-promise-native')
 const getPort = require('get-port')
 
 const config = require('../example/nuxt.config')
+config.tailwindcss = {
+  cssPath: '/tmp/nuxt-tailwind-test/tailwind.css',
+  configPath: '/tmp/nuxt-tailwind-test/tailwind.js'
+}
 config.dev = false
-config._build = true // imitate `nuxt build` command
+config._build = true
+config.buildDir = '/tmp/nuxt-tailwind-test/.nuxt/'
 
 let nuxt, port
 
@@ -26,7 +31,7 @@ describe('basic', () => {
     await nuxt.close()
   })
 
-  test('render with purgeCSS', async () => {
+  test('render', async () => {
     const html = await get('/')
     expect(html).toContain('Get the coolest t-shirts from our brand new store')
     expect(html).not.toContain('.bg-pink-700')
