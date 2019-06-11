@@ -31,6 +31,23 @@ This module will automatically create two files in your [srcDir](https://nuxtjs.
 
 It will also inject the CSS file globally and configure [nuxt-purgecss](https://github.com/Developmint/nuxt-purgecss) and [postcss-preset-env](https://preset-env.cssdb.org) to [stage 1](https://preset-env.cssdb.org/features#stage-1).
 
+## Configuration
+
+If you want to set a different path for the configuration file or css file, you can use these given options:
+
+```js
+// nuxt.config.js
+{
+  modules: [
+    '@nuxtjs/tailwindcss'
+  ],
+  tailwindcss: {
+    configPath: '~/config/tailwind.js',
+    cssPath: '~/assets/main.css'
+  }
+}
+```
+
 ## Development
 
 1. Clone this repository
