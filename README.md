@@ -15,7 +15,11 @@
 
 ## Setup
 
-1. Add `@nuxtjs/tailwindcss` dependency with `yarn` or `npm` to your project
+1. Add `@nuxtjs/tailwindcss` dependency to your project
+```bash
+npm install @nuxtjs/tailwindcss # or yarn add @nuxtjs/tailwindcss
+```
+
 2. Add `@nuxtjs/tailwindcss` to the `modules` section of `nuxt.config.js`
 ```js
 {
