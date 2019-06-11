@@ -69,14 +69,14 @@ Copyright (c) Nuxt.js Team
 [npm-downloads-src]: https://img.shields.io/npm/v/@nuxtjs/tailwindcss/latest.svg?style=flat-square
 [npm-downloads-href]: https://npmjs.com/package/@nuxtjs/tailwindcss
 
-[circle-ci-src]: https://img.shields.io/circleci/project/github/Atinux/nuxt-tailwindcss.svg?style=flat-square
-[circle-ci-href]: https://circleci.com/gh/Atinux/nuxt-tailwindcss
+[circle-ci-src]: https://img.shields.io/circleci/project/github/nuxt-community/nuxt-tailwindcss.svg?style=flat-square
+[circle-ci-href]: https://circleci.com/gh/nuxt-community/nuxt-tailwindcss
 
-[codecov-src]: https://img.shields.io/codecov/c/github/Atinux/nuxt-tailwindcss.svg?style=flat-square
-[codecov-href]: https://codecov.io/gh/Atinux/nuxt-tailwindcss
+[codecov-src]: https://img.shields.io/codecov/c/github/nuxt-community/nuxt-tailwindcss.svg?style=flat-square
+[codecov-href]: https://codecov.io/gh/nuxt-community/nuxt-tailwindcss
 
-[david-dm-src]: https://david-dm.org/Atinux/nuxt-tailwindcss/status.svg?style=flat-square
-[david-dm-href]: https://david-dm.org/Atinux/nuxt-tailwindcss
+[david-dm-src]: https://david-dm.org/nuxt-community/nuxt-tailwindcss/status.svg?style=flat-square
+[david-dm-href]: https://david-dm.org/nuxt-community/nuxt-tailwindcss
 
 [standard-js-src]: https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square
 [standard-js-href]: https://standardjs.com
