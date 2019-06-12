@@ -7,8 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* config and css path options ([#3](https://github.com/nuxt-community/nuxt-tailwindcss/issues/3)) ([d8735bb](https://github.com/nuxt-community/nuxt-tailwindcss/commit/d8735bb))
-
+* refactor: module and increase coverage ([#5](https://github.com/nuxt-community/nuxt-tailwindcss/issues/5)) ([43443c2](https://github.com/nuxt-community/nuxt-tailwindcss/commit/43443c24524290602f9215fcb793e4ace7c75b5b))
 
 
 ### [1.0.0](https://github.com/Atinux/nuxt-tailwindcss/compare/v0.1.1...v1.0.0) (2019-06-11)
