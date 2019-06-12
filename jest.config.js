@@ -3,7 +3,7 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     'lib/**/*.js',
-    '!lib/plugin.js'
+    '!lib/templates/**'
   ],
   moduleNameMapper: {
     '^~/(.*)$': '<rootDir>/lib/$1',
