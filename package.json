@@ -48,7 +48,7 @@
     "get-port": "latest",
     "husky": "^2.4.1",
     "jest": "latest",
-    "nuxt-edge": "^2.9.0-26004970.9d79d239",
+    "nuxt-edge": "^2.9.0-26006411.835611f7",
     "request": "latest",
     "request-promise-native": "latest",
     "standard-version": "latest"
