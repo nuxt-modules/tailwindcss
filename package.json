@@ -46,9 +46,9 @@
     "eslint-plugin-standard": "latest",
     "eslint-plugin-vue": "latest",
     "get-port": "latest",
-    "husky": "^2.4.1",
+    "husky": "latest",
     "jest": "latest",
-    "nuxt-edge": "^2.9.0-26006411.835611f7",
+    "nuxt-edge": "latest",
     "request": "latest",
     "request-promise-native": "latest",
     "standard-version": "latest"
