@@ -49,8 +49,8 @@ If you want to set a different path for the configuration file or css file, you 
     '@nuxtjs/tailwindcss'
   ],
   tailwindcss: {
-    configPath: '~/config/tailwind.js',
-    cssPath: '~/assets/main.css'
+    configPath: '~/config/tailwind.config.js',
+    cssPath: '~/assets/css/tailwind.css'
   }
 }
 ```
