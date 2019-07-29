@@ -55,6 +55,19 @@ If you want to set a different path for the configuration file or css file, you 
 }
 ```
 
+If you want to set any (additional) purgeCSS configuration options, you can add a purgeCSS configuration object:
+
+```js
+// nuxt.config.js
+{
+  purgeCSS: {
+    whitelist: ['css-selector-to-whitelist'],
+  },
+}
+```
+
+See full options here: https://github.com/Developmint/nuxt-purgecss#options
+
 ## Development
 
 1. Clone this repository
