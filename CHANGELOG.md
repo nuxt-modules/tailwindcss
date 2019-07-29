@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/nuxt-community/nuxt-tailwindcss/compare/v1.1.0...v1.1.1) (2019-07-29)
+
+
+### Bug Fixes
+
+* changelog ([bc65736](https://github.com/nuxt-community/nuxt-tailwindcss/commit/bc65736))
+
+
+
 ## [1.1.0](https://github.com/nuxt-community/nuxt-tailwindcss/compare/v0.1.0...v1.1.0) (2019-06-12)
 
 
