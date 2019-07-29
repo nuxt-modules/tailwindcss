@@ -66,6 +66,8 @@ If you want to set any (additional) purgeCSS configuration options, you can add 
 }
 ```
 
+See full options here: https://github.com/Developmint/nuxt-purgecss#options
+
 ## Development
 
 1. Clone this repository
