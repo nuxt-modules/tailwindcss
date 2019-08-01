@@ -10665,10 +10665,10 @@ table@^5.2.3:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
-tailwindcss@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-1.0.5.tgz#5145fd61f251be06a77748819e12fb126914095d"
-  integrity sha512-e5edrSKqNOvWAVEutXN5czeJSXjQQxO7zNN4RDd5vQF/JTxnKdndcMFIC6p6YkRvcGFKPCZ/0rY1zZvPeq9V4A==
+tailwindcss@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-1.0.6.tgz#4e9dbd5726d5bd5c634e7b49d0aa4ea03d112330"
+  integrity sha512-hhdvXpnlYNnxfZCpldMypSWRzgmoQbKBy3namGlsP0Gs+qM8EwF3DBVUPoq8wJYbBFjzrgatE4czWJ6f12Y9+Q==
   dependencies:
     autoprefixer "^9.4.5"
     bytes "^3.0.0"
