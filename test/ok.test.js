@@ -4,18 +4,17 @@ const { join } = require('path')
 const { Nuxt, Builder } = require('nuxt-edge')
 const request = require('request-promise-native')
 const getPort = require('get-port')
+const config = require('../example/nuxt.config')
 const logger = require('@/logger')
 
-const config = require('../example/nuxt.config')
+logger.mockTypes(() => jest.fn())
+
 config.dev = false
-config._build = true // imitate `nuxt build` comman
 
 let nuxt, port
 
 const url = path => `http://localhost:${port}${path}`
 const get = path => request(url(path))
-
-logger.mockTypes(() => jest.fn())
 
 describe('ok', () => {
   beforeAll(async () => {
@@ -46,7 +45,6 @@ describe('ok', () => {
   })
 
   test('build', () => {
-    expect(logger.info).toHaveBeenCalledWith('postcss-preset-env stage is set to 1 for supporting advanced css features')
     expect(nuxt.options.build.postcss.preset.stage).toBe(1)
     expect(nuxt.options.build.postcss.plugins).toBeDefined()
     expect(nuxt.options.build.postcss.plugins.tailwindcss).toBe(join(nuxt.options.srcDir, 'tailwind.config.js'))

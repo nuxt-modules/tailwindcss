@@ -5,9 +5,11 @@ const { remove } = require('fs-extra')
 const { Nuxt, Builder } = require('nuxt-edge')
 const request = require('request-promise-native')
 const getPort = require('get-port')
+const config = require('../example/nuxt.config')
 const logger = require('@/logger')
 
-const config = require('../example/nuxt.config')
+logger.mockTypes(() => jest.fn())
+
 config.dev = false
 config.tailwindcss = {
   configPath: 'custom/tailwind.js',
@@ -18,8 +20,6 @@ let nuxt, port
 
 const url = path => `http://localhost:${port}${path}`
 const get = path => request(url(path))
-
-logger.mockTypes(() => jest.fn())
 
 describe('config', () => {
   beforeAll(async () => {
