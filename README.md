@@ -22,10 +22,13 @@
 npm install --save-dev @nuxtjs/tailwindcss # or yarn add --dev @nuxtjs/tailwindcss
 ```
 
-2. Add `@nuxtjs/tailwindcss` to the `devModules` section of `nuxt.config.js`
+2. Add `@nuxtjs/tailwindcss` to the `buildModules` section of `nuxt.config.js`
+
+:warning: If you are using Nuxt `< 2.9.0`, use `modules` instead.
+
 ```js
 {
-  devModules: [
+  buildModules: [
     '@nuxtjs/tailwindcss'
   ]
 }
@@ -46,7 +49,7 @@ If you want to set a different path for the configuration file or css file, you 
 ```js
 // nuxt.config.js
 {
-  devModules: [
+  buildModules: [
     '@nuxtjs/tailwindcss'
   ],
   tailwindcss: {
