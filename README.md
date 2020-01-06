@@ -54,10 +54,13 @@ If you want to set a different path for the configuration file or css file, you 
   ],
   tailwindcss: {
     configPath: '~/config/tailwind.config.js',
-    cssPath: '~/assets/css/tailwind.css'
+    cssPath: '~/assets/css/tailwind.css',
+    purgeCSSInDev: false
   }
 }
 ```
+
+To enable purgeCSS in development, set `purgeCSSInDev: true`, be careful that it will slow down your development process.
 
 If you want to set any (additional) purgeCSS configuration options, you can add a purgeCSS configuration object:
 

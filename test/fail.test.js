@@ -28,8 +28,8 @@ describe('fail', () => {
   })
 
   test('when copy files', () => {
-    expect(logger.warn).toHaveBeenNthCalledWith(1, `Could not create ~/tailwind.config.js:`, 'Error when copy')
-    expect(logger.warn).toHaveBeenNthCalledWith(2, `Could not create ~/assets/css/tailwind.css:`, 'Error when copy')
+    expect(logger.warn).toHaveBeenNthCalledWith(1, 'Could not create ~/tailwind.config.js:', 'Error when copy')
+    expect(logger.warn).toHaveBeenNthCalledWith(2, 'Could not create ~/assets/css/tailwind.css:', 'Error when copy')
     expect(nuxt.options.css).toHaveLength(0)
   })
 })
