@@ -9,7 +9,7 @@
     }
   ],
   "main": "lib/module.js",
-  "repository": "https://github.com/nuxt-community/nuxt-tailwindcss",
+  "repository": "https://github.com/nuxt-community/nuxt-module",
   "publishConfig": {
     "access": "public"
   },
