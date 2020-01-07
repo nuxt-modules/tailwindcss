@@ -1,9 +1,9 @@
-<p align="center"><img src="https://user-images.githubusercontent.com/904724/59274615-fcef5780-8c5a-11e9-8b17-5c4915895144.png" alt="nuxt-module" width="500"/></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/904724/59274615-fcef5780-8c5a-11e9-8b17-5c4915895144.png" alt="tailwindcsc-moduel" width="500"/></p>
 <p align="center">
   <a href="https://npmjs.com/package/@nuxtjs/tailwindcss"><img src="https://img.shields.io/npm/dt/@nuxtjs/tailwindcss.svg?style=flat-square" alt="npm version"></a>
   <a href="https://npmjs.com/package/@nuxtjs/tailwindcss"><img src="https://img.shields.io/npm/v/@nuxtjs/tailwindcss/latest.svg?style=flat-square" alt="npm downloads"></a>
-  <a href="https://circleci.com/gh/nuxt-community/nuxt-module"><img src="https://img.shields.io/circleci/project/github/nuxt-community/nuxt-module.svg?style=flat-square" alt="circle ci"></a>
-  <a href="https://codecov.io/gh/nuxt-community/nuxt-module"><img src="https://img.shields.io/codecov/c/github/nuxt-community/nuxt-module.svg?style=flat-square" alt="coverage"></a>
+  <a href="https://circleci.com/gh/nuxt-community/tailwindcsc-moduel"><img src="https://img.shields.io/circleci/project/github/nuxt-community/tailwindcsc-moduel.svg?style=flat-square" alt="circle ci"></a>
+  <a href="https://codecov.io/gh/nuxt-community/tailwindcsc-moduel"><img src="https://img.shields.io/codecov/c/github/nuxt-community/tailwindcsc-moduel.svg?style=flat-square" alt="coverage"></a>
   <a href="https://www.npmjs.com/package/@nuxtjs/tailwindcss"><img src="https://badgen.net/npm/license/@nuxtjs/tailwindcss" alt="License"></a>
 </p>
 
