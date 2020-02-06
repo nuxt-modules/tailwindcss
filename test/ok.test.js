@@ -1,7 +1,7 @@
 jest.setTimeout(60000)
 
 const { join } = require('path')
-const { Nuxt, Builder } = require('nuxt-edge')
+const { Nuxt, Builder } = require('nuxt')
 const request = require('request-promise-native')
 const getPort = require('get-port')
 const logger = require('@/logger')
