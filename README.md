@@ -75,6 +75,14 @@ If you want to set any (additional) purgeCSS configuration options, you can add 
 
 See full options here: https://github.com/Developmint/nuxt-purgecss#options
 
+You can also use CSS comments to tell purgeCSS to ignore some blocks:
+
+```css
+/* purgecss start ignore */
+@import '@snackbar/core/dist/snackbar.css';
+/* purgecss end ignore */
+```
+
 ## Development
 
 1. Clone this repository
