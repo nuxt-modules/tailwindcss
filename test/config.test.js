@@ -5,8 +5,8 @@ const { remove } = require('fs-extra')
 const { Nuxt, Builder } = require('nuxt-edge')
 const request = require('request-promise-native')
 const getPort = require('get-port')
-const config = require('../example/nuxt.config')
 const logger = require('@/logger')
+const config = require('../example/nuxt.config')
 
 logger.mockTypes(() => jest.fn())
 
