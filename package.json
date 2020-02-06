@@ -29,28 +29,28 @@
     "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@nuxtjs/eslint-config": "^2.0.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^25.1.0",
-    "codecov": "^3.6.1",
+    "codecov": "^3.6.4",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jest": "^23.6.0",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "latest",
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.1.2",
     "get-port": "^5.1.1",
-    "husky": "^4.0.10",
+    "husky": "^4.2.1",
     "jest": "^25.1.0",
-    "nuxt-edge": "^2.11.1-26314569.9aa8db4e",
+    "nuxt-edge": "^2.11.1-26349132.917782a",
     "request": "latest",
     "request-promise-native": "^1.0.8",
-    "standard-version": "^7.0.1"
+    "standard-version": "^7.1.0"
   }
 }
