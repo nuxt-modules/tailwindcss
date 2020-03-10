@@ -86,7 +86,7 @@ You can also use CSS comments to tell purgeCSS to ignore some blocks:
 
 ## Referencing in JavaScript
 
-It can often be useful to reference tailwind configuration values in client-side JavaScript — for example to access some of your theme values when dynamically applying inline styles in acomponent.
+It can often be useful to reference tailwind configuration values in runtime. For example to access some of your theme values when dynamically applying inline styles in acomponent.
 
 If you need resolved tailwind config in runtime, you can enable `exposeConfig` option in `nuxt.config`:
 
@@ -99,7 +99,7 @@ If you need resolved tailwind config in runtime, you can enable `exposeConfig` o
 }
 ```
 
-Then import it where needed from `~tailwind.config`:
+Then import where needed from `~tailwind.config`:
 
 ```js
 // Import entire resolved config
