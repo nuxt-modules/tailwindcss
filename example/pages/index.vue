@@ -11,7 +11,7 @@
 <script>
 import tailwindConfig from '~tailwind.config'
 
-window.tailwindConfig = tailwindConfig
+global.tailwindConfig = tailwindConfig
 
 export default {}
 </script>
