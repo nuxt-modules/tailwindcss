@@ -49,7 +49,7 @@
     "husky": "^4.2.3",
     "jest": "^25.1.0",
     "nuxt": "^2.11.0",
-    "request": "latest",
+    "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
     "standard-version": "^7.1.0"
   }
