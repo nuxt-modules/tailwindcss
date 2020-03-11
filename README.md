@@ -7,7 +7,7 @@
   <a href="https://www.npmjs.com/package/@nuxtjs/tailwindcss"><img src="https://badgen.net/npm/license/@nuxtjs/tailwindcss" alt="License"></a>
 </p>
 
-> [TailwindCSS](https://tailwindcss.com) module for [Nuxt.js](https://nuxtjs.org) with [nuxt-purgecss](https://github.com/Developmint/nuxt-purgecss) + [modern css](https://tailwindcss.com/docs/using-with-preprocessors#future-css-features) ⚡️
+> [Tailwind CSS](https://tailwindcss.com) module for [NuxtJS](https://nuxtjs.org) with [nuxt-purgecss](https://github.com/Developmint/nuxt-purgecss) + [modern css](https://tailwindcss.com/docs/using-with-preprocessors#future-css-features) ⚡️
 
 ## Infos
 
