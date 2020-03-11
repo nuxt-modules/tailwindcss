@@ -8,6 +8,14 @@
   </div>
 </template>
 
+<script>
+import tailwindConfig from '~tailwind.config'
+
+global.tailwindConfig = tailwindConfig
+
+export default {}
+</script>
+
 <style scoped>
 .banner {
   @apply bg-indigo-900 text-center py-4;

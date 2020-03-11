@@ -1,0 +1,1 @@
+<%= JSON.stringify(options.config, null, 2) %>

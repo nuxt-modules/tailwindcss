@@ -55,7 +55,8 @@ If you want to set a different path for the configuration file or css file, you 
   tailwindcss: {
     configPath: '~/config/tailwind.config.js',
     cssPath: '~/assets/css/tailwind.css',
-    purgeCSSInDev: false
+    purgeCSSInDev: false,
+    exposeConfig: false
   }
 }
 ```
@@ -82,6 +83,33 @@ You can also use CSS comments to tell purgeCSS to ignore some blocks:
 @import '@snackbar/core/dist/snackbar.css';
 /* purgecss end ignore */
 ```
+
+## Referencing in JavaScript
+
+It can often be useful to reference tailwind configuration values in runtime. For example to access some of your theme values when dynamically applying inline styles in a component.
+
+If you need resolved tailwind config in runtime, you can enable `exposeConfig` option in `nuxt.config`:
+
+```js
+// nuxt.config.js
+{
+  tailwindcss: {
+    exposeConfig: true
+  },
+}
+```
+
+Then import where needed from `~tailwind.config`:
+
+```js
+// Import fully resolved config
+import tailwindConfig from '~tailwind.config'
+
+ // Import only part which is required to allow tree-shaking
+import { theme } from '~tailwind.config'
+```
+
+**NOTE:** Please be aware this adds **~19.5KB (~3.5KB)** to the client bundle size.
 
 ## Development
 
