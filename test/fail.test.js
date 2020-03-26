@@ -3,7 +3,7 @@ require('fs-extra').pathExists = jest.fn().mockImplementation(() => Promise.reso
 require('fs-extra').copy = jest.fn().mockImplementation(() => Promise.reject(new Error('Error when copy')))
 
 const { Nuxt, Builder } = require('nuxt')
-const logger = require('@/logger')
+const logger = require('../lib/logger')
 const config = require('../example/nuxt.config')
 
 logger.mockTypes(() => jest.fn())

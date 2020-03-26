@@ -4,7 +4,7 @@ const { join } = require('path')
 const { Nuxt, Builder } = require('nuxt')
 const request = require('request-promise-native')
 const getPort = require('get-port')
-const logger = require('@/logger')
+const logger = require('../lib/logger')
 const config = require('../example/nuxt.config')
 
 logger.mockTypes(() => jest.fn())
