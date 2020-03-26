@@ -1,14 +1,15 @@
 const { resolve } = require('path')
 
-function lazyLoadModule (opts) {
-  return require('../').call(this, opts)
-}
+function lazyLoadModule () { return require('../').call(this) }
 
 module.exports = {
   rootDir: resolve(__dirname, '..'),
   buildDir: resolve(__dirname, '.nuxt'),
   srcDir: __dirname,
   modules: [
-    [lazyLoadModule, { exposeConfig: true }]
-  ]
+    lazyLoadModule
+  ],
+  tailwindcss: {
+    exposeConfig: true
+  }
 }

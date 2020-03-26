@@ -20,10 +20,10 @@ describe('config', () => {
       configFile: 'example/nuxt.config.js'
     })
     config.dev = false
-    config.tailwindcss = {
+    Object.assign(config.tailwindcss, {
       configPath: 'custom/tailwind.js',
       cssPath: 'custom/tailwind.css'
-    }
+    })
     nuxt = new Nuxt(config)
     await nuxt.ready()
     await new Builder(nuxt).build()
