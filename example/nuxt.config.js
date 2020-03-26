@@ -5,6 +5,9 @@ module.exports = {
   buildDir: resolve(__dirname, '.nuxt'),
   srcDir: __dirname,
   modules: [
-    [require('../'), { exposeConfig: true }]
-  ]
+    require('..')
+  ],
+  tailwindcss: {
+    exposeConfig: true
+  }
 }

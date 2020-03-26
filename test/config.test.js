@@ -2,19 +2,12 @@ jest.setTimeout(60000)
 
 const { join } = require('path')
 const { remove } = require('fs-extra')
-const { Nuxt, Builder } = require('nuxt')
+const { Nuxt, Builder, loadNuxtConfig } = require('nuxt')
 const request = require('request-promise-native')
 const getPort = require('get-port')
 const logger = require('@/logger')
-const config = require('../example/nuxt.config')
 
 logger.mockTypes(() => jest.fn())
-
-config.dev = false
-config.tailwindcss = {
-  configPath: 'custom/tailwind.js',
-  cssPath: 'custom/tailwind.css'
-}
 
 let nuxt, port
 
@@ -23,6 +16,15 @@ const get = path => request(url(path))
 
 describe('config', () => {
   beforeAll(async () => {
+    const config = await loadNuxtConfig({
+      configFile: 'example/nuxt.config.js'
+    })
+    config.dev = false
+    config.modules = [require(('@/module'))]
+    Object.assign(config.tailwindcss, {
+      configPath: 'custom/tailwind.js',
+      cssPath: 'custom/tailwind.css'
+    })
     nuxt = new Nuxt(config)
     await nuxt.ready()
     await new Builder(nuxt).build()
