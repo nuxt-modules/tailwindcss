@@ -20,6 +20,7 @@ describe('config', () => {
       configFile: 'example/nuxt.config.js'
     })
     config.dev = false
+    config.modules = [require(('@/module'))]
     Object.assign(config.tailwindcss, {
       configPath: 'custom/tailwind.js',
       cssPath: 'custom/tailwind.css'
