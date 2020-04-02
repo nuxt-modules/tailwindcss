@@ -14,7 +14,6 @@
 - 📖 [Release Notes](https://github.com/nuxt-community/tailwindcss-module/releases)
 - 🏀 [Online playground](https://codesandbox.io/s/o4vn5pvp7q)
 - 🌿 [CSS Nesting Module Draft](https://drafts.csswg.org/css-nesting-1/)
-- 🎁 [TailwindUI Example](https://codesandbox.io/s/nuxt-tailwindui-xy1jk)
 
 ## Setup
 
