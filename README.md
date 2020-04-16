@@ -15,6 +15,7 @@
 - 🏀 [Online playground](https://codesandbox.io/s/o4vn5pvp7q)
 - 🌿 [CSS Nesting Module Draft](https://drafts.csswg.org/css-nesting-1/)
 - 📐 [Display your breakpoints with nuxt-breaky](https://github.com/teamnovu/nuxt-breaky) 
+- 🌓 [Dark mode example](https://codesandbox.io/s/nuxt-dark-tailwindcss-17g2j?file=/tailwind.config.js) with [tailwindcss-dark-mode](https://github.com/ChanceArthur/tailwindcss-dark-mode) and [@nuxtjs/color-mode](https://github.com/nuxt-community/color-mode-module)
 
 ## Setup
 
