@@ -1,7 +1,7 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/904724/59274615-fcef5780-8c5a-11e9-8b17-5c4915895144.png" alt="tailwindcss-module" width="500"/></p>
 <p align="center">
-  <a href="https://npmjs.com/package/@nuxtjs/tailwindcss"><img src="https://img.shields.io/npm/dt/@nuxtjs/tailwindcss.svg" alt="npm version"></a>
   <a href="https://npmjs.com/package/@nuxtjs/tailwindcss"><img src="https://img.shields.io/npm/v/@nuxtjs/tailwindcss/latest.svg" alt="npm downloads"></a>
+  <a href="https://npmjs.com/package/@nuxtjs/tailwindcss"><img src="https://img.shields.io/npm/dt/@nuxtjs/tailwindcss.svg" alt="npm version"></a>
   <a href="https://github.com/nuxt-community/tailwindcss-module/actions?query=workflow%3Aci"><img src="https://github.com/nuxt-community/tailwindcss-module/workflows/ci/badge.svg" alt="github ci"></a>
   <a href="https://codecov.io/gh/nuxt-community/tailwindcss-module"><img src="https://img.shields.io/codecov/c/github/nuxt-community/tailwindcss-module.svg" alt="coverage"></a>
   <a href="https://www.npmjs.com/package/@nuxtjs/tailwindcss"><img src="https://badgen.net/npm/license/@nuxtjs/tailwindcss" alt="License"></a>
@@ -26,8 +26,6 @@ npm install --save-dev @nuxtjs/tailwindcss # or yarn add --dev @nuxtjs/tailwindc
 
 2. Add `@nuxtjs/tailwindcss` to the `buildModules` section of `nuxt.config.js`
 
-:warning: If you are using Nuxt `< 2.9.0`, use `modules` instead.
-
 ```js
 {
   buildModules: [
@@ -35,6 +33,8 @@ npm install --save-dev @nuxtjs/tailwindcss # or yarn add --dev @nuxtjs/tailwindc
   ]
 }
 ```
+
+ℹ️ If you are using `nuxt < 2.9.0`, use `modules` property instead.
 
 ## Usage
 
