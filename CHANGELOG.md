@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/nuxt-community/tailwindcss-module/compare/v1.4.0...v1.4.1) (2020-04-22)
+
+
+### Bug Fixes
+
+* eslint ([8963f19](https://github.com/nuxt-community/tailwindcss-module/commit/8963f19f3704e852cfa3eff884699484c0a8ca7e))
+* keep only linux ([f43a6c9](https://github.com/nuxt-community/tailwindcss-module/commit/f43a6c9ea1bbc9324cf930d2789ead8afb537ab4))
+
 ## [1.2.0](https://github.com/nuxt-community/tailwindcss-module/compare/v1.1.2...v1.2.0) (2019-11-05)
 
 
