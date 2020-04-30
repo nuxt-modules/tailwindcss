@@ -1,23 +1,30 @@
-jest.setTimeout(60000)
+const { join } = require('path')
+const { setup } = require('@nuxtjs/module-test-utils')
+const logger = require('@/logger')
+// Mock fs-extra
 require('fs-extra').pathExists = jest.fn().mockImplementation(() => Promise.resolve(false))
 require('fs-extra').copy = jest.fn().mockImplementation(() => Promise.reject(new Error('Error when copy')))
-
-const { Nuxt, Builder } = require('nuxt')
-const logger = require('@/logger')
-const config = require('../example/nuxt.config')
+const tailwindModule = require('..')
 
 logger.mockTypes(() => jest.fn())
 
-config.dev = false
-
-let nuxt
-
 describe('fail', () => {
+  let nuxt
+
   beforeAll(async () => {
-    nuxt = new Nuxt(config)
-    await nuxt.ready()
-    await new Builder(nuxt).build()
-  })
+    const rootDir = join(__dirname, '..', 'example')
+    const config = {
+      rootDir,
+      buildModules: [
+        tailwindModule
+      ],
+      tailwindcss: {
+        exposeConfig: true
+      }
+    }
+
+    nuxt = (await setup(config)).nuxt
+  }, 60000)
 
   afterAll(async () => {
     await nuxt.close()

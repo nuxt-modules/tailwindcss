@@ -1,29 +1,26 @@
-jest.setTimeout(60000)
-
 const { join } = require('path')
-const { Nuxt, Builder } = require('nuxt')
-const request = require('request-promise-native')
-const getPort = require('get-port')
+const { setup, get } = require('@nuxtjs/module-test-utils')
 const logger = require('@/logger')
-const config = require('../example/nuxt.config')
+const tailwindModule = require('..')
 
 logger.mockTypes(() => jest.fn())
 
-config.dev = false
-
-let nuxt, port
-
-const url = path => `http://localhost:${port}${path}`
-const get = path => request(url(path))
-
 describe('ok', () => {
+  let nuxt
   beforeAll(async () => {
-    nuxt = new Nuxt(config)
-    await nuxt.ready()
-    await new Builder(nuxt).build()
-    port = await getPort()
-    await nuxt.listen(port)
-  })
+    const rootDir = join(__dirname, '..', 'example')
+    const config = {
+      rootDir,
+      buildModules: [
+        tailwindModule
+      ],
+      tailwindcss: {
+        exposeConfig: true
+      }
+    }
+
+    nuxt = (await setup(config)).nuxt
+  }, 60000)
 
   afterAll(async () => {
     await nuxt.close()

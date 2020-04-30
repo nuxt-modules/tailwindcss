@@ -7,7 +7,7 @@
   <a href="https://www.npmjs.com/package/@nuxtjs/tailwindcss"><img src="https://badgen.net/npm/license/@nuxtjs/tailwindcss" alt="License"></a>
 </p>
 
-> [Tailwind CSS](https://tailwindcss.com) module for [NuxtJS](https://nuxtjs.org) with [nuxt-purgecss](https://github.com/Developmint/nuxt-purgecss) + [modern css](https://tailwindcss.com/docs/using-with-preprocessors#future-css-features) ⚡️
+> [Tailwind CSS](https://tailwindcss.com) module for [NuxtJS](https://nuxtjs.org) with [modern css](https://tailwindcss.com/docs/using-with-preprocessors#future-css-features) ⚡️
 
 ## Infos
 
@@ -42,7 +42,7 @@ This module will automatically create two files in your [srcDir](https://nuxtjs.
 - `~/tailwind.config.js`
 - `~/assets/css/tailwind.css`
 
-It will also inject the CSS file globally and configure [nuxt-purgecss](https://github.com/Developmint/nuxt-purgecss) and [postcss-preset-env](https://preset-env.cssdb.org) to [stage 1](https://preset-env.cssdb.org/features#stage-1).
+It will also inject the CSS file globally and configure the [purge option](https://tailwindcss.com/docs/controlling-file-size#removing-unused-css) and [postcss-preset-env](https://preset-env.cssdb.org) to [stage 1](https://preset-env.cssdb.org/features#stage-1).
 
 ## Configuration
 
@@ -57,34 +57,12 @@ If you want to set a different path for the configuration file or css file, you 
   tailwindcss: {
     configPath: '~/config/tailwind.config.js',
     cssPath: '~/assets/css/tailwind.css',
-    purgeCSSInDev: false,
     exposeConfig: false
   }
 }
 ```
 
-To enable purgeCSS in development, set `purgeCSSInDev: true`, be careful that it will slow down your development process.
-
-If you want to set any (additional) purgeCSS configuration options, you can add a purgeCSS configuration object:
-
-```js
-// nuxt.config.js
-{
-  purgeCSS: {
-    whitelist: ['css-selector-to-whitelist'],
-  },
-}
-```
-
-See full options here: https://github.com/Developmint/nuxt-purgecss#options
-
-You can also use CSS comments to tell purgeCSS to ignore some blocks:
-
-```css
-/* purgecss start ignore */
-@import '@snackbar/core/dist/snackbar.css';
-/* purgecss end ignore */
-```
+To enable purgeCSS in development, set `purge.enabled: true` in `tailwind.config.js`, be careful that it will slow down your development process. Learn more on [removing unused CSS](https://tailwindcss.com/docs/controlling-file-size#removing-unused-css).
 
 ## Referencing in JavaScript
 
@@ -97,7 +75,7 @@ If you need resolved tailwind config in runtime, you can enable `exposeConfig` o
 {
   tailwindcss: {
     exposeConfig: true
-  },
+  }
 }
 ```
 
