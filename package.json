@@ -30,8 +30,8 @@
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
+    "@commitlint/cli": "^9.0.1",
+    "@commitlint/config-conventional": "^9.0.1",
     "@nuxtjs/eslint-config": "^2.0.2",
     "@nuxtjs/module-test-utils": "^1.6.1",
     "babel-eslint": "^10.1.0",
