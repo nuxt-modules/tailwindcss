@@ -23,31 +23,31 @@
     "lib"
   ],
   "dependencies": {
-    "consola": "^2.11.3",
-    "fs-extra": "^9.0.0",
-    "tailwindcss": "^1.4.0"
+    "consola": "^2.14.0",
+    "fs-extra": "^9.0.1",
+    "tailwindcss": "^1.5.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/preset-env": "^7.9.6",
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@nuxtjs/eslint-config": "^3.0.0",
-    "@nuxtjs/module-test-utils": "^1.6.1",
+    "@nuxtjs/module-test-utils": "^1.6.3",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.5.1",
-    "codecov": "^3.6.5",
-    "eslint": "^7.4.0",
+    "codecov": "^3.7.1",
+    "eslint": "^7.5.0",
     "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.18.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "latest",
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.2.2",
     "husky": "^4.2.5",
-    "jest": "^25.5.2",
-    "nuxt": "^2.12.2",
+    "jest": "^25.5.4",
+    "nuxt": "^2.13.3",
     "request": "^2.88.2",
     "standard-version": "^7.1.0"
   }
