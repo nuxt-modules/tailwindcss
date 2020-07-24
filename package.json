@@ -24,6 +24,7 @@
   ],
   "dependencies": {
     "consola": "^2.14.0",
+    "defu": "nuxt-contrib/defu#feat/array-merging",
     "fs-extra": "^9.0.1",
     "tailwindcss": "^1.5.1"
   },
