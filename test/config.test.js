@@ -23,6 +23,7 @@ describe('config', () => {
       }
     }
 
+    await remove(join(nuxt.options.srcDir, 'custom'))
     nuxt = (await setup(config)).nuxt
   }, 60000)
 
