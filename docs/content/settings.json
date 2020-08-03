@@ -1,0 +1,10 @@
+{
+  "title": "Nuxt TailwindCSS",
+  "url": "https://tailwindcss.nuxtjs.org",
+  "logo": {
+    "light": "/logo-light.svg",
+    "dark": "/logo-dark.svg"
+  },
+  "twitter": "nuxt_js",
+  "github": "nuxt-community/tailwindcss-module"
+}
