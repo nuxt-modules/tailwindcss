@@ -2,6 +2,7 @@ import theme from '@nuxt/content-theme-docs'
 
 export default theme({
   generate: {
+    routes: ['/'],
     fallback: '404.html'
   },
   buildModules: [
