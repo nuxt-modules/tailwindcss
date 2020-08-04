@@ -8,4 +8,6 @@ csb_link: https://codesandbox.io/embed/nuxt-dark-tailwindcss-17g2j?hidenavigatio
 fullscreen: true
 ---
 
+This example demonstrate how to use the [tailwindcss-dark-mode plugin](https://github.com/ChanceArthur/tailwindcss-dark-mode) plugin with the [@nuxtjs/color-mode](https://github.com/nuxt-community/color-mode-module) module.
+
 <code-sandbox :src="csb_link"></code-sandbox>

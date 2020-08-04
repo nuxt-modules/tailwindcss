@@ -124,7 +124,7 @@ This hook can be asynchronous (using `async/await`) and is called after merging 
 
 ### Merging strategy
 
-The provided config will be merged using [custom defu merger](https://github.com/nuxt-contrib/defu#custom-merger).
+The provided config will be merged using [defu's array function merger](https://github.com/nuxt-contrib/defu#array-function-merger).
 
 When giving an array to the `purge.content`, it will concat with the default value.
 
@@ -182,7 +182,6 @@ The `purge.content` option will be:
 This merging strategy of with a function only applies to `plugins` and `purge.content` since the default value is defined as an `Array`
 
 </alert>
-
 
 ## Referencing in the application
 
