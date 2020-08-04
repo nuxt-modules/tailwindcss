@@ -8,6 +8,6 @@ csb_link: https://codesandbox.io/embed/nuxt-tailwindui-xy1jk
 fullscreen: true
 ---
 
-This example demonstrate how to use the [Tailwind UI](https://tailwindui.com) plugin with the [Inter](https://rsms.me/inter/) font with the [@nuxtjs/google-fonts](https://github.com/nuxt-community/google-fonts-module) module.
+Example with [Tailwind UI](https://tailwindui.com) plugin with the [Inter](https://rsms.me/inter/) font loaded by [@nuxtjs/google-fonts](https://github.com/nuxt-community/google-fonts-module) module.
 
 <code-sandbox :src="csb_link"></code-sandbox>
