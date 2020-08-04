@@ -14,11 +14,27 @@ export default {
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
     configPath: 'tailwind.config.js',
-    config: {},
-    exposeConfig: false
+    exposeConfig: false,
+    config: {}
   }
 }
 ```
+
+## `cssPath`
+
+- Default: `'~/assets/css/tailwind.css'`
+
+Define the path of the Tailwind CSS file, **if the file exists, it will be imported instead of the module's default.**.
+
+```js{}[nuxt.config.js]
+export default {
+  tailwindcss: {
+    cssPath: '~/assets/tailwind.css'
+  }
+}
+```
+
+This file will be directly injected as a [global css](https://nuxtjs.org/guides/configuration-glossary/configuration-css) for Nuxt, it supports `css`, `sass`, `postcss`, and more.
 
 ## `configPath`
 
@@ -48,21 +64,19 @@ export default {
 }
 ```
 
-## `cssPath`
+## `exposeConfig`
 
-- Default: `'~/assets/css/tailwind.css'`
-
-Define the path of the Tailwind CSS file, **if the file exists, it will be imported instead of the module's default.**.
+If you need resolved tailwind config in runtime, you can enable exposeConfig option in nuxt.config:
 
 ```js{}[nuxt.config.js]
 export default {
   tailwindcss: {
-    cssPath: '~/assets/tailwind.css'
+    exposeConfig: true
   }
 }
 ```
 
-This file will be directly injected as a [global css](https://nuxtjs.org/guides/configuration-glossary/configuration-css) for Nuxt, it supports `css`, `sass`, `postcss`, and more.
+Learn more about it in the [Referencing in the application](/tailwind-config#referencing-in-the-application) section.
 
 
 ## `config`
@@ -87,17 +101,3 @@ export default {
 ```
 
 Learn more about overwriting Tailwind config [here](/tailwind-config).
-
-## `exposeConfig`
-
-If you need resolved tailwind config in runtime, you can enable exposeConfig option in nuxt.config:
-
-```js{}[nuxt.config.js]
-export default {
-  tailwindcss: {
-    exposeConfig: true
-  }
-}
-```
-
-Learn more about it in the [Tailwind config section](/tailwind-config).

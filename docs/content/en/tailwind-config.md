@@ -33,7 +33,7 @@ You can learn more about the [Tailwind configuration](https://tailwindcss.com/do
 
 ## Overwriting the configuration
 
-You can overwrite the default configuration:
+You can extend the default configuration:
 - with a [tailwind.config.js](#tailwindconfigjs) file
 - using the [config option](#config-option)
 - with the `tailwindcss:config` Nuxt hook
@@ -49,6 +49,12 @@ The `tailwind.config.js` and `config` options are subject to the [merging strate
 If a `tailwind.config.js` file is present, it will be imported and used to overwrite the default configuration.
 
 You can configure the path with the [configPath option](/options#configpath).
+
+<alert type="info">
+
+This config has the highest priority to overwrite the defaults and [tailwindcss.config](#config-option)
+
+</alert>
 
 ```js{}[tailwind.config.js]
 const defaultTheme = require('tailwindcss/defaultTheme')
@@ -68,7 +74,7 @@ Learn more about the [Tailwind config](https://tailwindcss.com/docs/configuratio
  
 ### `config` option
 
-You can also use your `nuxt.config.js` to set your Tailwind Config with the `tailwindcss.config` propert:
+You can also use your `nuxt.config.js` to set your Tailwind Config with the `tailwindcss.config` property:
 
 ```js{}[nuxt.config.js]
 import tailwindTypography from '@tailwindcss/typography'
@@ -82,31 +88,45 @@ export default {
   }
 }
 ```
+<alert type="info">
 
- `tailwindcss.config` property in your `nuxt.config.js` *(see [config option](/options#config))*
+This config has less priority over the [tailwind.config.js](#tailwindconfigjs) file.
+
+</alert>
+
 
 ### `tailwindcss:config` hook
 
-To configure the module by using the `tailwindcss` property in the `nuxt.config.js`:
+<alert>
 
-```js{}[nuxt.config.js]
-export default {
-  // Defaults options
-  tailwindcss: {
-    cssPath: '~/assets/css/tailwind.css',
-    configPath: 'tailwind.config.js',
-    config: {},
-    exposeConfig: false
-  }
+This is advanced usage and mostly used for Nuxt modules authors.
+
+</alert>
+
+You can use a [Nuxt hook](https://nuxtjs.org/guides/directory-structure/modules#run-tasks-on-specific-hooks) to extend the Tailwind configuration:
+
+```js
+// ~/modules/nuxt-tailwind-typo/index.js
+import tailwindTypography from '@tailwindcss/typography'
+
+export default function () {
+  this.nuxt.hook('tailwindcss:config', function (tailwindConfig) {
+    tailwindConfig.plugins.push(tailwindTypography)
+  })
 }
 ```
 
+<alert type="info">
+
+This hook can be asynchronous (using `async/await`) and is called after merging the configurations and right before calling the PostCSS Tailwind plugin.
+
+</alert>
 
 ### Merging strategy
 
-The provided config will be merged using [defu function merger](https://github.com/nuxt-contrib/defu#function-merger).
+The provided config will be merged using [custom defu merger](https://github.com/nuxt-contrib/defu#custom-merger).
 
-This mean that when giving an array to the `purge.content`, it will concat with the default value.
+When giving an array to the `purge.content`, it will concat with the default value.
 
 **Example**
 
@@ -164,9 +184,11 @@ This merging strategy of with a function only applies to `plugins` and `purge.co
 </alert>
 
 
-## `exposeConfig`
+## Referencing in the application
 
-If you need resolved tailwind config in runtime, you can enable exposeConfig option in nuxt.config:
+It can often be useful to reference tailwind configuration values in runtime. For example to access some of your theme values when dynamically applying inline styles in a component.
+
+If you need resolved Tailwind config at runtime, you can enable the [exposeConfig](/options#exposeconfig) option:
 
 ```js{}[nuxt.config.js]
 export default {
@@ -176,4 +198,18 @@ export default {
 }
 ```
 
-Learn more about it in the [Tailwind config section](/tailwind-config).
+Then import where needed from `~tailwind.config`:
+
+```js
+// Import fully resolved config
+import tailwindConfig from '~tailwind.config'
+
+// Import only part which is required to allow tree-shaking
+import { theme } from '~tailwind.config'
+```
+
+<alert>
+
+  Please be aware this adds `~19.5KB` (`~3.5KB`) to the client bundle size.
+
+</alert>
