@@ -2,6 +2,7 @@ const { join } = require('path')
 const { setup, get } = require('@nuxtjs/module-test-utils')
 const logger = require('@/logger')
 const tailwindModule = require('..')
+const defaultNuxtConfig = require('../lib/files/tailwind.config')
 
 logger.mockTypes(() => jest.fn())
 
@@ -38,12 +39,12 @@ describe('ok', () => {
 
   test('include tailwind.css file in project css', () => {
     expect(nuxt.options.css).toHaveLength(1)
-    expect(nuxt.options.css).toContain(join(nuxt.options.srcDir, nuxt.options.dir.assets, 'css', 'tailwind.css'))
+    expect(nuxt.options.css).toContain(join(__dirname, '..', 'lib', 'files', 'tailwind.css'))
   })
 
   test('build', () => {
     expect(nuxt.options.build.postcss.preset.stage).toBe(1)
     expect(nuxt.options.build.postcss.plugins).toBeDefined()
-    expect(nuxt.options.build.postcss.plugins.tailwindcss).toBe(join(nuxt.options.srcDir, 'tailwind.config.js'))
+    expect(nuxt.options.build.postcss.plugins.tailwindcss).toMatchObject(defaultNuxtConfig)
   })
 })
