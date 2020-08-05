@@ -7,10 +7,9 @@ category: ''
 categoryPosition: 1
 features:
   - Add Tailwind CSS in your Nuxt application in seconds
-  - Zero configuration needed to start
   - Use latest CSS features (Stage 1)
-  - PurgeCSS included for minimal CSS in production
-  - Expose your Tailwind config in your application
+  - PurgeCSS included for minimal CSS
+  - Reference your Tailwind config in your app
   - Extendable by Nuxt modules
 ---
 
@@ -23,4 +22,4 @@ Add [Tailwind CSS](https://tailwindcss.com) to your [Nuxt](https://nuxtjs.org) a
 
 <list :items="features"></list>
 
-<p class="flex items-center">Enjoy light and dark mode:&nbsp;<app-color-switcher class="p-2"></app-color-switcher></p>
+<p class="flex items-center">Enjoy a documentation with light and dark mode:&nbsp;<app-color-switcher class="p-2"></app-color-switcher></p>
