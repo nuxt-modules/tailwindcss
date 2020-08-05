@@ -6,9 +6,9 @@ fullscreen: true
 category: ''
 categoryPosition: 1
 features:
-  - Add Tailwind CSS in your Nuxt application in seconds
-  - Use latest CSS features (Stage 1)
+  - Zero configuration to start
   - PurgeCSS included for minimal CSS
+  - Use latest CSS features (Stage 1)
   - Reference your Tailwind config in your app
   - Extendable by Nuxt modules
 ---
