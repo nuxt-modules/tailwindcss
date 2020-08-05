@@ -15,6 +15,7 @@
   },
   "scripts": {
     "dev": "nuxt example",
+    "docs": "nuxt docs/",
     "lint": "eslint --ext .js,.vue example lib test",
     "test": "yarn lint && jest",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish"
@@ -24,31 +25,32 @@
   ],
   "dependencies": {
     "consola": "^2.14.0",
+    "defu": "^3.1.0",
     "fs-extra": "^9.0.1",
-    "tailwindcss": "^1.6.0"
+    "tailwindcss": "^1.6.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/module-test-utils": "^1.6.3",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.5.1",
     "codecov": "^3.7.2",
-    "eslint": "^7.5.0",
+    "eslint": "^7.6.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jest": "^23.19.0",
+    "eslint-plugin-jest": "^23.20.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "latest",
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.2.2",
     "husky": "^4.2.5",
     "jest": "^25.5.4",
-    "nuxt": "^2.14.0",
+    "nuxt": "^2.14.1",
     "request": "^2.88.2",
-    "standard-version": "^7.1.0"
+    "standard-version": "^8.0.2"
   }
 }

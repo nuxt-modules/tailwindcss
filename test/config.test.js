@@ -1,5 +1,4 @@
-const { join } = require('path')
-const { remove } = require('fs-extra')
+const { join, relative } = require('path')
 const { setup, get } = require('@nuxtjs/module-test-utils')
 const logger = require('@/logger')
 const tailwindModule = require('..')
@@ -8,9 +7,9 @@ logger.mockTypes(() => jest.fn())
 
 describe('config', () => {
   let nuxt
+  const rootDir = join(__dirname, '..', 'example')
 
   beforeAll(async () => {
-    const rootDir = join(__dirname, '..', 'example')
     const config = {
       rootDir,
       buildModules: [
@@ -18,8 +17,8 @@ describe('config', () => {
       ],
       tailwindcss: {
         exposeConfig: true,
-        configPath: 'custom/tailwind.js',
-        cssPath: 'custom/tailwind.css'
+        configPath: join(__dirname, 'mock', 'tailwind.config.js'),
+        cssPath: join(__dirname, 'mock', 'tailwind.css')
       }
     }
 
@@ -28,7 +27,6 @@ describe('config', () => {
 
   afterAll(async () => {
     await nuxt.close()
-    await remove(join(nuxt.options.srcDir, 'custom'))
   })
 
   beforeEach(() => {
@@ -42,12 +40,17 @@ describe('config', () => {
   })
 
   test('custom paths', () => {
-    expect(logger.success).toHaveBeenNthCalledWith(1, `~/${nuxt.options.tailwindcss.configPath} created`)
-    expect(logger.success).toHaveBeenNthCalledWith(2, `~/${nuxt.options.tailwindcss.cssPath} created`)
+    expect(logger.info).toHaveBeenNthCalledWith(1, `Using Tailwind CSS from ~/${relative(rootDir, nuxt.options.tailwindcss.cssPath)}`)
+    expect(logger.info).toHaveBeenNthCalledWith(2, `Merging Tailwind config from ~/${relative(rootDir, nuxt.options.tailwindcss.configPath)}`)
   })
 
   test('include custom tailwind.css file in project css', () => {
     expect(nuxt.options.css).toHaveLength(1)
-    expect(nuxt.options.css).toContain(join(nuxt.options.srcDir, nuxt.options.tailwindcss.cssPath))
+    expect(nuxt.options.css).toContain(nuxt.options.tailwindcss.cssPath)
+  })
+
+  test('merged the tailwind default config', () => {
+    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain('nuxt.config.js')
+    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain('content/**/*.md')
   })
 })
