@@ -38,7 +38,7 @@ You can extend the default configuration:
 - using the [config option](#config-option)
 - with the `tailwindcss:config` Nuxt hook
 
-<alert>
+<alert type="warning">
 
 The `tailwind.config.js` and `config` options are subject to the [merging strategy](#merging-strategy).
 
@@ -71,7 +71,7 @@ module.exports = {
 ```
 
 Learn more about the [Tailwind config](https://tailwindcss.com/docs/configuration) on their docs.
- 
+
 ### `config` option
 
 You can also use your `nuxt.config.js` to set your Tailwind Config with the `tailwindcss.config` property:
@@ -97,7 +97,7 @@ This config has less priority over the [tailwind.config.js](#tailwindconfigjs) f
 
 ### `tailwindcss:config` hook
 
-<alert>
+<alert type="warning">
 
 This is advanced usage and mostly used for Nuxt modules authors.
 
@@ -207,7 +207,7 @@ import tailwindConfig from '~tailwind.config'
 import { theme } from '~tailwind.config'
 ```
 
-<alert>
+<alert type="warning">
 
   Please be aware this adds `~19.5KB` (`~3.5KB`) to the client bundle size.
 
