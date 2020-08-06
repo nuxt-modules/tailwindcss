@@ -24,7 +24,7 @@
     "lib"
   ],
   "dependencies": {
-    "consola": "^2.14.0",
+    "consola": "^2.15.0",
     "defu": "^3.1.0",
     "fs-extra": "^9.0.1",
     "tailwindcss": "^1.6.2"
