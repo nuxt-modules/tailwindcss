@@ -59,7 +59,7 @@ Example of overwriting the location of the config path:
 ```js{}[nuxt.config.js]
 export default {
   tailwindcss: {
-    configPath: '~/config/tailwind.js`
+    configPath: '~/config/tailwind.js'
   }
 }
 ```
