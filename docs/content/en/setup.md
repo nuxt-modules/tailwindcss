@@ -1,6 +1,6 @@
 ---
 title: Setup
-description: ''
+description: 'Using TailwindCSS in your Nuxt project is only one command away'
 position: 2
 category: Guide
 ---
