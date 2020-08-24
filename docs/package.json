@@ -15,6 +15,6 @@
     "nuxt": "^2.14.3"
   },
   "devDependencies": {
-    "nuxt-ackee": "^1.0.1"
+    "nuxt-ackee": "^2.0.0"
   }
 }
