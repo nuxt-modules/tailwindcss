@@ -70,3 +70,25 @@ export default {
 ```
 
 See the [module options](/options).
+
+## Upgrading Tailwind
+
+When a new version of Tailwind CSS is released, you don't need to wait for this module to upgrade, you can directly upgrade your dependencies.
+
+
+<code-group>
+  <code-block label="Yarn" active>
+
+  ```bash
+  yarn upgrade
+  ```
+
+  </code-block>
+  <code-block label="NPM">
+
+  ```bash
+  npm update
+  ```
+
+  </code-block>
+</code-group>
