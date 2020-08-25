@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.2](https://github.com/nuxt-community/tailwindcss-module/compare/v3.0.1...v3.0.2) (2020-08-25)
+
+
+### Bug Fixes
+
+* handle HMR for tailwind config ([8c26472](https://github.com/nuxt-community/tailwindcss-module/commit/8c26472031d10400d829200fd6d65f0306ab442d)), closes [#157](https://github.com/nuxt-community/tailwindcss-module/issues/157)
+
 ### [3.0.1](https://github.com/nuxt-community/tailwindcss-module/compare/v3.0.0...v3.0.1) (2020-08-24)
 
 ## [3.0.0](https://github.com/nuxt-community/tailwindcss-module/compare/v2.1.1...v3.0.0) (2020-08-05)
