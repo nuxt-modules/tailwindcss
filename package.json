@@ -24,6 +24,7 @@
     "lib"
   ],
   "dependencies": {
+    "clear-module": "^4.1.1",
     "consola": "^2.15.0",
     "defu": "^3.1.0",
     "fs-extra": "^9.0.1",
