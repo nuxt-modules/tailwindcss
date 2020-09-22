@@ -38,7 +38,7 @@
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/module-test-utils": "^1.6.3",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^25.5.1",
+    "babel-jest": "^26.3.0",
     "codecov": "^3.7.2",
     "eslint": "^7.9.0",
     "eslint-config-standard": "^14.1.1",
@@ -49,7 +49,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.2.2",
     "husky": "^4.3.0",
-    "jest": "^25.5.4",
+    "jest": "^26.4.2",
     "nuxt": "^2.14.6",
     "request": "^2.88.2",
     "standard-version": "^9.0.0"
