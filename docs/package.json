@@ -11,8 +11,8 @@
   "license": "MIT",
   "homepage": "https://tailwindcss.nuxtjs.org",
   "dependencies": {
-    "@nuxt/content-theme-docs": "^0.5.3",
-    "nuxt": "^2.14.3"
+    "@nuxt/content-theme-docs": "^0.5.6",
+    "nuxt": "^2.14.6"
   },
   "devDependencies": {
     "nuxt-ackee": "^2.0.0"
