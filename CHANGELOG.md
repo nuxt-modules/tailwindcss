@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/nuxt-community/tailwindcss-module/compare/v3.0.2...v3.1.0) (2020-09-25)
+
+
+### Features
+
+* **purge:** handle custom srcDir and support TS ([#170](https://github.com/nuxt-community/tailwindcss-module/issues/170)) ([bf3e0db](https://github.com/nuxt-community/tailwindcss-module/commit/bf3e0db0b9188ad72a66ea98191583f19f979454))
+
 ### [3.0.2](https://github.com/nuxt-community/tailwindcss-module/compare/v3.0.1...v3.0.2) (2020-08-25)
 
 
