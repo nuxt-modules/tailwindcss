@@ -4,10 +4,10 @@ const logger = require('@/logger')
 const tailwindModule = require('..')
 
 logger.mockTypes(() => jest.fn())
+const rootDir = join(__dirname, '..', 'example')
 
 describe('config', () => {
   let nuxt
-  const rootDir = join(__dirname, '..', 'example')
 
   beforeAll(async () => {
     const config = {
@@ -50,7 +50,7 @@ describe('config', () => {
   })
 
   test('merged the tailwind default config', () => {
-    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain('nuxt.config.js')
+    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain(`${rootDir}/nuxt.config.js`)
     expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain('content/**/*.md')
   })
 })

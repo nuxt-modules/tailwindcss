@@ -2,14 +2,14 @@ const { join } = require('path')
 const { setup, get } = require('@nuxtjs/module-test-utils')
 const logger = require('@/logger')
 const tailwindModule = require('..')
-const defaultNuxtConfig = require('../lib/files/tailwind.config')
+const rootDir = join(__dirname, '..', 'example')
+const defaultNuxtConfig = require('../lib/files/tailwind.config')({ rootDir, srcDir: rootDir })
 
 logger.mockTypes(() => jest.fn())
 
 describe('ok', () => {
   let nuxt
   beforeAll(async () => {
-    const rootDir = join(__dirname, '..', 'example')
     const config = {
       rootDir,
       buildModules: [
