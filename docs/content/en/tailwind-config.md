@@ -5,7 +5,7 @@ position: 3
 category: Guide
 ---
 
-`@nuxtjs/tailwindcss` configure the Tailwind configuration to have the best user experience as possible by default.
+`@nuxtjs/tailwindcss` configures the Tailwind configuration to have the best user experience as possible by default.
 
 ## Default Configuration
 
