@@ -28,7 +28,7 @@
     "consola": "^2.15.0",
     "defu": "^3.1.0",
     "fs-extra": "^9.0.1",
-    "tailwindcss": "^1.8.10"
+    "tailwindcss": "^1.8.12"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
@@ -38,18 +38,18 @@
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/module-test-utils": "^1.6.3",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^26.3.0",
-    "codecov": "^3.7.2",
+    "babel-jest": "^26.5.2",
+    "codecov": "^3.8.0",
     "eslint": "^7.10.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jest": "^24.0.2",
+    "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "latest",
     "eslint-plugin-standard": "^4.0.1",
-    "eslint-plugin-vue": "^7.0.0",
+    "eslint-plugin-vue": "^7.0.1",
     "husky": "^4.3.0",
-    "jest": "^26.4.2",
+    "jest": "^26.5.2",
     "nuxt": "^2.14.6",
     "request": "^2.88.2",
     "standard-version": "^9.0.0"
