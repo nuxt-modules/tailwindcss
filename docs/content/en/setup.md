@@ -47,7 +47,7 @@ When running `nuxt dev`, this module will look for these two files:
 - `./assets/css/tailwind.css`
 - `./tailwind.config.js`
 
-If they don't exists, the module will inject a basic configuration for each one so you don't have to create these files.
+If they don't exist, the module will inject a basic configuration for each one so you don't have to create these files.
 
 <alert type="info">
 
