@@ -28,7 +28,7 @@
     "consola": "^2.15.0",
     "defu": "^3.1.0",
     "fs-extra": "^9.0.1",
-    "tailwindcss": "^1.8.12"
+    "tailwindcss": "^1.8.13"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
@@ -40,7 +40,7 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.5.2",
     "codecov": "^3.8.0",
-    "eslint": "^7.10.0",
+    "eslint": "^7.11.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.0",
