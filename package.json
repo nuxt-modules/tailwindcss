@@ -28,11 +28,11 @@
     "consola": "^2.15.0",
     "defu": "^3.1.0",
     "fs-extra": "^9.0.1",
-    "tailwindcss": "^1.8.13"
+    "tailwindcss": "^1.9.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/preset-env": "^7.11.5",
+    "@babel/core": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@nuxtjs/eslint-config": "^3.1.0",
@@ -50,7 +50,7 @@
     "eslint-plugin-vue": "^7.0.1",
     "husky": "^4.3.0",
     "jest": "^26.5.3",
-    "nuxt": "^2.14.6",
+    "nuxt": "^2.14.7",
     "request": "^2.88.2",
     "standard-version": "^9.0.0"
   }
