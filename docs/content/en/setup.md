@@ -38,7 +38,11 @@ export default {
 
 > If you are using `nuxt < 2.9.0`, use the `modules` property instead.
 
+<alert type="success">
+
 That's it! You can now use Tailwind classes in your Nuxt app ✨
+
+</alert>
 
 ## Tailwind Files
 
