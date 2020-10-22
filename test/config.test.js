@@ -50,7 +50,7 @@ describe('config', () => {
   })
 
   test('merged the tailwind default config', () => {
-    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain(`${rootDir}/nuxt.config.js`)
+    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain(`${rootDir}/nuxt.config.{js,ts}`)
     expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain('content/**/*.md')
   })
 })
