@@ -29,9 +29,9 @@
 
 ```bash
 # Using npm
-npm install --save-dev @nuxtjs/tailwindcss
+npm install --save @nuxtjs/tailwindcss
 # Using yarn
-yarn add --dev @nuxtjs/tailwindcss
+yarn add @nuxtjs/tailwindcss
 ```
 
 2. Add `@nuxtjs/tailwindcss` to the `buildModules` section of `nuxt.config.js`
