@@ -28,7 +28,7 @@
     "consola": "^2.15.0",
     "defu": "^3.2.2",
     "fs-extra": "^9.0.1",
-    "tailwindcss": "^1.9.6"
+    "tailwindcss": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
