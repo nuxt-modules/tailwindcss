@@ -76,9 +76,34 @@ export default {
 See the [module options](/options).
 
 ## Upgrading Tailwind
+### Tailwind 2
+
+Nuxt 2.14 is still using PostCSS 7, we have a [pull request](https://github.com/nuxt/nuxt.js/pull/8346) opened to upgrade the dependencies. Once merged on `v2.15`, we will release a major version of this module to include TailwindCSS 2, see [PR#203](https://github.com/nuxt-community/tailwindcss-module/pull/203).
+
+In the meantime, you can upgrade Tailwind by using the [compatibily build](https://tailwindcss.com/docs/installation#post-css-7-compatibility-build):
+
+<code-group>
+  <code-block label="Yarn" active>
+
+  ```bash
+  yarn add --dev tailwindcss@compat
+  ```
+
+  </code-block>
+  <code-block label="NPM">
+
+  ```bash
+  npm install --save-dev tailwindcss@compat
+  ```
+
+  </code-block>
+</code-group>
+
+Please ensure you are using `Node >= 12.13.0` in order to use the version 2 of TailwindCSS.
+
+### Tailwind 1
 
 When a new version of Tailwind CSS is released, you don't need to wait for this module to upgrade, you can directly upgrade your dependencies.
-
 
 <code-group>
   <code-block label="Yarn" active>
