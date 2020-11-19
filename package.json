@@ -53,5 +53,8 @@
     "nuxt": "^2.14.7",
     "request": "^2.88.2",
     "standard-version": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=12.13.0"
   }
 }
