@@ -4,6 +4,7 @@ export default {
   buildModules: [
     tailwindModule
   ],
+  components: true,
   tailwindcss: {
     exposeConfig: true
   }

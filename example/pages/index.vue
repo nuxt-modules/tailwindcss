@@ -22,7 +22,8 @@
         </svg>
       </div>
     </div>
-    <pre>{{ tailwindConfig }}</pre>
+    <ShopCard class="mt-4" />
+    <pre class="mt-4">{{ tailwindConfig }}</pre>
   </div>
 </template>
 
