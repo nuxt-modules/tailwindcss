@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/nuxt-community/tailwindcss-module/compare/v3.2.0...v3.3.0) (2020-12-02)
+
+
+### Features
+
+* add tailwind colors page ([#215](https://github.com/nuxt-community/tailwindcss-module/issues/215)) ([43db226](https://github.com/nuxt-community/tailwindcss-module/commit/43db226c51bd354ea54bd4638c9da882a1fb9442))
+
 ## [3.2.0](https://github.com/nuxt-community/tailwindcss-module/compare/v3.1.0...v3.2.0) (2020-10-22)
 
 
