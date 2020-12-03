@@ -44,6 +44,12 @@ That's it! You can now use Tailwind classes in your Nuxt app ✨
 
 </alert>
 
+<alert type="info">
+
+Discover your color palette based on your Tailwind config on `/_tailwind` route.
+
+</alert>
+
 ## Tailwind Files
 
 When running `nuxt dev`, this module will look for these two files:

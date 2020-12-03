@@ -15,11 +15,12 @@
 
 ## Features
 
-- Zero configuration to start
-- PurgeCSS included for minimal CSS
-- Use latest CSS features (Stage 1)
-- Reference your Tailwind config in your app
-- Extendable by Nuxt modules
+- 👌&nbsp; Zero configuration to start *([see video](https://tailwindcss.nuxtjs.org/#quick-start))*
+- ⚡️&nbsp; PurgeCSS included for minimal CSS ⚡️
+- 🪄&nbsp; Use latest CSS features *([Stage 1](https://cssdb.org/#stage-1))*
+- 🎨&nbsp; Discover your Tailwind Colors *([see video](https://tailwindcss.nuxtjs.org/#tailwind-colors))*
+- ⚙️&nbsp; Reference your Tailwind config in your app 
+- 📦&nbsp; Extendable by [Nuxt modules](https://modules.nuxtjs.org/)
 
 [📖 &nbsp;Read more](https://tailwindcss.nuxtjs.org)
 
