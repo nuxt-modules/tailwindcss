@@ -5,10 +5,11 @@
       <h2>{{ color }}</h2>
       <span class="flex space-x-2">
         <span
-          v-for="value of Object.keys(colors[color])"
+          v-for="value of keys(colors[color])"
+          :id="`${color}-${value}`"
           :key="value"
           class="color-box flex-grow py-6 md:py-8 rounded cursor-pointer"
-          :class="value === 'DEFAULT' ? `bg-${color}` : `bg-${color}-${value}`"
+          :class="[value === 'DEFAULT' ? `bg-${color}` : `bg-${color}-${value}`, color === 'white' ? 'border' : '']"
           @click="select(color, value)"
         />
       </span>
@@ -44,8 +45,6 @@ export default {
   layout: 'tw',
   data () {
     // Remove unecessary colors
-    delete theme.colors.white
-    delete theme.colors.black
     delete theme.colors.current
     delete theme.colors.transparent
 
@@ -61,14 +60,19 @@ export default {
         return 'bg-white border-2 border-stone text-stone'
       }
       const textColor =
-        this.selected.class.includes('dark') ||
-        ['500', '600', '700', '800', '900'].includes(this.selected.value)
+        this.selected.type === 'dark'
           ? 'text_white'
           : 'text_black bg_black'
       return `border-${this.selected.class} ${textColor}`
     }
   },
   methods: {
+    keys (color) {
+      if (typeof color === 'string') {
+        return ['DEFAULT']
+      }
+      return Object.keys(color)
+    },
     select (color, value) {
       if (
         this.selected &&
@@ -78,14 +82,37 @@ export default {
         this.selected = null
         return
       }
+      let colorValue = this.colors[color]
+      if (typeof colorValue !== 'string') {
+        colorValue = colorValue[value]
+      }
       const twClass = value === 'DEFAULT' ? `${color}` : `${color}-${value}`
       this.selected = {
         color,
         value,
+        type: this.lightOrDark(color, value),
         class: twClass,
         bgClass: `bg-${twClass}`,
         textClass: `text-${twClass}`
       }
+    },
+    lightOrDark (color, value) {
+      const el = document.getElementById(`${color}-${value}`)
+      const colorValue = window.getComputedStyle(el).backgroundColor
+      const [r, g, b] = colorValue.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/).slice(1)
+
+      // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+      const hsp = Math.sqrt(
+        0.299 * (r * r) +
+        0.587 * (g * g) +
+        0.114 * (b * b)
+      )
+
+      // Using the HSP value, determine whether the color is light or dark
+      if (hsp > 127.5) {
+        return 'light'
+      }
+      return 'dark'
     },
     async copy (text) {
       if (!navigator.clipboard) { return }
