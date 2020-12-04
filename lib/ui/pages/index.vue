@@ -15,7 +15,7 @@
       </span>
     </div>
     <div
-      class="copy-box border-2 rounded-md bg_white"
+      class="copy-box rounded-md bg_white"
       :class="boxClasses"
     >
       <span
