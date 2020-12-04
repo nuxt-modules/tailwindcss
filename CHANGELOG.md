@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.2](https://github.com/nuxt-community/tailwindcss-module/compare/v3.3.1...v3.3.2) (2020-12-04)
+
+
+### Bug Fixes
+
+* **lib:** check listeners value before ([431eafc](https://github.com/nuxt-community/tailwindcss-module/commit/431eafcce286317b0efdc1f4f7de303daaf672c9)), closes [#216](https://github.com/nuxt-community/tailwindcss-module/issues/216)
+
 ### [3.3.1](https://github.com/nuxt-community/tailwindcss-module/compare/v3.3.0...v3.3.1) (2020-12-03)
 
 

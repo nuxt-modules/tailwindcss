@@ -89,24 +89,18 @@ Nuxt 2.14 is still using PostCSS 7, we have a [pull request](https://github.com/
 
 In the meantime, you can upgrade Tailwind by using the [compatibility build](https://tailwindcss.com/docs/installation#post-css-7-compatibility-build):
 
-<code-group>
-  <code-block label="Yarn" active>
-
-  ```bash
-  yarn add --dev tailwindcss@npm:@tailwindcss/postcss7-compat postcss@^7 autoprefixer@^9
-  ```
-
-  </code-block>
-  <code-block label="NPM">
-
-  ```bash
-  npm install --save-dev tailwindcss@npm:@tailwindcss/postcss7-compat postcss@^7 autoprefixer@^9
-  ```
-
-  </code-block>
-</code-group>
+```bash
+yarn add --dev tailwindcss@npm:@tailwindcss/postcss7-compat postcss@^7 autoprefixer@^9
+```
 
 Please ensure you are using `Node >= 12.13.0` in order to use the version 2 of TailwindCSS.
+
+<alert type="warning">
+
+We have seen an issue with NPM regarding the packages resolution (see [comment](https://github.com/nuxt-community/tailwindcss-module/issues/202#issuecomment-738442349)), we hightly recommend to use [Yarn V1](https://classic.yarnpkg.com/en/docs/install) when working with Nuxt 2.
+
+</alert>
+
 
 ### Tailwind 1
 
