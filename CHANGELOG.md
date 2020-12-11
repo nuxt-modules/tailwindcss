@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.4](https://github.com/nuxt-community/tailwindcss-module/compare/v3.3.3...v3.3.4) (2020-12-11)
+
+
+### Bug Fixes
+
+* addTemplate call compats low version nuxt ([#225](https://github.com/nuxt-community/tailwindcss-module/issues/225)) ([b18380d](https://github.com/nuxt-community/tailwindcss-module/commit/b18380dcd529d679314563f54f66dfe84556767c))
+
 ### [3.3.3](https://github.com/nuxt-community/tailwindcss-module/compare/v3.3.2...v3.3.3) (2020-12-04)
 
 ### [3.3.2](https://github.com/nuxt-community/tailwindcss-module/compare/v3.3.1...v3.3.2) (2020-12-04)
