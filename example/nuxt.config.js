@@ -1,7 +1,7 @@
 import tailwindModule from '..'
 
 export default {
-  modules: [
+  buildModules: [
     tailwindModule
   ],
   tailwindcss: {
