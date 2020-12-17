@@ -1,7 +1,7 @@
 ---
 title: Options
 description: 'You can configure the module easily with the tailwindcss property.'
-position: 4
+position: 5
 category: Guide
 categoryPosition: 2
 ---
@@ -101,3 +101,26 @@ export default {
 ```
 
 Learn more about overwriting Tailwind config [here](/tailwind-config).
+
+## `viewer`
+
+- Default: `true` in development
+- Version: <badge>v3.4+</badge>
+
+<alert type="info">
+
+The [Tailwind viewer](/tailwind-viewer) is only available in development with `nuxt dev`.
+
+</alert>
+
+The module internally use [tailwind-config-viewer](https://github.com/rogden/tailwind-config-viewer) to setup the `/_tailwind/` route.
+
+To disable the viewer in development, set it to `false`:
+
+```js{}[nuxt.config.js]
+export default {
+  tailwindcss: {
+    viewer: false
+  }
+}
+```
