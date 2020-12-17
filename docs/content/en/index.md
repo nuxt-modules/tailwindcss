@@ -40,10 +40,10 @@ This module default to Tailwind v1, please look at [these instructions](/setup#t
 
 ### Tailwind Viewer
 
-<video poster="https://res.cloudinary.com/nuxt/video/upload/v1606994332/nuxt-tailwind-colors_qlio2t.jpg" loop playsinline controls>
-  <source src="https://res.cloudinary.com/nuxt/video/upload/q_auto/v1606994332/nuxt-tailwind-colors_qlio2t.webm" type="video/webm" />
-  <source src="https://res.cloudinary.com/nuxt/video/upload/q_auto/v1606994332/nuxt-tailwind-colors_qlio2t.mp4" type="video/mp4" />
-  <source src="https://res.cloudinary.com/nuxt/video/upload/q_auto/v1606994332/nuxt-tailwind-colors_qlio2t.ogv" type="video/ogg" />
+<video poster="https://res.cloudinary.com/nuxt/video/upload/v1608225750/nuxt-tailwind-viewer_ktowjm.jpg" loop playsinline controls>
+  <source src="https://res.cloudinary.com/nuxt/video/upload/q_auto/v1608225750/nuxt-tailwind-viewer_ktowjm.webm" type="video/webm" />
+  <source src="https://res.cloudinary.com/nuxt/video/upload/q_auto/v1608225750/nuxt-tailwind-viewer_ktowjm.mp4" type="video/mp4" />
+  <source src="https://res.cloudinary.com/nuxt/video/upload/q_auto/v1608225750/nuxt-tailwind-viewer_ktowjm.ogv" type="video/ogg" />
 </video>
 
 Learn more about the [Tailwind viewer](/tailwind-viewer).

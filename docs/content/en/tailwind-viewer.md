@@ -10,10 +10,10 @@ Nuxt Tailwind will expose a `/_tailwind/` route in development so you can quickl
 
 The viewer is available from the `v3.4.0` of `@nuxtjs/tailwindcss`.
 
-<video poster="https://res.cloudinary.com/nuxt/video/upload/v1606994332/nuxt-tailwind-colors_qlio2t.jpg" loop playsinline controls>
-  <source src="https://res.cloudinary.com/nuxt/video/upload/q_auto/v1606994332/nuxt-tailwind-colors_qlio2t.webm" type="video/webm" />
-  <source src="https://res.cloudinary.com/nuxt/video/upload/q_auto/v1606994332/nuxt-tailwind-colors_qlio2t.mp4" type="video/mp4" />
-  <source src="https://res.cloudinary.com/nuxt/video/upload/q_auto/v1606994332/nuxt-tailwind-colors_qlio2t.ogv" type="video/ogg" />
+<video poster="https://res.cloudinary.com/nuxt/video/upload/v1608225750/nuxt-tailwind-viewer_ktowjm.jpg" loop playsinline controls>
+  <source src="https://res.cloudinary.com/nuxt/video/upload/q_auto/v1608225750/nuxt-tailwind-viewer_ktowjm.webm" type="video/webm" />
+  <source src="https://res.cloudinary.com/nuxt/video/upload/q_auto/v1608225750/nuxt-tailwind-viewer_ktowjm.mp4" type="video/mp4" />
+  <source src="https://res.cloudinary.com/nuxt/video/upload/q_auto/v1608225750/nuxt-tailwind-viewer_ktowjm.ogv" type="video/ogg" />
 </video>
 
 When enabled, you will see the Tailwind viewer url in your terminal:
