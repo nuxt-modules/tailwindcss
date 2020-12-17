@@ -101,7 +101,6 @@ We have seen an issue with NPM regarding the packages resolution (see [comment](
 
 </alert>
 
-
 ### Tailwind 1
 
 When a new version of Tailwind CSS is released, you don't need to wait for this module to upgrade, you can directly upgrade your dependencies.
