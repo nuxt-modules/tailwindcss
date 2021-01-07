@@ -24,7 +24,7 @@
     "lib"
   ],
   "dependencies": {
-    "@nuxt/ufo": "^0.5.2",
+    "@nuxt/ufo": "^0.5.4",
     "chalk": "^4.1.0",
     "clear-module": "^4.1.1",
     "consola": "^2.15.0",
@@ -43,18 +43,18 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "codecov": "^3.8.1",
-    "eslint": "^7.16.0",
+    "eslint": "^7.17.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "latest",
     "eslint-plugin-standard": "^4.1.0",
-    "eslint-plugin-vue": "^7.3.0",
-    "husky": "^4.3.6",
+    "eslint-plugin-vue": "^7.4.1",
+    "husky": "^4.3.7",
     "jest": "^26.6.3",
     "nuxt": "^2.14.12",
     "request": "^2.88.2",
-    "standard-version": "^9.0.0"
+    "standard-version": "^9.1.0"
   }
 }
