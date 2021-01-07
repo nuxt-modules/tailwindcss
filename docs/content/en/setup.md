@@ -93,11 +93,11 @@ In the meantime, you can upgrade Tailwind by using the [compatibility build](htt
 yarn add --dev tailwindcss@npm:@tailwindcss/postcss7-compat postcss@^7 autoprefixer@^9
 ```
 
-Please ensure you are using `Node >= 12.13.0` in order to use the version 2 of TailwindCSS.
+Please ensure you are using `Node >= 12.13.0` in order to use version 2 of TailwindCSS.
 
 <alert type="warning">
 
-We have seen an issue with NPM regarding the packages resolution (see [comment](https://github.com/nuxt-community/tailwindcss-module/issues/202#issuecomment-738442349)), we hightly recommend to use [Yarn V1](https://classic.yarnpkg.com/en/docs/install) when working with Nuxt 2.
+We have seen an issue with NPM regarding the packages resolution (see [comment](https://github.com/nuxt-community/tailwindcss-module/issues/202#issuecomment-738442349)), we highly recommend using [Yarn V1](https://classic.yarnpkg.com/en/docs/install) when working with Nuxt 2.
 
 </alert>
 
