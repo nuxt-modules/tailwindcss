@@ -5,7 +5,14 @@
   "license": "MIT",
   "contributors": [
     {
-      "name": "Sébastien Chopin <seb@chopin.io>"
+      "name": "Sébastien Chopin",
+      "email": "seb@chopin.io",
+      "url": "https://twitter.com/Atinux"
+    },
+    {
+      "name": "Vinayak Kulkarni",
+      "email": "inbox.vinayak@gmail.com",
+      "url": "https://vinayakkulkarni.dev"
     }
   ],
   "main": "lib/module.js",
