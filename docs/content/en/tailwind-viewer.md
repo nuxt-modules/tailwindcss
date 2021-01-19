@@ -1,7 +1,7 @@
 ---
 title: Tailwind Viewer
 description: 'Visualize your Tailwind configuration with the viewer.'
-position: 4
+position: 5
 category: Guide
 categoryPosition: 2
 ---

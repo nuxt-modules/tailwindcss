@@ -1,10 +1,14 @@
-import theme from '@nuxt/content-theme-docs'
+import { withDocus } from 'docus'
 
-export default theme({
+export default withDocus({
   env: {
     GITHUB_TOKEN: process.env.GITHUB_TOKEN
   },
-  loading: { color: '#38b2ac' },
+  docus: {
+    colors: {
+      primary: '#38b2ac'
+    }
+  },
   buildModules: [
     // https://github.com/bdrtsky/nuxt-ackee
     'nuxt-ackee'

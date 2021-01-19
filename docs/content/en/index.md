@@ -2,7 +2,7 @@
 title: Introduction
 description: 'Add Tailwind CSS to your Nuxt application in seconds.'
 position: 1
-category: ''
+category: 'Getting started'
 categoryPosition: 1
 ---
 

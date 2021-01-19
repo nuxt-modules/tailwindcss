@@ -1,7 +1,7 @@
 ---
 title: Tailwind Config
 description: 'You can configure the integration easily with the storybook property.'
-position: 3
+position: 4
 category: Guide
 ---
 

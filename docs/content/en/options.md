@@ -1,9 +1,8 @@
 ---
 title: Options
 description: 'You can configure the module easily with the tailwindcss property.'
-position: 5
-category: Guide
-categoryPosition: 2
+position: 3
+category: Getting started
 ---
 
 You can configure the module by using the `tailwindcss` property in the `nuxt.config.js`:

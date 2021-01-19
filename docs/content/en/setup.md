@@ -2,7 +2,7 @@
 title: Setup
 description: 'Using TailwindCSS in your Nuxt project is only one command away'
 position: 2
-category: Guide
+category: Getting started
 ---
 
 Using TailwindCSS in your Nuxt project is only one command away ✨
