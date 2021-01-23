@@ -9,7 +9,7 @@ category: Guide
 
 ## Default Configuration
 
-```js
+```js{}[tailwind.config.js]
 {
   theme: {},
   variants: {},
@@ -185,6 +185,20 @@ The `purge.content` option will be:
 This merging strategy of with a function only applies to `plugins` and `purge.content` since the default value is defined as an `Array`
 
 </alert>
+
+### Whitelisting classes
+
+If you need to whitelisting classes and avoid purge system, you need to precise `safelist` option like below :
+
+```js{}[tailwind.config.js]
+    purge: {
+      options: {
+        // Whitelisting some classes to avoid purge
+        safelist: ["whitelisted"]
+      }
+    }
+```
+
 
 ## Referencing in the application
 
