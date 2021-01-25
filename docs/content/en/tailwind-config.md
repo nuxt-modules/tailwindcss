@@ -195,7 +195,7 @@ module.exports = {
   purge: {
     options: {
       // Whitelisting some classes to avoid purge
-      safelist: ["whitelisted"]
+      safelist: ['whitelisted']
     }
   }
 }
