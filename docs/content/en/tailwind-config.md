@@ -79,7 +79,7 @@ Learn more about the [Tailwind config](https://tailwindcss.com/docs/configuratio
 
 You can also use your `nuxt.config.js` to set your Tailwind Config with the `tailwindcss.config` property:
 
-```js{}[nuxt.config.js]
+```js [nuxt.config.js]
 import tailwindTypography from '@tailwindcss/typography'
 
 export default {
@@ -191,12 +191,14 @@ This merging strategy of with a function only applies to `plugins` and `purge.co
 If you need to whitelisting classes and avoid purge system, you need to precise `safelist` option like below :
 
 ```js{}[tailwind.config.js]
-    purge: {
-      options: {
-        // Whitelisting some classes to avoid purge
-        safelist: ["whitelisted"]
-      }
+module.exports = {
+  purge: {
+    options: {
+      // Whitelisting some classes to avoid purge
+      safelist: ["whitelisted"]
     }
+  }
+}
 ```
 
 
