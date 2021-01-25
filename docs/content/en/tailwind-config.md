@@ -9,7 +9,7 @@ category: Guide
 
 ## Default Configuration
 
-```js
+```js{}[tailwind.config.js]
 {
   theme: {},
   variants: {},
@@ -79,7 +79,7 @@ Learn more about the [Tailwind config](https://tailwindcss.com/docs/configuratio
 
 You can also use your `nuxt.config.js` to set your Tailwind Config with the `tailwindcss.config` property:
 
-```js{}[nuxt.config.js]
+```js [nuxt.config.js]
 import tailwindTypography from '@tailwindcss/typography'
 
 export default {
@@ -185,6 +185,22 @@ The `purge.content` option will be:
 This merging strategy of with a function only applies to `plugins` and `purge.content` since the default value is defined as an `Array`
 
 </alert>
+
+### Whitelisting classes
+
+If you need to whitelisting classes and avoid purge system, you need to precise `safelist` option like below :
+
+```js{}[tailwind.config.js]
+module.exports = {
+  purge: {
+    options: {
+      // Whitelisting some classes to avoid purge
+      safelist: ['whitelisted']
+    }
+  }
+}
+```
+
 
 ## Referencing in the application
 
