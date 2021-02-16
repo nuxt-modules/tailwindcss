@@ -3,6 +3,11 @@
   "version": "3.4.2",
   "description": "TailwindCSS module for Nuxt.js",
   "license": "MIT",
+  "author": {
+    "name": "Sébastien Chopin",
+    "email": "seb@chopin.io",
+    "url": "https://twitter.com/Atinux"
+  },
   "contributors": [
     {
       "name": "Sébastien Chopin",
