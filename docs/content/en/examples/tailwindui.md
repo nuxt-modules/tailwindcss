@@ -10,4 +10,6 @@ fullscreen: true
 
 Example with [Tailwind UI](https://tailwindui.com) plugin with the [Inter](https://rsms.me/inter/) font loaded by [@nuxtjs/google-fonts](https://github.com/nuxt-community/google-fonts-module) module.
 
+> Note: Tailwindcss 2.x doesn't require you to have `@tailwind/ui` package installed, checkout the [new demo](/examples/tailwind2) which uses tailwindcss 2.x + tailwindui components
+
 <code-sandbox :src="csb_link"></code-sandbox>
