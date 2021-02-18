@@ -21,6 +21,7 @@
 - 🎨&nbsp; Discover your Tailwind Colors *([see video](https://tailwindcss.nuxtjs.org/#tailwind-colors))*
 - ⚙️&nbsp; Reference your Tailwind config in your app 
 - 📦&nbsp; Extendable by [Nuxt modules](https://modules.nuxtjs.org/)
+- 🍃&nbsp; Out-of-the-box support for [Windi CSS](https://windicss.netlify.app/) *20~100x faster*
 
 [📖 &nbsp;Read more](https://tailwindcss.nuxtjs.org)
 

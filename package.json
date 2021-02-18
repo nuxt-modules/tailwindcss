@@ -15,6 +15,9 @@
   },
   "scripts": {
     "dev": "nuxt example",
+    "dev:windicss": "nuxt test/fixture/windicss",
+    "build:windicss": "nuxt build test/fixture/windicss",
+    "start:windicss": "nuxt start test/fixture/windicss",
     "docs": "nuxt docs/",
     "lint": "eslint --ext .js,.vue example lib test",
     "test": "yarn lint && jest",
@@ -42,6 +45,7 @@
     "@nuxtjs/module-test-utils": "^1.6.3",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
+    "cheerio": "^1.0.0-rc.5",
     "codecov": "^3.8.1",
     "eslint": "^7.17.0",
     "eslint-config-standard": "^16.0.2",
@@ -55,6 +59,7 @@
     "jest": "^26.6.3",
     "nuxt": "^2.14.12",
     "request": "^2.88.2",
-    "standard-version": "^9.1.0"
+    "standard-version": "^9.1.0",
+    "vue-windicss-preprocess": "^2.0.0"
   }
 }
