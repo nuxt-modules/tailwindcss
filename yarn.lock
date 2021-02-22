@@ -1856,11 +1856,6 @@
   resolved "https://registry.yarnpkg.com/@nuxt/ufo/-/ufo-0.5.2.tgz#cb40e4b3001739baebddfd65d0f03d6070e2c0e5"
   integrity sha512-nnKFQ4NA5id5ekyQWHTdOfirIZRQzfEHMB9T0T6NZdWy4+3Nrw0GTBQ3J9Am0gg8kvqR0mMQTn1wK6ya3i/XmA==
 
-"@nuxt/ufo@^0.5.4":
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/@nuxt/ufo/-/ufo-0.5.4.tgz#2e1428e2c947cc559d566c27786525bf0f40fbc8"
-  integrity sha512-JZOGDlt2BvLCBmLhrchhRJ6tP9PBfSWLdsHC+JVJ5Qp8/hT/2u61cSsLS30zUOwcPRaQ3y2oHNkEiKJ5v90iEQ==
-
 "@nuxt/utils@2.14.12":
   version "2.14.12"
   resolved "https://registry.yarnpkg.com/@nuxt/utils/-/utils-2.14.12.tgz#7684ef732fba65608baff02bc4cce2b3ced891ac"
@@ -11947,6 +11942,11 @@ ua-parser-js@^0.7.22:
   version "0.7.22"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.22.tgz#960df60a5f911ea8f1c818f3747b99c6e177eae3"
   integrity sha512-YUxzMjJ5T71w6a8WWVcMGM6YWOTX27rCoIQgLXiWaxqXSx9D7DNjiGWn1aJIRSQ5qr0xuhra77bSIh6voR/46Q==
+
+ufo@^0.6.6:
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.6.6.tgz#6bc4b4de19ff9a9cb68134719190196b0cc7353b"
+  integrity sha512-HDhml2KskY1VVtQGckmaf/p3rTuleC2M7qL9Wf1dJZMw7glFk6oVjRsddf6LJp0I+pHERZzfttVmBMq1nR3PGA==
 
 uglify-js@^3.1.4, uglify-js@^3.5.1:
   version "3.11.1"
