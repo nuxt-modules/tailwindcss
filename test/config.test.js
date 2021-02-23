@@ -15,6 +15,7 @@ describe('config', () => {
       buildModules: [
         tailwindModule
       ],
+      components: true,
       tailwindcss: {
         exposeConfig: true,
         configPath: join(__dirname, 'mock', 'tailwind.config.js'),
@@ -35,7 +36,7 @@ describe('config', () => {
 
   test('render', async () => {
     const html = await get('/')
-    expect(html).toContain('Get the coolest t-shirts from our brand new store')
+    expect(html).toContain('Ready to dive in?')
     expect(html).not.toContain('.bg-pink-700')
   })
 
@@ -50,7 +51,7 @@ describe('config', () => {
   })
 
   test('merged the tailwind default config', () => {
-    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain(`${rootDir}/nuxt.config.{js,ts}`)
-    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain('content/**/*.md')
+    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge).toContain(`${rootDir}/nuxt.config.{js,ts}`)
+    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge).toContain('content/**/*.md')
   })
 })

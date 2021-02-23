@@ -15,6 +15,7 @@ describe('ok', () => {
       buildModules: [
         tailwindModule
       ],
+      components: true,
       tailwindcss: {
         exposeConfig: true
       }
@@ -33,7 +34,7 @@ describe('ok', () => {
 
   test('render', async () => {
     const html = await get('/')
-    expect(html).toContain('Get the coolest t-shirts from our brand new store')
+    expect(html).toContain('Ready to dive in?')
     expect(html).not.toContain('.bg-pink-700')
   })
 
