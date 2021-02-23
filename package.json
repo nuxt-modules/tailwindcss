@@ -43,6 +43,7 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "codecov": "^3.8.1",
+    "css-loader": "^5.0.0",
     "eslint": "^7.17.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
@@ -54,6 +55,10 @@
     "husky": "^4.3.7",
     "jest": "^26.6.3",
     "nuxt": "^2.15.2",
+    "postcss": "^8.1.10",
+    "postcss-import": "^13.0.0",
+    "postcss-loader": "^4.1.0",
+    "postcss-url": "^10.1.1",
     "standard-version": "^9.1.0"
   }
 }
