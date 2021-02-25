@@ -4,7 +4,7 @@ const logger = require('@/logger')
 const tailwindModule = require('..')
 
 logger.mockTypes(() => jest.fn())
-const rootDir = join(__dirname, '..', 'example')
+const rootDir = join(__dirname, '..', 'example', 'tailwind')
 
 describe('config', () => {
   let nuxt

@@ -1,9 +1,9 @@
-const { join, resolve } = require('path')
+const { join } = require('path')
 const cheerio = require('cheerio')
 const logger = require('@/logger')
 const { setup, get } = require('@nuxtjs/module-test-utils')
-const fixturePath = join(__dirname, 'fixture', 'windicss')
-const nuxtConfig = require(join(fixturePath, 'nuxt.config.js'))
+const rootDir = join(__dirname, '..', 'example', 'windicss')
+const nuxtConfig = require(join(rootDir, 'nuxt.config.js'))
 
 logger.mockTypes(() => jest.fn())
 
@@ -11,7 +11,7 @@ describe('windicss fixture', () => {
   let nuxt
   beforeAll(async () => {
     const config = {
-      rootDir: resolve(__dirname, '..', 'example', 'windicss'),
+      rootDir,
       dev: true,
       ...nuxtConfig
     }
