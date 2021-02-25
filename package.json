@@ -14,8 +14,8 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "nuxt example",
-    "dev:windicss": "nuxt test/fixture/windicss",
+    "dev": "nuxt example/tailwind",
+    "dev:windicss": "nuxt example/windicss",
     "build:windicss": "nuxt build test/fixture/windicss",
     "start:windicss": "nuxt start test/fixture/windicss",
     "docs": "nuxt docs/",
@@ -60,6 +60,6 @@
     "nuxt": "^2.14.12",
     "request": "^2.88.2",
     "standard-version": "^9.1.0",
-    "vue-windicss-preprocess": "^2.0.0"
+    "windicss-webpack-plugin": "^0.1.0"
   }
 }

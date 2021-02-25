@@ -1,4 +1,4 @@
-const { join } = require('path')
+const { join, resolve } = require('path')
 const cheerio = require('cheerio')
 const logger = require('@/logger')
 const { setup, get } = require('@nuxtjs/module-test-utils')
@@ -11,7 +11,7 @@ describe('windicss fixture', () => {
   let nuxt
   beforeAll(async () => {
     const config = {
-      rootDir: fixturePath,
+      rootDir: resolve(__dirname, '..', 'example', 'windicss'),
       dev: true,
       ...nuxtConfig
     }
