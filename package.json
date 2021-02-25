@@ -16,8 +16,8 @@
   "scripts": {
     "dev": "nuxt example/tailwind",
     "dev:windicss": "nuxt example/windicss",
-    "build:windicss": "nuxt build test/fixture/windicss",
-    "start:windicss": "nuxt start test/fixture/windicss",
+    "build:windicss": "nuxt build example/windicss",
+    "start:windicss": "nuxt start example/windicss",
     "docs": "nuxt docs/",
     "lint": "eslint --ext .js,.vue example lib test",
     "test": "yarn lint && jest",
