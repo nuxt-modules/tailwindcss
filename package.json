@@ -24,11 +24,14 @@
     "lib"
   ],
   "dependencies": {
+    "autoprefixer": "^10.0.2",
     "chalk": "^4.1.0",
     "clear-module": "^4.1.1",
     "consola": "^2.15.0",
     "defu": "^3.2.2",
     "fs-extra": "^9.0.1",
+    "nuxt-postcss8": "^1.0.1",
+    "postcss": "^8.0.9",
     "tailwind-config-viewer": "^1.5.0",
     "tailwindcss": "^2.0.3",
     "ufo": "^0.6.6"
@@ -43,7 +46,6 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "codecov": "^3.8.1",
-    "css-loader": "^5.0.0",
     "eslint": "^7.17.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
@@ -55,10 +57,6 @@
     "husky": "^4.3.7",
     "jest": "^26.6.3",
     "nuxt": "^2.15.2",
-    "postcss": "^8.1.10",
-    "postcss-import": "^13.0.0",
-    "postcss-loader": "^4.1.0",
-    "postcss-url": "^10.1.1",
     "standard-version": "^9.1.0"
   }
 }
