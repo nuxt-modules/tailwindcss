@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-0](https://github.com/nuxt-community/tailwindcss-module/compare/v3.4.2...v4.0.0-0) (2021-03-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade to tailwindcss@2 (#270)
+
+### Features
+
+* upgrade to tailwindcss@2 ([#270](https://github.com/nuxt-community/tailwindcss-module/issues/270)) ([8ab33b8](https://github.com/nuxt-community/tailwindcss-module/commit/8ab33b802005b80cd372e9a268e1c20ac8db8007))
+
 ### [3.4.2](https://github.com/nuxt-community/tailwindcss-module/compare/v3.4.1...v3.4.2) (2020-12-22)
 
 ### [3.4.1](https://github.com/nuxt-community/tailwindcss-module/compare/v3.4.0...v3.4.1) (2020-12-18)
