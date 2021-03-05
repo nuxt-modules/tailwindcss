@@ -1,7 +1,5 @@
 module.exports = {
-  purge: {
-    content: [
-      'content/**/*.md'
-    ]
-  }
+  purge: [
+    'content/**/*.md'
+  ]
 }
