@@ -18,6 +18,7 @@
     "docs": "nuxt docs/",
     "lint": "eslint --ext .js,.vue example lib test",
     "test": "yarn lint && jest",
+    "release:alpha": "yarn test && standard-version -r major -p && git push --follow-tags && npm publish --tag alpha",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish"
   },
   "files": [
