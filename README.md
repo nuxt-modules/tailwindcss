@@ -19,7 +19,7 @@
 - ⚡️&nbsp; PurgeCSS included for minimal CSS ⚡️
 - 🪄&nbsp; Use latest CSS features *([Stage 1](https://cssdb.org/#stage-1))*
 - 🎨&nbsp; Discover your Tailwind Colors *([see video](https://tailwindcss.nuxtjs.org/#tailwind-colors))*
-- ⚙️&nbsp; Reference your Tailwind config in your app 
+- ⚙️&nbsp; Reference your Tailwind config in your app
 - 📦&nbsp; Extendable by [Nuxt modules](https://modules.nuxtjs.org/)
 
 [📖 &nbsp;Read more](https://tailwindcss.nuxtjs.org)
@@ -55,7 +55,7 @@ That's it! You can now use Tailwind classes in your Nuxt app ✨
 
 You can contribute to this module online with CodeSandBox:
 
-[![Edit @nuxtjs/tailwindcss](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nuxt-community/tailwindcss-module/tree/master/?fontsize=14&hidenavigation=1&theme=dark)
+[![Edit @nuxtjs/tailwindcss](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nuxt-community/tailwindcss-module/tree/main/?fontsize=14&hidenavigation=1&theme=dark)
 
 Or locally:
 
