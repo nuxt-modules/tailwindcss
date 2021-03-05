@@ -30,7 +30,7 @@ category: Guide
 }
 ```
 
-> The file is [available on GitHub](https://github.com/nuxt-community/tailwindcss-module/blob/master/lib/files/tailwind.config.js)
+> The file is [available on GitHub](https://github.com/nuxt-community/tailwindcss-module/blob/main/lib/files/tailwind.config.js)
 
 You can learn more about the [Tailwind configuration](https://tailwindcss.com/docs/configuration) and the [purge option](https://tailwindcss.com/docs/controlling-file-size/#removing-unused-css) on Tailwind docs.
 
