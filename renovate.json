@@ -3,7 +3,7 @@
     "@nuxtjs"
   ],
   "baseBranches": [
-    "master",
+    "main",
     "dev"
   ]
 }
