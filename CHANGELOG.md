@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-5](https://github.com/nuxt-community/tailwindcss-module/compare/v3.4.3...v4.0.0-5) (2021-03-10)
+
+## [4.0.0-4](https://github.com/nuxt-community/tailwindcss-module/compare/v4.0.0-3...v4.0.0-4) (2021-03-09)
+
+## [4.0.0-3](https://github.com/nuxt-community/tailwindcss-module/compare/v4.0.0-2...v4.0.0-3) (2021-03-08)
+
+## [4.0.0-2](https://github.com/nuxt-community/tailwindcss-module/compare/v4.0.0-1...v4.0.0-2) (2021-03-08)
+
+
+### Bug Fixes
+
+* use purge as object and force it to provide purge options ([910843f](https://github.com/nuxt-community/tailwindcss-module/commit/910843f10f6da538a261dfd7726ee82aeb6db6f1))
+
+## [4.0.0-1](https://github.com/nuxt-community/tailwindcss-module/compare/v4.0.0-0...v4.0.0-1) (2021-03-08)
+
+## [4.0.0-0](https://github.com/nuxt-community/tailwindcss-module/compare/v3.4.2...v4.0.0-0) (2021-03-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade to tailwindcss@2 (#270)
+
+### Features
+
+* upgrade to tailwindcss@2 ([#270](https://github.com/nuxt-community/tailwindcss-module/issues/270)) ([8ab33b8](https://github.com/nuxt-community/tailwindcss-module/commit/8ab33b802005b80cd372e9a268e1c20ac8db8007))
+
 ### [3.4.3](https://github.com/nuxt-community/tailwindcss-module/compare/v3.4.2...v3.4.3) (2021-03-10)
 
 
