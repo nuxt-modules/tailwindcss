@@ -1,9 +1,5 @@
-# Common
 node_modules
 dist
 .nuxt
 coverage
-
-# Plugin
-lib/plugin.js
-lib/templates
+src/*.js

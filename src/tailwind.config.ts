@@ -1,5 +1,5 @@
 // Learn more at https://tailwindcss.com/docs/configuration
-module.exports = ({ dev, rootDir, srcDir }) => ({
+export default ({ _dev, rootDir, srcDir }) => ({
   purge: {
     content: [
       `${srcDir}/components/**/*.{vue,js}`,
