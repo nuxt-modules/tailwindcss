@@ -6,6 +6,7 @@ export default {
   ],
   components: true,
   tailwindcss: {
+    jit: true,
     exposeConfig: true
   }
 }
