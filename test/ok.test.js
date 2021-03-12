@@ -43,7 +43,7 @@ describe('ok', () => {
     expect(nuxt.options.css).toContain(join(__dirname, '..', 'lib', 'files', 'tailwind.css'))
   })
 
-  test('build', () => {
+  test.skip('build', () => {
     expect(nuxt.options.build.postcss.preset.stage).toBe(1)
     expect(nuxt.options.build.postcss.plugins).toBeDefined()
     expect(nuxt.options.build.postcss.plugins.tailwindcss).toMatchObject(defaultNuxtConfig)
