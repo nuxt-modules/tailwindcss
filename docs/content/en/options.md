@@ -63,6 +63,12 @@ export default {
 }
 ```
 
+<alert type="info">
+
+If you customized the [`srcDir`](https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-srcdir/) property, you'll have to update `configPath` as `configPath: '~~/tailwind.config.js'` (~~ is the alias for rootDir) for the `tailwind.config.js` to be recognized properly. Read more in the [Issue #114](https://github.com/nuxt-community/tailwindcss-module/issues/114#issuecomment-698885369).
+
+</alert>
+
 ## `exposeConfig`
 
 If you need resolved tailwind config in runtime, you can enable exposeConfig option in nuxt.config:
