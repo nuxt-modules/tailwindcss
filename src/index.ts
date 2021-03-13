@@ -76,28 +76,21 @@ async function tailwindCSSModule (moduleOptions) {
     await nuxt.callHook('tailwindcss:config', tailwindConfig)
 
     // Add Tailwind PostCSS plugin
-    const tailwindConfigFile = resolve(nuxt.options.buildDir, 'tailwind.config.js')
     if (options.jit !== false) {
-      nuxt.options.build.postcss.plugins['@tailwindcss/jit'] = tailwindConfigFile
+      nuxt.options.build.postcss.plugins['@tailwindcss/jit'] = tailwindConfig
       logger.info('Tailwind JIT activated')
     } else {
-      nuxt.options.build.postcss.plugins.tailwindcss = tailwindConfigFile
+      nuxt.options.build.postcss.plugins.tailwindcss = tailwindConfig
     }
-
-    const resolveConfig = require('tailwindcss/resolveConfig')
-    const resolvedConfig = resolveConfig(tailwindConfig)
-    // Expose .nuxt/tailwind.config.js file
-    this.addTemplate({
-      src: resolve(__dirname, 'runtime/tailwind.config.js'),
-      fileName: 'tailwind.config.js',
-      options: { config: resolvedConfig }
-    })
 
     /*
     ** Expose resolved tailwind config as an alias
     ** https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     */
     if (options.exposeConfig) {
+      const resolveConfig = require('tailwindcss/resolveConfig')
+      const resolvedConfig = resolveConfig(tailwindConfig)
+
       // Render as a json file in buildDir
       this.addTemplate({
         src: resolve(__dirname, 'runtime/tailwind.config.json'),
