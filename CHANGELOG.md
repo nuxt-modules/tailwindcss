@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-9](https://github.com/nuxt-community/tailwindcss-module/compare/v4.0.0-8...v4.0.0-9) (2021-03-13)
+
+
+### Bug Fixes
+
+* dont expose config without option defined ([d98086e](https://github.com/nuxt-community/tailwindcss-module/commit/d98086e7db5e110891c0c2dd97dbc79d352cef9b))
+
 ## [4.0.0-8](https://github.com/nuxt-community/tailwindcss-module/compare/v4.0.0-7...v4.0.0-8) (2021-03-12)
 
 ## [4.0.0-7](https://github.com/nuxt-community/tailwindcss-module/compare/v4.0.0-5...v4.0.0-7) (2021-03-12)
