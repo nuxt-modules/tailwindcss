@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-10](https://github.com/nuxt-community/tailwindcss-module/compare/v4.0.0-9...v4.0.0-10) (2021-03-13)
+
+
+### Bug Fixes
+
+* revert to using object syntax ([a8d4acf](https://github.com/nuxt-community/tailwindcss-module/commit/a8d4acfd3ee60b14858f04a6af5d938276b1aa05))
+
 ## [4.0.0-9](https://github.com/nuxt-community/tailwindcss-module/compare/v4.0.0-8...v4.0.0-9) (2021-03-13)
 
 
