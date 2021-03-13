@@ -72,8 +72,11 @@ async function tailwindCSSModule (moduleOptions) {
       process.env.NODE_ENV = 'production'
     }
 
-    // Set tailwindcss config
+    // Extend tailwindcss config
     await nuxt.callHook('tailwindcss:config', tailwindConfig)
+
+    // Compute hash
+    tailwindConfig._hash = String(Date.now())
 
     // Add Tailwind PostCSS plugin
     if (options.jit !== false) {
