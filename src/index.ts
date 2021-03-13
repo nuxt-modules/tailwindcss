@@ -84,42 +84,38 @@ async function tailwindCSSModule (moduleOptions) {
       nuxt.options.build.postcss.plugins.tailwindcss = tailwindConfigFile
     }
 
-    /*
-    ** Expose resolved tailwind config as an alias
-    ** https://tailwindcss.com/docs/configuration/#referencing-in-javascript
-    */
     const resolveConfig = require('tailwindcss/resolveConfig')
     const resolvedConfig = resolveConfig(tailwindConfig)
-
-    // Resolve config
-
-    // Render as a json file in buildDir
-    /**
-       * nuxt ModuleContainer bind 'this' to addTemplate until v2.13.0，use this.addTemplate to compat with low version
-       * issue: https://github.com/nuxt-community/tailwindcss-module/issues/224
-       */
+    // Expose .nuxt/tailwind.config.js file
     this.addTemplate({
       src: resolve(__dirname, 'runtime/tailwind.config.js'),
       fileName: 'tailwind.config.js',
       options: { config: resolvedConfig }
     })
-    this.addTemplate({
-      src: resolve(__dirname, 'runtime/tailwind.config.json'),
-      fileName: 'tailwind.config.json',
-      options: { config: resolvedConfig }
-    })
 
-    // Alias to ~tailwind.config
-    nuxt.options.alias['~tailwind.config'] =
-      resolve(nuxt.options.buildDir, 'tailwind.config.json')
+    /*
+    ** Expose resolved tailwind config as an alias
+    ** https://tailwindcss.com/docs/configuration/#referencing-in-javascript
+    */
+    if (options.exposeConfig) {
+      // Render as a json file in buildDir
+      this.addTemplate({
+        src: resolve(__dirname, 'runtime/tailwind.config.json'),
+        fileName: 'tailwind.config.json',
+        options: { config: resolvedConfig }
+      })
 
-    // Force chunk creation for long term caching
-    const { cacheGroups } = nuxt.options.build.optimization.splitChunks
-    cacheGroups.tailwindConfig = {
-      test: /tailwind\.config/,
-      chunks: 'all',
-      priority: 10,
-      name: true
+      // Alias to ~tailwind.config
+      nuxt.options.alias['~tailwind.config'] = resolve(nuxt.options.buildDir, 'tailwind.config.json')
+
+      // Force chunk creation for long term caching
+      const { cacheGroups } = nuxt.options.build.optimization.splitChunks
+      cacheGroups.tailwindConfig = {
+        test: /tailwind\.config/,
+        chunks: 'all',
+        priority: 10,
+        name: true
+      }
     }
   })
 
