@@ -37,6 +37,7 @@ async function tailwindCSSModule (moduleOptions) {
   await this.addModule('@nuxt/postcss8')
 
   // Include CSS file in project css
+  /* istanbul ignore else */
   if (existsSync(cssPath)) {
     logger.info(`Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`)
     nuxt.options.css.unshift(cssPath)
@@ -79,6 +80,7 @@ async function tailwindCSSModule (moduleOptions) {
     tailwindConfig._hash = String(Date.now())
 
     // Add Tailwind PostCSS plugin
+    /* istanbul ignore else */
     if (options.jit !== false) {
       nuxt.options.build.postcss.plugins['@tailwindcss/jit'] = tailwindConfig
       logger.info('Tailwind JIT activated')
