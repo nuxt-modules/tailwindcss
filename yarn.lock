@@ -1649,10 +1649,10 @@
   dependencies:
     defer-to-connect "^2.0.0"
 
-"@tailwindcss/jit@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@tailwindcss/jit/-/jit-0.1.0.tgz#e31ec143902c12f3d2b736ad5c8635bec732bb71"
-  integrity sha512-lmFKpkxdPlgrQAZ57HiUr7GWI1/+8gBPuT8YIO/1KZVNpcrC39DCz+GfAthIPCy3ymcuOYaJXEjvFOzsEk91rg==
+"@tailwindcss/jit@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@tailwindcss/jit/-/jit-0.1.1.tgz#d3783b2941fda6d4521c5ce1b8b547e9fc9e130f"
+  integrity sha512-KXpWiRksgs+7voUeFHRDeRwo+EzY9PW/WLeFt8NHl2+hP551PoDC56QjXAjcgDgRniWQg6WoOwFsm6u2ajVWow==
   dependencies:
     chokidar "^3.5.1"
     dlv "^1.1.3"
