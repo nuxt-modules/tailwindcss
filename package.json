@@ -1,59 +1,52 @@
 {
   "name": "@nuxtjs/tailwindcss",
-  "version": "3.4.3",
-  "description": "TailwindCSS module for Nuxt.js",
+  "version": "4.0.0-12",
+  "description": "TailwindCSS module for Nuxt",
+  "repository": "nuxt-community/tailwindcss-module",
   "license": "MIT",
-  "contributors": [
-    {
-      "name": "Sébastien Chopin <seb@chopin.io>"
-    }
-  ],
-  "main": "lib/module.js",
-  "repository": "https://github.com/nuxt-community/tailwindcss-module",
-  "publishConfig": {
-    "access": "public"
+  "exports": {
+    ".": "./dist/index.js",
+    "./src/runtime/*": "./dist/runtime/*",
+    "./package.json": "./package.json"
   },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "siroc build",
     "dev": "nuxt example",
-    "docs": "nuxt docs/",
-    "lint": "eslint --ext .js,.vue example lib test",
+    "docs": "nuxt docs",
+    "lint": "eslint --ext .js,.ts,.vue",
     "test": "yarn lint && jest",
+    "release:alpha": "yarn test && standard-version -r major -p && git push --follow-tags && npm publish --tag alpha",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish"
   },
-  "files": [
-    "lib"
-  ],
   "dependencies": {
+    "@nuxt/postcss8": "^1.1.3",
+    "@tailwindcss/jit": "^0.1.0",
+    "autoprefixer": "^10.2.5",
     "chalk": "^4.1.0",
     "clear-module": "^4.1.1",
     "consola": "^2.15.3",
     "defu": "^3.2.2",
-    "fs-extra": "^9.1.0",
+    "postcss": "^8.2.8",
+    "postcss-custom-properties": "^11.0.0",
+    "postcss-nested": "^5.0.5",
     "tailwind-config-viewer": "^1.5.0",
-    "tailwindcss": "^1.9.6",
-    "ufo": "^0.6.9"
+    "tailwindcss": "^2.0.3",
+    "ufo": "^0.6.10"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.8",
-    "@babel/preset-env": "^7.13.9",
-    "@commitlint/cli": "^12.0.1",
-    "@commitlint/config-conventional": "^12.0.1",
-    "@nuxtjs/eslint-config": "^5.0.0",
-    "@nuxtjs/module-test-utils": "^1.6.3",
-    "babel-eslint": "^10.1.0",
-    "babel-jest": "^26.6.3",
+    "@nuxt/test-utils": "^0.2.0",
+    "@nuxtjs/eslint-config-typescript": "^6.0.0",
+    "@types/jest": "^26.0.20",
     "codecov": "^3.8.1",
-    "eslint": "^7.21.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jest": "^24.1.5",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "latest",
-    "eslint-plugin-standard": "^4.1.0",
-    "eslint-plugin-vue": "^7.7.0",
-    "husky": "^5.1.3",
+    "eslint": "^7.22.0",
     "jest": "^26.6.3",
-    "nuxt": "^2.15.2",
+    "nuxt": "^2.15.3",
+    "siroc": "^0.8.0",
     "standard-version": "^9.1.1"
   }
 }

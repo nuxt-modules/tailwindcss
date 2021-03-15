@@ -1,11 +1,13 @@
-const { withoutTrailingSlash, withTrailingSlash } = require('ufo')
-const createServer = require('tailwind-config-viewer/server')
+import { withoutTrailingSlash, withTrailingSlash } from 'ufo'
+import createServer from 'tailwind-config-viewer/server'
 
 const server = createServer({
+  // @ts-ignore
   tailwindConfigProvider: () => process.nuxt ? process.nuxt.$config.tailwind.getConfig() : {}
 }).asMiddleware()
 
-module.exports = (req, res) => {
+export default (req, res) => {
+  // @ts-ignore
   if (req.originalUrl === withoutTrailingSlash(process.nuxt.$config.tailwind.viewerPath)) {
     res.writeHead(301, { Location: withTrailingSlash(req.originalUrl) })
     res.end()

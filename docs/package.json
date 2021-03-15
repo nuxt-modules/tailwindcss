@@ -10,11 +10,11 @@
   "author": "Sebastien Chopin",
   "license": "MIT",
   "homepage": "https://tailwindcss.nuxtjs.org",
-  "dependencies": {
-    "docus": "^0.0.9",
-    "nuxt": "^2.15.2"
-  },
   "devDependencies": {
+    "docus": "^0.1.5",
+    "nuxt": "^2.15.3",
+    "postcss": "^8.2.8",
+    "tailwindcss": "^2.0.3",
     "vue-plausible": "^1.1.3"
   }
 }

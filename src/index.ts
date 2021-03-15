@@ -1,40 +1,60 @@
-const { join, resolve, relative } = require('path')
-const { pathExists } = require('fs-extra')
-const defu = require('defu')
-const clearModule = require('clear-module')
-const chalk = require('chalk')
-const { joinURL, withTrailingSlash } = require('ufo')
+import { join, resolve, relative } from 'path'
+import { existsSync } from 'fs'
+import defu from 'defu'
+import clearModule from 'clear-module'
+import chalk from 'chalk'
+import { joinURL, withTrailingSlash } from 'ufo'
+import consola from 'consola'
+import { name, version } from '../package.json'
+import defaultTailwindConfig from './tailwind.config'
 
-const logger = require('./logger')
-const defaultTailwindConfig = require('./files/tailwind.config.js')
+const logger = consola.withScope('nuxt:tailwindcss')
 
-module.exports = async function (moduleOptions) {
+async function tailwindCSSModule (moduleOptions) {
   const { nuxt } = this
   const options = defu.arrayFn(moduleOptions, nuxt.options.tailwindcss, {
     configPath: 'tailwind.config.js',
     cssPath: join(nuxt.options.dir.assets, 'css', 'tailwind.css'),
     exposeConfig: false,
     config: defaultTailwindConfig(nuxt.options),
-    viewer: nuxt.options.dev
+    viewer: nuxt.options.dev,
+    jit: false
   })
 
   const configPath = nuxt.resolver.resolveAlias(options.configPath)
   const cssPath = nuxt.resolver.resolveAlias(options.cssPath)
 
+  // Extend postcss config
+  // https://tailwindcss.com/docs/using-with-preprocessors#future-css-features
+  nuxt.options.build.postcss = defu(nuxt.options.build.postcss, {
+    plugins: {
+      'postcss-nested': {},
+      'postcss-custom-properties': {}
+    }
+  })
+
+  // Require postcss@8
+  await this.addModule('@nuxt/postcss8')
+
   // Include CSS file in project css
-  if (await pathExists(cssPath)) {
+  /* istanbul ignore else */
+  if (existsSync(cssPath)) {
     logger.info(`Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`)
     nuxt.options.css.unshift(cssPath)
   } else {
-    nuxt.options.css.unshift(resolve(__dirname, 'files', 'tailwind.css'))
+    nuxt.options.css.unshift(resolve(__dirname, 'runtime', 'tailwind.css'))
   }
 
   // Get and extend the Tailwind config
-  let tailwindConfig = {}
-  if (await pathExists(configPath)) {
+  let tailwindConfig: any = {}
+  if (existsSync(configPath)) {
     clearModule(configPath)
     tailwindConfig = nuxt.resolver.requireModule(configPath)
     logger.info(`Merging Tailwind config from ~/${relative(this.options.srcDir, configPath)}`)
+    // Transform purge option from Array to object with { content }
+    if (Array.isArray(tailwindConfig.purge)) {
+      tailwindConfig.purge = { content: tailwindConfig.purge }
+    }
   }
   // Merge with our default purgecss default
   tailwindConfig = defu.arrayFn(tailwindConfig, options.config)
@@ -44,6 +64,7 @@ module.exports = async function (moduleOptions) {
   if (nuxt.options.dev) {
     nuxt.options.watch.push(configPath)
   }
+
   // This hooks is called only for `nuxt dev` and `nuxt build` commands
   nuxt.hook('build:before', async () => {
     // Fix issue with postCSS that needs process.env.NODE_ENV
@@ -51,22 +72,20 @@ module.exports = async function (moduleOptions) {
     if (!nuxt.options.dev && !process.env.NODE_ENV) {
       process.env.NODE_ENV = 'production'
     }
-    /*
-    ** Set PostCSS config
-    */
-    const { postcss } = nuxt.options.build
 
-    postcss.preset.stage = 1 // see https://tailwindcss.com/docs/using-with-preprocessors#future-css-features
-    postcss.plugins = postcss.plugins || {}
-
-    // Let modules extend the tailwind config
+    // Extend tailwindcss config
     await nuxt.callHook('tailwindcss:config', tailwindConfig)
 
-    /* istanbul ignore if */
-    if (Array.isArray(postcss.plugins)) {
-      logger.error('Array syntax for postcss plugins is not supported with v3. Please use the object syntax: https://nuxtjs.org/guides/configuration-glossary/configuration-build#postcss')
-    } else if (typeof postcss.plugins === 'object') {
-      postcss.plugins.tailwindcss = tailwindConfig
+    // Compute hash
+    tailwindConfig._hash = String(Date.now())
+
+    // Add Tailwind PostCSS plugin
+    /* istanbul ignore else */
+    if (options.jit !== false) {
+      nuxt.options.build.postcss.plugins['@tailwindcss/jit'] = tailwindConfig
+      logger.info('Tailwind JIT activated')
+    } else {
+      nuxt.options.build.postcss.plugins.tailwindcss = tailwindConfig
     }
 
     /*
@@ -74,24 +93,18 @@ module.exports = async function (moduleOptions) {
     ** https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     */
     if (options.exposeConfig) {
-      // Resolve config
       const resolveConfig = require('tailwindcss/resolveConfig')
       const resolvedConfig = resolveConfig(tailwindConfig)
 
       // Render as a json file in buildDir
-      /**
-       * nuxt ModuleContainer bind 'this' to addTemplate until v2.13.0，use this.addTemplate to compat with low version
-       * issue: https://github.com/nuxt-community/tailwindcss-module/issues/224
-       */
       this.addTemplate({
-        src: resolve(__dirname, 'templates/tailwind.config.json'),
+        src: resolve(__dirname, 'runtime/tailwind.config.json'),
         fileName: 'tailwind.config.json',
         options: { config: resolvedConfig }
       })
 
       // Alias to ~tailwind.config
-      nuxt.options.alias['~tailwind.config'] =
-        resolve(nuxt.options.buildDir, 'tailwind.config.json')
+      nuxt.options.alias['~tailwind.config'] = resolve(nuxt.options.buildDir, 'tailwind.config.json')
 
       // Force chunk creation for long term caching
       const { cacheGroups } = nuxt.options.build.optimization.splitChunks
@@ -111,14 +124,17 @@ module.exports = async function (moduleOptions) {
   if (nuxt.options.dev && options.viewer) {
     const path = '/_tailwind/'
 
+    // @ts-ignore
     process.nuxt = process.nuxt || {}
+    // @ts-ignore
     process.nuxt.$config = process.nuxt.$config || {}
+    // @ts-ignore
     process.nuxt.$config.tailwind = {
       viewerPath: path,
       getConfig: () => tailwindConfig
     }
 
-    this.addServerMiddleware({ path, handler: require.resolve('./serverMiddleware/tailwindConfigViewer') })
+    this.addServerMiddleware({ path, handler: require.resolve('./runtime/config-viewer') })
 
     nuxt.hook('listen', () => {
       const url = withTrailingSlash(joinURL(nuxt.server.listeners && nuxt.server.listeners[0] ? nuxt.server.listeners[0].url : '/', path))
@@ -129,4 +145,6 @@ module.exports = async function (moduleOptions) {
   }
 }
 
-module.exports.meta = require('../package.json')
+tailwindCSSModule.meta = { name, version }
+
+export default tailwindCSSModule
