@@ -4741,10 +4741,10 @@ doctypes@^1.1.0:
   resolved "https://registry.yarnpkg.com/doctypes/-/doctypes-1.1.0.tgz#ea80b106a87538774e8a3a4a5afe293de489e0a9"
   integrity sha1-6oCxBqh1OHdOijpKWv4pPeSJ4Kk=
 
-docus@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/docus/-/docus-0.1.3.tgz#18de17a0aae588c84b1bd9748e863b9948d1e560"
-  integrity sha512-gNg8GvPPtJzx9DvAIbJaDIs9dv5tJ/Heh/dYXxdGteLY728Hmif0qgV8L3gD7GkiLXGsNWWGmjxeQBkr4jdi7w==
+docus@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/docus/-/docus-0.1.4.tgz#330d9bd357b321a73b8a13e94b81365849d06198"
+  integrity sha512-DdX4MBQ25hMvVsohrys2WVsmn34pXfzllQknBXA6FOd8Y9y3BL0qRFPmEWuubUMwqSiYwF6fTNO+MZ4O7xAbGA==
   dependencies:
     "@docsearch/css" "^1.0.0-alpha.28"
     "@docsearch/js" "^1.0.0-alpha.28"
