@@ -11,8 +11,8 @@
   "license": "MIT",
   "homepage": "https://tailwindcss.nuxtjs.org",
   "dependencies": {
-    "docus": "^0.0.9",
-    "nuxt": "^2.15.2"
+    "docus": "^0.1.1",
+    "nuxt": "^2.15.3"
   },
   "devDependencies": {
     "vue-plausible": "^1.1.3"
