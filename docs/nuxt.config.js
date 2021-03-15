@@ -1,13 +1,8 @@
 import { withDocus } from 'docus'
 
 export default withDocus({
-  docus: {
-    colors: {
-      primary: '#38b2ac'
-    }
-  },
   buildModules: [
-    'vue-plausible'
+    'vue-plausible/lib/esm'
   ],
   plausible: {
     domain: 'tailwindcss.nuxtjs.org'
