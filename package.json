@@ -30,7 +30,7 @@
     "defu": "^3.2.2",
     "fs-extra": "^9.1.0",
     "tailwind-config-viewer": "^1.5.0",
-    "tailwindcss": "^1.9.6",
+    "tailwindcss": "^2.0.3",
     "ufo": "^0.6.9"
   },
   "devDependencies": {
