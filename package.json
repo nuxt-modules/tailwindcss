@@ -30,7 +30,7 @@
     "chalk": "^4.1.0",
     "clear-module": "^4.1.1",
     "consola": "^2.15.3",
-    "defu": "^3.2.2",
+    "defu": "^4.0.1",
     "postcss": "^8.2.9",
     "postcss-custom-properties": "^11.0.0",
     "postcss-nesting": "^7.0.1",
