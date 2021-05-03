@@ -35,7 +35,7 @@
     "postcss-custom-properties": "^11.0.0",
     "postcss-nesting": "^7.0.1",
     "tailwind-config-viewer": "^1.5.1",
-    "tailwindcss": "^2.0.4",
+    "tailwindcss": "^2.1.2",
     "ufo": "^0.6.10"
   },
   "devDependencies": {
