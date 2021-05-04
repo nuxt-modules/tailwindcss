@@ -17,8 +17,7 @@ async function tailwindCSSModule (moduleOptions) {
     cssPath: join(nuxt.options.dir.assets, 'css', 'tailwind.css'),
     exposeConfig: false,
     config: defaultTailwindConfig(nuxt.options),
-    viewer: nuxt.options.dev,
-    jit: false
+    viewer: nuxt.options.dev
   })
 
   const configPath = nuxt.resolver.resolveAlias(options.configPath)
@@ -81,13 +80,11 @@ async function tailwindCSSModule (moduleOptions) {
 
     // Add Tailwind PostCSS plugin
     /* istanbul ignore else */
-    if (options.jit !== false) {
-      nuxt.options.build.postcss.plugins['@tailwindcss/jit'] = tailwindConfig
-      logger.info('Tailwind JIT activated')
-    } else {
-      nuxt.options.build.postcss.plugins.tailwindcss = tailwindConfig
-    }
+    nuxt.options.build.postcss.plugins.tailwindcss = tailwindConfig
 
+    if (options.config.mode === 'jit') {
+      logger.info('Tailwind JIT activated')
+    }
     /*
     ** Expose resolved tailwind config as an alias
     ** https://tailwindcss.com/docs/configuration/#referencing-in-javascript
