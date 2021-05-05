@@ -31,22 +31,22 @@
     "clear-module": "^4.1.1",
     "consola": "^2.15.3",
     "defu": "^3.2.2",
-    "postcss": "^8.2.9",
+    "postcss": "^8.2.10",
     "postcss-custom-properties": "^11.0.0",
     "postcss-nesting": "^7.0.1",
     "tailwind-config-viewer": "^1.5.1",
-    "tailwindcss": "^2.0.4",
-    "ufo": "^0.6.10"
+    "tailwindcss": "^2.1.1",
+    "ufo": "^0.6.11"
   },
   "devDependencies": {
-    "@nuxt/test-utils": "^0.2.1",
+    "@nuxt/test-utils": "^0.2.2",
     "@nuxtjs/eslint-config-typescript": "^6.0.0",
     "@types/jest": "^26.0.22",
     "codecov": "^3.8.1",
-    "eslint": "^7.23.0",
+    "eslint": "^7.24.0",
     "jest": "^26.6.3",
     "nuxt": "^2.15.4",
-    "siroc": "^0.8.0",
-    "standard-version": "^9.1.1"
+    "siroc": "^0.9.2",
+    "standard-version": "^9.2.0"
   }
 }
