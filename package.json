@@ -20,7 +20,7 @@
     "docs": "nuxt docs",
     "lint": "eslint --ext .js,.ts,.vue",
     "test": "yarn lint && jest",
-    "release:alpha": "yarn test && standard-version -r major -p && git push --follow-tags && npm publish --tag alpha",
+    "prepack": "yarn build",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish"
   },
   "dependencies": {
