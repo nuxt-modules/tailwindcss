@@ -79,7 +79,7 @@ async function tailwindCSSModule (moduleOptions) {
     tailwindConfig._hash = String(Date.now())
 
     if (options.jit === true) {
-      logger.warn('`tailwindcss.jit` option had been deprecated in favour of `mode: \'jit\'` in `tailwind.config.js`')
+      logger.warn('`tailwindcss.jit` option had been deprecated in favour of tailwind config `mode: \'jit\'`')
       tailwindConfig.mode = 'jit'
     }
 
