@@ -2,7 +2,9 @@ export default {
   title: "Nuxt TailwindCSS",
   url: "https://tailwindcss.nuxtjs.org",
   twitter: "nuxt_js",
-  github: "nuxt-community/tailwindcss-module",
+  github: {
+    repo: "nuxt-community/tailwindcss-module",
+  },
   theme: {
     colors: {
       primary: "#38b2ac",
