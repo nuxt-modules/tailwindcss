@@ -9,7 +9,7 @@ export default ({ rootDir, srcDir }) => ({
   plugins: [],
   purge: {
     content: [
-      `${srcDir}/components/**/*.{vue,js}`,
+      `${srcDir}/components/**/*.{vue,js,ts}`,
       `${srcDir}/layouts/**/*.vue`,
       `${srcDir}/pages/**/*.vue`,
       `${srcDir}/plugins/**/*.{js,ts}`,
