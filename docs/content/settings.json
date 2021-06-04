@@ -12,7 +12,8 @@
   "twitter": "nuxt_js",
   "github": {
     "repo": "nuxt-community/tailwindcss-module",
-    "dir": "docs"
+    "dir": "docs",
+    "branch": "main"
   },
   "colors": {
     "primary": "#38b2ac"
