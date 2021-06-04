@@ -43,7 +43,7 @@
     "@types/jest": "^26.0.23",
     "codecov": "^3.8.2",
     "eslint": "^7.25.0",
-    "jest": "^26.6.3",
+    "jest": "^27.0.4",
     "nuxt": "^2.15.4",
     "siroc": "^0.9.2",
     "standard-version": "^9.3.0"
