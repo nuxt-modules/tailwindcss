@@ -10,7 +10,11 @@
     "title": false
   },
   "twitter": "nuxt_js",
-  "github": "nuxt-community/tailwindcss-module",
+  "github": {
+    "repo": "nuxt-community/tailwindcss-module",
+    "dir": "docs",
+    "branch": "main"
+  },
   "colors": {
     "primary": "#38b2ac"
   },
