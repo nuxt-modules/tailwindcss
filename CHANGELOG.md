@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.1.3](https://github.com/nuxt-community/tailwindcss-module/compare/v4.1.2...v4.1.3) (2021-06-05)
+
+
+### Bug Fixes
+
+* add ts extension for purging components folder ([#356](https://github.com/nuxt-community/tailwindcss-module/issues/356)) ([8328c52](https://github.com/nuxt-community/tailwindcss-module/commit/8328c52b0a96c35fd117b0366e697b79ee1d741a))
+
 ### [4.1.2](https://github.com/nuxt-community/tailwindcss-module/compare/v4.1.1...v4.1.2) (2021-05-13)
 
 ### [4.1.1](https://github.com/nuxt-community/tailwindcss-module/compare/v4.1.0...v4.1.1) (2021-05-07)
