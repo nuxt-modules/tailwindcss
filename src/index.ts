@@ -21,7 +21,7 @@ async function tailwindCSSModule (moduleOptions) {
   })
 
   const configPath = nuxt.resolver.resolveAlias(options.configPath)
-  const cssPath = nuxt.resolver.resolveAlias(options.cssPath)
+  const cssPath = options.cssPath && nuxt.resolver.resolveAlias(options.cssPath)
 
   // Extend postcss config
   // https://tailwindcss.com/docs/using-with-preprocessors#future-css-features
@@ -37,11 +37,13 @@ async function tailwindCSSModule (moduleOptions) {
 
   // Include CSS file in project css
   /* istanbul ignore else */
-  if (existsSync(cssPath)) {
-    logger.info(`Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`)
-    nuxt.options.css.unshift(cssPath)
-  } else {
-    nuxt.options.css.unshift(resolve(__dirname, 'runtime', 'tailwind.css'))
+  if (typeof cssPath === 'string') {
+    if (existsSync(cssPath)) {
+      logger.info(`Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`)
+      nuxt.options.css.unshift(cssPath)
+    } else {
+      nuxt.options.css.unshift(resolve(__dirname, 'runtime', 'tailwind.css'))
+    }
   }
 
   // Get and extend the Tailwind config
