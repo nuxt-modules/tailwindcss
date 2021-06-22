@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/nuxt-community/tailwindcss-module/compare/v4.1.3...v4.2.0) (2021-06-22)
+
+
+### Features
+
+* set cssPath false to disable adding the CSS ([#362](https://github.com/nuxt-community/tailwindcss-module/issues/362)) ([695d068](https://github.com/nuxt-community/tailwindcss-module/commit/695d0681c2cabe64bcfd97968a0c9ddcb8ada98c))
+
 ### [4.1.3](https://github.com/nuxt-community/tailwindcss-module/compare/v4.1.2...v4.1.3) (2021-06-05)
 
 
