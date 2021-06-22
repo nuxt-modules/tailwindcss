@@ -30,21 +30,21 @@
     "clear-module": "^4.1.1",
     "consola": "^2.15.3",
     "defu": "^5.0.0",
-    "postcss": "^8.2.13",
+    "postcss": "^8.3.5",
     "postcss-custom-properties": "^11.0.0",
     "postcss-nesting": "^8.0.1",
-    "tailwind-config-viewer": "^1.5.1",
-    "tailwindcss": "^2.1.2",
-    "ufo": "^0.7.2"
+    "tailwind-config-viewer": "^1.6.2",
+    "tailwindcss": "^2.2.2",
+    "ufo": "^0.7.5"
   },
   "devDependencies": {
     "@nuxt/test-utils": "^0.2.2",
-    "@nuxtjs/eslint-config-typescript": "^6.0.0",
+    "@nuxtjs/eslint-config-typescript": "^6.0.1",
     "@types/jest": "^26.0.23",
     "codecov": "^3.8.2",
     "eslint": "^7.25.0",
-    "jest": "^27.0.4",
-    "nuxt": "^2.15.4",
+    "jest": "^27.0.5",
+    "nuxt": "^2.15.7",
     "siroc": "^0.9.2",
     "standard-version": "^9.3.0"
   }
