@@ -13,7 +13,9 @@ export default ({ rootDir, srcDir }) => ({
       `${srcDir}/layouts/**/*.vue`,
       `${srcDir}/pages/**/*.vue`,
       `${srcDir}/plugins/**/*.{js,ts}`,
-      `${rootDir}/nuxt.config.{js,ts}`
+      // Split in two files to avoid watching issues (https://github.com/nuxt-community/tailwindcss-module/issues/359)
+      `${rootDir}/nuxt.config.js`,
+      `${rootDir}/nuxt.config.ts`
     ]
   }
 })
