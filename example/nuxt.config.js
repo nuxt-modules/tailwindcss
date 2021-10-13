@@ -8,7 +8,7 @@ export default {
   components: true,
 
   tailwindcss: {
-    jit: true,
+    mode: 'jit',
     exposeConfig: true
   }
 }
