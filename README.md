@@ -54,15 +54,20 @@ That's it! You can now use Tailwind classes in your Nuxt app ✨
 
 ## Contributing
 
-You can contribute to this module online with CodeSandBox:
-
-[![Edit @nuxtjs/tailwindcss](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nuxt-community/tailwindcss-module/tree/main/?fontsize=14&hidenavigation=1&theme=dark)
-
-Or locally:
-
 1. Clone this repository
-2. Install dependencies using `yarn install` or `npm install`
-3. Start development server using `yarn dev` or `npm run dev`
+2. Install dependencies using `yarn install`
+
+### Nuxt 2
+
+1. `cd playground/nuxt2`
+2. Install dependencies using `yarn install`
+3. Start development server using `yarn dev`
+
+### Nuxt Bridge
+
+1. `cd playground/bridge`
+2. Install dependencies using `yarn install`
+3. Start development server using `yarn dev`
 
 ## License
 

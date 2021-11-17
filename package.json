@@ -16,7 +16,6 @@
   ],
   "scripts": {
     "build": "siroc build",
-    "dev": "nuxt example",
     "docs": "nuxt docs",
     "lint": "eslint --ext .js,.ts,.vue",
     "test": "yarn lint && jest",
@@ -44,7 +43,6 @@
     "codecov": "^3.8.2",
     "eslint": "^8.0.1",
     "jest": "^27.0.5",
-    "nuxt": "^2.15.7",
     "siroc": "^0.9.2",
     "standard-version": "^9.3.0"
   }

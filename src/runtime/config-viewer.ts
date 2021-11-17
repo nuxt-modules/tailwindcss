@@ -1,5 +1,5 @@
 import { withoutTrailingSlash, withTrailingSlash } from 'ufo'
-import createServer from 'tailwind-config-viewer/server'
+import createServer from 'tailwind-config-viewer/server/index.js'
 
 const server = createServer({
   // @ts-ignore

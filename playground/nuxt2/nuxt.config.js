@@ -1,4 +1,4 @@
-import tailwindModule from '../src'
+import tailwindModule from '../../src'
 
 export default {
   buildModules: [
