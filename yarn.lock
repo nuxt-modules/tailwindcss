@@ -9530,12 +9530,12 @@ postcss-custom-media@^7.0.8:
   dependencies:
     postcss "^7.0.14"
 
-postcss-custom-properties@^11.0.0:
-  version "11.0.0"
-  resolved "https://registry.npmjs.org/postcss-custom-properties/-/postcss-custom-properties-11.0.0.tgz"
-  integrity sha512-Fhnx/QLt+CTt23A/KKVx1anZD9nmVpOxKCKv5owWacMoOsBXFhMAD6SZYbmPMH4nHdIeMUnWOvLZnlY4niS0sA==
+postcss-custom-properties@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-custom-properties/-/postcss-custom-properties-12.0.0.tgz#fd01ec9bd1462336ea8af7ba3c1a2c47c203031e"
+  integrity sha512-eAyX3rMjZKxdne6tWKjkWbNWfw6bbv4xTsrjNJ7C3uGDODrzbQXR+ueshRkw7Lhlhc3qyTmYH/sFfD0AbhgdSQ==
   dependencies:
-    postcss-values-parser "^4.0.0"
+    postcss-values-parser "^6"
 
 postcss-custom-properties@^8.0.11:
   version "8.0.11"
@@ -10196,14 +10196,14 @@ postcss-values-parser@^2.0.0, postcss-values-parser@^2.0.1:
     indexes-of "^1.0.1"
     uniq "^1.0.1"
 
-postcss-values-parser@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/postcss-values-parser/-/postcss-values-parser-4.0.0.tgz"
-  integrity sha512-R9x2D87FcbhwXUmoCXJR85M1BLII5suXRuXibGYyBJ7lVDEpRIdKZh4+8q5S+/+A4m0IoG1U5tFw39asyhX/Hw==
+postcss-values-parser@^6:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-values-parser/-/postcss-values-parser-6.0.0.tgz#090e2bf3ef60fdbce90261681a34cf8cb0471adc"
+  integrity sha512-EpjCoM7Ccso7Pn4NY8pcdMyjMULgepDPCgM80xx5M3Kdlb+cd6Pym+Q2ywvqc5ix+CF6/ltdt7XspkVFUkXm3w==
   dependencies:
     color-name "^1.1.4"
     is-url-superb "^4.0.0"
-    postcss "^7.0.5"
+    quote-unquote "^1.0.0"
 
 postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.17, postcss@^7.0.2, postcss@^7.0.27, postcss@^7.0.32, postcss@^7.0.5, postcss@^7.0.6:
   version "7.0.35"
@@ -10466,6 +10466,11 @@ quick-lru@^5.1.1:
   version "5.1.1"
   resolved "https://registry.npmjs.org/quick-lru/-/quick-lru-5.1.1.tgz"
   integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
+
+quote-unquote@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/quote-unquote/-/quote-unquote-1.0.0.tgz#67a9a77148effeaf81a4d428404a710baaac8a0b"
+  integrity sha1-Z6mncUjv/q+BpNQoQEpxC6qsigs=
 
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   version "2.1.0"
