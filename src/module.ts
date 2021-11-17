@@ -11,9 +11,9 @@ import defaultTailwindConfig from './tailwind.config'
 const logger = consola.withScope('nuxt:tailwindcss')
 
 async function tailwindCSSModule(moduleOptions) {
-  // TODO: Ensure using bridge or nuxt 3
-
   const { nuxt } = this
+  // TODO: Ensure using bridge or Nuxt3
+
   const options = defu.arrayFn(moduleOptions, nuxt.options.tailwindcss, {
     configPath: 'tailwind.config.js',
     cssPath: join(nuxt.options.dir.assets, 'css', 'tailwind.css'),
@@ -26,6 +26,10 @@ async function tailwindCSSModule(moduleOptions) {
   const configPath = nuxt.resolver.resolveAlias(options.configPath)
   const cssPath = options.cssPath && nuxt.resolver.resolveAlias(options.cssPath)
   const injectPosition = ~~Math.min(options.injectPosition, (nuxt.options.css || []).length + 1)
+
+  // TODO: Investigate issue with webpack4/core-js
+  nuxt.options.bridge = nuxt.options.bridge || {}
+  nuxt.options.bridge.vite = nuxt.options.bridge.vite ?? true
 
   // Extend postcss config
   // https://tailwindcss.com/docs/using-with-preprocessors#future-css-features
