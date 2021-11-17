@@ -5,45 +5,48 @@
   "repository": "nuxt-community/tailwindcss-module",
   "license": "MIT",
   "exports": {
-    ".": "./dist/index.js",
-    "./src/runtime/*": "./dist/runtime/*",
-    "./package.json": "./package.json"
+    ".": {
+      "import": "./dist/module.mjs"
+    }
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/module.mjs",
+  "types": "./dist/module.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "siroc build",
+    "build": "unbuild",
+    "dev": "nuxi dev playground",
     "docs": "nuxt docs",
     "lint": "eslint --ext .js,.ts,.vue",
-    "test": "yarn lint && jest",
     "prepack": "yarn build",
-    "release": "yarn test && standard-version && git push --follow-tags && npm publish"
+    "release": "yarn test && standard-version && git push --follow-tags && npm publish",
+    "test": "yarn lint && jest"
   },
   "dependencies": {
     "@nuxt/postcss8": "^1.1.3",
-    "autoprefixer": "^10.2.5",
+    "autoprefixer": "^10.4.0",
     "chalk": "^4.1.1",
     "clear-module": "^4.1.1",
     "consola": "^2.15.3",
     "defu": "^5.0.0",
-    "postcss": "^8.3.5",
+    "postcss": "^8.3.11",
     "postcss-custom-properties": "^12.0.0",
-    "postcss-nesting": "^8.0.1",
+    "postcss-nesting": "^10.0.1",
     "tailwind-config-viewer": "^1.6.2",
-    "tailwindcss": "^2.2.2",
-    "ufo": "^0.7.5"
+    "tailwindcss": "^2.2.19",
+    "ufo": "^0.7.9"
   },
   "devDependencies": {
+    "@nuxt/bridge": "latest",
     "@nuxt/test-utils": "^0.2.2",
-    "@nuxtjs/eslint-config-typescript": "^6.0.1",
+    "@nuxtjs/eslint-config-typescript": "^7.0.2",
     "@types/jest": "^27.0.2",
-    "codecov": "^3.8.2",
-    "eslint": "^8.0.1",
-    "jest": "^27.0.5",
-    "siroc": "^0.9.2",
-    "standard-version": "^9.3.0"
+    "codecov": "^3.8.3",
+    "eslint": "^8.2.0",
+    "jest": "^27.3.1",
+    "nuxt-edge": "latest",
+    "standard-version": "^9.3.2",
+    "unbuild": "^0.5.11"
   }
 }

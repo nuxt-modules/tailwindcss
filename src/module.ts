@@ -10,7 +10,9 @@ import defaultTailwindConfig from './tailwind.config'
 
 const logger = consola.withScope('nuxt:tailwindcss')
 
-async function tailwindCSSModule (moduleOptions) {
+async function tailwindCSSModule(moduleOptions) {
+  // TODO: Ensure using bridge or nuxt 3
+
   const { nuxt } = this
   const options = defu.arrayFn(moduleOptions, nuxt.options.tailwindcss, {
     configPath: 'tailwind.config.js',
@@ -33,9 +35,6 @@ async function tailwindCSSModule (moduleOptions) {
       'postcss-custom-properties': {}
     }
   })
-
-  // Require postcss@8
-  await this.addModule('@nuxt/postcss8')
 
   // Include CSS file in project css
   /* istanbul ignore else */
