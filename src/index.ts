@@ -17,11 +17,13 @@ async function tailwindCSSModule (moduleOptions) {
     cssPath: join(nuxt.options.dir.assets, 'css', 'tailwind.css'),
     exposeConfig: false,
     config: defaultTailwindConfig(nuxt.options),
-    viewer: nuxt.options.dev
+    viewer: nuxt.options.dev,
+    injectPosition: 0
   })
 
   const configPath = nuxt.resolver.resolveAlias(options.configPath)
   const cssPath = options.cssPath && nuxt.resolver.resolveAlias(options.cssPath)
+  const injectPosition = ~~Math.min(options.injectPosition, (nuxt.options.css || []).length + 1)
 
   // Extend postcss config
   // https://tailwindcss.com/docs/using-with-preprocessors#future-css-features
@@ -40,9 +42,9 @@ async function tailwindCSSModule (moduleOptions) {
   if (typeof cssPath === 'string') {
     if (existsSync(cssPath)) {
       logger.info(`Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`)
-      nuxt.options.css.unshift(cssPath)
+      nuxt.options.css.splice(injectPosition, 0, cssPath)
     } else {
-      nuxt.options.css.unshift(resolve(__dirname, 'runtime', 'tailwind.css'))
+      nuxt.options.css.splice(injectPosition, 0, resolve(__dirname, 'runtime', 'tailwind.css'))
     }
   }
 
