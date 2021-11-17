@@ -120,31 +120,18 @@ async function tailwindCSSModule(moduleOptions) {
     }
   })
 
-  /*
-   ** Add /_tailwind UI
-   */
+  // Add /_tailwind UI
   /* istanbul ignore if */
   if (nuxt.options.dev && options.viewer) {
-    const path = '/_tailwind/'
-
-    // @ts-ignore
-    process.nuxt = process.nuxt || {}
-    // @ts-ignore
-    process.nuxt.$config = process.nuxt.$config || {}
-    // @ts-ignore
-    process.nuxt.$config.tailwind = {
-      viewerPath: path,
-      getConfig: () => tailwindConfig
+    const runtimeConfig = nuxt.options.privateRuntimeConfig.tailwindcss = {
+      viewerPath: '/_tailwind/',
+      tailwindConfig
     }
-
-    this.addServerMiddleware({ path, handler: require.resolve('./runtime/config-viewer') })
-
-    nuxt.hook('listen', () => {
-      const url = withTrailingSlash(joinURL(nuxt.server.listeners && nuxt.server.listeners[0] ? nuxt.server.listeners[0].url : '/', path))
-      nuxt.options.cli.badgeMessages.push(
-        `Tailwind Viewer: ${chalk.underline.yellow(url)}`
-      )
+    this.addServerMiddleware({
+      path: runtimeConfig.viewerPath,
+      handler: require.resolve('./runtime/config-viewer')
     })
+    consola.info(`Tailwind config viewer is available at ${chalk.underline.yellow(runtimeConfig.viewerPath)}`)
   }
 }
 
