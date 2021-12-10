@@ -38,7 +38,7 @@ describe('tailwindcss module', () => {
 
   test.skip('merged the tailwind default config', () => {
     const nuxt = getNuxt()
-    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain(`${rootDir}/nuxt.config.{js,ts}`)
-    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain('content/**/*.md')
+    expect(nuxt.options.build.postcss.plugins.tailwindcss.content).toContain(`${rootDir}/nuxt.config.{js,ts}`)
+    expect(nuxt.options.build.postcss.plugins.tailwindcss.content).toContain('content/**/*.md')
   })
 })
