@@ -11,7 +11,7 @@ import defaultTailwindConfig from './tailwind.config'
 const logger = consola.withScope('nuxt:tailwindcss')
 
 export interface ModuleHooks {
-  'tailwindcss:config': any // TODO
+  'tailwindcss:config': (tailwindConfig: any) => void
 }
 
 export default defineNuxtModule({
