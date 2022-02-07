@@ -8,13 +8,8 @@
       </h2>
       <div class="flex mt-8 lg:mt-0 lg:shrink-0">
         <div class="inline-flex rounded-md shadow">
-          <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700">
-            Get started
-          </a>
-        </div>
-        <div class="inline-flex ml-3 rounded-md shadow">
-          <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-indigo-600 bg-white border border-transparent rounded-md hover:bg-indigo-50">
-            Learn more
+          <a href="/_tailwind" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700">
+            Open Tailwind Config Viewer
           </a>
         </div>
       </div>
