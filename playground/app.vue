@@ -3,7 +3,9 @@
     <div>
       <CallToAction />
     </div>
-    <pre>{{ JSON.stringify(tailwindConfig, null, 2) }}</pre>
+    <div class="p-4">
+      <pre>{{ JSON.stringify(tailwindConfig, null, 2) }}</pre>
+    </div>
   </div>
 </template>
 
