@@ -1,0 +1,11 @@
+{
+  "private": "true",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build"
+  },
+  "dependencies": {
+    "nuxt-edge": "latest",
+    "@nuxt/bridge": "npm:@nuxt/bridge-edge@latest"
+  }
+}
