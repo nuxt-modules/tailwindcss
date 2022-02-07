@@ -8,7 +8,7 @@
 [![Codecov][codecov-src]][codecov-href]
 [![License][license-src]][license-href]
 
-> [Tailwind CSS](https://tailwindcss.com) module for [NuxtJS](https://nuxtjs.org) with [modern css](https://tailwindcss.com/docs/using-with-preprocessors#future-css-features) ⚡️
+> [Tailwind CSS](https://tailwindcss.com) module for [Nuxt](https://nuxtjs.org) with [modern css](https://tailwindcss.com/docs/using-with-preprocessors#future-css-features) ⚡️
 
 - [✨ &nbsp;Release Notes](https://tailwindcss.nuxtjs.org/releases)
 - [📖 &nbsp;Documentation](https://tailwindcss.nuxtjs.org)
@@ -20,6 +20,7 @@
 - 🎨&nbsp; Discover your Tailwind Colors *([see video](https://tailwindcss.nuxtjs.org/#tailwind-colors))*
 - ⚙️&nbsp; Reference your Tailwind config in your app
 - 📦&nbsp; Extendable by [Nuxt modules](https://modules.nuxtjs.org/)
+- 🚀&nbsp; Nuxt 3 support
 
 [📖 &nbsp;Read more](https://tailwindcss.nuxtjs.org)
 
@@ -28,23 +29,22 @@
 1. Add `@nuxtjs/tailwindcss` dependency to your project
 
 ```bash
-# Using npm
-npm install --save-dev @nuxtjs/tailwindcss
 # Using yarn
 yarn add --dev @nuxtjs/tailwindcss
+
+# Using npm
+npm install --save-dev @nuxtjs/tailwindcss
 ```
 
-2. Add `@nuxtjs/tailwindcss` to the `buildModules` section of `nuxt.config.js`
+2. Add `@nuxtjs/tailwindcss` to the `modules` section of `nuxt.config.js`
 
 ```js
 {
-  buildModules: [
+  modules: [
     '@nuxtjs/tailwindcss'
   ]
 }
 ```
-
-ℹ️ If you are using `nuxt < 2.9.0`, use `modules` property instead.
 
 That's it! You can now use Tailwind classes in your Nuxt app ✨
 
@@ -59,14 +59,14 @@ You can contribute to this module online with CodeSandBox:
 Or locally:
 
 1. Clone this repository
-2. Install dependencies using `yarn install` or `npm install`
-3. Start development server using `yarn dev` or `npm run dev`
+2. Install dependencies using `yarn install`
+3. Start development server using `yarn dev`
 
 ## License
 
 [MIT License](./LICENSE)
 
-Copyright (c) Nuxt.js Team
+Copyright (c) Nuxt Community
 
 <!-- Badges -->
 [npm-version-src]: https://img.shields.io/npm/v/@nuxtjs/tailwindcss/latest.svg
