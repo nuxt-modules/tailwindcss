@@ -1,9 +1,13 @@
 {
+  "extends": "./playground/.nuxt/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "types": ["node", "jest"]
+    "types": [
+      "node",
+      "jest"
+    ]
   }
 }
