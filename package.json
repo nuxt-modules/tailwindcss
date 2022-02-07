@@ -32,7 +32,7 @@
     "defu": "^5.0.0",
     "postcss": "^8.4.4",
     "postcss-custom-properties": "^12.0.0",
-    "postcss-nesting": "^8.0.1",
+    "postcss-nesting": "^10.1.2",
     "tailwind-config-viewer": "^1.6.2",
     "tailwindcss": "^3.0.1",
     "ufo": "^0.7.5"
