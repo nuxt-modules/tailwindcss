@@ -1,4 +1,4 @@
-import { join, resolve, relative } from 'path'
+import { join, relative } from 'path'
 import { existsSync } from 'fs'
 import defu from 'defu'
 import chalk from 'chalk'
