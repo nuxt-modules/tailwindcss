@@ -1,10 +1,10 @@
-import tailwindModule from '../src'
+import tailwindModule from '../src/module'
 
 export default {
+  components: true,
   buildModules: [
     tailwindModule
   ],
-  components: true,
   tailwindcss: {
     exposeConfig: true
   }
