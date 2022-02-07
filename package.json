@@ -23,7 +23,7 @@
     "prepack": "yarn build",
     "prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
-    "test": "yarn lint && jest"
+    "test": "yarn lint"
   },
   "dependencies": {
     "@nuxt/kit": "npm:@nuxt/kit-edge@latest",
@@ -44,10 +44,8 @@
     "@nuxt/module-builder": "latest",
     "@nuxt/test-utils": "latest",
     "@nuxtjs/eslint-config-typescript": "latest",
-    "@types/jest": "latest",
     "codecov": "latest",
     "eslint": "latest",
-    "jest": "latest",
     "nuxt3": "latest",
     "standard-version": "latest"
   }
