@@ -1,3 +1,1 @@
-export default {
-  mode: 'jit'
-}
+export default {}

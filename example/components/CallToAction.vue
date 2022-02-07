@@ -6,7 +6,7 @@
         <span class="block">Ready to dive in?</span>
         <span class="block text-indigo-600">Start your free trial today.</span>
       </h2>
-      <div class="flex mt-8 lg:mt-0 lg:flex-shrink-0">
+      <div class="flex mt-8 lg:mt-0 lg:shrink-0">
         <div class="inline-flex rounded-md shadow">
           <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700">
             Get started

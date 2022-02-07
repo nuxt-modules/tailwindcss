@@ -16,8 +16,6 @@
 ## Features
 
 - 👌&nbsp; Zero configuration to start *([see video](https://tailwindcss.nuxtjs.org/#quick-start))*
-- 🗜&nbsp; PurgeCSS included for minimal CSS ⚡️
-- ⚡️&nbsp; Supports [Tailwind Just-In-Time](https://github.com/tailwindlabs/tailwindcss-jit)
 - 🪄&nbsp; Includes [CSS Nesting](https://drafts.csswg.org/css-nesting-1/) with [postcss-nesting](https://github.com/csstools/postcss-nesting)
 - 🎨&nbsp; Discover your Tailwind Colors *([see video](https://tailwindcss.nuxtjs.org/#tailwind-colors))*
 - ⚙️&nbsp; Reference your Tailwind config in your app

@@ -56,7 +56,7 @@ async function tailwindCSSModule (moduleOptions) {
     logger.info(`Merging Tailwind config from ~/${relative(this.options.srcDir, configPath)}`)
     // Transform purge option from Array to object with { content }
     if (Array.isArray(tailwindConfig.purge)) {
-      tailwindConfig.purge = { content: tailwindConfig.purge }
+      tailwindConfig.content = tailwindConfig.purge
     }
   }
   // Merge with our default purgecss default
@@ -83,13 +83,13 @@ async function tailwindCSSModule (moduleOptions) {
     tailwindConfig._hash = String(Date.now())
 
     if (options.jit === true) {
-      logger.warn('`tailwindcss.jit` option had been deprecated in favour of tailwind config `mode: \'jit\'`')
-      tailwindConfig.mode = 'jit'
+      logger.warn('`tailwindcss.jit` option is unnecessary as it\'s now the default')
     }
 
-    if (tailwindConfig.mode === 'jit') {
-      logger.info('Tailwind JIT activated')
+    if (options.mode === 'jit') {
+      logger.warn('`tailwindcss.mode: \'jit\'` option is unnecessary as it\'s now the default')
     }
+
     nuxt.options.build.postcss.plugins.tailwindcss = tailwindConfig
 
     /*

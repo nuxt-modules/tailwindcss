@@ -11,10 +11,11 @@
   "license": "MIT",
   "homepage": "https://tailwindcss.nuxtjs.org",
   "devDependencies": {
+    "autoprefixer": "^10.4.0",
     "docus": "^0.1.5",
     "nuxt": "^2.15.4",
-    "postcss": "^8.2.9",
-    "tailwindcss": "^2.0.4",
+    "postcss": "^8.4.4",
+    "tailwindcss": "^3.0.1",
     "vue-plausible": "^1.1.4"
   }
 }
