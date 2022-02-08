@@ -10,12 +10,9 @@
 
 > [Tailwind CSS](https://tailwindcss.com) module for [Nuxt](https://nuxtjs.org) with [modern css](https://tailwindcss.com/docs/using-with-preprocessors#future-css-features) ⚡️
 
-- [✨ &nbsp;Release Notes](https://tailwindcss.nuxtjs.org/releases)
+- [✨ &nbsp;Release Notes](https://github.com/nuxt-community/tailwindcss-module/releases)
+- [▶️ Play online](https://stackblitz.com/edit/nuxt-starter-rnulzp?file=app.vue)
 - [📖 &nbsp;Documentation](https://tailwindcss.nuxtjs.org)
-
-## Nuxt 3
-
-You can use Tailwind 3 with Nuxt 3 using the v5 (pre-release), feedback welcome 👉 https://github.com/nuxt-community/tailwindcss-module/releases/tag/v5.0.0-0
 
 ## Features
 
@@ -24,7 +21,7 @@ You can use Tailwind 3 with Nuxt 3 using the v5 (pre-release), feedback welcome 
 - 🎨&nbsp; Discover your Tailwind Colors *([see video](https://tailwindcss.nuxtjs.org/#tailwind-colors))*
 - ⚙️&nbsp; Reference your Tailwind config in your app
 - 📦&nbsp; Extendable by [Nuxt modules](https://modules.nuxtjs.org/)
-- 🚀&nbsp; Nuxt 3 support
+- 🚀&nbsp; [Nuxt 3](https://v3.nuxtjs.org) support
 
 [📖 &nbsp;Read more](https://tailwindcss.nuxtjs.org)
 
