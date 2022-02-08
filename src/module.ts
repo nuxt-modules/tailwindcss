@@ -4,7 +4,17 @@ import defu from 'defu'
 import chalk from 'chalk'
 import { withTrailingSlash } from 'ufo'
 import consola from 'consola'
-import { defineNuxtModule, installModule, addTemplate, addServerMiddleware, resolveAlias, requireModule, isNuxt2, createResolver } from '@nuxt/kit'
+import {
+  defineNuxtModule,
+  installModule,
+  addTemplate,
+  addServerMiddleware,
+  resolveAlias,
+  requireModule,
+  isNuxt2,
+  createResolver,
+  resolvePath
+} from '@nuxt/kit'
 import { name, version } from '../package.json'
 import defaultTailwindConfig from './tailwind.config'
 
@@ -29,9 +39,7 @@ export default defineNuxtModule({
     injectPosition: 0
   }),
   async setup (moduleOptions, nuxt) {
-    const resolver = createResolver(import.meta.url)
-
-    const configPath = resolveAlias(moduleOptions.configPath)
+    const configPath = await resolvePath(moduleOptions.configPath)
     const cssPath = moduleOptions.cssPath && resolveAlias(moduleOptions.cssPath)
     const injectPosition = ~~Math.min(moduleOptions.injectPosition, (nuxt.options.css || []).length + 1)
 
@@ -41,6 +49,7 @@ export default defineNuxtModule({
         logger.info(`Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`)
         nuxt.options.css.splice(injectPosition, 0, cssPath)
       } else {
+        const resolver = createResolver(import.meta.url)
         nuxt.options.css.splice(injectPosition, 0, resolver.resolve('runtime/tailwind.css'))
       }
     }
