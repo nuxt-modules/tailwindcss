@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0-3](https://github.com/nuxt-community/tailwindcss-module/compare/v5.0.0-2...v5.0.0-3) (2022-02-08)
+
+
+### Bug Fixes
+
+* properly resolve `tailwind.config` (resolves [#425](https://github.com/nuxt-community/tailwindcss-module/issues/425)) ([7a7a5f6](https://github.com/nuxt-community/tailwindcss-module/commit/7a7a5f698f82d1c49360a41d6a4e9aa431aed0c1))
+
 ## [5.0.0-2](https://github.com/nuxt-community/tailwindcss-module/compare/v5.0.0-1...v5.0.0-2) (2022-02-08)
 
 
