@@ -21,7 +21,7 @@
     "docs": "nuxt docs",
     "lint": "eslint --ext .js,.ts,.vue",
     "prepack": "yarn build",
-    "prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "dev:setup": "nuxt-module-build --stub && nuxi prepare playground",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
     "test": "yarn lint"
   },
