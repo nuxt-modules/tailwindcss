@@ -13,6 +13,10 @@
 - [✨ &nbsp;Release Notes](https://tailwindcss.nuxtjs.org/releases)
 - [📖 &nbsp;Documentation](https://tailwindcss.nuxtjs.org)
 
+## Nuxt 3
+
+You can use Tailwind 3 with Nuxt 3 using the v5 (pre-release), feedback welcome 👉 https://github.com/nuxt-community/tailwindcss-module/releases/tag/v5.0.0-0
+
 ## Features
 
 - 👌&nbsp; Zero configuration to start *([see video](https://tailwindcss.nuxtjs.org/#quick-start))*
