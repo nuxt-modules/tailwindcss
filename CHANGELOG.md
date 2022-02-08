@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0-0](https://github.com/nuxt-community/tailwindcss-module/compare/v4.2.1...v5.0.0-0) (2022-02-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* rewrite with module-builder and nuxt/kit (#419)
+
+### Features
+
+* add css inject position ([#381](https://github.com/nuxt-community/tailwindcss-module/issues/381)) ([4510784](https://github.com/nuxt-community/tailwindcss-module/commit/45107842bb08556b7383dd6b51cf74b6d2dd4a24))
+* migrate to tailwind v3 ([#407](https://github.com/nuxt-community/tailwindcss-module/issues/407)) ([eacaa5e](https://github.com/nuxt-community/tailwindcss-module/commit/eacaa5e167887f729611f9cc6330e44df99c71c5))
+
+
+* rewrite with module-builder and nuxt/kit ([#419](https://github.com/nuxt-community/tailwindcss-module/issues/419)) ([8ce8255](https://github.com/nuxt-community/tailwindcss-module/commit/8ce8255daa83f34361292e896dda6addca694587))
+
 ## [4.2.0](https://github.com/nuxt-community/tailwindcss-module/compare/v4.1.3...v4.2.0) (2021-06-22)
 
 
