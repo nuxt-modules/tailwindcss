@@ -104,7 +104,7 @@ export default defineNuxtModule({
     // Add _tailwind config viewer endpoint
     if (nuxt.options.dev && moduleOptions.viewer) {
       const path = '/_tailwind/'
-      const createServer = await import('tailwind-config-viewer/server/index.js')
+      const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r)
       const { withoutTrailingSlash } = await import('ufo')
       const _viewerDevMiddleware = createServer({ tailwindConfigProvider: () => tailwindConfig }).asMiddleware()
       const viewerDevMiddleware = (req, res) => {
