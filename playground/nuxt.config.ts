@@ -1,5 +1,5 @@
 import { defineNuxtConfig } from 'nuxt3'
-import tailwindModule from '../src/module'
+import tailwindModule from '..'
 
 export default defineNuxtConfig({
   // vite: false,
