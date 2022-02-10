@@ -71,7 +71,7 @@ export default defineNuxtModule({
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
-      const resolveConfig = await import('tailwindcss/resolveConfig').then(r => r.default || r)
+      const resolveConfig = await import('tailwindcss/resolveConfig.js').then(r => r.default || r)
       const resolvedConfig = resolveConfig(tailwindConfig)
       const template = addTemplate({
         filename: 'tailwind.config.mjs',
