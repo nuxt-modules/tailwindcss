@@ -61,7 +61,8 @@ Or locally:
 
 1. Clone this repository
 2. Install dependencies using `yarn install`
-3. Start development server using `yarn dev`
+3. Prepare for development using `yarn dev:prepare`
+4. Start development server using `yarn dev`
 
 ## License
 
