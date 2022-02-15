@@ -2,7 +2,7 @@ import { join, relative } from 'path'
 import { existsSync } from 'fs'
 import defu from 'defu'
 import chalk from 'chalk'
-import { withTrailingSlash } from 'ufo'
+import { joinURL, withTrailingSlash } from 'ufo'
 import consola from 'consola'
 import {
   defineNuxtModule,
@@ -124,7 +124,14 @@ export default defineNuxtModule({
         _viewerDevMiddleware(req, res)
       }
       addServerMiddleware({ path, handler: viewerDevMiddleware })
-      nuxt.hook('listen', () => { logger.info(`Tailwind Viewer: ${chalk.underline.yellow(path)}`) })
+      nuxt.hook('listen', (_, listener) => {
+        const url = withTrailingSlash(joinURL(listener.url, path))
+        if (isNuxt2() && !(nuxt.options as any).bridge) {
+          nuxt.options.cli.badgeMessages.push(`Tailwind Viewer: ${chalk.underline.yellow(url)}`)
+        } else {
+          logger.info(`Tailwind Viewer: ${chalk.underline.yellow(url)}`)
+        }
+      })
     }
   }
 })
