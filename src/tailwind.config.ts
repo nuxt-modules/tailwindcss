@@ -8,6 +8,7 @@ export default ({ srcDir }) => ({
     `${srcDir}/components/**/*.{vue,js,ts}`,
     `${srcDir}/layouts/**/*.vue`,
     `${srcDir}/pages/**/*.vue`,
+    `${srcDir}/composables/**/*.{js,ts}`,
     `${srcDir}/plugins/**/*.{js,ts}`,
     `${srcDir}/App.{js,ts,vue}`,
     `${srcDir}/app.{js,ts,vue}`
