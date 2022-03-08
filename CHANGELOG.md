@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/nuxt-community/tailwindcss-module/compare/v5.0.0-4...v5.0.0) (2022-03-08)
+
+
+### Bug Fixes
+
+* add composables directory to content ([c36333a](https://github.com/nuxt-community/tailwindcss-module/commit/c36333a827af6c385a23647fb9bd381b69b8c77a))
+
 ## [5.0.0-4](https://github.com/nuxt-community/tailwindcss-module/compare/v5.0.0-3...v5.0.0-4) (2022-02-10)
 
 
