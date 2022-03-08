@@ -17,11 +17,11 @@
   ],
   "scripts": {
     "build": "nuxt-module-build",
+    "dev:setup": "nuxt-module-build --stub && nuxi prepare playground",
     "dev": "nuxt dev playground",
     "docs": "nuxt docs",
     "lint": "eslint --ext .js,.ts,.vue",
     "prepack": "yarn build",
-    "dev:setup": "nuxt-module-build --stub && nuxi prepare playground",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
     "test": "yarn lint"
   },
