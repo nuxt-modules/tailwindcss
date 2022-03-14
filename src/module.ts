@@ -94,20 +94,16 @@ export default defineNuxtModule({
 
     // Setup postcss plugins
     // https://tailwindcss.com/docs/using-with-preprocessors#future-css-features
-    const postcssPlugins = {
-      'postcss-nesting': {},
-      'postcss-custom-properties': {},
-      tailwindcss: tailwindConfig
-    }
+    const postcssOptions =
+      nuxt.options.postcss || /* nuxt 3 */
+      nuxt.options.build.postcss.postcssOptions || /* older nuxt3 */
+      nuxt.options.build.postcss as any
+    postcssOptions.plugins['tailwindcss/nesting'] = postcssOptions.plugins['tailwindcss/nesting'] ?? {}
+    postcssOptions.plugins['postcss-custom-properties'] = postcssOptions.plugins['postcss-custom-properties'] ?? {}
+    postcssOptions.plugins.tailwindcss = tailwindConfig
 
     if (isNuxt2()) {
-      const postcssOptions = nuxt.options.build.postcss as any
-      postcssOptions.plugins = defu(postcssOptions.plugins, postcssPlugins)
       await installModule('@nuxt/postcss8')
-    } else {
-      const postcssOptions = nuxt.options.build.postcss.postcssOptions
-      postcssOptions.plugins = postcssOptions.plugins || {}
-      postcssOptions.plugins = defu(postcssOptions.plugins, postcssPlugins)
     }
 
     // Add _tailwind config viewer endpoint
