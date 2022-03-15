@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.1](https://github.com/nuxt-community/tailwindcss-module/compare/v5.0.0...v5.0.1) (2022-03-15)
+
+
+### Bug Fixes
+
+* append to postcss options and use new nuxt 3 schema ([#437](https://github.com/nuxt-community/tailwindcss-module/issues/437)) ([fed1c31](https://github.com/nuxt-community/tailwindcss-module/commit/fed1c311a0b6ea4f7d37d5367ceedd2d36e84ab9))
+* enable `postcss-nesting` by default ([bac29b4](https://github.com/nuxt-community/tailwindcss-module/commit/bac29b4c59acd06dc7a4ba6a7440105131de49c7))
+
 ## [5.0.0](https://github.com/nuxt-community/tailwindcss-module/compare/v5.0.0-4...v5.0.0) (2022-03-08)
 
 
