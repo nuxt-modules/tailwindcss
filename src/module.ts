@@ -31,7 +31,7 @@ export default defineNuxtModule({
     configKey: 'tailwindcss'
   },
   defaults: nuxt => ({
-    configPath: 'tailwind.config.js',
+    configPath: 'tailwind.config',
     cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
     config: defaultTailwindConfig(nuxt.options),
     viewer: true,
@@ -58,6 +58,9 @@ export default defineNuxtModule({
     let tailwindConfig: any = {}
     if (existsSync(configPath)) {
       tailwindConfig = requireModule(configPath, { clearCache: true })
+      if (typeof tailwindConfig === "function") {
+          tailwindConfig = tailwindConfig(nuxt.options);
+      }
       logger.info(`Merging Tailwind config from ~/${relative(nuxt.options.srcDir, configPath)}`)
       // Transform purge option from Array to object with { content }
       if (Array.isArray(tailwindConfig.purge)) {
