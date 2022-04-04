@@ -1,9 +1,9 @@
-import { join, relative } from "path";
-import { existsSync } from "fs";
-import defu from "defu";
-import chalk from "chalk";
-import { withTrailingSlash } from "ufo";
-import consola from "consola";
+import { join, relative } from 'path';
+import { existsSync } from 'fs';
+import defu from 'defu';
+import chalk from 'chalk';
+import { withTrailingSlash } from 'ufo';
+import consola from 'consola';
 import {
   defineNuxtModule,
   installModule,
@@ -14,25 +14,25 @@ import {
   isNuxt2,
   createResolver,
   resolvePath,
-} from "@nuxt/kit";
-import { name, version } from "../package.json";
-import defaultTailwindConfig from "./tailwind.config";
+} from '@nuxt/kit';
+import { name, version } from '../package.json';
+import defaultTailwindConfig from './tailwind.config';
 
-const logger = consola.withScope("nuxt:tailwindcss");
+const logger = consola.withScope('nuxt:tailwindcss');
 
 export interface ModuleHooks {
-  "tailwindcss:config": (tailwindConfig: any) => void;
+  'tailwindcss:config': (tailwindConfig: any) => void;
 }
 
 export default defineNuxtModule({
   meta: {
     name,
     version,
-    configKey: "tailwindcss",
+    configKey: 'tailwindcss',
   },
   defaults: (nuxt) => ({
-    configPath: "tailwind.config.js",
-    cssPath: join(nuxt.options.dir.assets, "css/tailwind.css"),
+    configPath: 'tailwind.config.js',
+    cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
     config: defaultTailwindConfig(nuxt.options),
     viewer: true,
     exposeConfig: false,
@@ -48,7 +48,7 @@ export default defineNuxtModule({
     );
 
     // Include CSS file in project css
-    if (typeof cssPath === "string") {
+    if (typeof cssPath === 'string') {
       if (existsSync(cssPath)) {
         logger.info(
           `Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`
@@ -59,7 +59,7 @@ export default defineNuxtModule({
         nuxt.options.css.splice(
           injectPosition,
           0,
-          resolver.resolve("runtime/tailwind.css")
+          resolver.resolve('runtime/tailwind.css')
         );
       }
     }
@@ -86,16 +86,16 @@ export default defineNuxtModule({
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
-      const resolveConfig = await import("tailwindcss/resolveConfig.js").then(
+      const resolveConfig = await import('tailwindcss/resolveConfig.js').then(
         (r) => r.default || r
       );
       const resolvedConfig = resolveConfig(tailwindConfig);
       const template = addTemplate({
-        filename: "tailwind.config.mjs",
+        filename: 'tailwind.config.mjs',
         getContents: () =>
           `export default ${JSON.stringify(resolvedConfig, null, 2)}`,
       });
-      nuxt.options.alias["#tailwind-config"] = template.dst;
+      nuxt.options.alias['#tailwind-config'] = template.dst;
     }
 
     // Watch the Tailwind config file to restart the server
@@ -105,7 +105,7 @@ export default defineNuxtModule({
 
     // Allow extending tailwindcss config by other modules
     // @ts-ignore
-    await nuxt.callHook("tailwindcss:config", tailwindConfig);
+    await nuxt.callHook('tailwindcss:config', tailwindConfig);
 
     // Compute tailwindConfig hash
     tailwindConfig._hash = String(Date.now());
@@ -117,23 +117,23 @@ export default defineNuxtModule({
       nuxt.options.build.postcss.postcssOptions /* older nuxt3 */ ||
       (nuxt.options.build.postcss as any);
     postcssOptions.plugins = postcssOptions.plugins || {};
-    postcssOptions.plugins["tailwindcss/nesting"] =
-      postcssOptions.plugins["tailwindcss/nesting"] ?? {};
-    postcssOptions.plugins["postcss-custom-properties"] =
-      postcssOptions.plugins["postcss-custom-properties"] ?? {};
+    postcssOptions.plugins['tailwindcss/nesting'] =
+      postcssOptions.plugins['tailwindcss/nesting'] ?? {};
+    postcssOptions.plugins['postcss-custom-properties'] =
+      postcssOptions.plugins['postcss-custom-properties'] ?? {};
     postcssOptions.plugins.tailwindcss = tailwindConfig;
 
     if (isNuxt2()) {
-      await installModule("@nuxt/postcss8");
+      await installModule('@nuxt/postcss8');
     }
 
     // Add _tailwind config viewer endpoint
     if (nuxt.options.dev && moduleOptions.viewer) {
-      const path = "/_tailwind/";
+      const path = '/_tailwind/';
       const createServer = await import(
-        "tailwind-config-viewer/server/index.js"
+        'tailwind-config-viewer/server/index.js'
       ).then((r) => r.default || r);
-      const { withoutTrailingSlash } = await import("ufo");
+      const { withoutTrailingSlash } = await import('ufo');
       const _viewerDevMiddleware = createServer({
         tailwindConfigProvider: () => tailwindConfig,
       }).asMiddleware();
@@ -146,7 +146,7 @@ export default defineNuxtModule({
       };
       addServerMiddleware({ path, handler: viewerDevMiddleware });
 
-      nuxt.hook("listen", () => {
+      nuxt.hook('listen', () => {
         const fullPath = `http://localhost:3000${path}`;
         logger.info(`Tailwind Viewer: ${chalk.underline.yellow(fullPath)}`);
       });
