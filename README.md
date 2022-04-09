@@ -74,7 +74,7 @@ Copyright (c) Nuxt Community
 [npm-version-src]: https://img.shields.io/npm/v/@nuxtjs/tailwindcss/latest.svg
 [npm-version-href]: https://npmjs.com/package/@nuxtjs/tailwindcss
 
-[npm-downloads-src]: https://img.shields.io/npm/dt/@nuxtjs/tailwindcss.svg
+[npm-downloads-src]: https://img.shields.io/npm/dm/@nuxtjs/tailwindcss.svg
 [npm-downloads-href]: https://npmjs.com/package/@nuxtjs/tailwindcss
 
 [github-actions-ci-src]: https://github.com/nuxt-community/tailwindcss-module/workflows/ci/badge.svg
