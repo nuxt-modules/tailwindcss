@@ -121,7 +121,10 @@ export default defineNuxtModule({
         _viewerDevMiddleware(req, res)
       }
       addServerMiddleware({ path, handler: viewerDevMiddleware })
-      nuxt.hook('listen', () => { logger.info(`Tailwind Viewer: ${chalk.underline.yellow(path)}`) })
+      nuxt.hook('listen', (_, listener) => {
+        const fullPath = `${withoutTrailingSlash(listener.url)}${path}`;
+        logger.info(`Tailwind Viewer: ${chalk.underline.yellow(fullPath)}`);
+      });
     }
   }
 })
