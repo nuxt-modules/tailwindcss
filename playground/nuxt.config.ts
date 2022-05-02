@@ -1,8 +1,7 @@
-import { defineNuxtConfig } from 'nuxt3'
-import tailwindModule from '../src/module'
+import { defineNuxtConfig } from 'nuxt'
+import tailwindModule from '..'
 
 export default defineNuxtConfig({
-  // vite: false,
   buildModules: [
     tailwindModule
   ],
