@@ -2,7 +2,6 @@ import { join, relative } from 'path'
 import { existsSync } from 'fs'
 import defu from 'defu'
 import chalk from 'chalk'
-import { withTrailingSlash } from 'ufo'
 import consola from 'consola'
 import {
   defineNuxtModule,
@@ -109,23 +108,22 @@ export default defineNuxtModule({
 
     // Add _tailwind config viewer endpoint
     if (nuxt.options.dev && moduleOptions.viewer) {
-      const path = '/_tailwind/'
-      const prefix = "/_tailwind"
+      const route = '/_tailwind'
       const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r)
-      const { withoutTrailingSlash } = await import('ufo')
-      const _viewerDevMiddleware = createServer({ tailwindConfigProvider: () => tailwindConfig, routerPrefix : prefix }).asMiddleware()
+      const { withTrailingSlash, withoutTrailingSlash } = await import('ufo')
+      const _viewerDevMiddleware = createServer({ tailwindConfigProvider: () => tailwindConfig, routerPrefix: route }).asMiddleware()
       const viewerDevMiddleware = (req, res) => {
-        if (req.originalUrl === withoutTrailingSlash(path)) {
+        if (req.originalUrl === withoutTrailingSlash(route)) {
           res.writeHead(301, { Location: withTrailingSlash(req.originalUrl) })
-          res.end()
+          return res.end()
         }
         _viewerDevMiddleware(req, res)
       }
-      addServerMiddleware({ path, handler: viewerDevMiddleware })
+      addServerMiddleware({ route, handler: viewerDevMiddleware })
       nuxt.hook('listen', (_, listener) => {
-        const fullPath = `${withoutTrailingSlash(listener.url)}${path}`;
-        logger.info(`Tailwind Viewer: ${chalk.underline.yellow(fullPath)}`);
-      });
+        const viewerUrl = `${withoutTrailingSlash(listener.url)}${route}`
+        logger.info(`Tailwind Viewer: ${chalk.underline.yellow(withTrailingSlash(viewerUrl))}`)
+      })
     }
   }
 })
