@@ -39,7 +39,7 @@ export default defineNuxtModule({
   }),
   async setup (moduleOptions, nuxt) {
     const configPath = await resolvePath(moduleOptions.configPath)
-    const cssPath = moduleOptions.cssPath && await resolvePath(moduleOptions.cssPath)
+    const cssPath = await resolvePath(moduleOptions.cssPath, { extensions: ['.css', '.sass', '.scss', '.less', '.styl'] })
     const injectPosition = ~~Math.min(moduleOptions.injectPosition, (nuxt.options.css || []).length + 1)
 
     // Include CSS file in project css
