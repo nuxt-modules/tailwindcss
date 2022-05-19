@@ -47,7 +47,7 @@
     "@nuxtjs/eslint-config-typescript": "latest",
     "codecov": "latest",
     "eslint": "latest",
-    "nuxt": "^3.0.0-rc.2",
+    "nuxt": "^3.0.0-rc.3",
     "standard-version": "latest"
   }
 }
