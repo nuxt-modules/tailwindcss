@@ -1,6 +1,6 @@
 import { join, relative } from 'path'
 import { existsSync } from 'fs'
-import defu from 'defu'
+import { defuArrayFn } from 'defu'
 import chalk from 'chalk'
 import { withTrailingSlash } from 'ufo'
 import consola from 'consola'
@@ -8,7 +8,7 @@ import {
   defineNuxtModule,
   installModule,
   addTemplate,
-  addServerMiddleware,
+  addDevServerHandler,
   requireModule,
   isNuxt2,
   createResolver,
@@ -66,7 +66,7 @@ export default defineNuxtModule({
     }
 
     // Merge with our default purgecss default
-    tailwindConfig = defu.arrayFn(tailwindConfig, moduleOptions.config)
+    tailwindConfig = defuArrayFn(tailwindConfig, moduleOptions.config)
 
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
@@ -125,7 +125,7 @@ export default defineNuxtModule({
         }
         _viewerDevMiddleware(req, res)
       }
-      addServerMiddleware({ route, handler: viewerDevMiddleware })
+      addDevServerHandler({ route, handler: viewerDevMiddleware })
       nuxt.hook('listen', (_, listener) => {
         const fullPath = `${withoutTrailingSlash(listener.url)}${route}`
         logger.info(`Tailwind Viewer: ${chalk.underline.yellow(fullPath)}`)

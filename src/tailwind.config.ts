@@ -11,7 +11,7 @@ export default ({ srcDir }) => ({
     `${srcDir}/composables/**/*.{js,ts}`,
     `${srcDir}/plugins/**/*.{js,ts}`,
     `${srcDir}/App.{js,ts,vue}`,
-    `${srcDir}/app.{js,ts,vue}`
+    `${srcDir}/app.{js,ts,vue}`,
     `${srcDir}/Error.{js,ts,vue}`,
     `${srcDir}/error.{js,ts,vue}`
     // TODO: This makes issues with import protection
