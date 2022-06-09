@@ -19,7 +19,6 @@
     "build": "nuxt-module-build",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "dev": "nuxt dev playground",
-    "docs:dev": "(cd docs && nuxi dev)",
     "lint": "eslint --ext .js,.ts,.vue",
     "prepack": "yarn build",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
