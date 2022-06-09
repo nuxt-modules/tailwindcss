@@ -3,7 +3,8 @@
     "@nuxtjs"
   ],
   "ignoreDeps": [
-    "docus",
+    "@docus/docs-theme",
+    "@docus/github",
     "nuxt",
     "vue-plausible"
   ]
