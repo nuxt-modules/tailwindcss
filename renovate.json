@@ -1,11 +1,5 @@
 {
   "extends": [
     "@nuxtjs"
-  ],
-  "ignoreDeps": [
-    "@docus/docs-theme",
-    "@docus/github",
-    "nuxt",
-    "vue-plausible"
   ]
 }
