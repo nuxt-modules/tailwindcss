@@ -9,11 +9,6 @@ export default defineNuxtConfig({
     branch: 'main'
   },
   theme: {},
-  content: {
-    navigation: {
-      fields: ['exact']
-    }
-  },
   modules: ['@nuxthq/admin', '@docus/github', 'vue-plausible'],
   plausible: {
     domain: 'tailwindcss.nuxtjs.org'
