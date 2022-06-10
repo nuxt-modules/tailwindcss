@@ -1,4 +1,4 @@
-title: "Nuxt Tailwind CSS"
+title: "Nuxt Tailwind"
 
 layout: docs
 
@@ -11,9 +11,6 @@ socials:
   github: "nuxt-community/tailwindcss-module"
 
 debug: false
-
-colors:
-  primary: "#38b2ac"
 
 github:
   root: docs/content
