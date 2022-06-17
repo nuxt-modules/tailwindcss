@@ -17,7 +17,9 @@ github:
   edit: true
   releases: true
 
-cover: false
+cover:
+  src: /cover.jpg
+  alt: A screenshot of the Nuxt Tailwind module.
 
 header:
   title: false
