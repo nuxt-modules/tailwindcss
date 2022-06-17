@@ -1,4 +1,4 @@
-[![@nuxtjs/tailwindcss](https://tailwindcss.nuxtjs.org/preview.png)](https://tailwindcss.nuxtjs.org)
+[![@nuxtjs/tailwindcss](https://tailwindcss.nuxtjs.org/cover.jpg)](https://tailwindcss.nuxtjs.org)
 
 # @nuxtjs/tailwindcss
 
