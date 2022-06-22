@@ -1,6 +1,6 @@
 import { join, relative } from 'path'
 import { existsSync } from 'fs'
-import defu from 'defu'
+import { defuArrayFn } from 'defu'
 import chalk from 'chalk'
 import consola from 'consola'
 import {
@@ -65,7 +65,7 @@ export default defineNuxtModule({
     }
 
     // Merge with our default purgecss default
-    tailwindConfig = defu.arrayFn(tailwindConfig, moduleOptions.config)
+    tailwindConfig = defuArrayFn(tailwindConfig, moduleOptions.config)
 
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
