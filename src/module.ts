@@ -7,7 +7,7 @@ import {
   defineNuxtModule,
   installModule,
   addTemplate,
-  addServerMiddleware,
+  addDevServerHandler,
   requireModule,
   isNuxt2,
   createResolver,
@@ -124,7 +124,7 @@ export default defineNuxtModule({
         }
         _viewerDevMiddleware(req, res)
       }
-      addServerMiddleware({ route, handler: viewerDevMiddleware })
+      addDevServerHandler({ route, handler: viewerDevMiddleware })
       nuxt.hook('listen', (_, listener) => {
         const viewerUrl = `${withoutTrailingSlash(listener.url)}${route}`
         logger.info(`Tailwind Viewer: ${chalk.underline.yellow(withTrailingSlash(viewerUrl))}`)

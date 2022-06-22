@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.1.2](https://github.com/nuxt-community/tailwindcss-module/compare/v5.1.1...v5.1.2) (2022-05-23)
+
+
+### Bug Fixes
+
+* use correct defuArrayFn and fix srcDir error ([cef3a9f](https://github.com/nuxt-community/tailwindcss-module/commit/cef3a9f68310deb512f2c6592516a986801d439d))
+
+### [5.1.1](https://github.com/nuxt-community/tailwindcss-module/compare/v5.1.0...v5.1.1) (2022-05-23)
+
+
+### Bug Fixes
+
+* **content:** Add support for error file ([#467](https://github.com/nuxt-community/tailwindcss-module/issues/467)) ([be06c68](https://github.com/nuxt-community/tailwindcss-module/commit/be06c687f2605ffc57b202878ac5a1a68147a4cd))
+
+## [5.1.0](https://github.com/nuxt-community/tailwindcss-module/compare/v5.0.4...v5.1.0) (2022-05-23)
+
+
+### Features
+
+* resolve `cssPath` with `resolvePath` ([#465](https://github.com/nuxt-community/tailwindcss-module/issues/465)) ([656eea5](https://github.com/nuxt-community/tailwindcss-module/commit/656eea5ed53206b102951bfcef8fc161f55f6cad))
+
 ### [5.0.4](https://github.com/nuxt-community/tailwindcss-module/compare/v5.0.3...v5.0.4) (2022-05-02)
 
 

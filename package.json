@@ -1,6 +1,6 @@
 {
   "name": "@nuxtjs/tailwindcss",
-  "version": "5.0.4",
+  "version": "5.1.2",
   "description": "TailwindCSS module for Nuxt",
   "repository": "nuxt-community/tailwindcss-module",
   "license": "MIT",
@@ -17,9 +17,8 @@
   ],
   "scripts": {
     "build": "nuxt-module-build",
-    "dev:setup": "nuxt-module-build --stub && nuxi prepare playground",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "dev": "nuxt dev playground",
-    "docs": "nuxt docs",
     "lint": "eslint --ext .js,.ts,.vue",
     "prepack": "yarn build",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",

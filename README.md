@@ -1,6 +1,6 @@
-[![@nuxtjs/tailwindcss](https://tailwindcss.nuxtjs.org/preview.png)](https://tailwindcss.nuxtjs.org)
+[![@nuxtjs/tailwindcss](https://tailwindcss.nuxtjs.org/cover.jpg)](https://tailwindcss.nuxtjs.org)
 
-# @nuxtjs/tailwindcss
+# Nuxt Tailwind
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
@@ -49,7 +49,7 @@ npm install --save-dev @nuxtjs/tailwindcss
 
 That's it! You can now use Tailwind classes in your Nuxt app ✨
 
-[📖 &nbsp;Read more](https://tailwindcss.nuxtjs.org/setup)
+[📖 &nbsp;Read more](https://tailwindcss.nuxtjs.org/getting-started/setup)
 
 ## Contributing
 
@@ -61,7 +61,7 @@ Or locally:
 
 1. Clone this repository
 2. Install dependencies using `yarn install`
-3. Prepare for development using `yarn dev:setup`
+3. Prepare for development using `yarn dev:prepare`
 4. Start development server using `yarn dev`
 
 ## License
