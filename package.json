@@ -47,6 +47,7 @@
     "codecov": "latest",
     "eslint": "latest",
     "nuxt": "^3.0.0-rc.4",
-    "standard-version": "latest"
+    "standard-version": "latest",
+    "@fontsource/inter": "^4.5.11"
   }
 }

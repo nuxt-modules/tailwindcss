@@ -11,9 +11,11 @@ import {
   requireModule,
   isNuxt2,
   createResolver,
-  resolvePath
+  resolvePath,
+  addVitePlugin
 } from '@nuxt/kit'
 import { name, version } from '../package.json'
+import vitePlugin from './hmr'
 import defaultTailwindConfig from './tailwind.config'
 
 const logger = consola.withScope('nuxt:tailwindcss')
@@ -34,7 +36,8 @@ export default defineNuxtModule({
     config: defaultTailwindConfig(nuxt.options),
     viewer: true,
     exposeConfig: false,
-    injectPosition: 0
+    injectPosition: 0,
+    disableHmrHotfix: false
   }),
   async setup (moduleOptions, nuxt) {
     const configPath = await resolvePath(moduleOptions.configPath)
@@ -42,15 +45,21 @@ export default defineNuxtModule({
     const injectPosition = ~~Math.min(moduleOptions.injectPosition, (nuxt.options.css || []).length + 1)
 
     // Include CSS file in project css
+    let resolvedCss: string
     if (typeof cssPath === 'string') {
       if (existsSync(cssPath)) {
         logger.info(`Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`)
-        nuxt.options.css.splice(injectPosition, 0, cssPath)
+        resolvedCss = cssPath
       } else {
         logger.info('Using default Tailwind CSS file from runtime/tailwind.css')
-        const resolver = createResolver(import.meta.url)
-        nuxt.options.css.splice(injectPosition, 0, resolver.resolve('runtime/tailwind.css'))
+        resolvedCss = createResolver(import.meta.url).resolve('runtime/tailwind.css')
       }
+    }
+
+    // Inject only if this file isn't listed already by user (e.g. user may put custom path both here and in css):
+    const resolvedNuxtCss = await Promise.all(nuxt.options.css.map(p => resolvePath(p)))
+    if (!resolvedNuxtCss.includes(resolvedCss)) {
+      nuxt.options.css.splice(injectPosition, 0, resolvedCss)
     }
 
     // Extend the Tailwind config
@@ -109,6 +118,11 @@ export default defineNuxtModule({
 
     if (isNuxt2()) {
       await installModule('@nuxt/postcss8')
+    }
+
+    if (nuxt.options.dev && !moduleOptions.disableHmrHotfix) {
+      // Insert Vite plugin to work around HMR issue
+      addVitePlugin(vitePlugin(tailwindConfig, nuxt.options.rootDir, resolvedCss))
     }
 
     // Add _tailwind config viewer endpoint
