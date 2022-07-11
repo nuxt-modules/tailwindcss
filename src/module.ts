@@ -31,7 +31,7 @@ export default defineNuxtModule({
     configKey: 'tailwindcss'
   },
   defaults: nuxt => ({
-    configPath: 'tailwind.config.js',
+    configPath: 'tailwind.config',
     cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
     config: defaultTailwindConfig(nuxt.options),
     viewer: true,

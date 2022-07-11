@@ -1,5 +1,7 @@
 // Learn more at https://tailwindcss.com/docs/configuration
-export default ({ srcDir }) => ({
+import { Config } from 'tailwindcss'
+
+export default ({ srcDir }): Config => ({
   theme: {
     extend: {}
   },
