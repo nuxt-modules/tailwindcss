@@ -7,7 +7,6 @@ export default function (tailwindConfig, rootDir: string, cssPath: string): Plug
 
   return {
     name: 'nuxt:tailwindcss',
-
     handleHotUpdate (ctx: HmrContext): void {
       if (resolvedContent.findIndex(c => minimatch(ctx.file, c)) === -1) {
         return
