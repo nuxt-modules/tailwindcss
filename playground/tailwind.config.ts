@@ -1,5 +1,6 @@
-import { defineTailwindConfig } from '../src/config'
+import type { Config } from 'tailwindcss'
 
-export default defineTailwindConfig({
-  theme: {}
-})
+export default <Config> {
+  theme: {
+  },
+}

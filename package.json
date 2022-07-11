@@ -8,33 +8,10 @@
     ".": {
       "require": "./dist/module.cjs",
       "import": "./dist/module.mjs"
-    },
-    "./config": {
-      "require": "./dist/config/index.cjs",
-      "import": "./dist/config/index.mjs",
-      "types": "./dist/config/index.d.ts"
     }
   },
   "main": "./dist/module.cjs",
   "types": "./dist/types.d.ts",
-  "unbuild": {
-    "entries": [
-      {
-        "input": "src/config",
-        "outDir": "dist/config",
-        "builder": "mkdist",
-        "format":"cjs",
-        "ext": "cjs"
-      },
-      {
-        "input": "src/config",
-        "outDir": "dist/config",
-        "builder": "mkdist",
-        "format":"mjs",
-        "ext": "mjs"
-      }
-    ]
-  },
   "files": [
     "dist"
   ],
