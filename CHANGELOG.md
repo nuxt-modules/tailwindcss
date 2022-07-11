@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.2.0](https://github.com/nuxt-community/tailwindcss-module/compare/v5.1.3...v5.2.0) (2022-07-11)
+
+
+### Features
+
+* add tailwind.config.ts support ([#483](https://github.com/nuxt-community/tailwindcss-module/issues/483)) ([26aebc2](https://github.com/nuxt-community/tailwindcss-module/commit/26aebc2a4cb3be7fa1cc31d842becedec65827e8))
+
+
+### Bug Fixes
+
+* monkey-patch Vite HMR issue & make it reproducible ([#464](https://github.com/nuxt-community/tailwindcss-module/issues/464)) ([#496](https://github.com/nuxt-community/tailwindcss-module/issues/496)) ([8cc1cfa](https://github.com/nuxt-community/tailwindcss-module/commit/8cc1cfa5684581d7c85f94ea2d6f60c5e4abf52a))
+
 ### [5.1.3](https://github.com/nuxt-community/tailwindcss-module/compare/v5.1.2...v5.1.3) (2022-06-22)
 
 
