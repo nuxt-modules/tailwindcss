@@ -100,7 +100,9 @@ export default defineNuxtModule({
 
     // Allow extending tailwindcss config by other modules
     // @ts-ignore
-    await nuxt.callHook('tailwindcss:config', tailwindConfig)
+    const _tailwindConfig = await nuxt.callHook('tailwindcss:config', tailwindConfig)
+    // Overwrite if returned
+    if (_tailwindConfig) { tailwindConfig = _tailwindConfig }
 
     // Compute tailwindConfig hash
     tailwindConfig._hash = String(Date.now())
