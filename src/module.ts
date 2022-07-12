@@ -161,7 +161,7 @@ export default defineNuxtModule({
     }
 
     /**
-     * PostCSS plugin
+     * PostCSS 8 support for Nuxt 2
      */
 
     // Setup postcss plugins
