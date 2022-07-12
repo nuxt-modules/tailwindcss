@@ -14,9 +14,11 @@ import {
   resolvePath,
   addVitePlugin
 } from '@nuxt/kit'
+import { Config } from 'tailwindcss'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
 import defaultTailwindConfig from './tailwind.config'
+import { InjectPosition, resolveInjectPosition } from './utils'
 
 const logger = consola.withScope('nuxt:tailwindcss')
 
@@ -24,7 +26,17 @@ export interface ModuleHooks {
   'tailwindcss:config': (tailwindConfig: any) => void
 }
 
-export default defineNuxtModule({
+export interface ModuleOptions {
+  configPath: string;
+  cssPath: string;
+  config: Config;
+  viewer: boolean;
+  exposeConfig: boolean;
+  injectPosition: InjectPosition;
+  disableHmrHotfix: boolean;
+}
+
+export default defineNuxtModule<ModuleOptions>({
   meta: {
     name,
     version,
@@ -36,13 +48,12 @@ export default defineNuxtModule({
     config: defaultTailwindConfig(nuxt.options),
     viewer: true,
     exposeConfig: false,
-    injectPosition: 0,
+    injectPosition: 'first',
     disableHmrHotfix: false
   }),
   async setup (moduleOptions, nuxt) {
     const configPath = await resolvePath(moduleOptions.configPath)
     const cssPath = await resolvePath(moduleOptions.cssPath, { extensions: ['.css', '.sass', '.scss', '.less', '.styl'] })
-    const injectPosition = ~~Math.min(moduleOptions.injectPosition, (nuxt.options.css || []).length + 1)
 
     // Include CSS file in project css
     let resolvedCss: string
@@ -56,9 +67,18 @@ export default defineNuxtModule({
       }
     }
 
-    // Inject only if this file isn't listed already by user (e.g. user may put custom path both here and in css):
+    nuxt.options.css = nuxt.options.css ?? []
     const resolvedNuxtCss = await Promise.all(nuxt.options.css.map(p => resolvePath(p)))
+
+    // Inject only if this file isn't listed already by user (e.g. user may put custom path both here and in css):
     if (!resolvedNuxtCss.includes(resolvedCss)) {
+      let injectPosition: number
+      try {
+        injectPosition = resolveInjectPosition(nuxt.options.css, moduleOptions.injectPosition)
+      } catch (e) {
+        throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
+      }
+
       nuxt.options.css.splice(injectPosition, 0, resolvedCss)
     }
 

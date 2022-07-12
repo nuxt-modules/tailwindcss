@@ -6,7 +6,8 @@ export default defineNuxtConfig({
     tailwindModule
   ],
   tailwindcss: {
-    exposeConfig: true
+    exposeConfig: true,
+    injectPosition: 'last'
   },
   css: [
     // Including Inter CSS is the first component to reproduce HMR issue. It also causes playground to look better,
