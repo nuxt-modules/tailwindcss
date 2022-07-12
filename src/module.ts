@@ -63,7 +63,7 @@ export default defineNuxtModule({
       if (typeof path === 'string') {
         configPaths.push(await resolvePath(path))
       }
-      if (typeof path === 'object' && Array.isArray(path)) {
+      if (Array.isArray(path)) {
         for (const _path of path) {
           configPaths.push(await resolvePath(_path))
         }
