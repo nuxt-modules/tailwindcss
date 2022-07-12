@@ -2,12 +2,14 @@ import { defineNuxtConfig } from 'nuxt'
 import tailwindModule from '../src/module'
 
 export default defineNuxtConfig({
+  extends: ['./theme'],
   modules: [
-    tailwindModule,
-    '@nuxt/content'
+    '@nuxt/content',
+    tailwindModule
   ],
   tailwindcss: {
-    exposeConfig: true
+    exposeConfig: true,
+    configPath: './tailwind.config.js'
   },
   content: {
     documentDriven: true

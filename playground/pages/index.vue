@@ -9,6 +9,11 @@
         <span class="text-indigo-500">meow!</span>
       </div>
       <div>
+        <NuxtLink to="/content" class="hover:text-indigo-500 underline">
+          Visit the /content page to check out the @nuxt/content integration!
+        </NuxtLink>
+      </div>
+      <div>
         <span class="text-sm font-semibold text-gray-700">Resolved tailwind config:</span>
         <textarea
           class="p-4 block text-sm border border-gray-100 rounded shadow w-full h-[32rem] font-mono outline-none"
