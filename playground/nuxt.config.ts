@@ -1,12 +1,16 @@
 import { defineNuxtConfig } from 'nuxt'
-import tailwindModule from '..'
+import tailwindModule from '../src/module'
 
 export default defineNuxtConfig({
-  buildModules: [
-    tailwindModule
+  modules: [
+    tailwindModule,
+    '@nuxt/content'
   ],
   tailwindcss: {
     exposeConfig: true
+  },
+  content: {
+    documentDriven: true
   },
   css: [
     // Including Inter CSS is the first component to reproduce HMR issue. It also causes playground to look better,

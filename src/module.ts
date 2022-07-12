@@ -37,7 +37,8 @@ export default defineNuxtModule({
     viewer: true,
     exposeConfig: false,
     injectPosition: 0,
-    disableHmrHotfix: false
+    disableHmrHotfix: false,
+    disableContentSupport: false
   }),
   async setup (moduleOptions, nuxt) {
     const configPath = await resolvePath(moduleOptions.configPath)
@@ -120,6 +121,12 @@ export default defineNuxtModule({
 
     if (isNuxt2()) {
       await installModule('@nuxt/postcss8')
+    }
+
+    // Add support for @nuxt/content if module is present
+    if (!moduleOptions.disableContentSupport && (nuxt.options.modules.includes('@nuxt/content') || nuxt.options.modules.includes('@nuxt/content-edge'))) {
+      tailwindConfig.content = tailwindConfig.content ?? []
+      tailwindConfig.content.push(`${nuxt.options.buildDir}/cache/content/parsed/**/*.md`)
     }
 
     if (nuxt.options.dev && !moduleOptions.disableHmrHotfix) {
