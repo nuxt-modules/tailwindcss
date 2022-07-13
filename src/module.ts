@@ -154,6 +154,7 @@ export default defineNuxtModule({
         resolvedCss = cssPath
       } else {
         logger.info('Using default Tailwind CSS file from runtime/tailwind.css')
+        // @ts-ignore
         resolvedCss = createResolver(import.meta.url).resolve('runtime/tailwind.css')
       }
     }
