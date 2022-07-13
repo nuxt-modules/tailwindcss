@@ -59,13 +59,21 @@ export default defineNuxtModule({
     const configPaths = []
     const contentPaths = []
 
+    /**
+     * Push config paths into `configPaths` without extension.
+     * Allows next steps of processing to try both .js / .ts when resolving the config.
+     */
     const addConfigPath = async (path: string | string[]) => {
       if (typeof path === 'string') {
-        configPaths.push(await resolvePath(path))
+        path = (await resolvePath(path)).split('.').slice(0, -1).join('.')
+        configPaths.push(path)
+        return
       }
+
       if (Array.isArray(path)) {
-        for (const _path of path) {
-          configPaths.push(await resolvePath(_path))
+        for (let _path of path) {
+          _path = (await resolvePath(_path)).split('.').slice(0, -1).join('.')
+          configPaths.push()
         }
       }
     }
@@ -95,17 +103,14 @@ export default defineNuxtModule({
     // Recursively resolve each config and merge tailwind configs together.
     let tailwindConfig: any = {}
     for (const configPath of configPaths) {
-      if (existsSync(configPath)) {
-        let _tailwindConfig: any = {}
-        _tailwindConfig = tryRequireModule(configPath, { clearCache: true })
+      const _tailwindConfig = tryRequireModule(configPath, { clearCache: true })
 
-        // Transform purge option from Array to object with { content }
-        if (Array.isArray(_tailwindConfig.purge)) {
-          _tailwindConfig.content = _tailwindConfig.purge
-        }
-
-        tailwindConfig = defu(_tailwindConfig, tailwindConfig)
+      // Transform purge option from Array to object with { content }
+      if (Array.isArray(_tailwindConfig.purge)) {
+        _tailwindConfig.content = _tailwindConfig.purge
       }
+
+      tailwindConfig = defu(_tailwindConfig || {}, tailwindConfig)
     }
 
     tailwindConfig.content = [...(tailwindConfig.content || []), ...contentPaths]
