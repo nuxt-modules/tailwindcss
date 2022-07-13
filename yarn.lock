@@ -521,6 +521,30 @@
     unimport "^0.2.7"
     untyped "^0.4.4"
 
+"@nuxt/kit@^3.0.0-rc.5":
+  version "3.0.0-rc.5"
+  resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.0.0-rc.5.tgz#4ee104e517910ed26132583d7adaff88bdd8d89a"
+  integrity sha512-PmRfy0AdpvYne5p1/QWXOFoJawnjC/p2TkEJeCgI7MMHP7U2ru/7MxM7x0+ScjD13fUd4KSv1bCMJRTCoaCzPQ==
+  dependencies:
+    "@nuxt/schema" "^3.0.0-rc.5"
+    c12 "^0.2.8"
+    consola "^2.15.3"
+    defu "^6.0.0"
+    globby "^13.1.2"
+    hash-sum "^2.0.0"
+    ignore "^5.2.0"
+    jiti "^1.14.0"
+    knitwork "^0.1.2"
+    lodash.template "^4.5.0"
+    mlly "^0.5.4"
+    pathe "^0.3.2"
+    pkg-types "^0.3.3"
+    scule "^0.2.1"
+    semver "^7.3.7"
+    unctx "^1.1.4"
+    unimport "^0.4.4"
+    untyped "^0.4.4"
+
 "@nuxt/kit@npm:@nuxt/kit-edge@3.0.0-rc.4-27627158.135dfdf":
   version "3.0.0-rc.4-27627158.135dfdf"
   resolved "https://registry.yarnpkg.com/@nuxt/kit-edge/-/kit-edge-3.0.0-rc.4-27627158.135dfdf.tgz#036f16c43b95a4c7fa4e781f6db6fbf45202f4e9"
@@ -585,6 +609,22 @@
     std-env "^3.1.1"
     ufo "^0.8.4"
     unimport "^0.2.7"
+
+"@nuxt/schema@^3.0.0-rc.5":
+  version "3.0.0-rc.5"
+  resolved "https://registry.yarnpkg.com/@nuxt/schema/-/schema-3.0.0-rc.5.tgz#c32b84b3aeb0ce474cd268b9dc5d801d8139aaed"
+  integrity sha512-qfKr9/1i7buLEgJ1Vjw27LJ5Svtq9jB5TvFAbIfDI9fg80M/bgTDXgKXARJk6ofB39Ijdx8z2nNj8EXu8+tVbQ==
+  dependencies:
+    c12 "^0.2.8"
+    create-require "^1.1.1"
+    defu "^6.0.0"
+    jiti "^1.14.0"
+    pathe "^0.3.2"
+    postcss-import-resolver "^2.0.0"
+    scule "^0.2.1"
+    std-env "^3.1.1"
+    ufo "^0.8.5"
+    unimport "^0.4.4"
 
 "@nuxt/schema@npm:@nuxt/schema-edge@3.0.0-rc.4-27627158.135dfdf":
   version "3.0.0-rc.4-27627158.135dfdf"
@@ -7302,7 +7342,7 @@ tailwind-config-viewer@^1.7.1:
     portfinder "^1.0.26"
     replace-in-file "^6.1.0"
 
-tailwindcss@*, tailwindcss@^3.1.5:
+tailwindcss@*, tailwindcss@^3.1.6:
   version "3.1.6"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.1.6.tgz#bcb719357776c39e6376a8d84e9834b2b19a49f1"
   integrity sha512-7skAOY56erZAFQssT1xkpk+kWt2NrO45kORlxFPXUt3CiGsVPhH1smuH5XoDH6sGPXLyBv+zgCKA2HWBsgCytg==
