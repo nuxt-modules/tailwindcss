@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.3.0](https://github.com/nuxt-community/tailwindcss-module/compare/v5.2.0...v5.3.0) (2022-07-13)
+
+
+### Features
+
+* extends support ([#499](https://github.com/nuxt-community/tailwindcss-module/issues/499)) ([f90b80b](https://github.com/nuxt-community/tailwindcss-module/commit/f90b80b0289f3ab0285826fae727c37e560db657))
+* support for more semantic injection positions ([#501](https://github.com/nuxt-community/tailwindcss-module/issues/501)) ([1bdd83c](https://github.com/nuxt-community/tailwindcss-module/commit/1bdd83cc2bdb39cb80ad476a22b791f3bdeb9cb9))
+
 ## [5.2.0](https://github.com/nuxt-community/tailwindcss-module/compare/v5.1.3...v5.2.0) (2022-07-11)
 
 
