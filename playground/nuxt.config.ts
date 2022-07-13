@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   ],
   tailwindcss: {
     exposeConfig: true,
-    configPath: './tailwind.config.js'
+    injectPosition: 'last'
   },
   content: {
     documentDriven: true
