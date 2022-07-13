@@ -96,7 +96,10 @@ export default defineNuxtModule({
     let tailwindConfig: any = {}
     for (const configPath of configPaths) {
       if (existsSync(configPath)) {
-        const _tailwindConfig = requireModule(configPath, { clearCache: true })
+        let _tailwindConfig: any = {}
+        try {
+          _tailwindConfig = requireModule(configPath, { clearCache: true })
+        } catch (e) {}
 
         // Transform purge option from Array to object with { content }
         if (Array.isArray(_tailwindConfig.purge)) {
