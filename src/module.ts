@@ -106,7 +106,7 @@ export default defineNuxtModule({
       const _tailwindConfig = tryRequireModule(configPath, { clearCache: true })
 
       // Transform purge option from Array to object with { content }
-      if (Array.isArray(_tailwindConfig.purge)) {
+      if (_tailwindConfig && Array.isArray(_tailwindConfig.purge)) {
         _tailwindConfig.content = _tailwindConfig.purge
       }
 
