@@ -8,11 +8,11 @@ import {
   installModule,
   addTemplate,
   addDevServerHandler,
-  requireModule,
   isNuxt2,
   createResolver,
   resolvePath,
-  addVitePlugin
+  addVitePlugin,
+  tryRequireModule
 } from '@nuxt/kit'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
@@ -97,9 +97,7 @@ export default defineNuxtModule({
     for (const configPath of configPaths) {
       if (existsSync(configPath)) {
         let _tailwindConfig: any = {}
-        try {
-          _tailwindConfig = requireModule(configPath, { clearCache: true })
-        } catch (e) {}
+        _tailwindConfig = tryRequireModule(configPath, { clearCache: true })
 
         // Transform purge option from Array to object with { content }
         if (Array.isArray(_tailwindConfig.purge)) {
