@@ -2,8 +2,8 @@ import { isAbsolute, resolve } from 'path'
 import { HmrContext, Plugin } from 'vite'
 import minimatch from 'minimatch'
 
-export default function (tailwindConfig, rootDir: string, cssPath: string): Plugin {
-  const resolvedContent: string[] = tailwindConfig.content.map(f => !isAbsolute(f) ? resolve(rootDir, f) : f)
+export default function (tailwindConfig: any = {}, rootDir: string, cssPath: string): Plugin {
+  const resolvedContent: string[] = (tailwindConfig.content || []).map(f => !isAbsolute(f) ? resolve(rootDir, f) : f)
 
   return {
     name: 'nuxt:tailwindcss',
