@@ -84,7 +84,7 @@ export default defineNuxtModule({
       }
     } else {
       await addConfigPath(moduleOptions.configPath)
-      contentPaths.push(layerPaths(nuxt.options.srcDir))
+      contentPaths.push(...layerPaths(nuxt.options.srcDir))
     }
 
     // Watch the Tailwind config file to restart the server
