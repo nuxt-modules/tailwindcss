@@ -79,7 +79,7 @@ export default defineNuxtModule({
       }
 
       for (const layer of (nuxt.options._layers as NuxtLayer[])) {
-        await addConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd + 'tailwind.config'))
+        await addConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config'))
         contentPaths.push(...layerPaths(layer.cwd))
       }
     } else {
@@ -92,17 +92,18 @@ export default defineNuxtModule({
       configPaths.forEach(path => nuxt.options.watch.push(path))
     }
 
-    // Extend the Tailwind config
+    // Recursively resolve each config and merge tailwind configs together.
     let tailwindConfig: any = {}
     for (const configPath of configPaths) {
       if (existsSync(configPath)) {
         const _tailwindConfig = requireModule(configPath, { clearCache: true })
-        tailwindConfig = defu(_tailwindConfig, tailwindConfig)
 
         // Transform purge option from Array to object with { content }
-        if (Array.isArray(tailwindConfig.purge)) {
-          tailwindConfig.content = tailwindConfig.purge
+        if (Array.isArray(_tailwindConfig.purge)) {
+          _tailwindConfig.content = _tailwindConfig.purge
         }
+
+        tailwindConfig = defu(_tailwindConfig, tailwindConfig)
       }
     }
 
