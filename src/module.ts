@@ -90,21 +90,6 @@ export default defineNuxtModule<ModuleOptions>({
       }
     }
 
-    nuxt.options.css = nuxt.options.css ?? []
-    const resolvedNuxtCss = await Promise.all(nuxt.options.css.map(p => resolvePath(p)))
-
-    // Inject only if this file isn't listed already by user (e.g. user may put custom path both here and in css):
-    if (!resolvedNuxtCss.includes(resolvedCss)) {
-      let injectPosition: number
-      try {
-        injectPosition = resolveInjectPosition(nuxt.options.css, moduleOptions.injectPosition)
-      } catch (e) {
-        throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
-      }
-
-      nuxt.options.css.splice(injectPosition, 0, resolvedCss)
-    }
-
     // Support `extends` directories
     if (nuxt.options._layers && nuxt.options._layers.length > 1) {
       interface NuxtLayer {
@@ -174,7 +159,6 @@ export default defineNuxtModule<ModuleOptions>({
      */
 
     const cssPath = await resolvePath(moduleOptions.cssPath, { extensions: ['.css', '.sass', '.scss', '.less', '.styl'] })
-    const injectPosition = ~~Math.min(moduleOptions.injectPosition, (nuxt.options.css || []).length + 1)
 
     // Include CSS file in project css
     let resolvedCss: string
@@ -188,10 +172,18 @@ export default defineNuxtModule<ModuleOptions>({
         resolvedCss = createResolver(import.meta.url).resolve('runtime/tailwind.css')
       }
     }
+    nuxt.options.css = nuxt.options.css ?? []
+    const resolvedNuxtCss = await Promise.all(nuxt.options.css.map(p => resolvePath(p)))
 
     // Inject only if this file isn't listed already by user (e.g. user may put custom path both here and in css):
-    const resolvedNuxtCss = await Promise.all(nuxt.options.css.map(p => resolvePath(p)))
     if (!resolvedNuxtCss.includes(resolvedCss)) {
+      let injectPosition: number
+      try {
+        injectPosition = resolveInjectPosition(nuxt.options.css, moduleOptions.injectPosition)
+      } catch (e) {
+        throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
+      }
+
       nuxt.options.css.splice(injectPosition, 0, resolvedCss)
     }
 
