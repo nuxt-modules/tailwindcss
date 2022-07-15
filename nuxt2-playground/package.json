@@ -1,0 +1,18 @@
+{
+  "name": "nuxt-dark-tailwindcss",
+  "version": "1.0.0",
+  "description": "Nuxt.js example with @nuxtjs/color-mode and @nuxtjs/tailwindcss module.",
+  "author": "Atinux",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "nuxt": "2.15.8",
+    "postcss": "8.4.14"
+  },
+  "keywords": []
+}
