@@ -222,7 +222,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Add _tailwind config viewer endpoint
     // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
-    if (isNuxt3() && nuxt.options.dev && moduleOptions.viewer) {
+    if (nuxt.options.dev && moduleOptions.viewer) {
       const route = '/_tailwind'
       const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r) as any
       const { withTrailingSlash, withoutTrailingSlash } = await import('ufo')
@@ -234,7 +234,8 @@ export default defineNuxtModule<ModuleOptions>({
         }
         _viewerDevMiddleware(req, res)
       }
-      addDevServerHandler({ route, handler: viewerDevMiddleware })
+      if (isNuxt3()) { addDevServerHandler({ route, handler: viewerDevMiddleware }) }
+      if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: viewerDevMiddleware }) }
       nuxt.hook('listen', (_, listener) => {
         const viewerUrl = `${withoutTrailingSlash(listener.url)}${route}`
         logger.info(`Tailwind Viewer: ${chalk.underline.yellow(withTrailingSlash(viewerUrl))}`)
