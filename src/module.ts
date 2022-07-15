@@ -12,7 +12,8 @@ import {
   createResolver,
   resolvePath,
   addVitePlugin,
-  tryRequireModule
+  tryRequireModule,
+  isNuxt3
 } from '@nuxt/kit'
 import { Config } from 'tailwindcss'
 import { name, version } from '../package.json'
@@ -77,14 +78,14 @@ export default defineNuxtModule<ModuleOptions>({
      */
     const addConfigPath = async (path: string | string[]) => {
       if (typeof path === 'string') {
-        path = (await resolvePath(path)).split('.').slice(0, -1).join('.')
+        path = (await resolvePath(path, { extensions: ['.js', '.ts'] })).split('.').slice(0, -1).join('.')
         configPaths.push(path)
         return
       }
 
       if (Array.isArray(path)) {
         for (let _path of path) {
-          _path = (await resolvePath(_path)).split('.').slice(0, -1).join('.')
+          _path = (await resolvePath(_path, { extensions: ['.js', '.ts'] })).split('.').slice(0, -1).join('.')
           configPaths.push()
         }
       }
@@ -220,7 +221,8 @@ export default defineNuxtModule<ModuleOptions>({
      */
 
     // Add _tailwind config viewer endpoint
-    if (nuxt.options.dev && moduleOptions.viewer) {
+    // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
+    if (isNuxt3() && nuxt.options.dev && moduleOptions.viewer) {
       const route = '/_tailwind'
       const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r) as any
       const { withTrailingSlash, withoutTrailingSlash } = await import('ufo')
