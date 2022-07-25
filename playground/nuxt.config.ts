@@ -2,7 +2,7 @@ import { defineNuxtConfig } from 'nuxt'
 import tailwindModule from '../src/module'
 
 export default defineNuxtConfig({
-  extends: ['./theme'],
+  // extends: ['./theme'],
   modules: [
     '@nuxt/content',
     tailwindModule
