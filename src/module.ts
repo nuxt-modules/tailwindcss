@@ -142,7 +142,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
       addTemplate({
         filename: 'tailwind.config.d.ts',
-        getContents: () => 'declare const config: import("tailwindcss").Config\nexport default config',
+        getContents: () => 'declare const config: import("tailwindcss").Config\nexport { config as default }',
         write: true
       })
       nuxt.options.alias['#tailwind-config'] = template.dst
