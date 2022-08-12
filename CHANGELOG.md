@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.3.2](https://github.com/nuxt-community/tailwindcss-module/compare/v5.3.1...v5.3.2) (2022-08-12)
+
+
+### Bug Fixes
+
+* **module:** remove prefix for tailwind viewer route on nuxt 2 ([#517](https://github.com/nuxt-community/tailwindcss-module/issues/517)) ([2932bad](https://github.com/nuxt-community/tailwindcss-module/commit/2932bad5edf9d2e8adadeaa8363923fcaa8779ec))
+* remove now-unneeded `@types/tailwindcss` ([#514](https://github.com/nuxt-community/tailwindcss-module/issues/514)) ([82ea9b7](https://github.com/nuxt-community/tailwindcss-module/commit/82ea9b7d8dc7526641f359ded5d037f9492d7a7f))
+
 ### [5.3.1](https://github.com/nuxt-community/tailwindcss-module/compare/v5.3.0...v5.3.1) (2022-07-25)
 
 
