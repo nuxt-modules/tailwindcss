@@ -8,7 +8,7 @@ description: Add Tailwind CSS to your Nuxt application in seconds.
 
 socials:
   twitter: "nuxt_js"
-  github: "nuxt-community/tailwindcss-module"
+  github: "nuxt-modules/tailwindcss"
 
 debug: false
 
