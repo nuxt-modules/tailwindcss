@@ -23,7 +23,7 @@
     "lint": "eslint --ext .js,.ts,.vue",
     "prepack": "yarn build",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
-    "test": "yarn lint"
+    "test": "vitest"
   },
   "dependencies": {
     "@nuxt/kit": "^3.0.0-rc.5",
@@ -42,13 +42,15 @@
   },
   "devDependencies": {
     "@fontsource/inter": "^4.5.11",
+    "@nuxt/content": "npm:@nuxt/content-edge@latest",
     "@nuxt/module-builder": "latest",
-    "@nuxt/test-utils": "latest",
+    "@nuxt/test-utils": "^3.0.0-rc.8",
     "@nuxtjs/eslint-config-typescript": "latest",
     "codecov": "latest",
     "eslint": "latest",
+    "jsdom": "^20.0.0",
     "nuxt": "npm:nuxt3@latest",
-    "@nuxt/content": "npm:@nuxt/content-edge@latest",
-    "standard-version": "latest"
+    "standard-version": "latest",
+    "vitest": "^0.22.1"
   }
 }

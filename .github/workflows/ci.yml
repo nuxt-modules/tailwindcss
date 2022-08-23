@@ -35,11 +35,14 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
 
+      - name: Prepare
+        run: yarn dev:prepare
+
       - name: Lint
         run: yarn lint
 
-      # - name: Test
-      #   run: yarn test
+      - name: Test
+        run: yarn test
 
       # - name: Coverage
       #   run: yarn codecov
