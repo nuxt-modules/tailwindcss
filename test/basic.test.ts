@@ -13,7 +13,6 @@ describe('tailwindcss module', async () => {
 
   await setupNuxtTailwind({
     exposeConfig: true,
-    configPath: r('tailwind.config.js'),
     cssPath: r('tailwind.css')
   })
 
@@ -37,6 +36,13 @@ describe('tailwindcss module', async () => {
 
     expect(nuxt.options.css).toHaveLength(1)
     expect(nuxt.options.css[0]).toEqual(nuxt.options.tailwindcss.cssPath)
+  })
+
+  test('default js config is merged in', () => {
+    const nuxt = useTestContext().nuxt
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))
+    // set from ts-tailwind.config.ts
+    expect(nuxt.vfs[vfsKey]).contains('"primary": "#f1e05a"')
   })
 
   // @todo re-implement
