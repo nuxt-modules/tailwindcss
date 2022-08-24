@@ -82,9 +82,8 @@ export default defineNuxtModule<ModuleOptions>({
       const paths = (Array.isArray(path) ? path : [path]).filter(Boolean)
       for (const path of paths) {
         const resolvedPath = (await findPath(path, { extensions: ['.js', '.mjs', '.ts'] }, 'file'))
-        // note if the path does not exist, it doesn't get added to the configPaths
+        // only if the path is found
         if (resolvedPath) {
-          // remove extension
           configPaths.push(resolvedPath)
         }
       }

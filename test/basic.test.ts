@@ -41,7 +41,7 @@ describe('tailwindcss module', async () => {
   test('default js config is merged in', () => {
     const nuxt = useTestContext().nuxt
     const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))
-    // set from ts-tailwind.config.ts
+    // set from default config tailwind.config.js
     expect(nuxt.vfs[vfsKey]).contains('"primary": "#f1e05a"')
   })
 
