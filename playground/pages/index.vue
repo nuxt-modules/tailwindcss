@@ -6,7 +6,7 @@
     <div class="max-w-screen-lg p-4 mx-auto space-y-4">
       <div>
         <span class="pr-1 font-medium">This is a HMR test, try changing the color:</span>
-        <span class="text-brand">meow!</span>
+        <span class="text-blue-500">meow!</span>
       </div>
       <div>
         <NuxtLink to="/content" class="underline hover:text-indigo-500">
