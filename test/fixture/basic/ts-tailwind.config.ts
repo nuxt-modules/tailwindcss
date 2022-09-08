@@ -1,11 +1,13 @@
-module.exports = {
+import { Config } from 'tailwindcss'
+
+export default <Config> {
   content: [
     'content/**/*.md'
   ],
   theme: {
     extend: {
       colors: {
-        primary: '#f1e05a'
+        typescriptBlue: '#007acc'
       }
     }
   }

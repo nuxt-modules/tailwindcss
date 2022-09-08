@@ -12,8 +12,7 @@ import {
   createResolver,
   resolvePath,
   addVitePlugin,
-  tryRequireModule,
-  isNuxt3
+  isNuxt3, findPath, requireModule
 } from '@nuxt/kit'
 import { Config } from 'tailwindcss'
 import { name, version } from '../package.json'
@@ -39,8 +38,10 @@ export interface ModuleHooks {
   'tailwindcss:config': (tailwindConfig: any) => void
 }
 
+type Arrayable<T> = T | T[]
+
 export interface ModuleOptions {
-  configPath: string;
+  configPath: Arrayable<string>;
   cssPath: string;
   config: Config;
   viewer: boolean;
@@ -76,17 +77,14 @@ export default defineNuxtModule<ModuleOptions>({
      * Push config paths into `configPaths` without extension.
      * Allows next steps of processing to try both .js / .ts when resolving the config.
      */
-    const addConfigPath = async (path: string | string[]) => {
-      if (typeof path === 'string') {
-        path = (await resolvePath(path, { extensions: ['.js', '.ts'] })).split('.').slice(0, -1).join('.')
-        configPaths.push(path)
-        return
-      }
-
-      if (Array.isArray(path)) {
-        for (let _path of path) {
-          _path = (await resolvePath(_path, { extensions: ['.js', '.ts'] })).split('.').slice(0, -1).join('.')
-          configPaths.push()
+    const addConfigPath = async (path: Arrayable<string>) => {
+      // filter in case an empty path is provided
+      const paths = (Array.isArray(path) ? path : [path]).filter(Boolean)
+      for (const path of paths) {
+        const resolvedPath = (await findPath(path, { extensions: ['.js', '.mjs', '.ts'] }, 'file'))
+        // only if the path is found
+        if (resolvedPath) {
+          configPaths.push(resolvedPath)
         }
       }
     }
@@ -116,7 +114,12 @@ export default defineNuxtModule<ModuleOptions>({
     // Recursively resolve each config and merge tailwind configs together.
     let tailwindConfig: any = {}
     for (const configPath of configPaths) {
-      const _tailwindConfig = tryRequireModule(configPath, { clearCache: true })
+      let _tailwindConfig
+      try {
+        _tailwindConfig = requireModule(configPath, { clearCache: true })
+      } catch (e) {
+        logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
+      }
 
       // Transform purge option from Array to object with { content }
       if (_tailwindConfig && Array.isArray(_tailwindConfig.purge)) {
