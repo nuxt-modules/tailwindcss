@@ -134,11 +134,18 @@ export default defineNuxtModule<ModuleOptions>({
     // Merge with our default purgecss default
     tailwindConfig = defuArrayFn(tailwindConfig, moduleOptions.config)
 
+    // Write cjs version of config to support vscode extension
+    const resolveConfig: any = await import('tailwindcss/resolveConfig.js').then(r => r.default || r)
+    const resolvedConfig = resolveConfig(tailwindConfig)
+    addTemplate({
+      filename: 'tailwind.config.cjs',
+      getContents: () => `module.export = ${JSON.stringify(resolvedConfig, null, 2)}`,
+      write: true
+    })
+    
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
-      const resolveConfig: any = await import('tailwindcss/resolveConfig.js').then(r => r.default || r)
-      const resolvedConfig = resolveConfig(tailwindConfig)
       const template = addTemplate({
         filename: 'tailwind.config.mjs',
         getContents: () => `export default ${JSON.stringify(resolvedConfig, null, 2)}`
