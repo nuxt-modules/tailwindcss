@@ -35,6 +35,10 @@ export default function (tailwindConfig: any = {}, rootDir: string, cssPath: str
           }
         })
       })
+      if (ctx.file.includes('/content-cache/')) {
+        // @ts-ignore
+        return true
+      }
     }
   }
 };
