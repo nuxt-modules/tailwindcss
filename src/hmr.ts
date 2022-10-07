@@ -18,9 +18,6 @@ export default function (tailwindConfig: any = {}, rootDir: string, cssPath: str
       for (const mod of extraModules) {
         // This will invalidate Vite cache (e.g. next page reload will be fine), but won't help with HMR on its own
         ctx.server.moduleGraph.invalidateModule(mod, undefined, timestamp)
-        // for (const importedModule of mod.importedModules) {
-        //   console.log(importedModule.id)
-        // }
       }
 
       // Surely, this is not the best way to fix that, especially given direct `send` call bypassing all Vite logic.
