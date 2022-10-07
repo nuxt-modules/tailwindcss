@@ -6147,12 +6147,7 @@ node-emoji@^1.11.0:
   dependencies:
     lodash "^4.17.21"
 
-node-fetch-native@^0.1.3, node-fetch-native@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/node-fetch-native/-/node-fetch-native-0.1.4.tgz#09b06754f9e298bac23848050da2352125634f89"
-  integrity sha512-10EKpOCQPXwZVFh3U1ptOMWBgKTbsN7Vvo6WVKt5pw4hp8zbv6ZVBZPlXw+5M6Tyi1oc1iD4/sNPd71KYA16tQ==
-
-node-fetch-native@^0.1.5:
+node-fetch-native@^0.1.3, node-fetch-native@^0.1.4, node-fetch-native@^0.1.5:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/node-fetch-native/-/node-fetch-native-0.1.7.tgz#8a8ed0d5d1d1b89d34c6731a9d69d407c09df067"
   integrity sha512-hps7dFJM0IEF056JftDSSjWDAwW9v2clwHoUJiHyYgl+ojoqjKyWybljMlpTmlC1O+864qovNlRLyAIjRxu9Ag==
