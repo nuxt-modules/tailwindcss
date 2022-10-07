@@ -204,10 +204,6 @@ export default defineNuxtModule<ModuleOptions>({
     postcssOptions.plugins = postcssOptions.plugins || {}
     postcssOptions.plugins['tailwindcss/nesting'] = postcssOptions.plugins['tailwindcss/nesting'] ?? {}
     postcssOptions.plugins['postcss-custom-properties'] = postcssOptions.plugins['postcss-custom-properties'] ?? {}
-    // Hot fix for Tailwind refreshing in dev when changing markdown files in content
-    if (nuxt.options.dev && tailwindConfig.content) {
-      tailwindConfig.content = tailwindConfig.content.filter((path: string) => !path.includes('/content-cache/parsed'))
-    }
     postcssOptions.plugins.tailwindcss = tailwindConfig
 
     if (isNuxt2()) {

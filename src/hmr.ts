@@ -35,6 +35,8 @@ export default function (tailwindConfig: any = {}, rootDir: string, cssPath: str
           }
         })
       })
+      // @ts-ignore
+      return true
     }
   }
 };
