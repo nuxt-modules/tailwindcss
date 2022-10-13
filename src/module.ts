@@ -42,7 +42,7 @@ type Arrayable<T> = T | T[]
 
 export interface ModuleOptions {
   configPath: Arrayable<string>;
-  cssPath: string;
+  cssPath: string | false;
   config: Config;
   viewer: boolean;
   exposeConfig: boolean;
@@ -162,7 +162,7 @@ export default defineNuxtModule<ModuleOptions>({
      * CSS file handling
      */
 
-    const cssPath = await resolvePath(moduleOptions.cssPath, { extensions: ['.css', '.sass', '.scss', '.less', '.styl'] })
+    const cssPath = typeof moduleOptions.cssPath === 'string' ? await resolvePath(moduleOptions.cssPath, { extensions: ['.css', '.sass', '.scss', '.less', '.styl'] }) : false
 
     // Include CSS file in project css
     let resolvedCss: string
@@ -175,6 +175,9 @@ export default defineNuxtModule<ModuleOptions>({
         // @ts-ignore
         resolvedCss = createResolver(import.meta.url).resolve('runtime/tailwind.css')
       }
+    } else {
+      logger.info('No Tailwind CSS file found. Skipping...')
+      resolvedCss = createResolver(import.meta.url).resolve('runtime/empty.css')
     }
     nuxt.options.css = nuxt.options.css ?? []
     const resolvedNuxtCss = await Promise.all(nuxt.options.css.map(p => resolvePath(p)))
