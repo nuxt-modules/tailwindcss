@@ -4203,6 +4203,16 @@ h3@^0.7.12, h3@^0.7.21:
     radix3 "^0.1.2"
     ufo "^0.8.5"
 
+h3@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/h3/-/h3-0.8.1.tgz#e9992f09dd1abcf2c190d4cd068febf9bddafd41"
+  integrity sha512-HWTShxx4RKpse3f2h5KOWTEAIZLKq9SHWaVBZkOhBH+fH8uRGYY1iNO7VDwImFwARtR/Pg+bVI8feXX9NIdQRQ==
+  dependencies:
+    cookie-es "^0.5.0"
+    destr "^1.1.1"
+    radix3 "^0.2.1"
+    ufo "^0.8.5"
+
 handlebars@^4.7.7:
   version "4.7.7"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.7.tgz#9ce33416aad02dbd6c8fafa8240d5d98004945a1"
@@ -7154,6 +7164,11 @@ radix3@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/radix3/-/radix3-0.1.2.tgz#5f7351af7fc5e4b1d9a1b14a7266b6a4a8cac0ba"
   integrity sha512-Mpfd/OuX0zoJ6ojLD/RTOHvJPg6e6PjINtmYzV87kIXc5iUtDz34i7gg4SV4XjqRJTmSiYO/g9i/mKWGf4z8wg==
+
+radix3@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/radix3/-/radix3-0.2.1.tgz#77e66a41c7ba5600a8bc137fd259ef661d314418"
+  integrity sha512-FnhArTl5Tq7dodiLeSPKrDUyCQuJqEncP8cKdyy399g8F/cz7GH6FmzA3Rkosu2IZMkpswFFwXfb2ERSiL06pg==
 
 randombytes@^2.1.0:
   version "2.1.0"

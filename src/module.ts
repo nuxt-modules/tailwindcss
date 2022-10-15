@@ -15,6 +15,7 @@ import {
   isNuxt3, findPath, requireModule
 } from '@nuxt/kit'
 import { Config } from 'tailwindcss'
+import { eventHandler } from 'h3'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
 import defaultTailwindConfig from './tailwind.config'
@@ -231,13 +232,13 @@ export default defineNuxtModule<ModuleOptions>({
       const { withTrailingSlash, withoutTrailingSlash } = await import('ufo')
       const routerPrefix = isNuxt3() ? route : undefined
       const _viewerDevMiddleware = createServer({ tailwindConfigProvider: () => tailwindConfig, routerPrefix }).asMiddleware()
-      const viewerDevMiddleware = (req, res) => {
-        if (req.originalUrl === withoutTrailingSlash(route)) {
-          res.writeHead(301, { Location: withTrailingSlash(req.originalUrl) })
-          return res.end()
+      const viewerDevMiddleware = eventHandler((event) => {
+        if (event.req.url === withoutTrailingSlash(route)) {
+          event.res.writeHead(301, { Location: withTrailingSlash(event.req.url) })
+          return event.res.end()
         }
-        _viewerDevMiddleware(req, res)
-      }
+        _viewerDevMiddleware(event.req, event.res)
+      })
       if (isNuxt3()) { addDevServerHandler({ route, handler: viewerDevMiddleware }) }
       if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: viewerDevMiddleware }) }
       nuxt.hook('listen', (_, listener) => {
