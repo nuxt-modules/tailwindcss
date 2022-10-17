@@ -234,8 +234,7 @@ export default defineNuxtModule<ModuleOptions>({
       const _viewerDevMiddleware = createServer({ tailwindConfigProvider: () => tailwindConfig, routerPrefix }).asMiddleware()
       const viewerDevMiddleware = eventHandler((event) => {
         if (event.req.url === withoutTrailingSlash(route)) {
-          event.res.writeHead(301, { Location: withTrailingSlash(event.req.url) })
-          return event.res.end()
+          return sendRedirect(event, withTrailingSlash(event.req.url), 301)
         }
         _viewerDevMiddleware(event.req, event.res)
       })
