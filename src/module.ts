@@ -82,7 +82,7 @@ export default defineNuxtModule<ModuleOptions>({
       // filter in case an empty path is provided
       const paths = (Array.isArray(path) ? path : [path]).filter(Boolean)
       for (const path of paths) {
-        const resolvedPath = (await findPath(path, { extensions: ['.js', '.mjs', '.ts'] }, 'file'))
+        const resolvedPath = (await findPath(path, { extensions: ['.js', '.cjs', '.mjs', '.ts'] }, 'file'))
         // only if the path is found
         if (resolvedPath) {
           configPaths.push(resolvedPath)
