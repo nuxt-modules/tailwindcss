@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/nuxt-community/tailwindcss-module/compare/v5.3.5...v6.0.0) (2022-10-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* update viewer dev middleware to be compatible with `h3@0.8` (#545)
+
+### Features
+
+* expose config as commonjs file ([#535](https://github.com/nuxt-community/tailwindcss-module/issues/535)) ([af87449](https://github.com/nuxt-community/tailwindcss-module/commit/af8744972ba2409fd6a468829addb963824168e5))
+* update viewer dev middleware to be compatible with `h3@0.8` ([#545](https://github.com/nuxt-community/tailwindcss-module/issues/545)) ([0b1844e](https://github.com/nuxt-community/tailwindcss-module/commit/0b1844efec4ed594d852938f6091178a5401f7d9))
+
 ### [5.3.5](https://github.com/nuxt-community/tailwindcss-module/compare/v5.3.4...v5.3.5) (2022-10-07)
 
 
