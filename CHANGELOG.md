@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### ⚠ BREAKING CHANGES
 
 * update viewer dev middleware to be compatible with `h3@0.8` (#545)
+* You can no longer use CJS syntax (`module.exports`) in your `tailwind.config.js` (#549)
 
 ### Features
 
