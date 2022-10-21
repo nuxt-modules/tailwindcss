@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.0](https://github.com/nuxt-community/tailwindcss-module/compare/v6.0.1...v6.1.0) (2022-10-21)
+
+
+### Features
+
+* add option to set `cssPath` to `false` ([#544](https://github.com/nuxt-community/tailwindcss-module/issues/544)) ([f45fc97](https://github.com/nuxt-community/tailwindcss-module/commit/f45fc97b87eb63acdf9568d917177322d957ac82))
+
 ### [6.0.1](https://github.com/nuxt-community/tailwindcss-module/compare/v6.0.0...v6.0.1) (2022-10-19)
 
 ## [6.0.0](https://github.com/nuxt-community/tailwindcss-module/compare/v5.3.5...v6.0.0) (2022-10-19)
