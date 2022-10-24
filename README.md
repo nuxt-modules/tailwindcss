@@ -4,8 +4,6 @@
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![Github Actions CI][github-actions-ci-src]][github-actions-ci-href]
-[![Codecov][codecov-src]][codecov-href]
 [![License][license-src]][license-href]
 
 > [Tailwind CSS](https://tailwindcss.com) module for [Nuxt](https://nuxtjs.org) with [modern css](https://tailwindcss.com/docs/using-with-preprocessors#future-css-features) ⚡️
@@ -71,17 +69,11 @@ Or locally:
 Copyright (c) Nuxt Community
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/@nuxtjs/tailwindcss/latest.svg
+[npm-version-src]: https://img.shields.io/npm/v/@nuxtjs/tailwindcss/latest.svg?style=flat&colorA=002438&colorB=28CF8D
 [npm-version-href]: https://npmjs.com/package/@nuxtjs/tailwindcss
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/@nuxtjs/tailwindcss.svg
+[npm-downloads-src]: https://img.shields.io/npm/dm/@nuxtjs/tailwindcss.svg?style=flat&colorA=002438&colorB=28CF8D
 [npm-downloads-href]: https://npmjs.com/package/@nuxtjs/tailwindcss
 
-[github-actions-ci-src]: https://github.com/nuxt-community/tailwindcss-module/workflows/ci/badge.svg
-[github-actions-ci-href]: https://github.com/nuxt-community/tailwindcss-module/actions?query=workflow%3Aci
-
-[codecov-src]: https://img.shields.io/codecov/c/github/nuxt-community/tailwindcss-module.svg
-[codecov-href]: https://codecov.io/gh/nuxt-community/tailwindcss-module
-
-[license-src]: https://img.shields.io/npm/l/@nuxtjs/tailwindcss.svg
+[license-src]: https://img.shields.io/npm/l/@nuxtjs/tailwindcss.svg?style=flat&colorA=002438&colorB=28CF8D
 [license-href]: https://npmjs.com/package/@nuxtjs/tailwindcss
