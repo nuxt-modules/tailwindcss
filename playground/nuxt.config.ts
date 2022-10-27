@@ -1,4 +1,3 @@
-import { defineNuxtConfig } from 'nuxt'
 import tailwindModule from '../src/module'
 
 export default defineNuxtConfig({
