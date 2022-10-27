@@ -109,7 +109,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Watch the Tailwind config file to restart the server
     if (nuxt.options.dev) {
-      nuxt.options.watch = nuxt.options.watch ?? []
+      nuxt.options.watch = nuxt.options.watch || []
       configPaths.forEach(path => nuxt.options.watch.push(path))
     }
 
