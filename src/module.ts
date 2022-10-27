@@ -109,6 +109,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Watch the Tailwind config file to restart the server
     if (nuxt.options.dev) {
+      nuxt.options.watch = nuxt.options.watch ?? []
       configPaths.forEach(path => nuxt.options.watch.push(path))
     }
 
@@ -143,7 +144,7 @@ export default defineNuxtModule<ModuleOptions>({
       getContents: () => `module.exports = ${JSON.stringify(resolvedConfig, null, 2)}`,
       write: true
     })
-    
+
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
