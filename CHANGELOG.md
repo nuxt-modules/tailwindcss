@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.1.2](https://github.com/nuxt-community/tailwindcss-module/compare/v6.1.1...v6.1.2) (2022-10-28)
+
+
+### Bug Fixes
+
+* normalise undefined `nuxt.options.watch` ([#553](https://github.com/nuxt-community/tailwindcss-module/issues/553)) ([5b373c6](https://github.com/nuxt-community/tailwindcss-module/commit/5b373c6c1091808360db4a657210e21adf205d73))
+
 ### [6.1.1](https://github.com/nuxt-community/tailwindcss-module/compare/v6.1.0...v6.1.1) (2022-10-24)
 
 
