@@ -1,3 +1,4 @@
+import { CSSOption, CSSOptionObjectFormat } from '../declerations';
 import { existsSync } from 'fs'
 import { join, relative } from 'pathe'
 import defu, { defuArrayFn } from 'defu'
@@ -12,7 +13,7 @@ import {
   createResolver,
   resolvePath,
   addVitePlugin,
-  isNuxt3, findPath, requireModule
+  isNuxt3, findPath, requireModule, ResolvePathOptions
 } from '@nuxt/kit'
 import { Config } from 'tailwindcss'
 import { eventHandler, sendRedirect } from 'h3'
@@ -189,7 +190,8 @@ export default defineNuxtModule<ModuleOptions>({
       resolvedCss = createResolver(import.meta.url).resolve('runtime/empty.css')
     }
     nuxt.options.css = nuxt.options.css ?? []
-    const resolvedNuxtCss = await Promise.all(nuxt.options.css.map(p => resolvePath(p)))
+
+    const resolvedNuxtCss = await Promise.all(nuxt.options.css.map((p: CSSOption) => resolvePath((p as CSSOptionObjectFormat).src ?? p)))
 
     // Inject only if this file isn't listed already by user (e.g. user may put custom path both here and in css):
     if (!resolvedNuxtCss.includes(resolvedCss)) {
