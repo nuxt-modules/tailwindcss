@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.1.3](https://github.com/nuxt-community/tailwindcss-module/compare/v6.1.2...v6.1.3) (2022-11-03)
+
+
+### Bug Fixes
+
+* css option in  object format error. ([#557](https://github.com/nuxt-community/tailwindcss-module/issues/557)) ([2408a1e](https://github.com/nuxt-community/tailwindcss-module/commit/2408a1edcac909bf29a438b5908e9246392dc105))
+
 ### [6.1.2](https://github.com/nuxt-community/tailwindcss-module/compare/v6.1.1...v6.1.2) (2022-10-28)
 
 
