@@ -189,7 +189,8 @@ export default defineNuxtModule<ModuleOptions>({
       resolvedCss = createResolver(import.meta.url).resolve('runtime/empty.css')
     }
     nuxt.options.css = nuxt.options.css ?? []
-    const resolvedNuxtCss = await Promise.all(nuxt.options.css.map(p => resolvePath(p)))
+
+    const resolvedNuxtCss = await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p)))
 
     // Inject only if this file isn't listed already by user (e.g. user may put custom path both here and in css):
     if (!resolvedNuxtCss.includes(resolvedCss)) {
