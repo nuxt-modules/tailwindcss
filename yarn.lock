@@ -6939,10 +6939,10 @@ postcss-convert-values@^5.1.2:
     browserslist "^4.20.3"
     postcss-value-parser "^4.2.0"
 
-postcss-custom-properties@^12.1.10:
-  version "12.1.10"
-  resolved "https://registry.yarnpkg.com/postcss-custom-properties/-/postcss-custom-properties-12.1.10.tgz#624517179fd4cf50078a7a60f628d5782e7d4903"
-  integrity sha512-U3BHdgrYhCrwTVcByFHs9EOBoqcKq4Lf3kXwbTi4hhq0qWhl/pDWq2THbv/ICX/Fl9KqeHBb8OVrTf2OaYF07A==
+postcss-custom-properties@^13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-custom-properties/-/postcss-custom-properties-13.0.0.tgz#4de6687403c988ac4ac7ad274ae2fe2399f950af"
+  integrity sha512-y4lGIjKPdy1gDyGgwZLpMgqcum04JZZ9UWKxO6WjxSEQ1IzaAFxgbiqcF5M4RWHXFqe5Wa549xXz/4F7DU9TYg==
   dependencies:
     postcss-value-parser "^4.2.0"
 
