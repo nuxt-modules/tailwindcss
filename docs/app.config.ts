@@ -1,36 +1,31 @@
 export default defineAppConfig({
   docus: {
-    title: "Nuxt Tailwind",
-    layout: "default",
-    url: "https://tailwindcss.nuxtjs.org/",
-    description: "Add Tailwind CSS to your Nuxt application in seconds.",
+    title: 'Nuxt Tailwind',
+    layout: 'default',
+    url: 'https://tailwindcss.nuxtjs.org/',
+    description: 'Add Tailwind CSS to your Nuxt application in seconds.',
     socials: {
-      twitter: "nuxt_js",
-      github: "nuxt-modules/tailwindcss",
+      twitter: 'nuxt_js',
+      github: 'nuxt-modules/tailwindcss'
     },
-    image: "/cover.jpg",
+    image: '/cover.jpg',
     header: {
-      title: false,
-      logo: true,
+      // title: false,
+      logo: true
     },
     footer: {
-      credits: {
-        icon: "IconDocus",
-        text: "Powered by Docus",
-        href: "https://docus.com",
-      },
-      icons: [
+      iconLinks: [
         {
-          label: "NuxtJS",
-          href: "https://nuxtjs.org",
-          component: "IconNuxt",
+          label: 'Nuxt',
+          href: 'https://nuxt.com',
+          icon: 'IconNuxt'
         },
         {
-          label: "Vue Telescope",
-          href: "https://vuetelescope.com",
-          component: "IconVueTelescope",
-        },
-      ],
+          label: 'Vue Telescope',
+          href: 'https://vuetelescope.com',
+          icon: 'IconVueTelescope'
+        }
+      ]
     }
   }
 })
