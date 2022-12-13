@@ -150,7 +150,7 @@ export default defineNuxtModule<ModuleOptions>({
     if (moduleOptions.exposeConfig) {
       const template = addTemplate({
         filename: 'tailwind.config.mjs',
-        getContents: () => `${Object.entries(resolvedConfig).map(([k, v]) => `export const ${k} = ${JSON.stringify(v, null, 2)}`).join('\n')}\nexport default ${JSON.stringify(resolvedConfig, null, 2)}`
+        getContents: () => `${Object.entries(resolvedConfig).map(([k, v]) => `export const ${k} = ${JSON.stringify(v, null, 2)}`).join('\n')}\nexport default {${Object.keys(resolvedConfig)}}`
       })
       addTemplate({
         filename: 'tailwind.config.d.ts',
