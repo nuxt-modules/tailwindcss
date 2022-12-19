@@ -71,7 +71,7 @@ export default defineNuxtModule<ModuleOptions>({
      * Config file handling
      */
 
-    const configPaths = []
+    const configPaths: string[] = []
     const contentPaths = []
 
     /**
@@ -109,7 +109,9 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Watch the Tailwind config file to restart the server
     if (nuxt.options.dev) {
+      // @ts-ignore
       nuxt.options.watch = nuxt.options.watch || []
+      // @ts-ignore
       configPaths.forEach(path => nuxt.options.watch.push(path))
     }
 
@@ -155,7 +157,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
       addTemplate({
         filename: 'tailwind.config.d.ts',
-        getContents: () => `type tailwindcssConfig = import("tailwindcss").Config\ndeclare const config: tailwindcssConfig\n${configOptions.map((o) => `declare const ${o}: tailwindcssConfig["${o}"]`).join('\n')}\nexport { config as default, ${configOptions.join(', ')} }`,
+        getContents: () => `type tailwindcssConfig = import("tailwindcss").Config\ndeclare const config: tailwindcssConfig\n${configOptions.map(o => `declare const ${o}: tailwindcssConfig["${o}"]`).join('\n')}\nexport { config as default, ${configOptions.join(', ')} }`,
         write: true
       })
       nuxt.options.alias['#tailwind-config'] = template.dst
@@ -198,7 +200,7 @@ export default defineNuxtModule<ModuleOptions>({
       let injectPosition: number
       try {
         injectPosition = resolveInjectPosition(nuxt.options.css, moduleOptions.injectPosition)
-      } catch (e) {
+      } catch (e: any) {
         throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
       }
 
@@ -212,8 +214,8 @@ export default defineNuxtModule<ModuleOptions>({
     // Setup postcss plugins
     // https://tailwindcss.com/docs/using-with-preprocessors#future-css-features
     const postcssOptions =
-      nuxt.options.postcss || /* nuxt 3 */
-      nuxt.options.build.postcss.postcssOptions || /* older nuxt3 */
+      nuxt.options.postcss || /* nuxt 3 */ /* @ts-ignore */
+      nuxt.options.build.postcss.postcssOptions || /* older nuxt3 */ /* @ts-ignore */
       nuxt.options.build.postcss as any
     postcssOptions.plugins = postcssOptions.plugins || {}
     postcssOptions.plugins['tailwindcss/nesting'] = postcssOptions.plugins['tailwindcss/nesting'] ?? {}
@@ -241,6 +243,7 @@ export default defineNuxtModule<ModuleOptions>({
     // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
     if (nuxt.options.dev && moduleOptions.viewer) {
       const route = '/_tailwind'
+      // @ts-ignore
       const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r) as any
       const { withTrailingSlash, withoutTrailingSlash } = await import('ufo')
       const routerPrefix = isNuxt3() ? route : undefined
@@ -252,6 +255,7 @@ export default defineNuxtModule<ModuleOptions>({
         _viewerDevMiddleware(event.req, event.res)
       })
       if (isNuxt3()) { addDevServerHandler({ route, handler: viewerDevMiddleware }) }
+      // @ts-ignore
       if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: viewerDevMiddleware }) }
       nuxt.hook('listen', (_, listener) => {
         const viewerUrl = `${withoutTrailingSlash(listener.url)}${route}`

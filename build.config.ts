@@ -4,5 +4,6 @@ export default defineBuildConfig({
   externals: [
     'pathe',
     'minimatch'
-  ]
+  ],
+  failOnWarn: false
 })
