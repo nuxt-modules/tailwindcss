@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.2.0](https://github.com/nuxt-community/tailwindcss-module/compare/v6.1.3...v6.2.0) (2022-12-19)
+
+
+### Features
+
+* **docs:** upgrade to latest Docus ([#580](https://github.com/nuxt-community/tailwindcss-module/issues/580)) ([462410a](https://github.com/nuxt-community/tailwindcss-module/commit/462410a246edae25ccfe38f0bb2f6f47a626dc04))
+
+
+### Bug Fixes
+
+* **exposeConfig:** named exports in mjs for tree-shaking ([#582](https://github.com/nuxt-community/tailwindcss-module/issues/582)) ([6c3168d](https://github.com/nuxt-community/tailwindcss-module/commit/6c3168da0bf59f15e3a53eaacb1abd382b62206e))
+
 ### [6.1.3](https://github.com/nuxt-community/tailwindcss-module/compare/v6.1.2...v6.1.3) (2022-11-03)
 
 
