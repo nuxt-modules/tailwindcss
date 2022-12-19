@@ -148,13 +148,14 @@ export default defineNuxtModule<ModuleOptions>({
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
+      const configOptions = Object.keys(resolvedConfig)
       const template = addTemplate({
         filename: 'tailwind.config.mjs',
-        getContents: () => `export default ${JSON.stringify(resolvedConfig, null, 2)}`
+        getContents: () => `${Object.entries(resolvedConfig).map(([k, v]) => `export const ${k} = ${JSON.stringify(v, null, 2)}`).join('\n')}\nexport default { ${configOptions.join(', ')} }`
       })
       addTemplate({
         filename: 'tailwind.config.d.ts',
-        getContents: () => 'declare const config: import("tailwindcss").Config\nexport { config as default }',
+        getContents: () => `type tailwindcssConfig = import("tailwindcss").Config\ndeclare const config: tailwindcssConfig\n${configOptions.map((o) => `declare const ${o}: tailwindcssConfig["${o}"]`).join('\n')}\nexport { config as default, ${configOptions.join(', ')} }`,
         write: true
       })
       nuxt.options.alias['#tailwind-config'] = template.dst
