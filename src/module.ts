@@ -1,7 +1,7 @@
 import { existsSync } from 'fs'
 import { join, relative } from 'pathe'
 import defu, { defuArrayFn } from 'defu'
-import { upperFirst, camelCase } from 'scule'
+import { pascalCase, camelCase } from 'scule'
 import chalk from 'chalk'
 import consola from 'consola'
 import {
@@ -165,7 +165,7 @@ export default defineNuxtModule<ModuleOptions>({
             // create export for parent object
             const exportName = camelCase(path.concat(key).join('-'))
             exposeMap[exportName] = `{ ${Object.keys(value)
-              .map(v => `${v}: ${exportName}${upperFirst(v)}`)
+              .map(v => `"${v}": ${exportName}${pascalCase(v)}`)
               .join(', ')} }`
           }
         })
@@ -180,7 +180,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
       addTemplate({
         filename: 'tailwind.config.d.ts',
-        getContents: () => `type tailwindcssConfig = import("tailwindcss").Config\ndeclare const config: tailwindcssConfig\n${configOptions.map(o => `declare const ${o}: tailwindcssConfig["${o}"]`).join('\n')}\nexport { config as default, ${configOptions.join(', ')} }`,
+        getContents: () => `${Object.entries(exposeMap).map(([k, v]) => (`declare const ${k} = ${v}`)).join('\n')}\ndeclare const config = { ${configOptions.join(', ')} }\nexport { config as default, ${Object.keys(exposeMap).join(', ')} }`,
         write: true
       })
       nuxt.options.alias['#tailwind-config'] = template.dst
