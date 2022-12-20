@@ -154,10 +154,9 @@ export default defineNuxtModule<ModuleOptions>({
       const exposeMap = {}
       const populateMap = (obj, path = []) => {
         Object.entries(obj).forEach(([key, value]) => {
-          if (typeof value !== 'object' || Array.isArray(value)) {
+          if (typeof value !== 'object' || Array.isArray(value) || Object.keys(value).find(k => !k.match(/^[0-9a-z]+$/i))) {
             const exportName = camelCase(path.concat(key).join('-'))
-            exposeMap[exportName] =
-              typeof value === 'string' ? `"${value}"` : JSON.stringify(value)
+            exposeMap[exportName] = JSON.stringify(value)
           } else {
             // recurse through nested objects
             populateMap(value, path.concat(key))
