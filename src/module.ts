@@ -1,6 +1,7 @@
 import { existsSync } from 'fs'
 import { join, relative } from 'pathe'
 import defu, { defuArrayFn } from 'defu'
+import { upperFirst, camelCase } from 'scule'
 import chalk from 'chalk'
 import consola from 'consola'
 import {
@@ -150,10 +151,32 @@ export default defineNuxtModule<ModuleOptions>({
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
+      const exposeMap = {}
+      const populateMap = (obj, path = []) => {
+        Object.entries(obj).forEach(([key, value]) => {
+          if (typeof value !== 'object' || Array.isArray(value)) {
+            const exportName = camelCase(path.concat(key).join('-'))
+            exposeMap[exportName] =
+              typeof value === 'string' ? `"${value}"` : JSON.stringify(value)
+          } else {
+            // recurse through nested objects
+            populateMap(value, path.concat(key))
+
+            // create export for parent object
+            const exportName = camelCase(path.concat(key).join('-'))
+            exposeMap[exportName] = `{ ${Object.keys(value)
+              .map(v => `${v}: ${exportName}${upperFirst(v)}`)
+              .join(', ')} }`
+          }
+        })
+      }
+
+      populateMap(resolvedConfig)
+
       const configOptions = Object.keys(resolvedConfig)
       const template = addTemplate({
         filename: 'tailwind.config.mjs',
-        getContents: () => `${Object.entries(resolvedConfig).map(([k, v]) => `export const ${k} = ${JSON.stringify(v, null, 2)}`).join('\n')}\nexport default { ${configOptions.join(', ')} }`
+        getContents: () => `${Object.entries(exposeMap).map(([k, v]) => (`export const ${k} = ${v}`)).join('\n')}\nexport default { ${configOptions.join(', ')} }`
       })
       addTemplate({
         filename: 'tailwind.config.d.ts',
