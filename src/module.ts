@@ -1,7 +1,6 @@
 import { existsSync } from 'fs'
 import { join, relative } from 'pathe'
 import defu, { defuArrayFn } from 'defu'
-import { pascalCase, camelCase } from 'scule'
 import chalk from 'chalk'
 import consola from 'consola'
 import {
@@ -155,17 +154,19 @@ export default defineNuxtModule<ModuleOptions>({
       const populateMap = (obj, path = []) => {
         Object.entries(obj).forEach(([key, value]) => {
           if (typeof value !== 'object' || Array.isArray(value) || Object.keys(value).find(k => !k.match(/^[0-9a-z]+$/i))) {
-            const exportName = camelCase(path.concat(key).join('-'))
-            exposeMap[exportName] = JSON.stringify(value)
+            addTemplate({
+              filename: `tailwind.config/${path.concat(key).join('/')}.mjs`,
+              getContents: () => `export default ${JSON.stringify(value)}`
+            })
           } else {
             // recurse through nested objects
             populateMap(value, path.concat(key))
 
-            // create export for parent object
-            const exportName = camelCase(path.concat(key).join('-'))
-            exposeMap[exportName] = `{ ${Object.keys(value)
-              .map(v => `"${v}": ${exportName}${pascalCase(v)}`)
-              .join(', ')} }`
+            const values = Object.keys(value)
+            addTemplate({
+              filename: `tailwind.config/${path.concat(key).join('/')}.mjs`,
+              getContents: () => `${Object.keys(value).map(v => `import _${v} from "./${key}/${v}.mjs"`).join('\n')}\nconst config = { ${values.map(k => `"${k}": _${k}`).join(', ')} }\nexport { config as default${values.length > 0 ? ', _' : ''}${values.join(', _')} }`
+            })
           }
         })
       }
@@ -175,7 +176,7 @@ export default defineNuxtModule<ModuleOptions>({
       const configOptions = Object.keys(resolvedConfig)
       const template = addTemplate({
         filename: 'tailwind.config.mjs',
-        getContents: () => `${Object.entries(exposeMap).map(([k, v]) => (`export const ${k} = ${v}`)).join('\n')}\nexport default { ${configOptions.join(', ')} }`
+        getContents: () => `${configOptions.map(v => `import ${v} from "./tailwind.config/${v}.mjs"`).join('\n')}\nconst config = { ${configOptions.join(', ')} }\nexport { config as default, ${configOptions.join(', ')} }`
       })
       addTemplate({
         filename: 'tailwind.config.d.ts',
