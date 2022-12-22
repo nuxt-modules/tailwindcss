@@ -47,6 +47,7 @@ export interface ModuleOptions {
   config: Config;
   viewer: boolean;
   exposeConfig: boolean;
+  exposeLevel: number;
   injectPosition: InjectPosition;
   disableHmrHotfix: boolean;
 }
@@ -63,6 +64,7 @@ export default defineNuxtModule<ModuleOptions>({
     config: defaultTailwindConfig(),
     viewer: true,
     exposeConfig: false,
+    exposeLevel: 2,
     injectPosition: 'first',
     disableHmrHotfix: false
   }),
@@ -151,16 +153,22 @@ export default defineNuxtModule<ModuleOptions>({
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
       const exposeMap = {}
-      const populateMap = (obj, path = []) => {
+      const populateMap = (obj, path = [], level = 0, maxLevel = moduleOptions.exposeLevel) => {
         Object.entries(obj).forEach(([key, value]) => {
-          if (typeof value !== 'object' || Array.isArray(value) || Object.keys(value).find(k => !k.match(/^[0-9a-z]+$/i))) {
+          if (
+            level >= maxLevel ||
+            typeof value !== 'object' ||
+            Array.isArray(value) ||
+            Object.keys(value).find(k => !k.match(/^[0-9a-z]+$/i))
+            // || !Object.values(value).find((v) => typeof v === 'object')
+          ) {
             addTemplate({
               filename: `tailwind.config/${path.concat(key).join('/')}.mjs`,
-              getContents: () => `export default ${JSON.stringify(value)}`
+              getContents: () => `export default ${JSON.stringify(value, null, 2)}`
             })
           } else {
             // recurse through nested objects
-            populateMap(value, path.concat(key))
+            populateMap(value, path.concat(key), level + 1, maxLevel)
 
             const values = Object.keys(value)
             addTemplate({
