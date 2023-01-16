@@ -160,7 +160,6 @@ export default defineNuxtModule<ModuleOptions>({
             typeof value !== 'object' ||
             Array.isArray(value) ||
             Object.keys(value).find(k => !k.match(/^[0-9a-z]+$/i))
-            // || !Object.values(value).find((v) => typeof v === 'object')
           ) {
             addTemplate({
               filename: `tailwind.config/${path.concat(key).join('/')}.mjs`,
