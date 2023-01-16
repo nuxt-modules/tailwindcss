@@ -153,7 +153,7 @@ export default defineNuxtModule<ModuleOptions>({
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
       const exposeMap = {}
-      const populateMap = (obj, path = [], level = 0, maxLevel = moduleOptions.exposeLevel) => {
+      const populateMap = (obj, path = [], level = 1, maxLevel = moduleOptions.exposeLevel) => {
         Object.entries(obj).forEach(([key, value]) => {
           if (
             level >= maxLevel ||
