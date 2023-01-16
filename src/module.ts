@@ -152,14 +152,21 @@ export default defineNuxtModule<ModuleOptions>({
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
-      const exposeMap = {}
-      const populateMap = (obj, path = [], level = 1, maxLevel = moduleOptions.exposeLevel) => {
-        Object.entries(obj).forEach(([key, value]) => {
+      /**
+       * Creates MJS exports for properties of the config
+       *
+       * @param obj config
+       * @param path parent properties trace
+       * @param level level of object depth
+       * @param maxLevel maximum level of depth
+       */
+      const populateMap = (obj: any, path: string[] = [], level = 1, maxLevel = moduleOptions.exposeLevel) => {
+        Object.entries(obj).forEach(([key, value = {}]) => {
           if (
-            level >= maxLevel ||
-            typeof value !== 'object' ||
-            Array.isArray(value) ||
-            Object.keys(value).find(k => !k.match(/^[0-9a-z]+$/i))
+            level >= maxLevel || // if recursive call is more than desired
+            typeof value !== 'object' || // if its not an object, no more recursion required
+            Array.isArray(value) || // arrays are objects in JS, but we can't break it down
+            Object.keys(value).find(k => !k.match(/^[0-9a-z]+$/i)) // object has non-alphanumeric property (unsafe var name)
           ) {
             addTemplate({
               filename: `tailwind.config/${path.concat(key).join('/')}.mjs`,
@@ -187,7 +194,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
       addTemplate({
         filename: 'tailwind.config.d.ts',
-        getContents: () => `${Object.entries(exposeMap).map(([k, v]) => (`declare const ${k} = ${v}`)).join('\n')}\ndeclare const config = { ${configOptions.join(', ')} }\nexport { config as default, ${Object.keys(exposeMap).join(', ')} }`,
+        getContents: () => `type tailwindcssConfig = import("tailwindcss").Config\ndeclare const config: tailwindcssConfig\n${configOptions.map(o => `declare const ${o}: tailwindcssConfig["${o}"]`).join('\n')}\nexport { config as default, ${configOptions.join(', ')} }`,
         write: true
       })
       nuxt.options.alias['#tailwind-config'] = template.dst
