@@ -19,7 +19,7 @@ describe('tailwindcss module configs', async () => {
       'alt-tailwind.config.js',
       'malformed-tailwind.config',
       'ts-tailwind.config',
-      'override-tailwind.config.ts'
+      'override-tailwind.config.js'
     ],
     cssPath: 'tailwind.css'
   })
