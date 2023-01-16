@@ -133,10 +133,12 @@ export default defineNuxtModule<ModuleOptions>({
       tailwindConfig = defu(_tailwindConfig || {}, tailwindConfig)
     }
 
-    tailwindConfig.content = Array.isArray(tailwindConfig.content) ? [...(tailwindConfig.content || []), ...contentPaths] : typeof tailwindConfig.content === 'function' ? tailwindConfig.content(nuxt.options._layers && nuxt.options._layers.length > 1 ? '.' : nuxt.options.srcDir, contentPaths) : contentPaths
+    if (Array.isArray(tailwindConfig.content)) {
+      tailwindConfig.content.push(...contentPaths)
+    }
 
     // Merge with our default purgecss default
-    tailwindConfig = defuArrayFn(tailwindConfig, moduleOptions.config)
+    tailwindConfig = defuArrayFn(tailwindConfig, defu(moduleOptions.config, { content: contentPaths }))
 
     // Write cjs version of config to support vscode extension
     const resolveConfig: any = await import('tailwindcss/resolveConfig.js').then(r => r.default || r)

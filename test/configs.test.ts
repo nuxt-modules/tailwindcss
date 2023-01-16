@@ -49,10 +49,10 @@ describe('tailwindcss module configs', async () => {
     const nuxt = useTestContext().nuxt
     const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))
     // set from override-tailwind.config.ts
-    const contentFiles = destr(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/,"")).content.files
-    expect(contentFiles.length).toBe(3)
+    const contentFiles = destr(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, '')).content.files
+    expect(contentFiles.length).toBe(4)
     expect(contentFiles[0].endsWith('/test/fixture/basic/components/**/*.{vue,js,ts}')).toBe(true)
-    expect(contentFiles[1].endsWith('/test/fixture/basic/theme1/**/*.vue')).toBe(true)
-    expect(contentFiles[2]).toBe('./theme2/**/*.vue')
+    expect(contentFiles[1]).toBe('./custom-theme/**/*.vue')
+    expect(contentFiles.slice(2).filter(c => c.endsWith('vue')).length).toBe(2)
   })
 })
