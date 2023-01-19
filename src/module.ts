@@ -141,6 +141,7 @@ export default defineNuxtModule<ModuleOptions>({
     // Write cjs version of config to support vscode extension
     const resolveConfig: any = await import('tailwindcss/resolveConfig.js').then(r => r.default || r)
     const resolvedConfig = resolveConfig(tailwindConfig)
+    resolvedConfig.plugins = []
     addTemplate({
       filename: 'tailwind.config.cjs',
       getContents: () => `module.exports = ${JSON.stringify(resolvedConfig, null, 2)}`,
