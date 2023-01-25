@@ -1,6 +1,7 @@
 import { describe, test, expect, vi } from 'vitest'
 import { mockedWarn } from 'consola'
 import { useTestContext } from '@nuxt/test-utils'
+import destr from 'destr'
 import { setupNuxtTailwind } from './util'
 
 describe('tailwindcss module configs', async () => {
@@ -17,7 +18,8 @@ describe('tailwindcss module configs', async () => {
     configPath: [
       'alt-tailwind.config.js',
       'malformed-tailwind.config',
-      'ts-tailwind.config'
+      'ts-tailwind.config',
+      'override-tailwind.config.js'
     ],
     cssPath: 'tailwind.css'
   })
@@ -41,5 +43,16 @@ describe('tailwindcss module configs', async () => {
     const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))
     // set from ts-tailwind.config.ts
     expect(nuxt.vfs[vfsKey]).contains('"javascriptYellow": "#f1e05a"')
+  })
+
+  test('content is overridden', () => {
+    const nuxt = useTestContext().nuxt
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))
+    // set from override-tailwind.config.ts
+    const contentFiles = destr(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, '')).content.files
+    expect(contentFiles.length).toBe(4)
+    expect(contentFiles[0]).toBe('ts-content/**/*.md')
+    expect(contentFiles[1]).toBe('./custom-theme/**/*.vue')
+    expect(contentFiles.slice(2).filter(c => c.endsWith('vue')).length).toBe(2)
   })
 })
