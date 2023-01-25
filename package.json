@@ -50,7 +50,7 @@
     "@tailwindcss/typography": "^0.5.9",
     "codecov": "latest",
     "eslint": "latest",
-    "jsdom": "^20.0.2",
+    "jsdom": "^21.1.0",
     "nuxt": "^3.0.0",
     "standard-version": "latest",
     "vitest": "^0.24.5"
