@@ -1,3 +1,9 @@
+---
+layout: prose
+---
+
+# Hello
+
 ::div{.my-4}
 [@nuxt/content support]{.px-4 .text-xl .font-bold}
 ::
