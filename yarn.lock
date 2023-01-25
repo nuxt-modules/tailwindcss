@@ -6345,6 +6345,11 @@ pathe@^1.0.0:
   resolved "https://registry.yarnpkg.com/pathe/-/pathe-1.0.0.tgz#135fc11464fc57c84ef93d5c5ed21247e24571df"
   integrity sha512-nPdMG0Pd09HuSsr7QOKUXO2Jr9eqaDiZvDwdyIhNG5SHYujkQHYKDfGQkulBxvbDHz8oHLsTgKN86LSwYzSHAg==
 
+pathe@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/pathe/-/pathe-1.1.0.tgz#e2e13f6c62b31a3289af4ba19886c230f295ec03"
+  integrity sha512-ODbEPR0KKHqECXW1GoxdDb+AZvULmXjVPy4rt+pGo2+TnjJTIPJQSVS6N63n8T2Ip+syHhbn52OewKicV0373w==
+
 pathval@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/pathval/-/pathval-1.1.1.tgz#8534e77a77ce7ac5a2512ea21e0fdb8fcf6c3d8d"
