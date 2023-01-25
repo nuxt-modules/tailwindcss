@@ -1,7 +1,9 @@
 export default defineAppConfig({
   docus: {
     title: 'Nuxt Tailwind',
-    layout: 'default',
+    layout: {
+      fluid: true
+    },
     url: 'https://tailwindcss.nuxtjs.org/',
     description: 'Add Tailwind CSS to your Nuxt application in seconds.',
     socials: {
