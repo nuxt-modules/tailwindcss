@@ -47,6 +47,7 @@ export interface ModuleOptions {
   config: Config;
   viewer: boolean;
   exposeConfig: boolean;
+  exposeLevel: number;
   injectPosition: InjectPosition;
   disableHmrHotfix: boolean;
 }
@@ -63,6 +64,7 @@ export default defineNuxtModule<ModuleOptions>({
     config: defaultTailwindConfig(),
     viewer: true,
     exposeConfig: false,
+    exposeLevel: 2,
     injectPosition: 'first',
     disableHmrHotfix: false
   }),
@@ -149,10 +151,45 @@ export default defineNuxtModule<ModuleOptions>({
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
+      /**
+       * Creates MJS exports for properties of the config
+       *
+       * @param obj config
+       * @param path parent properties trace
+       * @param level level of object depth
+       * @param maxLevel maximum level of depth
+       */
+      const populateMap = (obj: any, path: string[] = [], level = 1, maxLevel = moduleOptions.exposeLevel) => {
+        Object.entries(obj).forEach(([key, value = {}]) => {
+          if (
+            level >= maxLevel || // if recursive call is more than desired
+            typeof value !== 'object' || // if its not an object, no more recursion required
+            Array.isArray(value) || // arrays are objects in JS, but we can't break it down
+            Object.keys(value).find(k => !k.match(/^[0-9a-z]+$/i)) // object has non-alphanumeric property (unsafe var name)
+          ) {
+            addTemplate({
+              filename: `tailwind.config/${path.concat(key).join('/')}.mjs`,
+              getContents: () => `export default ${JSON.stringify(value, null, 2)}`
+            })
+          } else {
+            // recurse through nested objects
+            populateMap(value, path.concat(key), level + 1, maxLevel)
+
+            const values = Object.keys(value)
+            addTemplate({
+              filename: `tailwind.config/${path.concat(key).join('/')}.mjs`,
+              getContents: () => `${Object.keys(value).map(v => `import _${v} from "./${key}/${v}.mjs"`).join('\n')}\nconst config = { ${values.map(k => `"${k}": _${k}`).join(', ')} }\nexport { config as default${values.length > 0 ? ', _' : ''}${values.join(', _')} }`
+            })
+          }
+        })
+      }
+
+      populateMap(resolvedConfig)
+
       const configOptions = Object.keys(resolvedConfig)
       const template = addTemplate({
         filename: 'tailwind.config.mjs',
-        getContents: () => `${Object.entries(resolvedConfig).map(([k, v]) => `export const ${k} = ${JSON.stringify(v, null, 2)}`).join('\n')}\nexport default { ${configOptions.join(', ')} }`
+        getContents: () => `${configOptions.map(v => `import ${v} from "./tailwind.config/${v}.mjs"`).join('\n')}\nconst config = { ${configOptions.join(', ')} }\nexport { config as default, ${configOptions.join(', ')} }`
       })
       addTemplate({
         filename: 'tailwind.config.d.ts',

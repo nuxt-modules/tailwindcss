@@ -13,6 +13,7 @@ describe('tailwindcss module', async () => {
 
   await setupNuxtTailwind({
     exposeConfig: true,
+    exposeLevel: 2,
     cssPath: r('tailwind.css')
   })
 
@@ -53,4 +54,11 @@ describe('tailwindcss module', async () => {
   //   expect(logger.info).toHaveBeenNthCalledWith(2, `Merging Tailwind config from ~/${relative(rootDir, nuxt.options.tailwindcss.configPath)}`)
   // })
   //
+
+  test('expose config', () => {
+    const nuxt = useTestContext().nuxt
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config/theme/animation.'))
+    // check default tailwind default animation exists
+    expect(nuxt.vfs[vfsKey]).contains('"pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"')
+  })
 })
