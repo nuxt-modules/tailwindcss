@@ -13,7 +13,7 @@ describe('tailwindcss module', async () => {
 
   await setupNuxtTailwind({
     exposeConfig: true,
-    exportLevel: 1,
+    exposeLevel: 2,
     cssPath: r('tailwind.css')
   })
 
