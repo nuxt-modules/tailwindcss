@@ -1,8 +1,8 @@
 import { describe, test, expect, vi } from 'vitest'
 import { mockedWarn } from 'consola'
 import { useTestContext } from '@nuxt/test-utils'
-import { setupNuxtTailwind } from './util'
 import destr from 'destr'
+import { setupNuxtTailwind } from './util'
 
 describe('tailwindcss module configs', async () => {
   vi.mock('consola', async () => {
@@ -51,7 +51,7 @@ describe('tailwindcss module configs', async () => {
     // set from override-tailwind.config.ts
     const contentFiles = destr(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, '')).content.files
     expect(contentFiles.length).toBe(4)
-    expect(contentFiles[0].endsWith('/test/fixture/basic/components/**/*.{vue,js,ts}')).toBe(true)
+    expect(contentFiles[0]).toBe('ts-content/**/*.md')
     expect(contentFiles[1]).toBe('./custom-theme/**/*.vue')
     expect(contentFiles.slice(2).filter(c => c.endsWith('vue')).length).toBe(2)
   })

@@ -2,7 +2,7 @@ import { Config } from 'tailwindcss'
 
 export default <Config> {
   content: [
-    'content/**/*.md'
+    'ts-content/**/*.md'
   ],
   theme: {
     extend: {
