@@ -165,7 +165,7 @@ export default defineNuxtModule<ModuleOptions>({
             level >= maxLevel || // if recursive call is more than desired
             typeof value !== 'object' || // if its not an object, no more recursion required
             Array.isArray(value) || // arrays are objects in JS, but we can't break it down
-            Object.keys(value).find(k => !k.match(/^[0-9a-z]+$/i)) // object has non-alphanumeric property (unsafe var name)
+            Object.keys(value as any).find(k => !k.match(/^[0-9a-z]+$/i)) // object has non-alphanumeric property (unsafe var name)
           ) {
             addTemplate({
               filename: `tailwind.config/${path.concat(key).join('/')}.mjs`,
@@ -175,10 +175,10 @@ export default defineNuxtModule<ModuleOptions>({
             // recurse through nested objects
             populateMap(value, path.concat(key), level + 1, maxLevel)
 
-            const values = Object.keys(value)
+            const values = Object.keys(value as any)
             addTemplate({
               filename: `tailwind.config/${path.concat(key).join('/')}.mjs`,
-              getContents: () => `${Object.keys(value).map(v => `import _${v} from "./${key}/${v}.mjs"`).join('\n')}\nconst config = { ${values.map(k => `"${k}": _${k}`).join(', ')} }\nexport { config as default${values.length > 0 ? ', _' : ''}${values.join(', _')} }`
+              getContents: () => `${Object.keys(value as any).map(v => `import _${v} from "./${key}/${v}.mjs"`).join('\n')}\nconst config = { ${values.map(k => `"${k}": _${k}`).join(', ')} }\nexport { config as default${values.length > 0 ? ', _' : ''}${values.join(', _')} }`
             })
           }
         })
