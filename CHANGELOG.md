@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.3.0](https://github.com/nuxt-community/tailwindcss-module/compare/v6.2.0...v6.3.0) (2023-01-25)
+
+
+### Features
+
+* **exposeConfig:** nested properties ([#583](https://github.com/nuxt-community/tailwindcss-module/issues/583)) ([e88c23a](https://github.com/nuxt-community/tailwindcss-module/commit/e88c23ab6237d69450617773bd75e8fdd3402bfd))
+
+
+### Bug Fixes
+
+* considered content as function ([#592](https://github.com/nuxt-community/tailwindcss-module/issues/592)) ([cf67d89](https://github.com/nuxt-community/tailwindcss-module/commit/cf67d892914ff6b38c7740aaa585d4ad93f6fba6))
+* css intellisense not working ([#596](https://github.com/nuxt-community/tailwindcss-module/issues/596)) ([de81e7d](https://github.com/nuxt-community/tailwindcss-module/commit/de81e7d7bca9a70eabca1e23c23c6302334fe758)), closes [#593](https://github.com/nuxt-community/tailwindcss-module/issues/593)
+
 ## [6.2.0](https://github.com/nuxt-community/tailwindcss-module/compare/v6.1.3...v6.2.0) (2022-12-19)
 
 
