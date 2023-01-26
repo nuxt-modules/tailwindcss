@@ -1,10 +1,8 @@
-import tailwindModule from '../src/module'
-
 export default defineNuxtConfig({
   // extends: ['./theme'],
   modules: [
     '@nuxt/content',
-    tailwindModule
+    '../src/module'
   ],
   tailwindcss: {
     exposeConfig: true,
