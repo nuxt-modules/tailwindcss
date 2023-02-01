@@ -131,8 +131,6 @@ export default defineNuxtModule<ModuleOptions>({
     // Default tailwind config
     let tailwindConfig: any = defuArrayFn(moduleOptions.config, { content: contentPaths })
     // Recursively resolve each config and merge tailwind configs together.
-    console.log(configPaths)
-    // The config
     for (const configPath of configPaths) {
       let _tailwindConfig
       try {
@@ -149,7 +147,6 @@ export default defineNuxtModule<ModuleOptions>({
         tailwindConfig = defuArrayFn(_tailwindConfig, tailwindConfig)
       }
     }
-    console.log((tailwindConfig.theme.extend.colors))
 
     // Write cjs version of config to support vscode extension
     const resolveConfig: any = await import('tailwindcss/resolveConfig.js').then(r => r.default || r)
