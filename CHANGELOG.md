@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.3.1](https://github.com/nuxt-community/tailwindcss-module/compare/v6.3.0...v6.3.1) (2023-02-01)
+
+
+### Bug Fixes
+
+* support layers in correct order and watch config to warn restart ([0357676](https://github.com/nuxt-community/tailwindcss-module/commit/0357676c76d192d4ac2ae5ad5eed1d3ca7709afd))
+
 ## [6.3.0](https://github.com/nuxt-community/tailwindcss-module/compare/v6.2.0...v6.3.0) (2023-01-25)
 
 
