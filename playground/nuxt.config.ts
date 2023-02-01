@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  // extends: ['./theme'],
+  extends: ['./theme'],
   modules: [
     '@nuxt/content',
     '../src/module'

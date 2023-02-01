@@ -8,6 +8,9 @@
         <span class="pr-1 font-medium">This is a HMR test, try changing the color:</span>
         <span class="text-blue-500">meow!</span>
       </div>
+      <p class="text-brand">
+        This color comes from the `./theme` layer
+      </p>
       <div>
         <NuxtLink to="/content" class="underline hover:text-indigo-500">
           Visit the /content page to check out the @nuxt/content integration!

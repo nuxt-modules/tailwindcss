@@ -1,6 +1,7 @@
 import { existsSync } from 'fs'
 import { join, relative } from 'pathe'
-import defu, { defuArrayFn } from 'defu'
+import { defuArrayFn } from 'defu'
+import { watch } from 'chokidar'
 import chalk from 'chalk'
 import consola from 'consola'
 import {
@@ -100,7 +101,10 @@ export default defineNuxtModule<ModuleOptions>({
         cwd: string
       }
 
-      for (const layer of (nuxt.options._layers as NuxtLayer[])) {
+      // nuxt.options._layers is from rootDir to nested level
+      // We need to reverse the order to give the deepest tailwind.config the lowest priority
+      const layers = (nuxt.options._layers as NuxtLayer[]).slice().reverse()
+      for (const layer of layers) {
         await addConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config'))
         contentPaths.push(...layerPaths(layer.cwd))
       }
@@ -111,15 +115,24 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Watch the Tailwind config file to restart the server
     if (nuxt.options.dev) {
-      // @ts-ignore
-      nuxt.options.watch = nuxt.options.watch || []
-      // @ts-ignore
-      configPaths.forEach(path => nuxt.options.watch.push(path))
+      if (isNuxt2()) {
+        // @ts-ignore
+        nuxt.options.watch = nuxt.options.watch || []
+        // @ts-ignore
+        configPaths.forEach(path => nuxt.options.watch.push(path))
+      } else {
+        watch(configPaths).on('change', (path) => {
+          logger.info(`Tailwind config changed: ${path}`)
+          logger.warn('Please restart the Nuxt server to apply changes')
+        })
+      }
     }
 
     // Default tailwind config
     let tailwindConfig: any = defuArrayFn(moduleOptions.config, { content: contentPaths })
     // Recursively resolve each config and merge tailwind configs together.
+    console.log(configPaths)
+    // The config
     for (const configPath of configPaths) {
       let _tailwindConfig
       try {
@@ -136,6 +149,7 @@ export default defineNuxtModule<ModuleOptions>({
         tailwindConfig = defuArrayFn(_tailwindConfig, tailwindConfig)
       }
     }
+    console.log((tailwindConfig.theme.extend.colors))
 
     // Write cjs version of config to support vscode extension
     const resolveConfig: any = await import('tailwindcss/resolveConfig.js').then(r => r.default || r)

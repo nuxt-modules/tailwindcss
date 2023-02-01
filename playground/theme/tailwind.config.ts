@@ -1,8 +1,10 @@
+import colors from 'tailwindcss/colors'
+
 export default {
   theme: {
     extend: {
       colors: {
-        brand: '#0070f3'
+        brand: colors.fuchsia['500']
       }
     }
   }
