@@ -1,0 +1,3 @@
+cloud.analytics=true
+cloud.projectId=123
+modules.0=@nuxtcloud/module-canary

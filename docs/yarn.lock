@@ -1107,6 +1107,15 @@
     vite-plugin-checker "^0.5.4"
     vue-bundle-renderer "^1.0.0"
 
+"@nuxtcloud/module-canary@^0.1.0-27921143.69e3e37":
+  version "0.1.0-27921143.69e3e37"
+  resolved "https://registry.yarnpkg.com/@nuxtcloud/module-canary/-/module-canary-0.1.0-27921143.69e3e37.tgz#7eec7f8e8f9de7ddb06e2fbf81df7e6f3809c599"
+  integrity sha512-1e2JNxtA9vFioyNuap5G5xqRJFspLgUR03mFoX0dnCP+6sO1hwLI9s3ZUKHmxwVobQtY2FaGfjayal7IyHZlow==
+  dependencies:
+    "@nuxt/kit" "^3.0.0"
+    web-vitals "^3.1.0"
+    web-vitals-reporter "^1.0.0"
+
 "@nuxthq/studio@^0.6.5":
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/@nuxthq/studio/-/studio-0.6.5.tgz#922d30f1903dce57e44623dfac40b460b02f44b4"
@@ -6667,6 +6676,23 @@ web-streams-polyfill@^3.0.3:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/web-streams-polyfill/-/web-streams-polyfill-3.2.1.tgz#71c2718c52b45fd49dbeee88634b3a60ceab42a6"
   integrity sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==
+
+web-vitals-reporter@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/web-vitals-reporter/-/web-vitals-reporter-1.0.0.tgz#d6c7f71318320bc1446402742cddf378a155b714"
+  integrity sha512-7XmkVg7ce/jQjBovYzFs8ekRCgBdha+gQaE0Fg0wHGJdyj25nKZxqdEHcw998ytfls9d8eDly/mF8Cwd0f8BlQ==
+  dependencies:
+    web-vitals "^1.0.1"
+
+web-vitals@^1.0.1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-1.1.2.tgz#06535308168986096239aa84716e68b4c6ae6d1c"
+  integrity sha512-PFMKIY+bRSXlMxVAQ+m2aw9c/ioUYfDgrYot0YUa+/xa0sakubWhSDyxAKwzymvXVdF4CZI71g06W+mqhzu6ig==
+
+web-vitals@^3.1.0:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-3.1.1.tgz#bb124a03df7a135617f495c5bb7dbc30ecf2cce3"
+  integrity sha512-qvllU+ZeQChqzBhZ1oyXmWsjJ8a2jHYpH8AMaVuf29yscOPZfTQTjQFRX6+eADTdsDE8IanOZ0cetweHMs8/2A==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
