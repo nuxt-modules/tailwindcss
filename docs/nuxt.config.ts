@@ -1,7 +1,4 @@
 export default defineNuxtConfig({
-  extends: ['@nuxt-themes/docus'],
-  modules: ['nuxt-plausible'],
-  plausible: {
-    domain: 'tailwindcss.nuxtjs.org'
-  }
+  extends: '@nuxt-themes/docus',
+  modules: ['@nuxtjs/plausible']
 })
