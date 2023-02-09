@@ -10,6 +10,7 @@ import {
   addTemplate,
   addDevServerHandler,
   isNuxt2,
+  getNuxtVersion,
   createResolver,
   resolvePath,
   addVitePlugin,
@@ -269,7 +270,11 @@ export default defineNuxtModule<ModuleOptions>({
     postcssOptions.plugins['postcss-custom-properties'] = postcssOptions.plugins['postcss-custom-properties'] ?? {}
     postcssOptions.plugins.tailwindcss = tailwindConfig
 
-    if (isNuxt2()) {
+    /* 
+    * install postcss8 module on nuxt < 2.16
+    */
+    const nuxtVersion = getNuxtVersion(nuxt).split('.');
+    if (parseInt(nuxtVersion[0], 10) === 2 && parseInt(nuxtVersion[1], 10) < 16) {
       await installModule('@nuxt/postcss8')
     }
 
