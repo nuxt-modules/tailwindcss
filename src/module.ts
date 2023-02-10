@@ -311,6 +311,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     if (nuxt.options.dev) {
+      // @ts-expect-error missing type
       nuxt.hook('devtools:customTabs', (tabs) => {
         tabs.push({
           title: 'TailwindCSS',
@@ -318,14 +319,11 @@ export default defineNuxtModule<ModuleOptions>({
           icon: 'logos-tailwindcss-icon',
           view: {
             type: 'iframe',
-            src: '/_tailwind/',
-          },
+            src: '/_tailwind/'
+          }
         })
       })
     }
-
-
   }
-
 
 })
