@@ -2,7 +2,8 @@ export default defineNuxtConfig({
   extends: ['./theme'],
   modules: [
     '@nuxt/content',
-    '../src/module'
+    '../src/module',
+    '@nuxt/devtools'
   ],
   tailwindcss: {
     exposeConfig: true,

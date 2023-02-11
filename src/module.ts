@@ -314,5 +314,21 @@ export default defineNuxtModule<ModuleOptions>({
         logger.info(`Tailwind Viewer: ${chalk.underline.yellow(withTrailingSlash(viewerUrl))}`)
       })
     }
+
+    if (nuxt.options.dev) {
+      // @ts-expect-error missing type
+      nuxt.hook('devtools:customTabs', (tabs) => {
+        tabs.push({
+          title: 'TailwindCSS',
+          name: 'tailwindcss',
+          icon: 'logos-tailwindcss-icon',
+          view: {
+            type: 'iframe',
+            src: '/_tailwind/'
+          }
+        })
+      })
+    }
   }
+
 })
