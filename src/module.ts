@@ -43,10 +43,14 @@ export interface ModuleHooks {
 
 type Arrayable<T> = T | T[]
 
+interface ExtendTailwindConfig {
+  content: Config['content'] | ((contentDefaults: string[]) => Config['content']);
+}
+
 export interface ModuleOptions {
   configPath: Arrayable<string>;
   cssPath: string | false;
-  config: Config;
+  config: Omit<Config, keyof ExtendTailwindConfig> & ExtendTailwindConfig;
   viewer: boolean;
   exposeConfig: boolean;
   exposeLevel: number;
