@@ -158,6 +158,11 @@ export default defineNuxtModule<ModuleOptions>({
     const resolvedConfig = resolveConfig(tailwindConfig)
     // Avoid creating null plugins for intelisense
     resolvedConfig.plugins = []
+    for (const preset of resolvedConfig.presets) {
+      if (preset.plugins != null) {
+        preset.plugins = []
+      }
+    }
     addTemplate({
       filename: 'tailwind.config.cjs',
       getContents: () => `module.exports = ${JSON.stringify(resolvedConfig, null, 2)}`,
