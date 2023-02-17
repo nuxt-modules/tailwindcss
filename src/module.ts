@@ -201,7 +201,8 @@ export default defineNuxtModule<ModuleOptions>({
       const configOptions = Object.keys(resolvedConfig)
       const template = addTemplate({
         filename: 'tailwind.config/index.mjs',
-        getContents: () => `${configOptions.map(v => `import ${v} from "./${v}.mjs"`).join('\n')}\nconst config = { ${configOptions.join(', ')} }\nexport { config as default, ${configOptions.join(', ')} }`
+        getContents: () => `${configOptions.map(v => `import ${v} from "#build/tailwind.config/${v}.mjs"`).join('\n')}\nconst config = { ${configOptions.join(', ')} }\nexport { config as default, ${configOptions.join(', ')} }`,
+        write: true
       })
       addTemplate({
         filename: 'tailwind.config.d.ts',
