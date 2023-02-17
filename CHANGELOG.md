@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.4.1](https://github.com/nuxt-community/tailwindcss-module/compare/v6.4.0...v6.4.1) (2023-02-17)
+
+
+### Bug Fixes
+
+* nested props resolution ([#616](https://github.com/nuxt-community/tailwindcss-module/issues/616)) ([aa314fb](https://github.com/nuxt-community/tailwindcss-module/commit/aa314fb2b6da29769ccbd6f60b1d253d08c2a3c0))
+
+## [6.4.0](https://github.com/nuxt-community/tailwindcss-module/compare/v6.3.1...v6.4.0) (2023-02-11)
+
+
+### Features
+
+* Adding Tailwind Viewer to Nuxt dev tools ([#612](https://github.com/nuxt-community/tailwindcss-module/issues/612)) ([c46c834](https://github.com/nuxt-community/tailwindcss-module/commit/c46c8346d5098f46181dd6eb7af305b8cb3a3e89))
+
+
+### Bug Fixes
+
+* support nuxt 2.16+ ([#611](https://github.com/nuxt-community/tailwindcss-module/issues/611)) ([0c5e073](https://github.com/nuxt-community/tailwindcss-module/commit/0c5e073932ecef5dce7922e6ab2e93555870b53d))
+
 ### [6.3.1](https://github.com/nuxt-community/tailwindcss-module/compare/v6.3.0...v6.3.1) (2023-02-01)
 
 

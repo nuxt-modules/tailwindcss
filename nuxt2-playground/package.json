@@ -11,7 +11,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "nuxt": "2.15.8",
+    "nuxt": "2.16.0",
     "postcss": "8.4.21"
   },
   "keywords": []

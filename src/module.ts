@@ -1,5 +1,5 @@
 import { existsSync } from 'fs'
-import { join, relative } from 'pathe'
+import { join, relative, dirname } from 'pathe'
 import { defuArrayFn } from 'defu'
 import { watch } from 'chokidar'
 import chalk from 'chalk'
@@ -43,10 +43,14 @@ export interface ModuleHooks {
 
 type Arrayable<T> = T | T[]
 
+interface ExtendTailwindConfig {
+  content: Config['content'] | ((contentDefaults: string[]) => Config['content']);
+}
+
 export interface ModuleOptions {
   configPath: Arrayable<string>;
   cssPath: string | false;
-  config: Config;
+  config: Omit<Config, keyof ExtendTailwindConfig> & ExtendTailwindConfig;
   viewer: boolean;
   exposeConfig: boolean;
   exposeLevel: number;
@@ -206,8 +210,9 @@ export default defineNuxtModule<ModuleOptions>({
       const configOptions = Object.keys(resolvedConfig)
 
       const template = addTemplate({
-        filename: 'tailwind.config.mjs',
-        getContents: () => `${configOptions.map(v => `import ${v} from "./tailwind.config/${v}.mjs"`).join('\n')}\nconst config = { ${configOptions.join(', ')} }\nexport { config as default, ${configOptions.join(', ')} }`
+        filename: 'tailwind.config/index.mjs',
+        getContents: () => `${configOptions.map(v => `import ${v} from "#build/tailwind.config/${v}.mjs"`).join('\n')}\nconst config = { ${configOptions.join(', ')} }\nexport { config as default, ${configOptions.join(', ')} }`,
+        write: true
       })
       dtsContent.push(`declare module "${'.nuxt/tailwind.config' || template.dst}" {${configOptions.map(v => ` export const ${v}: typeof import("${join('.nuxt/tailwind.config' || template.dst, v)}");`).join('')} const defaultExport: { ${configOptions.map(v => `"${v}": typeof ${v}`)} }; export default defaultExport; }`)
 
@@ -216,7 +221,7 @@ export default defineNuxtModule<ModuleOptions>({
         getContents: () => dtsContent.join('\n'),
         write: true
       })
-      nuxt.options.alias['#tailwind-config'] = template.dst
+      nuxt.options.alias['#tailwind-config'] = dirname(template.dst)
     }
 
     // Allow extending tailwindcss config by other modules
@@ -278,10 +283,10 @@ export default defineNuxtModule<ModuleOptions>({
     postcssOptions.plugins['postcss-custom-properties'] = postcssOptions.plugins['postcss-custom-properties'] ?? {}
     postcssOptions.plugins.tailwindcss = tailwindConfig
 
-    /* 
+    /*
     * install postcss8 module on nuxt < 2.16
     */
-    const nuxtVersion = getNuxtVersion(nuxt).split('.');
+    const nuxtVersion = getNuxtVersion(nuxt).split('.')
     if (parseInt(nuxtVersion[0], 10) === 2 && parseInt(nuxtVersion[1], 10) < 16) {
       await installModule('@nuxt/postcss8')
     }
