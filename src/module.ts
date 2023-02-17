@@ -1,5 +1,5 @@
 import { existsSync } from 'fs'
-import { join, relative } from 'pathe'
+import { join, relative, dirname } from 'pathe'
 import { defuArrayFn } from 'defu'
 import { watch } from 'chokidar'
 import chalk from 'chalk'
@@ -204,15 +204,16 @@ export default defineNuxtModule<ModuleOptions>({
 
       const configOptions = Object.keys(resolvedConfig)
       const template = addTemplate({
-        filename: 'tailwind.config.mjs',
-        getContents: () => `${configOptions.map(v => `import ${v} from "./tailwind.config/${v}.mjs"`).join('\n')}\nconst config = { ${configOptions.join(', ')} }\nexport { config as default, ${configOptions.join(', ')} }`
+        filename: 'tailwind.config/index.mjs',
+        getContents: () => `${configOptions.map(v => `import ${v} from "#build/tailwind.config/${v}.mjs"`).join('\n')}\nconst config = { ${configOptions.join(', ')} }\nexport { config as default, ${configOptions.join(', ')} }`,
+        write: true
       })
       addTemplate({
         filename: 'tailwind.config.d.ts',
         getContents: () => `type tailwindcssConfig = import("tailwindcss").Config\ndeclare const config: tailwindcssConfig\n${configOptions.map(o => `declare const ${o}: tailwindcssConfig["${o}"]`).join('\n')}\nexport { config as default, ${configOptions.join(', ')} }`,
         write: true
       })
-      nuxt.options.alias['#tailwind-config'] = template.dst
+      nuxt.options.alias['#tailwind-config'] = dirname(template.dst)
     }
 
     // Allow extending tailwindcss config by other modules
