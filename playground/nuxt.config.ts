@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@nuxt/devtools'
   ],
   tailwindcss: {
+    viewer: false,
     exposeConfig: true,
     injectPosition: 'last'
   },
