@@ -56,5 +56,8 @@
     "nuxt": "npm:nuxt3@latest",
     "standard-version": "latest",
     "vitest": "^0.28.5"
+  },
+  "resolutions": {
+    "@nuxt/kit": "npm:@nuxt/kit-edge@latest"
   }
 }
