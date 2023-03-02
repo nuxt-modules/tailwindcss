@@ -53,7 +53,7 @@
     "codecov": "latest",
     "eslint": "latest",
     "jsdom": "^21.1.0",
-    "nuxt": "^3.2.0",
+    "nuxt": "npm:nuxt3@latest",
     "standard-version": "latest",
     "vitest": "^0.28.5"
   }

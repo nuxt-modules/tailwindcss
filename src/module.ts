@@ -18,7 +18,6 @@ import {
 } from '@nuxt/kit'
 import { Config } from 'tailwindcss'
 import { eventHandler, sendRedirect } from 'h3'
-import { optionalCallExpression } from '@babel/types'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
 import defaultTailwindConfig from './tailwind.config'
@@ -130,6 +129,7 @@ export default defineNuxtModule<ModuleOptions>({
         watch(configPaths).on('change', (path) => {
           logger.info(`Tailwind config changed: ${path}`)
           logger.warn('Please restart the Nuxt server to apply changes')
+          nuxt.callHook('restart')
         })
       }
     }
