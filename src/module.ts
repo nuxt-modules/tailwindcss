@@ -128,7 +128,7 @@ export default defineNuxtModule<ModuleOptions>({
       } else if (Array.isArray(nuxt.options.watch)) {
         nuxt.options.watch.push(...configPaths.map(path => relative(nuxt.options.srcDir, path)))
       } else {
-        const watcher = watch(configPaths).on('change', (path) => {
+        const watcher = watch(configPaths, { depth: 0 }).on('change', (path) => {
           logger.info(`Tailwind config changed: ${path}`)
           logger.warn('Please restart the Nuxt server to apply changes or upgrade to latest Nuxt for automatic restart.')
         })
