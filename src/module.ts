@@ -126,9 +126,7 @@ export default defineNuxtModule<ModuleOptions>({
         // @ts-ignore
         configPaths.forEach(path => nuxt.options.watch.push(path))
       } else if (Array.isArray(nuxt.options.watch)) {
-        console.log('config pushed to watch:', configPaths.map(path => relative(nuxt.options.srcDir, path)))
         nuxt.options.watch.push(...configPaths.map(path => relative(nuxt.options.srcDir, path)))
-        nuxt.hook('builder:watch', (event, path) => console.log(event, path))
       } else {
         const watcher = watch(configPaths, { depth: 0 }).on('change', (path) => {
           logger.info(`Tailwind config changed: ${path}`)
