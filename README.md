@@ -5,6 +5,7 @@
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
+[![Nuxt][nuxt-src]][nuxt-href]
 <a href="https://volta.net/nuxt-modules/tailwindcss?utm_source=nuxt_tailwind_readme"><img src="https://user-images.githubusercontent.com/904724/209143798-32345f6c-3cf8-4e06-9659-f4ace4a6acde.svg" alt="Volta board"></a>
 
 > [Tailwind CSS](https://tailwindcss.com) module for [Nuxt](https://nuxtjs.org) with [modern css](https://tailwindcss.com/docs/using-with-preprocessors#future-css-features) ⚡️
@@ -20,7 +21,7 @@
 - 🎨&nbsp; Discover your Tailwind Colors *([see video](https://tailwindcss.nuxtjs.org/#tailwind-colors))*
 - ⚙️&nbsp; Reference your Tailwind config in your app
 - 📦&nbsp; Extendable by [Nuxt modules](https://modules.nuxtjs.org/)
-- 🚀&nbsp; [Nuxt 3](https://v3.nuxtjs.org) support
+- 🚀&nbsp; [Nuxt 3](https://nuxt.com) support
 
 [📖 &nbsp;Read more](https://tailwindcss.nuxtjs.org)
 
@@ -78,3 +79,6 @@ Copyright (c) Nuxt Community
 
 [license-src]: https://img.shields.io/npm/l/@nuxtjs/tailwindcss.svg?style=flat&colorA=18181B&colorB=28CF8D
 [license-href]: https://npmjs.com/package/@nuxtjs/tailwindcss
+
+[nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?&logo=nuxt.js
+[nuxt-href]: https://nuxt.com

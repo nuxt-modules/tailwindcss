@@ -18,6 +18,7 @@ import {
 } from '@nuxt/kit'
 import { Config } from 'tailwindcss'
 import { eventHandler, sendRedirect } from 'h3'
+import { optionalCallExpression } from '@babel/types'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
 import defaultTailwindConfig from './tailwind.config'
@@ -328,7 +329,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
     }
 
-    if (nuxt.options.dev) {
+    if (nuxt.options.dev && moduleOptions.viewer) {
       // @ts-expect-error missing type
       nuxt.hook('devtools:customTabs', (tabs) => {
         tabs.push({
