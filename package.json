@@ -16,13 +16,12 @@
     "dist"
   ],
   "scripts": {
-    "build": "nuxt-module-build",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "dev": "nuxt dev playground",
     "dev:nuxt2": "nuxt dev nuxt2-playground",
     "lint": "eslint --ext .js,.ts,.vue",
-    "prepack": "yarn build",
-    "release": "yarn test && standard-version && git push --follow-tags && npm publish",
+    "prepack": "nuxt-module-build",
+    "release": "pnpm test && pnpm changelogen --release --push && npm publish",
     "test": "vitest"
   },
   "dependencies": {
@@ -50,11 +49,11 @@
     "@nuxt/test-utils": "^3.2.3",
     "@nuxtjs/eslint-config-typescript": "latest",
     "@tailwindcss/typography": "^0.5.9",
+    "changelogen": "^0.5.1",
     "codecov": "latest",
     "eslint": "latest",
     "jsdom": "^21.1.1",
     "nuxt": "^3.2.3",
-    "standard-version": "latest",
     "vitest": "^0.29.2"
   }
 }

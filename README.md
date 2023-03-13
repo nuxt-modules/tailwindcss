@@ -60,9 +60,9 @@ You can contribute to this module online with CodeSandBox:
 Or locally:
 
 1. Clone this repository
-2. Install dependencies using `yarn install`
-3. Prepare for development using `yarn dev:prepare`
-4. Start development server using `yarn dev`
+2. Install dependencies using `pnpm i`
+3. Prepare for development using `pnpm dev:prepare`
+4. Start development server using `pnpm dev`
 
 ## License
 
