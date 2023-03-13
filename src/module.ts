@@ -18,6 +18,7 @@ import {
 } from '@nuxt/kit'
 import { Config } from 'tailwindcss'
 import { eventHandler, sendRedirect } from 'h3'
+import { optionalCallExpression } from '@babel/types'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
 import defaultTailwindConfig from './tailwind.config'
@@ -170,6 +171,8 @@ export default defineNuxtModule<ModuleOptions>({
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
+      const dtsContent: string[] = []
+
       /**
        * Creates MJS exports for properties of the config
        *
@@ -179,44 +182,52 @@ export default defineNuxtModule<ModuleOptions>({
        * @param maxLevel maximum level of depth
        */
       const populateMap = (obj: any, path: string[] = [], level = 1, maxLevel = moduleOptions.exposeLevel) => {
-        Object.entries(obj).forEach(([key, value = {}]) => {
+        Object.entries(obj).forEach(([key, value = {} as any]) => {
+          const subpath = path.concat(key).join('/')
+
           if (
             level >= maxLevel || // if recursive call is more than desired
             typeof value !== 'object' || // if its not an object, no more recursion required
             Array.isArray(value) || // arrays are objects in JS, but we can't break it down
-            Object.keys(value as any).find(k => !k.match(/^[0-9a-z]+$/i)) // object has non-alphanumeric property (unsafe var name)
+            Object.keys(value).find(k => !k.match(/^[0-9a-z]+$/i)) // object has non-alphanumeric property (unsafe var name)
           ) {
             addTemplate({
-              filename: `tailwind.config/${path.concat(key).join('/')}.mjs`,
+              filename: `tailwind.config/${subpath}.mjs`,
               getContents: () => `export default ${JSON.stringify(value, null, 2)}`
             })
+            dtsContent.push(`declare module "#tailwind-config/${subpath}" { const defaultExport: ${JSON.stringify(value)}; export default defaultExport; }`)
           } else {
             // recurse through nested objects
             populateMap(value, path.concat(key), level + 1, maxLevel)
 
-            const values = Object.keys(value as any)
+            const values = Object.keys(value)
             addTemplate({
-              filename: `tailwind.config/${path.concat(key).join('/')}.mjs`,
-              getContents: () => `${Object.keys(value as any).map(v => `import _${v} from "./${key}/${v}.mjs"`).join('\n')}\nconst config = { ${values.map(k => `"${k}": _${k}`).join(', ')} }\nexport { config as default${values.length > 0 ? ', _' : ''}${values.join(', _')} }`
+              filename: `tailwind.config/${subpath}.mjs`,
+              getContents: () => `${values.map(v => `import _${v} from "./${key}/${v}.mjs"`).join('\n')}\nconst config = { ${values.map(k => `"${k}": _${k}`).join(', ')} }\nexport { config as default${values.length > 0 ? ', _' : ''}${values.join(', _')} }`
             })
+            dtsContent.push(`declare module "#tailwind-config/${subpath}" {${Object.keys(value).map(v => ` export const _${v}: typeof import("#tailwind-config/${join(`${key}/${subpath}`, `../${v}`)}");`).join('')} const defaultExport: { ${values.map(k => `"${k}": typeof _${k}`).join(', ')} }; export default defaultExport; }`)
           }
         })
       }
 
       populateMap(resolvedConfig)
-
       const configOptions = Object.keys(resolvedConfig)
+
       const template = addTemplate({
         filename: 'tailwind.config/index.mjs',
         getContents: () => `${configOptions.map(v => `import ${v} from "#build/tailwind.config/${v}.mjs"`).join('\n')}\nconst config = { ${configOptions.join(', ')} }\nexport { config as default, ${configOptions.join(', ')} }`,
         write: true
       })
-      addTemplate({
+      dtsContent.push(`declare module "#tailwind-config" {${configOptions.map(v => ` export const ${v}: typeof import("${join('#tailwind-config', v)}");`).join('')} const defaultExport: { ${configOptions.map(v => `"${v}": typeof ${v}`)} }; export default defaultExport; }`)
+      const typesTemplate = addTemplate({
         filename: 'tailwind.config.d.ts',
-        getContents: () => `type tailwindcssConfig = import("tailwindcss").Config\ndeclare const config: tailwindcssConfig\n${configOptions.map(o => `declare const ${o}: tailwindcssConfig["${o}"]`).join('\n')}\nexport { config as default, ${configOptions.join(', ')} }`,
+        getContents: () => dtsContent.join('\n'),
         write: true
       })
       nuxt.options.alias['#tailwind-config'] = dirname(template.dst)
+      nuxt.hook('prepare:types', (opts) => {
+        opts.references.push({ path: typesTemplate.dst })
+      })
     }
 
     // Allow extending tailwindcss config by other modules
@@ -323,7 +334,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
     }
 
-    if (nuxt.options.dev) {
+    if (nuxt.options.dev && moduleOptions.viewer) {
       // @ts-expect-error missing type
       nuxt.hook('devtools:customTabs', (tabs) => {
         tabs.push({
