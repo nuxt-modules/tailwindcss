@@ -21,8 +21,8 @@
     "dev:nuxt2": "nuxt dev nuxt2-playground",
     "lint": "eslint --ext .js,.ts,.vue",
     "prepack": "nuxt-module-build",
-    "release": "pnpm test && pnpm changelogen --release --push && npm publish",
-    "test": "vitest"
+    "release": "pnpm test && pnpm changelogen --release --push && pnpm publish",
+    "test": "vitest run"
   },
   "dependencies": {
     "@nuxt/kit": "^3.2.3",
