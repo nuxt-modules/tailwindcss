@@ -12,9 +12,9 @@
   "license": "MIT",
   "homepage": "https://tailwindcss.nuxtjs.org",
   "devDependencies": {
-    "@nuxt-themes/docus": "^1.8.1",
-    "@nuxthq/studio": "^0.7.2",
+    "@nuxt-themes/docus": "^1.9.9",
+    "@nuxthq/studio": "^0.8.5",
     "@nuxtjs/plausible": "^0.2.0",
-    "nuxt": "^3.2.0"
+    "nuxt": "^3.2.3"
   }
 }
