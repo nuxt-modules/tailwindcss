@@ -159,7 +159,7 @@ export default defineNuxtModule<ModuleOptions>({
     // Avoid creating null plugins for intelisense
     resolvedConfig.plugins = []
     resolvedConfig.presets = resolvedConfig.presets.map(
-      preset => preset.plugins != null ? { ...preset, plugins: [] } : preset
+      preset => preset.plugins ? { ...preset, plugins: [] } : preset
     )
     addTemplate({
       filename: 'tailwind.config.cjs',
