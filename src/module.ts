@@ -191,11 +191,23 @@ export default defineNuxtModule<ModuleOptions>({
             Array.isArray(value) || // arrays are objects in JS, but we can't break it down
             Object.keys(value).find(k => !k.match(/^[0-9a-z]+$/i)) // object has non-alphanumeric property (unsafe var name)
           ) {
-            addTemplate({
-              filename: `tailwind.config/${subpath}.mjs`,
-              getContents: () => `export default ${JSON.stringify(value, null, 2)}`
-            })
-            dtsContent.push(`declare module "#tailwind-config/${subpath}" { const defaultExport: ${JSON.stringify(value)}; export default defaultExport; }`)
+            if (typeof value === 'object' && !Array.isArray(value)) {
+              const validKeys: string[] = []
+              const invalidKeys: string[] = []
+              Object.keys(value).forEach(i => (/^[0-9a-z]+$/i.test(i) ? validKeys : invalidKeys).push(i))
+
+              addTemplate({
+                filename: `tailwind.config/${subpath}.mjs`,
+                getContents: () => `${validKeys.map(i => `const _${i} = ${JSON.stringify(value[i])}`).join('\n')}\nconst config = { ${validKeys.map(i => `"${i}": _${i}, `).join('')}${invalidKeys.map(i => `"${i}": ${JSON.stringify(value[i])}, `).join('')} }\nexport { config as default${validKeys.length > 0 ? ', _' : ''}${validKeys.join(', _')} }`
+              })
+              dtsContent.push(`declare module "#tailwind-config/${subpath}" { ${validKeys.map(i => `export const _${i}: ${JSON.stringify(value[i])};`).join('')} const defaultExport: { ${validKeys.map(i => `"${i}": typeof _${i}, `).join('')}${invalidKeys.map(i => `"${i}": ${JSON.stringify(value[i])}, `).join('')} }; export default defaultExport; }`)
+            } else {
+              addTemplate({
+                filename: `tailwind.config/${subpath}.mjs`,
+                getContents: () => `export default ${JSON.stringify(value, null, 2)}`
+              })
+              dtsContent.push(`declare module "#tailwind-config/${subpath}" { const defaultExport: ${JSON.stringify(value)}; export default defaultExport; }`)
+            }
           } else {
             // recurse through nested objects
             populateMap(value, path.concat(key), level + 1, maxLevel)
