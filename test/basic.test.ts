@@ -57,8 +57,15 @@ describe('tailwindcss module', async () => {
 
   test('expose config', () => {
     const nuxt = useTestContext().nuxt
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config/theme/animation.'))
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config/theme/flexBasis.'))
     // check default tailwind default animation exists
-    expect(nuxt.vfs[vfsKey]).contains('"pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"')
+    expect(nuxt.vfs[vfsKey]).contains('"full": _full, "0.5": "0.125rem"')
+    expect(nuxt.vfs[vfsKey]).contains('export { config as default')
+  })
+
+  test('expose config variable', () => {
+    const nuxt = useTestContext().nuxt
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config/theme/animation.'))
+    expect(nuxt.vfs[vfsKey]).contains('const _pulse = "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"')
   })
 })
