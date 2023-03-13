@@ -4,7 +4,7 @@
     <div class="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
       <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
         <span class="block">Ready to dive in?</span>
-        <span class="block text-indigo-600">Start your free trial today.</span>
+        <span class="description block">Welcome to Nuxt Tailwind playground</span>
       </h2>
       <div class="flex mt-8 lg:mt-0 lg:shrink-0">
         <div class="inline-flex rounded-md shadow">
@@ -16,3 +16,14 @@
     </div>
   </div>
 </template>
+
+<style lang="postcss">
+h2 {
+  .description {
+    @apply text-indigo-600;
+    &:hover {
+      @apply text-teal-600;
+    }
+  }
+}
+</style>
