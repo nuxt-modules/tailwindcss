@@ -21,7 +21,7 @@
 - 🎨&nbsp; Discover your Tailwind Colors *([see video](https://tailwindcss.nuxtjs.org/#tailwind-colors))*
 - ⚙️&nbsp; Reference your Tailwind config in your app
 - 📦&nbsp; Extendable by [Nuxt modules](https://modules.nuxtjs.org/)
-- 🚀&nbsp; [Nuxt 3](https://v3.nuxtjs.org) support
+- 🚀&nbsp; [Nuxt 3](https://nuxt.com) support
 
 [📖 &nbsp;Read more](https://tailwindcss.nuxtjs.org)
 
@@ -60,9 +60,9 @@ You can contribute to this module online with CodeSandBox:
 Or locally:
 
 1. Clone this repository
-2. Install dependencies using `yarn install`
-3. Prepare for development using `yarn dev:prepare`
-4. Start development server using `yarn dev`
+2. Install dependencies using `pnpm i`
+3. Prepare for development using `pnpm dev:prepare`
+4. Start development server using `pnpm dev`
 
 ## License
 

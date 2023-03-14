@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.5.0
+
+[compare changes](https://undefined/undefined/compare/v6.4.1...v6.5.0)
+
+
+### 🚀 Enhancements
+
+  - Providing types for all exports (#617)
+
+### 🩹 Fixes
+
+  - Don't add tailwind viewer in devtools if disabled (1734058)
+  - Set preset plugins to null in resolved config (#618)
+
+### 📖 Documentation
+
+  - Add nuxt badge (294759a)
+  - Simplify badge logo (9ee9c66)
+  - Link updated (#625)
+  - Update config hook (ccbd473)
+
+### 🏡 Chore
+
+  - Update lock (c0ce982)
+  - Switch to pnpm and changelogen (8677739)
+  - Update commands (c901389)
+
+### ❤️  Contributors
+
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+- Tim Morris ([@tkofh](http://github.com/tkofh))
+- Inesh Bose 
+- Zack Hatlen ([@zackha](http://github.com/zackha))
+
 ### [6.4.1](https://github.com/nuxt-community/tailwindcss-module/compare/v6.4.0...v6.4.1) (2023-02-17)
 
 
