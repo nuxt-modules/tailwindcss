@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.6.0
+
+[compare changes](https://undefined/undefined/compare/v6.5.0...v6.6.0)
+
+
+### 🚀 Enhancements
+
+  - Restart Nuxt server on config changes (#624)
+
+### 🩹 Fixes
+
+  - **exposeConfig:** Maximize nested exports (#629)
+
+### 📖 Documentation
+
+  - Move to pnpm (abb41a9)
+  - Improvements (45ef77c)
+  - Improvements (7c4561f)
+
+### 🏡 Chore
+
+  - **ts:** Add types (4a9f68b)
+
+### ❤️  Contributors
+
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+- Inesh Bose
+
 ## v6.5.0
 
 [compare changes](https://undefined/undefined/compare/v6.4.1...v6.5.0)
