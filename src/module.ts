@@ -16,7 +16,7 @@ import {
   addVitePlugin,
   isNuxt3, findPath, requireModule
 } from '@nuxt/kit'
-import { Config } from 'tailwindcss'
+import { type Config } from 'tailwindcss'
 import { eventHandler, sendRedirect } from 'h3'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
@@ -37,11 +37,13 @@ const layerPaths = (srcDir: string) => ([
   `${srcDir}/error.{js,ts,vue}`
 ])
 
-export interface ModuleHooks {
-  'tailwindcss:config': (tailwindConfig: any) => void
-}
-
 type Arrayable<T> = T | T[]
+
+declare module '@nuxt/schema' {
+  interface NuxtHooks {
+    'tailwindcss:config': (tailwindConfig: Config) => void
+  }
+}
 
 interface ExtendTailwindConfig {
   content: Config['content'] | ((contentDefaults: string[]) => Config['content']);
@@ -100,15 +102,9 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Support `extends` directories
     if (nuxt.options._layers && nuxt.options._layers.length > 1) {
-      interface NuxtLayer {
-        config: any
-        configFile: string
-        cwd: string
-      }
-
       // nuxt.options._layers is from rootDir to nested level
       // We need to reverse the order to give the deepest tailwind.config the lowest priority
-      const layers = (nuxt.options._layers as NuxtLayer[]).slice().reverse()
+      const layers = nuxt.options._layers.slice().reverse()
       for (const layer of layers) {
         await addConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config'))
         contentPaths.push(...layerPaths(layer.cwd))
@@ -137,10 +133,10 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     // Default tailwind config
-    let tailwindConfig: any = defuArrayFn(moduleOptions.config, { content: contentPaths })
+    let tailwindConfig = defuArrayFn(moduleOptions.config, { content: contentPaths }) as Config
     // Recursively resolve each config and merge tailwind configs together.
     for (const configPath of configPaths) {
-      let _tailwindConfig
+      let _tailwindConfig: Config | undefined
       try {
         _tailwindConfig = requireModule(configPath, { clearCache: true })
       } catch (e) {
@@ -157,12 +153,12 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     // Write cjs version of config to support vscode extension
-    const resolveConfig: any = await import('tailwindcss/resolveConfig.js').then(r => r.default || r)
-    const resolvedConfig = resolveConfig(tailwindConfig)
+    const resolveConfig = await import('tailwindcss/resolveConfig.js').then(r => r.default || r)
+    const resolvedConfig = resolveConfig(tailwindConfig) as Config
     // Avoid creating null plugins for intelisense
     resolvedConfig.plugins = []
-    resolvedConfig.presets = resolvedConfig.presets.map(
-      (preset: any) => preset?.plugins ? { ...preset, plugins: [] } : preset
+    resolvedConfig.presets = (resolvedConfig.presets || []).map(
+      preset => preset?.plugins ? { ...preset, plugins: [] } : preset
     )
     addTemplate({
       filename: 'tailwind.config.cjs',
@@ -245,7 +241,6 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     // Allow extending tailwindcss config by other modules
-    // @ts-ignore
     await nuxt.callHook('tailwindcss:config', tailwindConfig)
 
     // Compute tailwindConfig hash
