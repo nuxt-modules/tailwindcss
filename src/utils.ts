@@ -59,7 +59,7 @@ export const createTemplates = (resolvedConfig: Config, maxLevel: number, nuxt =
         !isJSObject(value) || // if its not an object, no more recursion required
         Object.keys(value).find(k => !k.match(NON_ALPHANUMERIC_RE)) // object has non-alphanumeric property (unsafe var name)
       ) {
-        if (typeof value === 'object' && !Array.isArray(value)) {
+        if (isJSObject(value)) {
           const [validKeys, invalidKeys]: [string[], string[]] = [[], []]
           Object.keys(value).forEach(i => (NON_ALPHANUMERIC_RE.test(i) ? validKeys : invalidKeys).push(i))
 
