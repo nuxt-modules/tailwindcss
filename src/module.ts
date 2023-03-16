@@ -17,10 +17,10 @@ import {
   isNuxt3, findPath, requireModule
 } from '@nuxt/kit'
 import { Config } from 'tailwindcss'
+import defaultTailwindConfig from 'tailwindcss/defaultConfig' // tailwindcss/stubs/simpleConfig.stub
 import { eventHandler, sendRedirect } from 'h3'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
-import defaultTailwindConfig from './tailwind.config'
 import { InjectPosition, resolveInjectPosition } from './utils'
 
 const logger = consola.withScope('nuxt:tailwindcss')
@@ -67,7 +67,7 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: nuxt => ({
     configPath: 'tailwind.config',
     cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
-    config: defaultTailwindConfig(),
+    config: defaultTailwindConfig,
     viewer: true,
     exposeConfig: false,
     exposeLevel: 2,
