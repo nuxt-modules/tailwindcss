@@ -1,9 +1,9 @@
 const { join } = require('path')
 const { setup, get } = require('@nuxtjs/module-test-utils')
-const logger = require('@/logger')
 const tailwindModule = require('..')
 const rootDir = join(__dirname, '..', 'example')
 const defaultNuxtConfig = require('../lib/files/tailwind.config')({ rootDir, srcDir: rootDir })
+const logger = require('@/logger')
 
 logger.mockTypes(() => jest.fn())
 
@@ -43,8 +43,8 @@ describe('ok', () => {
   })
 
   test('build', () => {
-    expect(nuxt.options.build.postcss.preset.stage).toBe(1)
-    expect(nuxt.options.build.postcss.plugins).toBeDefined()
-    expect(nuxt.options.build.postcss.plugins.tailwindcss).toMatchObject(defaultNuxtConfig)
+    expect(nuxt.options.build.postcss.postcssOptions.preset.stage).toBe(1)
+    expect(nuxt.options.build.postcss.postcssOptions.plugins).toBeDefined()
+    expect(nuxt.options.build.postcss.postcssOptions.plugins.tailwindcss).toMatchObject(defaultNuxtConfig)
   })
 })

@@ -1,7 +1,7 @@
 const { join, relative } = require('path')
 const { setup, get } = require('@nuxtjs/module-test-utils')
-const logger = require('@/logger')
 const tailwindModule = require('..')
+const logger = require('@/logger')
 
 logger.mockTypes(() => jest.fn())
 const rootDir = join(__dirname, '..', 'example')
@@ -50,7 +50,7 @@ describe('config', () => {
   })
 
   test('merged the tailwind default config', () => {
-    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain(`${rootDir}/nuxt.config.{js,ts}`)
-    expect(nuxt.options.build.postcss.plugins.tailwindcss.purge.content).toContain('content/**/*.md')
+    expect(nuxt.options.build.postcss.postcssOptions.plugins.tailwindcss.purge.content).toContain(`${rootDir}/nuxt.config.{js,ts}`)
+    expect(nuxt.options.build.postcss.postcssOptions.plugins.tailwindcss.purge.content).toContain('content/**/*.md')
   })
 })
