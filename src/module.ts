@@ -2,14 +2,14 @@ import { existsSync } from 'fs'
 import { join, relative, dirname } from 'pathe'
 import { defuArrayFn } from 'defu'
 import { watch } from 'chokidar'
-import chalk from 'chalk'
-import consola from 'consola'
+import { underline, yellow } from 'colorette'
 import {
   defineNuxtModule,
   installModule,
   addTemplate,
   addDevServerHandler,
   isNuxt2,
+  useLogger,
   getNuxtVersion,
   createResolver,
   resolvePath,
@@ -23,7 +23,7 @@ import vitePlugin from './hmr'
 import defaultTailwindConfig from './tailwind.config'
 import { InjectPosition, resolveInjectPosition } from './utils'
 
-const logger = consola.withScope('nuxt:tailwindcss')
+const logger = useLogger('nuxt:tailwindcss')
 
 const layerPaths = (srcDir: string) => ([
   `${srcDir}/components/**/*.{vue,js,ts}`,
@@ -344,7 +344,7 @@ export default defineNuxtModule<ModuleOptions>({
       if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: viewerDevMiddleware }) }
       nuxt.hook('listen', (_, listener) => {
         const viewerUrl = `${withoutTrailingSlash(listener.url)}${route}`
-        logger.info(`Tailwind Viewer: ${chalk.underline.yellow(withTrailingSlash(viewerUrl))}`)
+        logger.info(`Tailwind Viewer: ${underline(yellow(withTrailingSlash(viewerUrl)))}`)
       })
     }
 
