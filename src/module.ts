@@ -31,6 +31,7 @@ const layerPaths = (srcDir: string) => ([
   `${srcDir}/pages/**/*.vue`,
   `${srcDir}/composables/**/*.{js,ts}`,
   `${srcDir}/plugins/**/*.{js,ts}`,
+  `${srcDir}/utils/**/*.{js,ts}`,
   `${srcDir}/App.{js,ts,vue}`,
   `${srcDir}/app.{js,ts,vue}`,
   `${srcDir}/Error.{js,ts,vue}`,
