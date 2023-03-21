@@ -17,7 +17,7 @@ import {
   isNuxt3, findPath, requireModule
 } from '@nuxt/kit'
 import type { Config } from 'tailwindcss'
-import defaultTailwindConfig from 'tailwindcss/defaultConfig' // tailwindcss/stubs/simpleConfig.stub
+import defaultTailwindConfig from 'tailwindcss/defaultConfig.js' // tailwindcss/stubs/simpleConfig.stub
 import { eventHandler, sendRedirect } from 'h3'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
