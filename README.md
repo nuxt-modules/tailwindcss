@@ -9,7 +9,7 @@
 [![Tailwind CSS][tw-src]][tw-href]
 [![Volta board][volta-src]][volta-href]
 
-> [Tailwind CSS](https://tailwindcss.com) module for [Nuxt](https://nuxt.com) ⚡️
+[Tailwind CSS](https://tailwindcss.com) module for [Nuxt](https://nuxt.com) ⚡️
 
 - [✨ &nbsp;Release Notes](https://github.com/nuxt-modules/tailwindcss/releases)
 - [▶️ Play online](https://stackblitz.com/github/nuxt-modules/tailwindcss)
