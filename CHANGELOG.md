@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.6.2
+
+[compare changes](https://undefined/undefined/compare/v6.6.1...v6.6.2)
+
+
+### 📖 Documentation
+
+  - Update README.md (f4bc8b3)
+
+### 🏡 Chore
+
+  - Using tw default config (#636)
+
+### ❤️  Contributors
+
+- Inesh Bose 
+- Sébastien Chopin <seb@nuxtjs.com>
+
 ## v6.6.1
 
 [compare changes](https://undefined/undefined/compare/v6.6.0...v6.6.1)
