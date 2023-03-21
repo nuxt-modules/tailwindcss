@@ -1,4 +1,4 @@
-[![@nuxtjs/tailwindcss](https://tailwindcss.nuxtjs.org/cover.jpg)](https://tailwindcss.nuxtjs.org)
+[![@nuxtjs/tailwindcss](https://tailwindcss.nuxtjs.org/social-card.png)](https://tailwindcss.nuxtjs.org)
 
 # Nuxt Tailwind
 
@@ -6,12 +6,13 @@
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
-<a href="https://volta.net/nuxt-modules/tailwindcss?utm_source=nuxt_tailwind_readme"><img src="https://user-images.githubusercontent.com/904724/209143798-32345f6c-3cf8-4e06-9659-f4ace4a6acde.svg" alt="Volta board"></a>
+[![Tailwind CSS][tw-src]][tw-href]
+[![Volta board][volta-src]][volta-href]
 
-> [Tailwind CSS](https://tailwindcss.com) module for [Nuxt](https://nuxtjs.org) with [modern css](https://tailwindcss.com/docs/using-with-preprocessors#future-css-features) ⚡️
+[Tailwind CSS](https://tailwindcss.com) module for [Nuxt](https://nuxt.com) ⚡️
 
-- [✨ &nbsp;Release Notes](https://github.com/nuxt-community/tailwindcss-module/releases)
-- [▶️ Play online](https://stackblitz.com/edit/nuxt-starter-rnulzp?file=app.vue)
+- [✨ &nbsp;Release Notes](https://github.com/nuxt-modules/tailwindcss/releases)
+- [▶️ Play online](https://stackblitz.com/github/nuxt-modules/tailwindcss)
 - [📖 &nbsp;Documentation](https://tailwindcss.nuxtjs.org)
 
 ## Features
@@ -19,9 +20,9 @@
 - 👌&nbsp; Zero configuration to start *([see video](https://tailwindcss.nuxtjs.org/#quick-start))*
 - 🪄&nbsp; Includes [CSS Nesting](https://drafts.csswg.org/css-nesting-1/) with [postcss-nesting](https://github.com/csstools/postcss-nesting)
 - 🎨&nbsp; Discover your Tailwind Colors *([see video](https://tailwindcss.nuxtjs.org/#tailwind-colors))*
-- ⚙️&nbsp; Reference your Tailwind config in your app
-- 📦&nbsp; Extendable by [Nuxt modules](https://modules.nuxtjs.org/)
-- 🚀&nbsp; [Nuxt 3](https://nuxt.com) support
+- ⚙️&nbsp; [Reference your Tailwind config](https://tailwindcss.nuxtjs.org/tailwind/config/#referencing-in-the-application) in your app
+- 📦&nbsp; Extendable by [Nuxt modules](https://nuxt.com/modules)
+- 🚀&nbsp; Supports both [Nuxt 3](https://nuxt.com) and [Nuxt 2](https://nuxtjs.org/)
 
 [📖 &nbsp;Read more](https://tailwindcss.nuxtjs.org)
 
@@ -30,6 +31,9 @@
 1. Add `@nuxtjs/tailwindcss` dependency to your project
 
 ```bash
+# Using pnpm
+pnpm add --save-dev @nuxtjs/tailwindcss
+
 # Using yarn
 yarn add --dev @nuxtjs/tailwindcss
 
@@ -37,7 +41,7 @@ yarn add --dev @nuxtjs/tailwindcss
 npm install --save-dev @nuxtjs/tailwindcss
 ```
 
-2. Add `@nuxtjs/tailwindcss` to the `modules` section of `nuxt.config.js`
+2. Add `@nuxtjs/tailwindcss` to the `modules` section of `nuxt.config.{ts,js}`
 
 ```js
 {
@@ -55,7 +59,7 @@ That's it! You can now use Tailwind classes in your Nuxt app ✨
 
 You can contribute to this module online with CodeSandBox:
 
-[![Edit @nuxtjs/tailwindcss](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nuxt-community/tailwindcss-module/tree/main/?fontsize=14&hidenavigation=1&theme=dark)
+[![Edit @nuxtjs/tailwindcss](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nuxt-modules/tailwindcss/tree/main/?fontsize=14&hidenavigation=1&theme=dark)
 
 Or locally:
 
@@ -82,3 +86,9 @@ Copyright (c) Nuxt Community
 
 [nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?&logo=nuxt.js
 [nuxt-href]: https://nuxt.com
+
+[tw-src]: https://img.shields.io/badge/tailwindcss-0F172A?&logo=tailwindcss
+[tw-href]: https://tailwindcss.com
+
+[volta-src]: https://user-images.githubusercontent.com/904724/209143798-32345f6c-3cf8-4e06-9659-f4ace4a6acde.svg
+[volta-href]: https://volta.net/nuxt-modules/tailwindcss?utm_source=nuxt_tailwind_readme

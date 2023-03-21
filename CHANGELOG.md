@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.6.1
+
+[compare changes](https://undefined/undefined/compare/v6.6.0...v6.6.1)
+
+
+### 🏡 Chore
+
+  - Reducing dependencies (#634)
+  - Update readme (#640)
+  - Move heavy populateMap function to utils (#637)
+  - Add `utils` to default content path (#641)
+  - Improving types for config (#635)
+
+### ❤️  Contributors
+
+- Inesh Bose 
+- Alexander Lichter <manniL@gmx.net>
+
 ## v6.6.0
 
 [compare changes](https://undefined/undefined/compare/v6.5.0...v6.6.0)

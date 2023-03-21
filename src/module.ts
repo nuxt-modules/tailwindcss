@@ -1,29 +1,29 @@
 import { existsSync } from 'fs'
-import { join, relative, dirname } from 'pathe'
+import { join, relative } from 'pathe'
 import { defuArrayFn } from 'defu'
 import { watch } from 'chokidar'
-import chalk from 'chalk'
-import consola from 'consola'
+import { underline, yellow } from 'colorette'
 import {
   defineNuxtModule,
   installModule,
   addTemplate,
   addDevServerHandler,
   isNuxt2,
+  useLogger,
   getNuxtVersion,
   createResolver,
   resolvePath,
   addVitePlugin,
   isNuxt3, findPath, requireModule
 } from '@nuxt/kit'
-import { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss'
 import defaultTailwindConfig from 'tailwindcss/defaultConfig' // tailwindcss/stubs/simpleConfig.stub
 import { eventHandler, sendRedirect } from 'h3'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
-import { InjectPosition, resolveInjectPosition } from './utils'
+import { createTemplates, InjectPosition, resolveInjectPosition } from './utils'
 
-const logger = consola.withScope('nuxt:tailwindcss')
+const logger = useLogger('nuxt:tailwindcss')
 
 const layerPaths = (srcDir: string) => ([
   `${srcDir}/components/**/*.{vue,js,ts}`,
@@ -31,17 +31,20 @@ const layerPaths = (srcDir: string) => ([
   `${srcDir}/pages/**/*.vue`,
   `${srcDir}/composables/**/*.{js,ts}`,
   `${srcDir}/plugins/**/*.{js,ts}`,
+  `${srcDir}/utils/**/*.{js,ts}`,
   `${srcDir}/App.{js,ts,vue}`,
   `${srcDir}/app.{js,ts,vue}`,
   `${srcDir}/Error.{js,ts,vue}`,
   `${srcDir}/error.{js,ts,vue}`
 ])
 
-export interface ModuleHooks {
-  'tailwindcss:config': (tailwindConfig: any) => void
-}
-
 type Arrayable<T> = T | T[]
+
+declare module '@nuxt/schema' {
+  interface NuxtHooks {
+    'tailwindcss:config': (tailwindConfig: Config) => void
+  }
+}
 
 interface ExtendTailwindConfig {
   content: Config['content'] | ((contentDefaults: string[]) => Config['content']);
@@ -100,15 +103,9 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Support `extends` directories
     if (nuxt.options._layers && nuxt.options._layers.length > 1) {
-      interface NuxtLayer {
-        config: any
-        configFile: string
-        cwd: string
-      }
-
       // nuxt.options._layers is from rootDir to nested level
       // We need to reverse the order to give the deepest tailwind.config the lowest priority
-      const layers = (nuxt.options._layers as NuxtLayer[]).slice().reverse()
+      const layers = nuxt.options._layers.slice().reverse()
       for (const layer of layers) {
         await addConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config'))
         contentPaths.push(...layerPaths(layer.cwd))
@@ -137,10 +134,10 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     // Default tailwind config
-    let tailwindConfig: any = defuArrayFn(moduleOptions.config, { content: contentPaths })
+    let tailwindConfig = defuArrayFn(moduleOptions.config, { content: contentPaths }) as Config
     // Recursively resolve each config and merge tailwind configs together.
     for (const configPath of configPaths) {
-      let _tailwindConfig
+      let _tailwindConfig: Config | undefined
       try {
         _tailwindConfig = requireModule(configPath, { clearCache: true })
       } catch (e) {
@@ -157,12 +154,12 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     // Write cjs version of config to support vscode extension
-    const resolveConfig: any = await import('tailwindcss/resolveConfig.js').then(r => r.default || r)
-    const resolvedConfig = resolveConfig(tailwindConfig)
+    const resolveConfig = await import('tailwindcss/resolveConfig.js').then(r => r.default || r)
+    const resolvedConfig = resolveConfig(tailwindConfig) as Config
     // Avoid creating null plugins for intelisense
     resolvedConfig.plugins = []
-    resolvedConfig.presets = resolvedConfig.presets.map(
-      (preset: any) => preset?.plugins ? { ...preset, plugins: [] } : preset
+    resolvedConfig.presets = (resolvedConfig.presets || []).map(
+      preset => preset?.plugins ? { ...preset, plugins: [] } : preset
     )
     addTemplate({
       filename: 'tailwind.config.cjs',
@@ -173,79 +170,10 @@ export default defineNuxtModule<ModuleOptions>({
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
-      const dtsContent: string[] = []
-
-      /**
-       * Creates MJS exports for properties of the config
-       *
-       * @param obj config
-       * @param path parent properties trace
-       * @param level level of object depth
-       * @param maxLevel maximum level of depth
-       */
-      const populateMap = (obj: any, path: string[] = [], level = 1, maxLevel = moduleOptions.exposeLevel) => {
-        Object.entries(obj).forEach(([key, value = {} as any]) => {
-          const subpath = path.concat(key).join('/')
-
-          if (
-            level >= maxLevel || // if recursive call is more than desired
-            typeof value !== 'object' || // if its not an object, no more recursion required
-            Array.isArray(value) || // arrays are objects in JS, but we can't break it down
-            Object.keys(value).find(k => !k.match(/^[0-9a-z]+$/i)) // object has non-alphanumeric property (unsafe var name)
-          ) {
-            if (typeof value === 'object' && !Array.isArray(value)) {
-              const validKeys: string[] = []
-              const invalidKeys: string[] = []
-              Object.keys(value).forEach(i => (/^[0-9a-z]+$/i.test(i) ? validKeys : invalidKeys).push(i))
-
-              addTemplate({
-                filename: `tailwind.config/${subpath}.mjs`,
-                getContents: () => `${validKeys.map(i => `const _${i} = ${JSON.stringify(value[i])}`).join('\n')}\nconst config = { ${validKeys.map(i => `"${i}": _${i}, `).join('')}${invalidKeys.map(i => `"${i}": ${JSON.stringify(value[i])}, `).join('')} }\nexport { config as default${validKeys.length > 0 ? ', _' : ''}${validKeys.join(', _')} }`
-              })
-              dtsContent.push(`declare module "#tailwind-config/${subpath}" { ${validKeys.map(i => `export const _${i}: ${JSON.stringify(value[i])};`).join('')} const defaultExport: { ${validKeys.map(i => `"${i}": typeof _${i}, `).join('')}${invalidKeys.map(i => `"${i}": ${JSON.stringify(value[i])}, `).join('')} }; export default defaultExport; }`)
-            } else {
-              addTemplate({
-                filename: `tailwind.config/${subpath}.mjs`,
-                getContents: () => `export default ${JSON.stringify(value, null, 2)}`
-              })
-              dtsContent.push(`declare module "#tailwind-config/${subpath}" { const defaultExport: ${JSON.stringify(value)}; export default defaultExport; }`)
-            }
-          } else {
-            // recurse through nested objects
-            populateMap(value, path.concat(key), level + 1, maxLevel)
-
-            const values = Object.keys(value)
-            addTemplate({
-              filename: `tailwind.config/${subpath}.mjs`,
-              getContents: () => `${values.map(v => `import _${v} from "./${key}/${v}.mjs"`).join('\n')}\nconst config = { ${values.map(k => `"${k}": _${k}`).join(', ')} }\nexport { config as default${values.length > 0 ? ', _' : ''}${values.join(', _')} }`
-            })
-            dtsContent.push(`declare module "#tailwind-config/${subpath}" {${Object.keys(value).map(v => ` export const _${v}: typeof import("#tailwind-config/${join(`${key}/${subpath}`, `../${v}`)}");`).join('')} const defaultExport: { ${values.map(k => `"${k}": typeof _${k}`).join(', ')} }; export default defaultExport; }`)
-          }
-        })
-      }
-
-      populateMap(resolvedConfig)
-      const configOptions = Object.keys(resolvedConfig)
-
-      const template = addTemplate({
-        filename: 'tailwind.config/index.mjs',
-        getContents: () => `${configOptions.map(v => `import ${v} from "#build/tailwind.config/${v}.mjs"`).join('\n')}\nconst config = { ${configOptions.join(', ')} }\nexport { config as default, ${configOptions.join(', ')} }`,
-        write: true
-      })
-      dtsContent.push(`declare module "#tailwind-config" {${configOptions.map(v => ` export const ${v}: typeof import("${join('#tailwind-config', v)}");`).join('')} const defaultExport: { ${configOptions.map(v => `"${v}": typeof ${v}`)} }; export default defaultExport; }`)
-      const typesTemplate = addTemplate({
-        filename: 'tailwind.config.d.ts',
-        getContents: () => dtsContent.join('\n'),
-        write: true
-      })
-      nuxt.options.alias['#tailwind-config'] = dirname(template.dst)
-      nuxt.hook('prepare:types', (opts) => {
-        opts.references.push({ path: typesTemplate.dst })
-      })
+      createTemplates(resolvedConfig, moduleOptions.exposeLevel, nuxt)
     }
 
     // Allow extending tailwindcss config by other modules
-    // @ts-ignore
     await nuxt.callHook('tailwindcss:config', tailwindConfig)
 
     // Compute tailwindConfig hash
@@ -344,7 +272,7 @@ export default defineNuxtModule<ModuleOptions>({
       if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: viewerDevMiddleware }) }
       nuxt.hook('listen', (_, listener) => {
         const viewerUrl = `${withoutTrailingSlash(listener.url)}${route}`
-        logger.info(`Tailwind Viewer: ${chalk.underline.yellow(withTrailingSlash(viewerUrl))}`)
+        logger.info(`Tailwind Viewer: ${underline(yellow(withTrailingSlash(viewerUrl)))}`)
       })
     }
 
