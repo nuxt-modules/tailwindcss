@@ -16,7 +16,7 @@ import {
   addVitePlugin,
   isNuxt3, findPath, requireModule
 } from '@nuxt/kit'
-import { type Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss'
 import { eventHandler, sendRedirect } from 'h3'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
