@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.6.3
+
+[compare changes](https://undefined/undefined/compare/v6.6.2...v6.6.3)
+
+
+### 🏡 Chore
+
+  - Using tw default config " (#636)
+
+### ❤️  Contributors
+
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+
 ## v6.6.2
 
 [compare changes](https://undefined/undefined/compare/v6.6.1...v6.6.2)
