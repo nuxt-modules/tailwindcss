@@ -255,7 +255,7 @@ export default defineNuxtModule<ModuleOptions>({
     // Add _tailwind config viewer endpoint
     // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
     if (nuxt.options.dev && moduleOptions.viewer) {
-      const route = '/_tailwind'
+      const route = nuxt.options.app.baseURL.endsWith('/') ? nuxt.options.app.baseURL + "_tailwind" : nuxt.options.app.baseURL + "/_tailwind";
       // @ts-ignore
       const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r) as any
       const { withTrailingSlash, withoutTrailingSlash } = await import('ufo')
