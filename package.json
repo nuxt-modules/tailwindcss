@@ -30,14 +30,21 @@
     "autoprefixer": "^10.4.14",
     "chokidar": "^3.5.3",
     "clear-module": "^4.1.2",
+    "colorette": "^2.0.19",
+    "cookie-es": "^0.5.0",
     "defu": "^6.1.2",
+    "destr": "^1.2.2",
+    "h3": "^1.6.2",
+    "iron-webcrypto": "^0.6.0",
     "pathe": "^1.1.0",
     "postcss": "^8.4.21",
     "postcss-custom-properties": "^13.1.4",
     "postcss-nesting": "^11.2.1",
+    "radix3": "^1.0.0",
     "tailwind-config-viewer": "^1.7.2",
     "tailwindcss": "^3.2.7",
-    "ufo": "^1.1.1"
+    "ufo": "^1.1.1",
+    "uncrypto": "^0.1.2"
   },
   "devDependencies": {
     "@fontsource/inter": "^4.5.15",
