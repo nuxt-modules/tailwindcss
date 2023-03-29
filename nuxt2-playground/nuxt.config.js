@@ -5,7 +5,7 @@ export default {
    ** Nuxt.js modules
    */
   buildModules: [
-    // Doc: https://github.com/nuxt-community/tailwindcss-module
+    // Doc: https://github.com/nuxt-modules/tailwindcss
     localModule
   ]
 }
