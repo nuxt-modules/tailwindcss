@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.6.5
+
+[compare changes](https://undefined/undefined/compare/v6.6.4...v6.6.5)
+
+
+### 🩹 Fixes
+
+  - Typeof import default in dts (#647)
+
+### 🏡 Chore
+
+  - Update pnpm lockfile (2d0b967)
+  - Update repo url (3c8990a)
+
+### ❤️  Contributors
+
+- Daniel Roe <daniel@roe.dev>
+- Inesh Bose
+
 ## v6.6.4
 
 [compare changes](https://undefined/undefined/compare/v6.6.3...v6.6.4)
