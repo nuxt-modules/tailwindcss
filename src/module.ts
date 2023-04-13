@@ -154,6 +154,9 @@ export default defineNuxtModule<ModuleOptions>({
       }
     }
 
+    // Allow extending tailwindcss config by other modules
+    await nuxt.callHook('tailwindcss:config', tailwindConfig)
+
     // Write cjs version of config to support vscode extension
     const resolveConfig = await import('tailwindcss/resolveConfig.js').then(r => r.default || r)
     const resolvedConfig = resolveConfig(tailwindConfig) as Config
@@ -173,9 +176,6 @@ export default defineNuxtModule<ModuleOptions>({
     if (moduleOptions.exposeConfig) {
       createTemplates(resolvedConfig, moduleOptions.exposeLevel, nuxt)
     }
-
-    // Allow extending tailwindcss config by other modules
-    await nuxt.callHook('tailwindcss:config', tailwindConfig)
 
     // Compute tailwindConfig hash
     tailwindConfig._hash = String(Date.now())
