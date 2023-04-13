@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.6.6
+
+[compare changes](https://undefined/undefined/compare/v6.6.5...v6.6.6)
+
+
+### 🩹 Fixes
+
+  - Viewer on Nuxt 2 (#658)
+
+### 🏡 Chore
+
+  - **module:** Call hook before resolving config (#655)
+  - Add back viewer in playground (9f7e991)
+
+### ❤️  Contributors
+
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+- Benjamin Canac ([@benjamincanac](http://github.com/benjamincanac))
+- Asc0910
+
 ## v6.6.5
 
 [compare changes](https://undefined/undefined/compare/v6.6.4...v6.6.5)
