@@ -153,7 +153,7 @@ export default defineNuxtModule<ModuleOptions>({
         tailwindConfig = defuArrayFn(_tailwindConfig, tailwindConfig)
       }
     }
-    
+
     // Allow extending tailwindcss config by other modules
     await nuxt.callHook('tailwindcss:config', tailwindConfig)
 
