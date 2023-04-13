@@ -19,7 +19,7 @@ import {
 import type { Config } from 'tailwindcss'
 // @ts-expect-error
 import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
-import { eventHandler, sendRedirect } from 'h3'
+import { eventHandler, sendRedirect, H3Event } from 'h3'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
 import { createTemplates, InjectPosition, resolveInjectPosition } from './utils'
@@ -270,7 +270,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
       if (isNuxt3()) { addDevServerHandler({ route, handler: viewerDevMiddleware }) }
       // @ts-ignore
-      if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: viewerDevMiddleware }) }
+      if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: (req, res, next) => viewerDevMiddleware(new H3Event(req, res)) }) }
       nuxt.hook('listen', (_, listener) => {
         const viewerUrl = `${withoutTrailingSlash(listener.url)}${route}`
         logger.info(`Tailwind Viewer: ${underline(yellow(withTrailingSlash(viewerUrl)))}`)
