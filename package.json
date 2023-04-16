@@ -1,8 +1,8 @@
 {
   "name": "@nuxtjs/tailwindcss",
-  "version": "6.6.4",
+  "version": "6.6.6",
   "description": "TailwindCSS module for Nuxt",
-  "repository": "nuxt-community/tailwindcss-module",
+  "repository": "nuxt-modules/tailwindcss",
   "license": "MIT",
   "exports": {
     ".": {
@@ -42,7 +42,7 @@
     "postcss-nesting": "^11.2.1",
     "radix3": "^1.0.0",
     "tailwind-config-viewer": "^1.7.2",
-    "tailwindcss": "^3.2.7",
+    "tailwindcss": "~3.3.0",
     "ufo": "^1.1.1",
     "uncrypto": "^0.1.2"
   },
