@@ -27,12 +27,12 @@ import { createTemplates, InjectPosition, resolveInjectPosition } from './utils'
 const logger = useLogger('nuxt:tailwindcss')
 
 const layerPaths = (srcDir: string) => ([
-  `${srcDir}/components/**/*.{vue,js,ts}`,
+  `${srcDir}/components/**/!(*.{test,spec}).{vue,js,ts}`,
   `${srcDir}/layouts/**/*.vue`,
   `${srcDir}/pages/**/*.vue`,
-  `${srcDir}/composables/**/*.{js,ts}`,
-  `${srcDir}/plugins/**/*.{js,ts}`,
-  `${srcDir}/utils/**/*.{js,ts}`,
+  `${srcDir}/composables/**/!(*.{test,spec}).{js,ts}`,
+  `${srcDir}/plugins/**/!(*.{test,spec}).{js,ts}`,
+  `${srcDir}/utils/**/!(*.{test,spec}).{js,ts}`,
   `${srcDir}/App.{js,ts,vue}`,
   `${srcDir}/app.{js,ts,vue}`,
   `${srcDir}/Error.{js,ts,vue}`,
