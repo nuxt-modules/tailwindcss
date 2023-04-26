@@ -27,16 +27,18 @@ import { createTemplates, InjectPosition, resolveInjectPosition } from './utils'
 const logger = useLogger('nuxt:tailwindcss')
 
 const layerPaths = (srcDir: string) => ([
-  `${srcDir}/components/**/!(*.{test,spec}).{vue,js,ts}`,
+  `${srcDir}/components/**/*.{vue,js,ts}`,
   `${srcDir}/layouts/**/*.vue`,
   `${srcDir}/pages/**/*.vue`,
-  `${srcDir}/composables/**/!(*.{test,spec}).{js,ts}`,
-  `${srcDir}/plugins/**/!(*.{test,spec}).{js,ts}`,
-  `${srcDir}/utils/**/!(*.{test,spec}).{js,ts}`,
+  `${srcDir}/composables/**/*.{js,ts}`,
+  `${srcDir}/plugins/**/*.{js,ts}`,
+  `${srcDir}/utils/**/*.{js,ts}`,
   `${srcDir}/App.{js,ts,vue}`,
   `${srcDir}/app.{js,ts,vue}`,
   `${srcDir}/Error.{js,ts,vue}`,
-  `${srcDir}/error.{js,ts,vue}`
+  `${srcDir}/error.{js,ts,vue}`,
+  `${srcDir}/app.config.{js,ts}`,
+  `!${srcDir}/**/*.{spec,test}.*` // mind the ! at the start
 ])
 
 type Arrayable<T> = T | T[]
