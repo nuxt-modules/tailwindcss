@@ -280,7 +280,6 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     if (nuxt.options.dev && moduleOptions.viewer) {
-      // @ts-expect-error missing type
       nuxt.hook('devtools:customTabs', (tabs) => {
         tabs.push({
           title: 'TailwindCSS',
