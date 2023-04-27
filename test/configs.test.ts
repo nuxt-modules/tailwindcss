@@ -1,16 +1,15 @@
 import { describe, test, expect, vi } from 'vitest'
-import { mockedWarn } from 'consola'
 import { useTestContext } from '@nuxt/test-utils'
 import destr from 'destr'
 import { setupNuxtTailwind } from './util'
 
 describe('tailwindcss module configs', async () => {
-  vi.mock('consola', async () => {
-    const { default: mod } = (await vi.importActual<typeof import('consola')>('consola'))
-    mod.withScope = () => mod
-    mod.info = vi.fn()
-    mod.warn = vi.fn()
-    return { default: mod, info: mod.info, mockedWarn: mod.warn }
+  const spyStderr = vi.spyOn(process.stderr, 'write').mockImplementation(() => undefined!)
+  const spyStdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => undefined!)
+
+  afterAll(() => {
+    spyStderr.mockRestore()
+    spyStdout.mockRestore()
   })
 
   await setupNuxtTailwind({
@@ -25,10 +24,11 @@ describe('tailwindcss module configs', async () => {
   })
 
   test('throws error about malformed config', () => {
-    expect(mockedWarn.mock.calls[0][0]).toMatchInlineSnapshot('"Failed to load Tailwind config at: `./malformed-tailwind.config.js`"')
-    expect(mockedWarn.mock.calls[0][0]).contains('Failed to load Tailwind config at: `./malformed-tailwind.config.js`')
+    expect(spyStderr).toBeCalledTimes(1)
+    const output = spyStderr.mock.calls[0][0].toString()
 
-    expect(mockedWarn.mock.calls[0].length).toBe(2)
+    expect(output.split('\n')[0]).toMatchInlineSnapshot('"[warn] [nuxt:tailwindcss] Failed to load Tailwind config at: `./malformed-tailwind.config.js` Cannot find module \'something-that-doesnt-exist\'"')
+    expect(output).contains('Failed to load Tailwind config at: `./malformed-tailwind.config.js`')
   })
 
   test('ts config file is loaded and merged', () => {
