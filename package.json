@@ -1,6 +1,6 @@
 {
   "name": "@nuxtjs/tailwindcss",
-  "version": "6.6.6",
+  "version": "6.6.7",
   "description": "TailwindCSS module for Nuxt",
   "repository": "nuxt-modules/tailwindcss",
   "license": "MIT",
