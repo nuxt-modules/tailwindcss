@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.6.7
+
+[compare changes](https://undefined/undefined/compare/v6.6.6...v6.6.7)
+
+
+### 🏡 Chore
+
+  - Upgrade deps (cb92551)
+  - Exclude test files and add app.config to Tailwind content (#662)
+  - Update deps (fcdbae1)
+
+### ✅ Tests
+
+  - Fix test (#665)
+
+### ❤️  Contributors
+
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+- Anthony Fu <anthonyfu117@hotmail.com>
+- Maarten Van Hunsel
+
 ## v6.6.6
 
 [compare changes](https://undefined/undefined/compare/v6.6.5...v6.6.6)
