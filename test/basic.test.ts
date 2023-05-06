@@ -1,14 +1,17 @@
-import { useTestContext, $fetch } from '@nuxt/test-utils'
-import { describe, test, expect, vi } from 'vitest'
-import { mockedInfo } from 'consola'
+import { useTestContext } from '@nuxt/test-utils'
+import { describe, test, expect, vi, afterAll } from 'vitest'
 import { r, setupNuxtTailwind } from './util'
 
 describe('tailwindcss module', async () => {
-  vi.mock('consola', async () => {
-    const { default: mod } = (await vi.importActual<typeof import('consola')>('consola'))
-    mod.withScope = () => mod
-    mod.info = vi.fn()
-    return { default: mod, mockedInfo: mod.info }
+  // Consola will by default set the log level to warn in test, we trick it into thinking we're in debug mode
+  process.env.DEBUG = 'nuxt:*'
+
+  const spyStderr = vi.spyOn(process.stderr, 'write').mockImplementation(() => undefined!)
+  const spyStdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => undefined!)
+
+  afterAll(() => {
+    spyStderr.mockRestore()
+    spyStdout.mockRestore()
   })
 
   await setupNuxtTailwind({
@@ -33,10 +36,12 @@ describe('tailwindcss module', async () => {
   test('include custom tailwind.css file in project css', () => {
     const nuxt = useTestContext().nuxt
 
-    expect(mockedInfo.mock.calls[0]).contains('Using Tailwind CSS from ~/tailwind.css')
-
     expect(nuxt.options.css).toHaveLength(1)
     expect(nuxt.options.css[0]).toEqual(nuxt.options.tailwindcss.cssPath)
+
+    expect(spyStderr).toHaveBeenCalledTimes(0)
+    expect(spyStdout).toHaveBeenCalledTimes(1)
+    expect(spyStdout.mock.calls[0][0]).contains('Using Tailwind CSS from ~/tailwind.css')
   })
 
   test('default js config is merged in', () => {
