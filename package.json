@@ -31,7 +31,7 @@
     "chokidar": "^3.5.3",
     "clear-module": "^4.1.2",
     "colorette": "^2.0.20",
-    "cookie-es": "^0.5.0",
+    "cookie-es": "^1.0.0",
     "defu": "^6.1.2",
     "destr": "^1.2.2",
     "h3": "^1.6.4",
@@ -57,7 +57,7 @@
     "changelogen": "^0.5.3",
     "codecov": "latest",
     "eslint": "latest",
-    "jsdom": "^21.1.1",
+    "jsdom": "^22.0.0",
     "nuxt": "^3.4.2",
     "vitest": "^0.30.1"
   }

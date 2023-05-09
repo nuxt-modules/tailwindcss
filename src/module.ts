@@ -6,7 +6,6 @@ import { underline, yellow } from 'colorette'
 import {
   defineNuxtModule,
   installModule,
-  addTemplate,
   addDevServerHandler,
   isNuxt2,
   useLogger,
@@ -17,6 +16,7 @@ import {
   isNuxt3, findPath, requireModule
 } from '@nuxt/kit'
 import type { Config } from 'tailwindcss'
+import resolveConfig from 'tailwindcss/resolveConfig.js'
 // @ts-expect-error
 import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
 import { eventHandler, sendRedirect, H3Event } from 'h3'
@@ -37,15 +37,15 @@ const layerPaths = (srcDir: string) => ([
   `${srcDir}/app.{js,ts,vue}`,
   `${srcDir}/Error.{js,ts,vue}`,
   `${srcDir}/error.{js,ts,vue}`,
-  `${srcDir}/app.config.{js,ts}`,
-  `!${srcDir}/**/*.{spec,test}.*` // mind the ! at the start
+  `${srcDir}/app.config.{js,ts}`
 ])
 
 type Arrayable<T> = T | T[]
 
 declare module '@nuxt/schema' {
   interface NuxtHooks {
-    'tailwindcss:config': (tailwindConfig: Config) => void
+    'tailwindcss:config': (tailwindConfig: Partial<Config>) => void;
+    'tailwindcss:resolvedConfig': (tailwindConfig: Config) => void;
   }
 }
 
@@ -159,19 +159,8 @@ export default defineNuxtModule<ModuleOptions>({
     // Allow extending tailwindcss config by other modules
     await nuxt.callHook('tailwindcss:config', tailwindConfig)
 
-    // Write cjs version of config to support vscode extension
-    const resolveConfig = await import('tailwindcss/resolveConfig.js').then(r => r.default || r)
     const resolvedConfig = resolveConfig(tailwindConfig) as Config
-    // Avoid creating null plugins for intelisense
-    resolvedConfig.plugins = []
-    resolvedConfig.presets = (resolvedConfig.presets || []).map(
-      preset => preset?.plugins ? { ...preset, plugins: [] } : preset
-    )
-    addTemplate({
-      filename: 'tailwind.config.cjs',
-      getContents: () => `module.exports = ${JSON.stringify(resolvedConfig, null, 2)}`,
-      write: true
-    })
+    await nuxt.callHook('tailwindcss:resolvedConfig', resolvedConfig)
 
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
@@ -272,7 +261,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
       if (isNuxt3()) { addDevServerHandler({ route, handler: viewerDevMiddleware }) }
       // @ts-ignore
-      if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: (req, res, next) => viewerDevMiddleware(new H3Event(req, res)) }) }
+      if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: (req, res, _next) => viewerDevMiddleware(new H3Event(req, res)) }) }
       nuxt.hook('listen', (_, listener) => {
         const viewerUrl = `${withoutTrailingSlash(listener.url)}${route}`
         logger.info(`Tailwind Viewer: ${underline(yellow(withTrailingSlash(viewerUrl)))}`)
