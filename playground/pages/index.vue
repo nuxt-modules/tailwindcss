@@ -12,7 +12,10 @@
         This color comes from the `./theme` layer
       </p>
       <div>
-        <NuxtLink to="/content" class="underline hover:text-indigo-500">
+        <NuxtLink
+          to="/content"
+          class="underline hover:text-indigo-500"
+        >
           Visit the /content page to check out the @nuxt/content integration!
         </NuxtLink>
       </div>
