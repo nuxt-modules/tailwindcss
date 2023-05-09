@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.6.8
+
+[compare changes](https://undefined/undefined/compare/v6.6.7...v6.6.8)
+
+
+### 🩹 Fixes
+
+  - No longer generate .nuxt/tailwind.config.cjs (#660)
+  - Minimatch bug and move to @nuxt/eslint-config (f536b0d)
+
+### 📖 Documentation
+
+  - Content overriding with test files (#670)
+
+### 🏡 Chore
+
+  - Fix ts error (093df69)
+  - Update deps (e56394b)
+
+### ❤️  Contributors
+
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+- Inesh Bose 
+- Pascal Sthamer
+
 ## v6.6.7
 
 [compare changes](https://undefined/undefined/compare/v6.6.6...v6.6.7)
