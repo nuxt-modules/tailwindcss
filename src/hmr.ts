@@ -1,4 +1,4 @@
-import { isAbsolute, resolve } from 'path'
+import { isAbsolute, resolve } from 'pathe'
 import type { Plugin as VitePlugin } from 'vite'
 import type { Config } from 'tailwindcss'
 import micromatch from 'micromatch'
