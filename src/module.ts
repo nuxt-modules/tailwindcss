@@ -37,8 +37,7 @@ const layerPaths = (srcDir: string) => ([
   `${srcDir}/app.{js,ts,vue}`,
   `${srcDir}/Error.{js,ts,vue}`,
   `${srcDir}/error.{js,ts,vue}`,
-  `${srcDir}/app.config.{js,ts}`,
-  `!${srcDir}/**/*.{spec,test}.*` // mind the ! at the start
+  `${srcDir}/app.config.{js,ts}`
 ])
 
 type Arrayable<T> = T | T[]
