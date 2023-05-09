@@ -1,18 +1,19 @@
 import { isAbsolute, resolve } from 'path'
-import { HmrContext, Plugin } from 'vite'
-import { minimatch } from 'minimatch'
+import type { Plugin as VitePlugin } from 'vite'
+import type { Config } from 'tailwindcss'
+import micromatch from 'micromatch'
 
-export default function (tailwindConfig: any = {}, rootDir: string, cssPath: string): Plugin {
-  const resolvedContent: string[] = (tailwindConfig.content || []).map(f => !isAbsolute(f) ? resolve(rootDir, f) : f)
+export default function (tailwindConfig: Partial<Config> = {}, rootDir: string, cssPath: string): VitePlugin {
+  const resolvedContent = ((Array.isArray(tailwindConfig.content) ? tailwindConfig.content : tailwindConfig.content?.files || []).filter(f => typeof f === 'string') as Array<string>).map(f => !isAbsolute(f) ? resolve(rootDir, f) : f)
 
   return {
     name: 'nuxt:tailwindcss',
-    handleHotUpdate (ctx: HmrContext): void {
-      if (resolvedContent.findIndex(c => minimatch(ctx.file, c)) === -1) {
+    handleHotUpdate (ctx): void {
+      if (resolvedContent.findIndex(c => micromatch.isMatch(ctx.file, c)) === -1) {
         return
       }
 
-      const extraModules = ctx.server.moduleGraph.getModulesByFile(cssPath)
+      const extraModules = ctx.server.moduleGraph.getModulesByFile(cssPath) || new Set()
       const timestamp = +Date.now()
 
       for (const mod of extraModules) {
