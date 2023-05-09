@@ -57,7 +57,7 @@
     "changelogen": "^0.5.3",
     "codecov": "latest",
     "eslint": "latest",
-    "jsdom": "^21.1.1",
+    "jsdom": "^22.0.0",
     "nuxt": "^3.4.2",
     "vitest": "^0.30.1"
   }
