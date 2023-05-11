@@ -111,7 +111,7 @@ export default defineNuxtModule<ModuleOptions>({
       const layers = nuxt.options._layers.slice().reverse()
       for (const layer of layers) {
         await addConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config'))
-        contentPaths.push(...layerPaths(layer.cwd))
+        contentPaths.push(...layerPaths(layer?.config?.srcDir || layer.cwd))
       }
     } else {
       await addConfigPath(moduleOptions.configPath)
