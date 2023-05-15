@@ -63,23 +63,6 @@ export default defineNuxtModule<ModuleOptions>({
           ).reduce((prev, curr) => prev.map((p, i) => p.concat(curr[i]))) as any
         : [await resolveConfigPath(moduleOptions.configPath), resolveContentPaths(nuxt.options.srcDir)]
 
-
-    // Watch the Tailwind config file to restart the server
-    if (nuxt.options.dev) {
-      if (isNuxt2()) {
-        nuxt.options.watch = nuxt.options.watch || []
-        configPaths.forEach(path => nuxt.options.watch.push(path))
-      } else if (Array.isArray(nuxt.options.watch)) {
-        nuxt.options.watch.push(...configPaths.map(path => relative(nuxt.options.srcDir, path)))
-      } else {
-        const watcher = watch(configPaths, { depth: 0 }).on('change', (path) => {
-          logger.info(`Tailwind config changed: ${path}`)
-          logger.warn('Please restart the Nuxt server to apply changes or upgrade to latest Nuxt for automatic restart.')
-        })
-        nuxt.hook('close', () => watcher.close())
-      }
-    }
-
     const tailwindConfig = (
       await Promise.all(
         configPaths.map(async (configPath, idx, paths) => {
@@ -126,28 +109,24 @@ export default defineNuxtModule<ModuleOptions>({
     const cssPath = typeof moduleOptions.cssPath === 'string' ? await resolvePath(moduleOptions.cssPath, { extensions: ['.css', '.sass', '.scss', '.less', '.styl'] }) : false
 
     // Include CSS file in project css
-    let resolvedCss: string
+    const [resolvedCss, loggerInfo] =
+      typeof cssPath === 'string'
+        ? existsSync(cssPath)
+          ? ['tailwindcss/tailwind.css', 'Using default Tailwind CSS file']
+          : [cssPath, `Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`]
+        : [
+            resolver.resolve(
+              addTemplate({
+                filename: 'tailwind-empty.css',
+                write: true,
+                getContents: () => ''
+              }).dst
+            ),
+            'No Tailwind CSS file found. Skipping...'
+          ]
 
-    if (typeof cssPath === 'string') {
-      if (existsSync(cssPath)) {
-        logger.info(`Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`)
-        resolvedCss = cssPath
-      } else {
-        logger.info('Using default Tailwind CSS file')
-        resolvedCss = 'tailwindcss/tailwind.css'
-      }
-    } else {
-      logger.info('No Tailwind CSS file found. Skipping...')
-      resolvedCss = resolver.resolve(
-        addTemplate({
-          filename: 'tailwind-empty.css',
-          write: true,
-          getContents: () => ''
-        }).dst
-      )
-    }
+    logger.info(loggerInfo)
     nuxt.options.css = nuxt.options.css ?? []
-
     const resolvedNuxtCss = await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p)))
 
     // Inject only if this file isn't listed already by user (e.g. user may put custom path both here and in css):
@@ -177,42 +156,49 @@ export default defineNuxtModule<ModuleOptions>({
     postcssOptions.plugins['postcss-custom-properties'] = postcssOptions.plugins['postcss-custom-properties'] ?? {}
     postcssOptions.plugins.tailwindcss = tailwindConfig
 
-    /*
-    * install postcss8 module on nuxt < 2.16
-    */
+    // install postcss8 module on nuxt < 2.16
     if (parseFloat(getNuxtVersion()) < 2.16) {
       await installModule('@nuxt/postcss8')
     }
 
-    /**
-     * Vite HMR support
-     */
 
-    if (nuxt.options.dev && !moduleOptions.disableHmrHotfix) {
-      // Insert Vite plugin to work around HMR issue
-      addVitePlugin(vitePlugin(tailwindConfig, nuxt.options.rootDir, resolvedCss))
-    }
-
-    /**
-     * Viewer
-     */
-
-    // Add _tailwind config viewer endpoint
-    // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
-    if (nuxt.options.dev && moduleOptions.viewer) {
-      setupViewer(tailwindConfig, nuxt)
-
-      nuxt.hook('devtools:customTabs', (tabs) => {
-        tabs.push({
-          title: 'TailwindCSS',
-          name: 'tailwindcss',
-          icon: 'logos-tailwindcss-icon',
-          view: {
-            type: 'iframe',
-            src: '/_tailwind/'
-          }
+    if (nuxt.options.dev) {
+      // Watch the Tailwind config file to restart the server
+      if (isNuxt2()) {
+        nuxt.options.watch = nuxt.options.watch || []
+        configPaths.forEach(path => nuxt.options.watch.push(path))
+      } else if (Array.isArray(nuxt.options.watch)) {
+        nuxt.options.watch.push(...configPaths.map(path => relative(nuxt.options.srcDir, path)))
+      } else {
+        const watcher = watch(configPaths, { depth: 0 }).on('change', (path) => {
+          logger.info(`Tailwind config changed: ${path}`)
+          logger.warn('Please restart the Nuxt server to apply changes or upgrade to latest Nuxt for automatic restart.')
         })
-      })
+        nuxt.hook('close', () => watcher.close())
+      }
+
+      // Insert Vite plugin to work around HMR issue
+      if (!moduleOptions.disableHmrHotfix) {
+        addVitePlugin(vitePlugin(tailwindConfig, nuxt.options.rootDir, resolvedCss))
+      }
+
+      // Add _tailwind config viewer endpoint
+      // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
+      if (moduleOptions.viewer) {
+        setupViewer(tailwindConfig, nuxt)
+
+        nuxt.hook('devtools:customTabs', (tabs) => {
+          tabs.push({
+            title: 'TailwindCSS',
+            name: 'tailwindcss',
+            icon: 'logos-tailwindcss-icon',
+            view: {
+              type: 'iframe',
+              src: '/_tailwind/'
+            }
+          })
+        })
+      }
     }
   }
 
