@@ -1,6 +1,5 @@
 import { existsSync } from 'fs'
 import { join, relative } from 'pathe'
-import { defuArrayFn } from 'defu'
 import { watch } from 'chokidar'
 import { underline, yellow } from 'colorette'
 import {
@@ -22,7 +21,8 @@ import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
 import { eventHandler, sendRedirect, H3Event } from 'h3'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
-import { createTemplates, InjectPosition, resolveInjectPosition } from './utils'
+import { configMerger, createTemplates, InjectPosition, resolveInjectPosition } from './utils'
+import { addTemplate } from '@nuxt/kit'
 
 const logger = useLogger('nuxt:tailwindcss')
 
@@ -45,7 +45,7 @@ type Arrayable<T> = T | T[]
 declare module '@nuxt/schema' {
   interface NuxtHooks {
     'tailwindcss:config': (tailwindConfig: Partial<Config>) => void;
-    'tailwindcss:resolvedConfig': (tailwindConfig: Config) => void;
+    'tailwindcss:resolvedConfig': (tailwindConfig: ReturnType<typeof resolveConfig<Config>>) => void;
   }
 }
 
@@ -137,10 +137,11 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     // Default tailwind config
-    let tailwindConfig = defuArrayFn(moduleOptions.config, { content: contentPaths }) as Config
+    let tailwindConfig = configMerger(moduleOptions.config, { content: contentPaths })
+
     // Recursively resolve each config and merge tailwind configs together.
     for (const configPath of configPaths) {
-      let _tailwindConfig: Config | undefined
+      let _tailwindConfig: Partial<Config> | undefined
       try {
         _tailwindConfig = requireModule(configPath, { clearCache: true })
       } catch (e) {
@@ -152,14 +153,14 @@ export default defineNuxtModule<ModuleOptions>({
         _tailwindConfig.content = _tailwindConfig.purge
       }
       if (_tailwindConfig) {
-        tailwindConfig = defuArrayFn(_tailwindConfig, tailwindConfig)
+        tailwindConfig = configMerger(_tailwindConfig, tailwindConfig)
       }
     }
 
     // Allow extending tailwindcss config by other modules
     await nuxt.callHook('tailwindcss:config', tailwindConfig)
 
-    const resolvedConfig = resolveConfig(tailwindConfig) as Config
+    const resolvedConfig = resolveConfig(tailwindConfig as Config)
     await nuxt.callHook('tailwindcss:resolvedConfig', resolvedConfig)
 
     // Expose resolved tailwind config as an alias
@@ -179,18 +180,24 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Include CSS file in project css
     let resolvedCss: string
+
     if (typeof cssPath === 'string') {
       if (existsSync(cssPath)) {
         logger.info(`Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`)
         resolvedCss = cssPath
       } else {
-        logger.info('Using default Tailwind CSS file from runtime/tailwind.css')
+        logger.info('Using default Tailwind CSS file')
         // @ts-ignore
-        resolvedCss = createResolver(import.meta.url).resolve('runtime/tailwind.css')
+        resolvedCss = 'tailwindcss/tailwind.css'
       }
     } else {
       logger.info('No Tailwind CSS file found. Skipping...')
-      resolvedCss = createResolver(import.meta.url).resolve('runtime/empty.css')
+      const emptyCSSPath = addTemplate({
+        filename: 'tailwind-empty.css',
+        write: true,
+        getContents: () => ''
+      }).dst
+      resolvedCss = createResolver(import.meta.url).resolve(emptyCSSPath)
     }
     nuxt.options.css = nuxt.options.css ?? []
 

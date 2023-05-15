@@ -1,9 +1,31 @@
 import { dirname, join } from 'pathe'
 import { useNuxt, addTemplate } from '@nuxt/kit'
 import type { Config } from 'tailwindcss'
+import { createDefu } from 'defu'
 
 const NON_ALPHANUMERIC_RE = /^[0-9a-z]+$/i
 const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(value)
+
+export const configMerger: (
+  ...p: Array<Partial<Config> | Record<string | number | symbol, any>>
+) => Partial<Config> = createDefu((obj, key, value) => {
+  if (key === 'content') {
+    if (isJSObject(obj[key]) && Array.isArray(value)) {
+      obj[key]['files'] = [...(obj[key]['files'] || []), ...value]
+      return true
+    } else if (Array.isArray(obj[key]) && isJSObject(value)) {
+      obj[key] = { ...value, files: [...obj[key], ...(value.files || [])]}
+      return true
+    }
+  }
+
+  // keeping arrayFn
+  if (Array.isArray(obj[key]) && typeof value === "function") {
+    obj[key] = value(obj[key])
+    return true
+  }
+})
+
 
 export type InjectPosition = 'first' | 'last' | number | { after: string };
 
@@ -47,7 +69,7 @@ export function resolveInjectPosition (css: string[], position: InjectPosition) 
  * @param maxLevel maximum level of depth
  * @param nuxt nuxt app
  */
-export const createTemplates = (resolvedConfig: Config, maxLevel: number, nuxt = useNuxt()) => {
+export function createTemplates (resolvedConfig: Partial<Config>, maxLevel: number, nuxt = useNuxt()) {
   const dtsContent: string[] = []
 
   const populateMap = (obj: any, path: string[] = [], level = 1) => {
