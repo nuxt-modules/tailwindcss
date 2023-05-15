@@ -1,14 +1,14 @@
 import { dirname, join } from 'pathe'
 import { useNuxt, addTemplate, findPath } from '@nuxt/kit'
-import type { Config } from 'tailwindcss'
 import { createDefu } from 'defu'
+import type { Arrayable, InjectPosition, TWConfig } from './types'
 
 const NON_ALPHANUMERIC_RE = /^[0-9a-z]+$/i
 const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(value)
 
 export const configMerger: (
-  ...p: Array<Partial<Config> | Record<string | number | symbol, any>>
-) => Partial<Config> = createDefu((obj, key, value) => {
+  ...p: Array<Partial<TWConfig> | Record<string | number | symbol, any>>
+) => Partial<TWConfig> = createDefu((obj, key, value) => {
   if (key === 'content') {
     if (isJSObject(obj[key]) && Array.isArray(value)) {
       obj[key]['files'] = [...(obj[key]['files'] || []), ...value]
@@ -32,7 +32,7 @@ export const configMerger: (
  * @param path configPath for a layer
  * @returns array of resolved paths
  */
-export const resolveConfigPath = async (path: string | string[]) => (
+export const resolveConfigPath = async (path: Arrayable<string>) => (
   await Promise.all(
     (Array.isArray(path) ? path : [path])
       .filter(Boolean)
@@ -40,8 +40,24 @@ export const resolveConfigPath = async (path: string | string[]) => (
   )
 ).filter((i): i is string => Boolean(i))
 
-
-export type InjectPosition = 'first' | 'last' | number | { after: string };
+/**
+ *
+ * @param srcDir
+ * @returns array of resolved content globs
+ */
+export const resolveContentPaths = (srcDir: string) => ([
+  `${srcDir}/components/**/*.{vue,js,ts}`,
+  `${srcDir}/layouts/**/*.vue`,
+  `${srcDir}/pages/**/*.vue`,
+  `${srcDir}/composables/**/*.{js,ts}`,
+  `${srcDir}/plugins/**/*.{js,ts}`,
+  `${srcDir}/utils/**/*.{js,ts}`,
+  `${srcDir}/App.{js,ts,vue}`,
+  `${srcDir}/app.{js,ts,vue}`,
+  `${srcDir}/Error.{js,ts,vue}`,
+  `${srcDir}/error.{js,ts,vue}`,
+  `${srcDir}/app.config.{js,ts}`
+])
 
 /**
  * Resolve human-readable inject position specification into absolute index in the array
@@ -83,7 +99,7 @@ export function resolveInjectPosition (css: string[], position: InjectPosition) 
  * @param maxLevel maximum level of depth
  * @param nuxt nuxt app
  */
-export function createTemplates (resolvedConfig: Partial<Config>, maxLevel: number, nuxt = useNuxt()) {
+export function createTemplates (resolvedConfig: Partial<TWConfig>, maxLevel: number, nuxt = useNuxt()) {
   const dtsContent: string[] = []
 
   const populateMap = (obj: any, path: string[] = [], level = 1) => {
