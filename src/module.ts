@@ -22,6 +22,7 @@ import { eventHandler, sendRedirect, H3Event } from 'h3'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
 import { configMerger, createTemplates, InjectPosition, resolveInjectPosition } from './utils'
+import { addTemplate } from '@nuxt/kit'
 
 const logger = useLogger('nuxt:tailwindcss')
 
@@ -179,7 +180,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Include CSS file in project css
     let resolvedCss: string
-    const { resolve: relativeResolve } = createResolver(import.meta.url)
 
     if (typeof cssPath === 'string') {
       if (existsSync(cssPath)) {
@@ -188,11 +188,16 @@ export default defineNuxtModule<ModuleOptions>({
       } else {
         logger.info('Using default Tailwind CSS file')
         // @ts-ignore
-        resolvedCss = relativeResolve('runtime/tailwind.css')
+        resolvedCss = 'tailwindcss/tailwind.css'
       }
     } else {
       logger.info('No Tailwind CSS file found. Skipping...')
-      resolvedCss = relativeResolve('runtime/empty.css')
+      const emptyCSSPath = addTemplate({
+        filename: 'tailwind-empty.css',
+        write: true,
+        getContents: () => ''
+      }).dst
+      resolvedCss = createResolver(import.meta.url).resolve(emptyCSSPath)
     }
     nuxt.options.css = nuxt.options.css ?? []
 
