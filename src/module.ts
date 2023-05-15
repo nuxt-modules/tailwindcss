@@ -186,7 +186,7 @@ export default defineNuxtModule<ModuleOptions>({
         logger.info(`Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`)
         resolvedCss = cssPath
       } else {
-        logger.info('Using default Tailwind CSS file from runtime/tailwind.css')
+        logger.info('Using default Tailwind CSS file')
         // @ts-ignore
         resolvedCss = relativeResolve('runtime/tailwind.css')
       }
