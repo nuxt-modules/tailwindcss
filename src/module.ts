@@ -1,19 +1,16 @@
 import { existsSync } from 'fs'
 import { join, relative } from 'pathe'
 import { watch } from 'chokidar'
-import { underline, yellow } from 'colorette'
 
 import {
   defineNuxtModule,
   installModule,
-  addDevServerHandler,
   isNuxt2,
   useLogger,
   getNuxtVersion,
   createResolver,
   resolvePath,
   addVitePlugin,
-  isNuxt3,
   addTemplate,
   useNuxt
 } from '@nuxt/kit'
@@ -21,7 +18,6 @@ import {
 // @ts-expect-error
 import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
 import resolveConfig from 'tailwindcss/resolveConfig.js'
-import { eventHandler, sendRedirect, H3Event } from 'h3'
 
 import { configMerger } from './utils'
 import {
@@ -31,6 +27,7 @@ import {
 } from './resolving'
 import createTemplates from './templates'
 import vitePlugin from './vite-hmr'
+import setupViewer from './viewer'
 import { name, version, configKey, compatibility } from '../package.json'
 
 import type { ModuleOptions, TWConfig } from './types'
@@ -183,8 +180,7 @@ export default defineNuxtModule<ModuleOptions>({
     /*
     * install postcss8 module on nuxt < 2.16
     */
-    const nuxtVersion = getNuxtVersion(nuxt).split('.')
-    if (parseInt(nuxtVersion[0], 10) === 2 && parseInt(nuxtVersion[1], 10) < 16) {
+    if (parseFloat(getNuxtVersion()) < 2.16) {
       await installModule('@nuxt/postcss8')
     }
 
@@ -204,28 +200,8 @@ export default defineNuxtModule<ModuleOptions>({
     // Add _tailwind config viewer endpoint
     // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
     if (nuxt.options.dev && moduleOptions.viewer) {
-      const { withTrailingSlash, withoutTrailingSlash, joinURL } = await import('ufo')
-      const route = joinURL(nuxt.options.app?.baseURL, '/_tailwind')
-      // @ts-ignore
-      const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r) as any
-      const routerPrefix = isNuxt3() ? route : undefined
-      const _viewerDevMiddleware = createServer({ tailwindConfigProvider: () => tailwindConfig, routerPrefix }).asMiddleware()
-      const viewerDevMiddleware = eventHandler((event) => {
-        if (event.req.url === withoutTrailingSlash(route)) {
-          return sendRedirect(event, withTrailingSlash(event.req.url), 301)
-        }
-        _viewerDevMiddleware(event.req, event.res)
-      })
-      if (isNuxt3()) { addDevServerHandler({ route, handler: viewerDevMiddleware }) }
-      // @ts-ignore
-      if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: (req, res) => viewerDevMiddleware(new H3Event(req, res)) }) }
-      nuxt.hook('listen', (_, listener) => {
-        const viewerUrl = `${withoutTrailingSlash(listener.url)}${route}`
-        logger.info(`Tailwind Viewer: ${underline(yellow(withTrailingSlash(viewerUrl)))}`)
-      })
-    }
+      setupViewer(tailwindConfig, nuxt)
 
-    if (nuxt.options.dev && moduleOptions.viewer) {
       nuxt.hook('devtools:customTabs', (tabs) => {
         tabs.push({
           title: 'TailwindCSS',
