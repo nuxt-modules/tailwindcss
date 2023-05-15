@@ -14,7 +14,8 @@ import {
   resolvePath,
   addVitePlugin,
   isNuxt3,
-  addTemplate
+  addTemplate,
+  useNuxt
 } from '@nuxt/kit'
 
 // @ts-expect-error
@@ -22,39 +23,32 @@ import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
 import resolveConfig from 'tailwindcss/resolveConfig.js'
 import { eventHandler, sendRedirect, H3Event } from 'h3'
 
+import { configMerger } from './utils'
 import {
-  configMerger,
-  createTemplates,
   resolveConfigPath,
   resolveContentPaths,
   resolveInjectPosition
-} from './utils'
+} from './resolving'
+import createTemplates from './templates'
 import vitePlugin from './vite-hmr'
 import { name, version, configKey, compatibility } from '../package.json'
 
 import type { ModuleOptions, TWConfig } from './types'
 export { ModuleOptions } from './types'
 
-declare module '@nuxt/schema' {
-  interface NuxtHooks {
-    'tailwindcss:config': (tailwindConfig: Partial<TWConfig>) => void;
-    'tailwindcss:loadConfig': (tailwindConfig: Partial<TWConfig> | undefined, configPath: string, index: number, configPaths: string[]) => void;
-    'tailwindcss:resolvedConfig': (tailwindConfig: ReturnType<typeof resolveConfig<TWConfig>>) => void;
-  }
-}
+const defaults = (nuxt = useNuxt()): ModuleOptions => ({
+  configPath: 'tailwind.config',
+  cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
+  config: defaultTailwindConfig,
+  viewer: true,
+  exposeConfig: false,
+  exposeLevel: 2,
+  injectPosition: 'first',
+  disableHmrHotfix: false
+})
 
 export default defineNuxtModule<ModuleOptions>({
-  meta: { name, version, configKey, compatibility },
-  defaults: nuxt => ({
-    configPath: 'tailwind.config',
-    cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
-    config: defaultTailwindConfig,
-    viewer: true,
-    exposeConfig: false,
-    exposeLevel: 2,
-    injectPosition: 'first',
-    disableHmrHotfix: false
-  }),
+  meta: { name, version, configKey, compatibility }, defaults,
   async setup (moduleOptions, nuxt) {
     const logger = useLogger('nuxt:tailwindcss')
     const resolver = createResolver(import.meta.url)
@@ -71,6 +65,7 @@ export default defineNuxtModule<ModuleOptions>({
             ])))
           ).reduce((prev, curr) => prev.map((p, i) => p.concat(curr[i]))) as any
         : [await resolveConfigPath(moduleOptions.configPath), resolveContentPaths(nuxt.options.srcDir)]
+
 
     // Watch the Tailwind config file to restart the server
     if (nuxt.options.dev) {
@@ -246,3 +241,11 @@ export default defineNuxtModule<ModuleOptions>({
   }
 
 })
+
+declare module '@nuxt/schema' {
+  interface NuxtHooks {
+    'tailwindcss:config': (tailwindConfig: Partial<TWConfig>) => void;
+    'tailwindcss:loadConfig': (tailwindConfig: Partial<TWConfig> | undefined, configPath: string, index: number, configPaths: string[]) => void;
+    'tailwindcss:resolvedConfig': (tailwindConfig: ReturnType<typeof resolveConfig<TWConfig>>) => void;
+  }
+}
