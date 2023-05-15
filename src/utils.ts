@@ -1,5 +1,5 @@
 import { dirname, join } from 'pathe'
-import { useNuxt, addTemplate } from '@nuxt/kit'
+import { useNuxt, addTemplate, findPath } from '@nuxt/kit'
 import type { Config } from 'tailwindcss'
 import { createDefu } from 'defu'
 
@@ -25,6 +25,20 @@ export const configMerger: (
     return true
   }
 })
+
+/**
+ * Resolves all configPath values for an application
+ *
+ * @param path configPath for a layer
+ * @returns array of resolved paths
+ */
+export const resolveConfigPath = async (path: string | string[]) => (
+  await Promise.all(
+    (Array.isArray(path) ? path : [path])
+      .filter(Boolean)
+      .map((path) => findPath(path, { extensions: ['.js', '.cjs', '.mjs', '.ts'] }))
+  )
+).filter((i): i is string => Boolean(i))
 
 
 export type InjectPosition = 'first' | 'last' | number | { after: string };

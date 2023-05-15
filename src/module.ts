@@ -12,7 +12,7 @@ import {
   createResolver,
   resolvePath,
   addVitePlugin,
-  isNuxt3, findPath
+  isNuxt3
 } from '@nuxt/kit'
 import type { Config } from 'tailwindcss'
 import resolveConfig from 'tailwindcss/resolveConfig.js'
@@ -21,7 +21,7 @@ import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
 import { eventHandler, sendRedirect, H3Event } from 'h3'
 import { name, version } from '../package.json'
 import vitePlugin from './hmr'
-import { configMerger, createTemplates, InjectPosition, resolveInjectPosition } from './utils'
+import { configMerger, createTemplates, InjectPosition, resolveConfigPath, resolveInjectPosition } from './utils'
 import { addTemplate } from '@nuxt/kit'
 
 const logger = useLogger('nuxt:tailwindcss')
@@ -45,7 +45,7 @@ type Arrayable<T> = T | T[]
 declare module '@nuxt/schema' {
   interface NuxtHooks {
     'tailwindcss:config': (tailwindConfig: Partial<Config>) => void;
-    'tailwindcss:loadConfig': (tailwindConfig: Partial<Config>, configPath: string, index: number, configPaths: string[]) => void;
+    'tailwindcss:loadConfig': (tailwindConfig: Partial<Config> | undefined, configPath: string, index: number, configPaths: string[]) => void;
     'tailwindcss:resolvedConfig': (tailwindConfig: ReturnType<typeof resolveConfig<Config>>) => void;
   }
 }
@@ -86,33 +86,18 @@ export default defineNuxtModule<ModuleOptions>({
      * Config file handling
      */
 
-    const configPaths: string[] = []
-    const contentPaths: string[] = []
-
-    const resolveConfigPath = async (path: Arrayable<string>) => (
-        await Promise.all(
-          (Array.isArray(path) ? path : [path])
-            .filter(Boolean)
-            .map((path) => findPath(path, { extensions: ['.js', '.cjs', '.mjs', '.ts'] }))
-        )
-      ).filter((i): i is string => Boolean(i))
-
-    // Support `extends` directories
-    if (nuxt.options._layers && nuxt.options._layers.length > 1) {
-      // nuxt.options._layers is from rootDir to nested level
-      // We need to reverse the order to give the deepest tailwind.config the lowest priority
-      const layers = nuxt.options._layers.slice().reverse();
-
-      (await Promise.all(
-        layers.map(async (layer) => ([
-          await resolveConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config')),
-          layerPaths(layer?.config?.srcDir || layer.cwd)
-        ])))
-      ).forEach(l => configPaths.push(...l[0]) + contentPaths.push(...l[1]))
-    } else {
-      await resolveConfigPath(moduleOptions.configPath).then(p => configPaths.push(...p))
-      contentPaths.push(...layerPaths(nuxt.options.srcDir))
-    }
+    const [configPaths, contentPaths]: [Array<string>, Array<string>] =
+      (nuxt.options._layers && nuxt.options._layers.length > 1)
+        // Support `extends` directories
+        ? (await Promise.all(
+            // nuxt.options._layers is from rootDir to nested level
+            // We need to reverse the order to give the deepest tailwind.config the lowest priority
+            nuxt.options._layers.slice().reverse().map(async (layer) => ([
+              await resolveConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config')),
+              layerPaths(layer?.config?.srcDir || layer.cwd)
+            ])))
+          ).reduce((prev, curr) => prev.map((p, i) => p.concat(curr[i]))) as any
+        : [await resolveConfigPath(moduleOptions.configPath), layerPaths(nuxt.options.srcDir)]
 
     // Watch the Tailwind config file to restart the server
     if (nuxt.options.dev) {
@@ -130,29 +115,29 @@ export default defineNuxtModule<ModuleOptions>({
       }
     }
 
-    // Default tailwind config
-    const tailwindConfig = configMerger(
-      moduleOptions.config,
-      { content: contentPaths },
-      ...(await Promise.all(
-          configPaths.map(async (configPath, idx, paths) => {
-            let _tailwindConfig: Partial<Config> | undefined
-            try {
-              _tailwindConfig = await import(configPath).then(c => c.default || c)
-            } catch (e) {
-              logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
-            }
+    const tailwindConfig = (
+      await Promise.all(
+        configPaths.map(async (configPath, idx, paths) => {
+          let _tailwindConfig: Partial<Config> | undefined
+          try {
+            _tailwindConfig = await import(configPath).then(c => c.default || c)
+          } catch (e) {
+            logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
+          }
 
-            // Transform purge option from Array to object with { content }
-            if (_tailwindConfig && !_tailwindConfig.content) {
-              _tailwindConfig.content = _tailwindConfig.purge
-            }
+          // Transform purge option from Array to object with { content }
+          if (_tailwindConfig && !_tailwindConfig.content) {
+            _tailwindConfig.content = _tailwindConfig.purge
+          }
 
-            await nuxt.callHook('tailwindcss:loadConfig', _tailwindConfig || {}, configPath, idx, paths)
-            return _tailwindConfig || {}
-          }))
+          await nuxt.callHook('tailwindcss:loadConfig', _tailwindConfig, configPath, idx, paths)
+          return _tailwindConfig || {}
+        }))
+      ).reduce(
+        (prev, curr) => configMerger(curr, prev),
+        // internal default tailwind config
+        configMerger(moduleOptions.config, { content: contentPaths })
       )
-    )
 
     // Allow extending tailwindcss config by other modules
     await nuxt.callHook('tailwindcss:config', tailwindConfig)
