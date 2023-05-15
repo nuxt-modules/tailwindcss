@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.7.0
+
+[compare changes](https://undefined/undefined/compare/v6.6.8...v6.7.0)
+
+
+### 🚀 Enhancements
+
+  - Allow content as object (#674)
+
+### 🩹 Fixes
+
+  - **vite-plugin:** Consider content as object (#672)
+  - SrcDir for layers (#676)
+
+### 📖 Documentation
+
+  - Mention plugins in editor support (#675)
+
+### 🏡 Chore
+
+  - Update h3 (84177fe)
+
+### ❤️  Contributors
+
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+- Inesh Bose
+
 ## v6.6.8
 
 [compare changes](https://undefined/undefined/compare/v6.6.7...v6.6.8)
