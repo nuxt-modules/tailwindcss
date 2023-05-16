@@ -1,4 +1,3 @@
-import { existsSync } from 'fs'
 import { join, relative } from 'pathe'
 import { watch } from 'chokidar'
 
@@ -8,10 +7,8 @@ import {
   isNuxt2,
   useLogger,
   getNuxtVersion,
-  createResolver,
   resolvePath,
   addVitePlugin,
-  addTemplate,
   useNuxt
 } from '@nuxt/kit'
 
@@ -21,8 +18,8 @@ import resolveConfig from 'tailwindcss/resolveConfig.js'
 
 import { configMerger } from './utils'
 import {
-  resolveConfigPath,
-  resolveContentPaths,
+  resolveModulePaths,
+  resolveCSSPath,
   resolveInjectPosition
 } from './resolving'
 import createTemplates from './templates'
@@ -31,7 +28,9 @@ import setupViewer from './viewer'
 import { name, version, configKey, compatibility } from '../package.json'
 
 import type { ModuleOptions, TWConfig } from './types'
-export { ModuleOptions } from './types'
+export type { ModuleOptions } from './types'
+
+const logger = useLogger('nuxt:tailwindcss')
 
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: 'tailwind.config',
@@ -47,21 +46,7 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
 export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility }, defaults,
   async setup (moduleOptions, nuxt) {
-    const logger = useLogger('nuxt:tailwindcss')
-    const resolver = createResolver(import.meta.url)
-
-    const [configPaths, contentPaths]: [Array<string>, Array<string>] =
-      (nuxt.options._layers && nuxt.options._layers.length > 1)
-        // Support `extends` directories
-        ? (await Promise.all(
-            // nuxt.options._layers is from rootDir to nested level
-            // We need to reverse the order to give the deepest tailwind.config the lowest priority
-            nuxt.options._layers.slice().reverse().map(async (layer) => ([
-              await resolveConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config')),
-              resolveContentPaths(layer?.config?.srcDir || layer.cwd)
-            ])))
-          ).reduce((prev, curr) => prev.map((p, i) => p.concat(curr[i]))) as any
-        : [await resolveConfigPath(moduleOptions.configPath), resolveContentPaths(nuxt.options.srcDir)]
+    const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
 
     const tailwindConfig = (
       await Promise.all(
@@ -102,30 +87,12 @@ export default defineNuxtModule<ModuleOptions>({
     // Compute tailwindConfig hash
     tailwindConfig._hash = String(Date.now())
 
-    /**
-     * CSS file handling
-     */
 
+    /** CSS file handling */
     const cssPath = typeof moduleOptions.cssPath === 'string' ? await resolvePath(moduleOptions.cssPath, { extensions: ['.css', '.sass', '.scss', '.less', '.styl'] }) : false
-
-    // Include CSS file in project css
-    const [resolvedCss, loggerInfo] =
-      typeof cssPath === 'string'
-        ? existsSync(cssPath)
-          ? ['tailwindcss/tailwind.css', 'Using default Tailwind CSS file']
-          : [cssPath, `Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`]
-        : [
-            resolver.resolve(
-              addTemplate({
-                filename: 'tailwind-empty.css',
-                write: true,
-                getContents: () => ''
-              }).dst
-            ),
-            'No Tailwind CSS file found. Skipping...'
-          ]
-
+    const [resolvedCss, loggerInfo] = resolveCSSPath(cssPath, nuxt)
     logger.info(loggerInfo)
+
     nuxt.options.css = nuxt.options.css ?? []
     const resolvedNuxtCss = await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p)))
 
@@ -141,9 +108,8 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.css.splice(injectPosition, 0, resolvedCss)
     }
 
-    /**
-     * PostCSS 8 support for Nuxt 2
-     */
+
+    /** PostCSS 8 support for Nuxt 2 */
 
     // Setup postcss plugins
     // https://tailwindcss.com/docs/using-with-preprocessors#future-css-features
@@ -162,6 +128,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
 
+    // enabled only in development
     if (nuxt.options.dev) {
       // Watch the Tailwind config file to restart the server
       if (isNuxt2()) {

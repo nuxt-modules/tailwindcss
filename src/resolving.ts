@@ -1,5 +1,7 @@
-import { findPath } from "@nuxt/kit"
-import type { Arrayable, InjectPosition } from "./types"
+import { existsSync } from 'fs'
+import { join, relative } from 'pathe'
+import { addTemplate, createResolver, findPath, useNuxt } from '@nuxt/kit'
+import type { Arrayable, InjectPosition, ModuleOptions } from './types'
 
 /**
  * Resolves all configPath values for an application
@@ -33,6 +35,51 @@ export const resolveContentPaths = (srcDir: string) => ([
   `${srcDir}/error.{js,ts,vue}`,
   `${srcDir}/app.config.{js,ts}`
 ])
+
+/**
+ *
+ * @param configPath
+ * @param nuxt
+ * @returns [configuration paths, default resolved content paths]
+ */
+export const resolveModulePaths = async (configPath: ModuleOptions['configPath'], nuxt = useNuxt()): Promise<[string[], string[]]> => (
+  (nuxt.options._layers && nuxt.options._layers.length > 1)
+  // Support `extends` directories
+  ? (await Promise.all(
+      // nuxt.options._layers is from rootDir to nested level
+      // We need to reverse the order to give the deepest tailwind.config the lowest priority
+      nuxt.options._layers.slice().reverse().map(async (layer) => ([
+        await resolveConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config')),
+        resolveContentPaths(layer?.config?.srcDir || layer.cwd)
+      ])))
+    ).reduce((prev, curr) => prev.map((p, i) => p.concat(curr[i]))) as any
+  : [await resolveConfigPath(configPath), resolveContentPaths(nuxt.options.srcDir)]
+)
+
+/**
+ *
+ * @param cssPath
+ * @param nuxt
+ * @returns [resolvedCss, loggerMessage]
+ */
+export function resolveCSSPath (cssPath: ModuleOptions['cssPath'], nuxt = useNuxt()): [string, string] {
+  if (typeof cssPath === 'string') {
+    return existsSync(cssPath)
+      ? [cssPath, `Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`]
+      : ['tailwindcss/tailwind.css', 'Using default Tailwind CSS file']
+  } else {
+    return [
+      createResolver(import.meta.url).resolve(
+        addTemplate({
+          filename: 'tailwind-empty.css',
+          write: true,
+          getContents: () => ''
+        }).dst
+      ),
+      'No Tailwind CSS file found. Skipping...'
+    ]
+  }
+}
 
 /**
  * Resolve human-readable inject position specification into absolute index in the array
