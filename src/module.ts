@@ -48,29 +48,28 @@ export default defineNuxtModule<ModuleOptions>({
   async setup (moduleOptions, nuxt) {
     const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
 
-    const tailwindConfig = (
-      await Promise.all(
-        configPaths.map(async (configPath, idx, paths) => {
-          let _tailwindConfig: Partial<TWConfig> | undefined
-          try {
-            _tailwindConfig = await import(configPath).then(c => c.default || c)
-          } catch (e) {
-            logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
-          }
+    const tailwindConfig = await Promise.all((
+      configPaths.map(async (configPath, idx, paths) => {
+        let _tailwindConfig: Partial<TWConfig> | undefined
+        try {
+          _tailwindConfig = await import(configPath).then(c => c.default || c)
+        } catch (e) {
+          logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
+        }
 
-          // Transform purge option from Array to object with { content }
-          if (_tailwindConfig && !_tailwindConfig.content) {
-            _tailwindConfig.content = _tailwindConfig.purge
-          }
+        // Transform purge option from Array to object with { content }
+        if (_tailwindConfig && !_tailwindConfig.content) {
+          _tailwindConfig.content = _tailwindConfig.purge
+        }
 
-          await nuxt.callHook('tailwindcss:loadConfig', _tailwindConfig, configPath, idx, paths)
-          return _tailwindConfig || {}
-        }))
-      ).reduce(
-        (prev, curr) => configMerger(curr, prev),
-        // internal default tailwind config
-        configMerger(moduleOptions.config, { content: contentPaths })
-      )
+        await nuxt.callHook('tailwindcss:loadConfig', _tailwindConfig, configPath, idx, paths)
+        return _tailwindConfig || {}
+      }))
+    ).then((configs) => configs.reduce(
+      (prev, curr) => configMerger(curr, prev),
+      // internal default tailwind config
+      configMerger(moduleOptions.config, { content: contentPaths })
+    ))
 
     // Allow extending tailwindcss config by other modules
     await nuxt.callHook('tailwindcss:config', tailwindConfig)
@@ -135,7 +134,7 @@ export default defineNuxtModule<ModuleOptions>({
         nuxt.options.watch = nuxt.options.watch || []
         configPaths.forEach(path => nuxt.options.watch.push(path))
       } else if (Array.isArray(nuxt.options.watch)) {
-        nuxt.options.watch.push(...configPaths.map(path => relative(nuxt.options.srcDir, path)))
+        configPaths.forEach(path => nuxt.options.watch.push(relative(nuxt.options.srcDir, path)))
       } else {
         const watcher = watch(configPaths, { depth: 0 }).on('change', (path) => {
           logger.info(`Tailwind config changed: ${path}`)
