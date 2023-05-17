@@ -21,7 +21,7 @@ import {
   resolveModulePaths,
   resolveCSSPath,
   resolveInjectPosition
-} from './resolving'
+} from './resolvers'
 import createTemplates from './templates'
 import vitePlugin from './vite-hmr'
 import setupViewer from './viewer'
