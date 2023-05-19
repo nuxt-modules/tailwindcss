@@ -5,7 +5,6 @@ import { withTrailingSlash, withoutTrailingSlash, joinURL } from 'ufo'
 import type { TWConfig } from './types'
 
 export default async function (twConfig: Partial<TWConfig>, nuxt = useNuxt()) {
-  // const { withTrailingSlash, withoutTrailingSlash, joinURL } = await import('ufo')
   const route = joinURL(nuxt.options.app?.baseURL, '/_tailwind')
   // @ts-ignore
   const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r) as any
