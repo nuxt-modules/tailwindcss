@@ -53,7 +53,7 @@ export default defineNuxtModule<ModuleOptions>({
       configPaths.map(async (configPath, idx, paths) => {
         let _tailwindConfig: Partial<TWConfig> | undefined
         try {
-          _tailwindConfig = requireModule(configPath)
+          _tailwindConfig = requireModule(configPath, { clearCache: true })
         } catch (e) {
           logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
         }
