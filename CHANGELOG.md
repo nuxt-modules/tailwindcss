@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.7.2
+
+[compare changes](https://undefined/undefined/compare/v6.7.1...v6.7.2)
+
+
+### 🔥 Performance
+
+  - Parallelise all async calls " (#679)
+
+### 📖 Documentation
+
+  - Update deps (5a877b9)
+
+### ❤️  Contributors
+
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+
+## v6.7.1
+
+[compare changes](https://undefined/undefined/compare/v6.7.0...v6.7.1)
+
+
+### 🔥 Performance
+
+  - Parallelise all async calls (#679)
+
+### 🏡 Chore
+
+  - Upgrade deps (de99ac0)
+
+### ❤️  Contributors
+
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+- Inesh Bose
+
 ## v6.7.0
 
 [compare changes](https://undefined/undefined/compare/v6.6.8...v6.7.0)
