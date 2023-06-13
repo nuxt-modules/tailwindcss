@@ -33,22 +33,22 @@ describe('tailwindcss module configs', async () => {
   })
 
   test('ts config file is loaded and merged', () => {
-    const nuxt = useTestContext().nuxt
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))
+    const nuxt = useTestContext().nuxt!
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))!
     // set from ts-tailwind.config.ts
     expect(nuxt.vfs[vfsKey]).contains('"typescriptBlue": "#007acc"')
   })
 
   test('js config file is loaded and merged', () => {
-    const nuxt = useTestContext().nuxt
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))
+    const nuxt = useTestContext().nuxt!
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))!
     // set from ts-tailwind.config.ts
     expect(nuxt.vfs[vfsKey]).contains('"javascriptYellow": "#f1e05a"')
   })
 
   test('content is overridden', () => {
-    const nuxt = useTestContext().nuxt
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))
+    const nuxt = useTestContext().nuxt!
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))!
     // set from override-tailwind.config.ts
     const contentFiles = destr(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, '')).content.files
 
@@ -58,8 +58,8 @@ describe('tailwindcss module configs', async () => {
   })
 
   test('content merges with objects', () => {
-    const nuxt = useTestContext().nuxt
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))
+    const nuxt = useTestContext().nuxt!
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))!
     const { content } = destr(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, ''))
 
     expect(content.relative).toBeTruthy()
