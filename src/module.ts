@@ -9,13 +9,13 @@ import {
   getNuxtVersion,
   resolvePath,
   addVitePlugin,
-  useNuxt,
-  requireModule
+  useNuxt
 } from '@nuxt/kit'
 
 // @ts-expect-error
 import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
 import resolveConfig from 'tailwindcss/resolveConfig.js'
+import loadConfig from 'tailwindcss/loadConfig.js'
 
 import { configMerger } from './utils'
 import {
@@ -53,7 +53,7 @@ export default defineNuxtModule<ModuleOptions>({
       configPaths.map(async (configPath, idx, paths) => {
         let _tailwindConfig: Partial<TWConfig> | undefined
         try {
-          _tailwindConfig = requireModule(configPath, { clearCache: true })
+          _tailwindConfig = loadConfig(configPath)
         } catch (e) {
           logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
         }
