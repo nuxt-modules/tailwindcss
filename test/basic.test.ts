@@ -34,10 +34,10 @@ describe('tailwindcss module', async () => {
   // })
 
   test('include custom tailwind.css file in project css', () => {
-    const nuxt = useTestContext().nuxt!
+    const nuxt = useTestContext().nuxt
 
     expect(nuxt.options.css).toHaveLength(1)
-    expect(nuxt.options.css[0]).toEqual(nuxt.options.tailwindcss.cssPath.replace(/\\/g /* windows protocol */, '/'))
+    expect(nuxt.options.css[0]).toEqual(nuxt.options.tailwindcss.cssPath)
 
     expect(spyStderr).toHaveBeenCalledTimes(0)
     expect(spyStdout).toHaveBeenCalledTimes(1)
@@ -45,8 +45,8 @@ describe('tailwindcss module', async () => {
   })
 
   test('default js config is merged in', () => {
-    const nuxt = useTestContext().nuxt!
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))!
+    const nuxt = useTestContext().nuxt
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))
     // set from default config tailwind.config.js
     expect(nuxt.vfs[vfsKey]).contains('"primary": "#f1e05a"')
   })
@@ -61,16 +61,16 @@ describe('tailwindcss module', async () => {
   //
 
   test('expose config', () => {
-    const nuxt = useTestContext().nuxt!
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config/theme/flexBasis.'))!
+    const nuxt = useTestContext().nuxt
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config/theme/flexBasis.'))
     // check default tailwind default animation exists
     expect(nuxt.vfs[vfsKey]).contains('"full": _full, "0.5": "0.125rem"')
     expect(nuxt.vfs[vfsKey]).contains('export { config as default')
   })
 
   test('expose config variable', () => {
-    const nuxt = useTestContext().nuxt!
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config/theme/animation.'))!
+    const nuxt = useTestContext().nuxt
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config/theme/animation.'))
     expect(nuxt.vfs[vfsKey]).contains('const _pulse = "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"')
   })
 })

@@ -1,9 +1,9 @@
 import { isAbsolute, resolve } from 'pathe'
 import type { Plugin as VitePlugin } from 'vite'
-import type { TWConfig } from './types'
+import type { Config } from 'tailwindcss'
 import micromatch from 'micromatch'
 
-export default function (tailwindConfig: Partial<TWConfig> = {}, rootDir: string, cssPath: string): VitePlugin {
+export default function (tailwindConfig: Partial<Config> = {}, rootDir: string, cssPath: string): VitePlugin {
   const resolvedContent = ((Array.isArray(tailwindConfig.content) ? tailwindConfig.content : tailwindConfig.content?.files || []).filter(f => typeof f === 'string') as Array<string>).map(f => !isAbsolute(f) ? resolve(rootDir, f) : f)
 
   return {
