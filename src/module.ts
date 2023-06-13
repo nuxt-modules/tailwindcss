@@ -9,7 +9,8 @@ import {
   getNuxtVersion,
   resolvePath,
   addVitePlugin,
-  useNuxt
+  useNuxt,
+  requireModule
 } from '@nuxt/kit'
 
 // @ts-expect-error
@@ -52,7 +53,7 @@ export default defineNuxtModule<ModuleOptions>({
       configPaths.map(async (configPath, idx, paths) => {
         let _tailwindConfig: Partial<TWConfig> | undefined
         try {
-          _tailwindConfig = await import(configPath).then(c => c.default || c)
+          _tailwindConfig = requireModule(configPath)
         } catch (e) {
           logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
         }
