@@ -9,7 +9,8 @@ import {
   getNuxtVersion,
   resolvePath,
   addVitePlugin,
-  useNuxt
+  useNuxt,
+  addTemplate
 } from '@nuxt/kit'
 
 // @ts-expect-error
@@ -82,6 +83,7 @@ export default defineNuxtModule<ModuleOptions>({
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
       createTemplates(resolvedConfig, moduleOptions.exposeLevel, nuxt)
+      isNuxt2() && addTemplate({ filename: 'tailwind.config.cjs', getContents: () => `module.exports = ${JSON.stringify(resolvedConfig, null, 2)}` })
     }
 
     // Compute tailwindConfig hash

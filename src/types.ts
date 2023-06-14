@@ -3,7 +3,7 @@ export type Arrayable<T> = T | Array<T>
 export type InjectPosition = 'first' | 'last' | number | { after: string };
 
 interface ExtendTailwindConfig {
-  content: TWConfig['content'] | ((contentDefaults: Array<string>) => TWConfig['content']);
+  content?: TWConfig['content'] | ((contentDefaults: Array<string>) => TWConfig['content']);
 }
 
 export interface ModuleOptions {
