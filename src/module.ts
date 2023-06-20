@@ -22,7 +22,9 @@ import { configMerger } from './utils'
 import {
   resolveModulePaths,
   resolveCSSPath,
-  resolveInjectPosition
+  resolveInjectPosition,
+  resolveExposeConfig,
+  resolveViewerConfig
 } from './resolvers'
 import createTemplates from './templates'
 import vitePlugin from './vite-hmr'
@@ -82,7 +84,8 @@ export default defineNuxtModule<ModuleOptions>({
     // Expose resolved tailwind config as an alias
     // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
-      createTemplates(resolvedConfig, moduleOptions.exposeLevel, nuxt)
+      const exposeConfig = resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {})})
+      createTemplates(resolvedConfig, exposeConfig, nuxt)
       isNuxt2() && addTemplate({ filename: 'tailwind.config.cjs', getContents: () => `module.exports = ${JSON.stringify(resolvedConfig, null, 2)}` })
     }
 
@@ -154,7 +157,8 @@ export default defineNuxtModule<ModuleOptions>({
       // Add _tailwind config viewer endpoint
       // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
       if (moduleOptions.viewer) {
-        setupViewer(tailwindConfig, nuxt)
+        const viewerConfig = resolveViewerConfig(moduleOptions.viewer)
+        setupViewer(tailwindConfig, viewerConfig, nuxt)
 
         nuxt.hook('devtools:customTabs', (tabs) => {
           tabs.push({
@@ -163,7 +167,7 @@ export default defineNuxtModule<ModuleOptions>({
             icon: 'logos-tailwindcss-icon',
             view: {
               type: 'iframe',
-              src: '/_tailwind/'
+              src: viewerConfig.endpoint
             }
           })
         })

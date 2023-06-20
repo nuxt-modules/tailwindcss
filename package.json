@@ -62,10 +62,13 @@
     "@tailwindcss/typography": "^0.5.9",
     "@types/micromatch": "^4.0.2",
     "changelogen": "^0.5.3",
-    "codecov": "latest",
     "eslint": "latest",
     "jsdom": "^22.1.0",
     "nuxt": "^3.5.3",
     "vitest": "^0.32.2"
+  },
+  "packageManager": "pnpm@8.6.2",
+  "resolutions": {
+    "@nuxtjs/tailwindcss": "link:."
   }
 }
