@@ -4,6 +4,11 @@
   "description": "TailwindCSS module for Nuxt",
   "repository": "nuxt-modules/tailwindcss",
   "license": "MIT",
+  "configKey": "tailwindcss",
+  "compatibility": {
+    "nuxt": "^2.9.0 || ^3.0.0-rc.1",
+    "bridge": true
+  },
   "exports": {
     ".": {
       "require": "./dist/module.cjs",
