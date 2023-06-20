@@ -22,15 +22,25 @@ export const resolveConfigPath = async (path: Arrayable<string>) => (
  * @param srcDir
  * @returns array of resolved content globs
  */
-export const resolveContentPaths = (srcDir: string) => ([
-  `${srcDir}/components/**/*.{vue,js,ts}`,
-  `${srcDir}/layouts/**/*.vue`,
-  `${srcDir}/pages/**/*.vue`,
-  `${srcDir}/composables/**/*.{js,ts}`,
-  `${srcDir}/plugins/**/*.{js,ts}`,
-  `${srcDir}/utils/**/*.{js,ts}`,
-  `${srcDir}/{App,app}.{js,ts,vue}`,
-  `${srcDir}/{Error,error}.{js,ts,vue}`,
+export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => ([
+  // `${srcDir}/components/**/*`,
+  ...(() => {
+    if (nuxt.options.components) {
+      return (Array.isArray(nuxt.options.components) ? nuxt.options.components : typeof nuxt.options.components === 'boolean' ? ['components'] : nuxt.options.components.dirs).map(d => createResolver(import.meta.url).resolve(typeof d === 'string' ? d : d.path))
+    }
+    return []
+  })(),
+
+  `${srcDir}/${nuxt.options.dir.layouts}/**/*`,
+  ...(nuxt.options.pages ? [`${srcDir}/${nuxt.options.dir.pages}/**/*`] : []),
+
+  `${srcDir}/${nuxt.options.plugins}/**/*.{js,ts}`,
+  `${srcDir}/${nuxt.options.modules}/**/*.{js,ts}`,
+  ...nuxt.options.modulesDir.map(m => `${srcDir}/${m}/**/*.{js,ts}`),
+  ...(nuxt.options.imports.dirs || []).map(d => `${srcDir}/${d}/**/*.{js,ts}`),
+
+  `${srcDir}/{A,a}pp.*`,
+  `${srcDir}/{E,e}rror.*`,
   `${srcDir}/app.config.{js,ts}`
 ])
 
