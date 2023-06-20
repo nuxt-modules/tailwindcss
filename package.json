@@ -45,7 +45,7 @@
     "pathe": "^1.1.1",
     "postcss": "^8.4.24",
     "postcss-custom-properties": "^13.2.0",
-    "postcss-nesting": "^11.2.2",
+    "postcss-nesting": "^11.3.0",
     "radix3": "^1.0.1",
     "tailwind-config-viewer": "^1.7.2",
     "tailwindcss": "~3.3.2",
@@ -54,8 +54,8 @@
   },
   "devDependencies": {
     "@fontsource/inter": "^5.0.3",
-    "@nuxt/content": "^2.6.0",
-    "@nuxt/devtools": "^0.5.5",
+    "@nuxt/content": "^2.7.0",
+    "@nuxt/devtools": "^0.6.1",
     "@nuxt/eslint-config": "latest",
     "@nuxt/module-builder": "^0.4.0",
     "@nuxt/test-utils": "^3.5.3",
@@ -66,6 +66,6 @@
     "eslint": "latest",
     "jsdom": "^22.1.0",
     "nuxt": "^3.5.3",
-    "vitest": "^0.32.0"
+    "vitest": "^0.32.2"
   }
 }
