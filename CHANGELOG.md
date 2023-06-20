@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.8.0
+
+[compare changes](https://undefined/undefined/compare/v6.7.2...v6.8.0)
+
+
+### 🚀 Enhancements
+
+  - Parallelise async calls and fixes (#690)
+
+### 📖 Documentation
+
+  - No strict peer (582cb73)
+  - Use SB for example (9b157eb)
+  - Update color mode example (255da81)
+  - Update examples (43b224d)
+
+### 🏡 Chore
+
+  - Update deps (9bf0e68)
+
+### ❤️  Contributors
+
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+- Inesh Bose
+
 ## v6.7.2
 
 [compare changes](https://undefined/undefined/compare/v6.7.1...v6.7.2)
