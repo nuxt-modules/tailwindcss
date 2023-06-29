@@ -7,7 +7,7 @@
   "configKey": "tailwindcss",
   "compatibility": {
     "nuxt": "^2.9.0 || ^3.0.0-rc.1",
-    "bridge": true
+    "bridge": false
   },
   "exports": {
     ".": {
