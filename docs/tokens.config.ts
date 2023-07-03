@@ -3,16 +3,16 @@ import { defineTheme } from 'pinceau'
 export default defineTheme({
   color: {
     primary: {
-      50: '#f0f9ff',
-      100: '#e0f2fe',
-      200: '#bae6fd',
-      300: '#7dd3fc',
-      400: '#38bdf8',
-      500: '#0ea5e9',
-      600: '#0284c7',
-      700: '#0369a1',
-      800: '#075985',
-      900: '#0c4a6e'
+      50: '#EDF9FF',
+      100: '#CFF0FF',
+      200: '#AFE6FF',
+      300: '#74D4FF',
+      400: '#3ABDF8',
+      500: '#0EA5E9',
+      600: '#0987BF',
+      700: '#05638D',
+      800: '#043F59',
+      900: '#02212F'
     }
   }
 })
