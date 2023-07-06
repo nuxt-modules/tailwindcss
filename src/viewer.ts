@@ -4,7 +4,7 @@ import { addDevServerHandler, isNuxt2, isNuxt3, useLogger, useNuxt } from '@nuxt
 import { withTrailingSlash, withoutTrailingSlash, joinURL } from 'ufo'
 import type { TWConfig } from './types'
 
-export default async function (twConfig: Partial<TWConfig>, nuxt = useNuxt()) {
+export default async function (twConfig: Partial<TWConfig>, nuxt = useNuxt(), quiet = false) {
   const route = joinURL(nuxt.options.app?.baseURL, '/_tailwind')
   // @ts-ignore
   const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r) as any
@@ -21,6 +21,8 @@ export default async function (twConfig: Partial<TWConfig>, nuxt = useNuxt()) {
   if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: (req, res) => viewerDevMiddleware(new H3Event(req, res)) }) }
   nuxt.hook('listen', (_, listener) => {
     const viewerUrl = `${withoutTrailingSlash(listener.url)}${route}`
-    useLogger('nuxt:tailwindcss').info(`Tailwind Viewer: ${underline(yellow(withTrailingSlash(viewerUrl)))}`)
+    if (!quiet) {
+      useLogger('nuxt:tailwindcss').info(`Tailwind Viewer: ${underline(yellow(withTrailingSlash(viewerUrl)))}`)
+    }
   })
 }

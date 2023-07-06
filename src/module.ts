@@ -42,7 +42,8 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   exposeConfig: false,
   exposeLevel: 2,
   injectPosition: 'first',
-  disableHmrHotfix: false
+  disableHmrHotfix: false,
+  quiet: false
 })
 
 export default defineNuxtModule<ModuleOptions>({
@@ -93,7 +94,7 @@ export default defineNuxtModule<ModuleOptions>({
     /** CSS file handling */
     const cssPath = typeof moduleOptions.cssPath === 'string' ? await resolvePath(moduleOptions.cssPath, { extensions: ['.css', '.sass', '.scss', '.less', '.styl'] }) : false
     const [resolvedCss, loggerInfo] = resolveCSSPath(cssPath, nuxt)
-    logger.info(loggerInfo)
+    if (!moduleOptions.quiet) { logger.info(loggerInfo) }
 
     nuxt.options.css = nuxt.options.css ?? []
     const resolvedNuxtCss = await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p)))
@@ -154,7 +155,7 @@ export default defineNuxtModule<ModuleOptions>({
       // Add _tailwind config viewer endpoint
       // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
       if (moduleOptions.viewer) {
-        setupViewer(tailwindConfig, nuxt)
+        setupViewer(tailwindConfig, nuxt, moduleOptions.quiet)
 
         nuxt.hook('devtools:customTabs', (tabs) => {
           tabs.push({

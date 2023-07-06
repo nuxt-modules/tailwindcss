@@ -50,6 +50,12 @@ export interface ModuleOptions {
    */
   injectPosition: InjectPosition;
   /**
+   * Suppress logging to the console during build
+   *
+   * @default false
+   */
+  quiet: boolean;
+  /**
    * @default false
    */
   disableHmrHotfix: boolean;
