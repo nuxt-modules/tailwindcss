@@ -30,7 +30,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.5.3",
+    "@nuxt/kit": "^3.6.2",
     "@nuxt/postcss8": "^1.1.3",
     "autoprefixer": "^10.4.14",
     "chokidar": "^3.5.3",
@@ -65,7 +65,7 @@
     "codecov": "latest",
     "eslint": "latest",
     "jsdom": "^22.1.0",
-    "nuxt": "^3.5.3",
+    "nuxt": "^3.6.2",
     "vitest": "^0.32.2"
   }
 }
