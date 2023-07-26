@@ -7,7 +7,7 @@
   "configKey": "tailwindcss",
   "compatibility": {
     "nuxt": "^2.9.0 || ^3.0.0-rc.1",
-    "bridge": true
+    "bridge": false
   },
   "exports": {
     ".": {
@@ -30,7 +30,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.5.3",
+    "@nuxt/kit": "^3.6.2",
     "@nuxt/postcss8": "^1.1.3",
     "autoprefixer": "^10.4.14",
     "chokidar": "^3.5.3",
@@ -64,7 +64,7 @@
     "changelogen": "^0.5.3",
     "eslint": "latest",
     "jsdom": "^22.1.0",
-    "nuxt": "^3.5.3",
+    "nuxt": "^3.6.2",
     "vitest": "^0.32.2"
   },
   "packageManager": "pnpm@8.6.2",
