@@ -5,7 +5,17 @@ export default defineAppConfig({
     image: 'https://tailwindcss.nuxtjs.org/social-card.png',
     socials: {
       twitter: 'nuxt_js',
-      github: 'nuxt-modules/tailwindcss'
+      github: 'nuxt-modules/tailwindcss',
+      nuxt: {
+        label: 'Nuxt',
+        icon: 'simple-icons:nuxtdotjs',
+        href: 'https://nuxt.com'
+      },
+      supabase: {
+        label: 'Tailwind CSS',
+        icon: 'simple-icons:tailwindcss',
+        href: 'https://tailwindcss.com'
+      }
     },
     header: {
       logo: true
