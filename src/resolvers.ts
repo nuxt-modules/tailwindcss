@@ -22,27 +22,33 @@ export const resolveConfigPath = async (path: Arrayable<string>) => (
  * @param srcDir
  * @returns array of resolved content globs
  */
-export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => ([
-  // `${srcDir}/components/**/*`,
-  ...(() => {
-    if (nuxt.options.components) {
-      return (Array.isArray(nuxt.options.components) ? nuxt.options.components : typeof nuxt.options.components === 'boolean' ? ['components'] : nuxt.options.components.dirs).map(d => createResolver(import.meta.url).resolve(typeof d === 'string' ? d : d.path))
-    }
-    return []
-  })(),
+export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
+  const extensionFormat = (s: string[]) => `.{${s.join(',')}}`
+  const defaultExtensions = extensionFormat(['js', 'ts'])
+  const sfcExtensions = extensionFormat(nuxt.options.extensions)
 
-  `${srcDir}/${nuxt.options.dir.layouts}/**/*`,
-  ...(nuxt.options.pages ? [`${srcDir}/${nuxt.options.dir.pages}/**/*`] : []),
+  return [
+    // `${srcDir}/components/**/*`,
+    ...(() => {
+      if (nuxt.options.components) {
+        return (Array.isArray(nuxt.options.components) ? nuxt.options.components : typeof nuxt.options.components === 'boolean' ? ['components'] : nuxt.options.components.dirs).map(d => createResolver(import.meta.url).resolve(typeof d === 'string' ? d : d.path))
+      }
+      return []
+    })(),
 
-  `${srcDir}/${nuxt.options.plugins}/**/*.{js,ts}`,
-  `${srcDir}/${nuxt.options.modules}/**/*.{js,ts}`,
-  ...nuxt.options.modulesDir.map(m => `${srcDir}/${m}/**/*.{js,ts}`),
-  ...(nuxt.options.imports.dirs || []).map(d => `${srcDir}/${d}/**/*.{js,ts}`),
+    `${srcDir}/${nuxt.options.dir.layouts}/**/*${sfcExtensions}`,
+    ...(nuxt.options.pages ? [`${srcDir}/${nuxt.options.dir.pages}/**/*${sfcExtensions}`] : []),
 
-  `${srcDir}/{A,a}pp.*`,
-  `${srcDir}/{E,e}rror.*`,
-  `${srcDir}/app.config.{js,ts}`
-])
+    `${srcDir}/${nuxt.options.plugins}/**/*${defaultExtensions}`,
+    `${srcDir}/${nuxt.options.modules}/**/*${defaultExtensions}`,
+    ...nuxt.options.modulesDir.map(m => `${srcDir}/${m}/**/*${defaultExtensions}`),
+    ...(nuxt.options.imports.dirs || []).map(d => `${srcDir}/${d}/**/*${defaultExtensions}`),
+
+    `${srcDir}/{A,a}pp*${sfcExtensions}`,
+    `${srcDir}/{E,e}rror${sfcExtensions}`,
+    `${srcDir}/app.config${defaultExtensions}`,
+  ]
+}
 
 /**
  *
