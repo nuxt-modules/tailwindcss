@@ -23,14 +23,14 @@ export const resolveConfigPath = async (path: Arrayable<string>) => (
  * @returns array of resolved content globs
  */
 export const resolveContentPaths = (srcDir: string) => ([
-  `${srcDir}/components/**/*.{vue,js,ts}`,
-  `${srcDir}/layouts/**/*.vue`,
-  `${srcDir}/pages/**/*.vue`,
+  `${srcDir}/components/**/*.{vue,js,ts,jsx,tsx}`,
+  `${srcDir}/layouts/**/*.{vue,js,ts,jsx,tsx}`,
+  `${srcDir}/pages/**/*.{vue,js,ts,jsx,tsx}`,
   `${srcDir}/composables/**/*.{js,ts}`,
   `${srcDir}/plugins/**/*.{js,ts}`,
-  `${srcDir}/utils/**/*.{js,ts}`,
-  `${srcDir}/{App,app}.{js,ts,vue}`,
-  `${srcDir}/{Error,error}.{js,ts,vue}`,
+  `${srcDir}/utils/**/*.{js,ts,jsx,tsx}`,
+  `${srcDir}/{App,app}.{vue,js,ts,jsx,tsx}`,
+  `${srcDir}/{Error,error}.{vue,js,ts,jsx,tsx}`,
   `${srcDir}/app.config.{js,ts}`
 ])
 
