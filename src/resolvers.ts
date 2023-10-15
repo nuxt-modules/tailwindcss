@@ -22,7 +22,8 @@ export const resolveConfigPath = async (path: Arrayable<string>) => (
  * @param srcDir
  * @returns array of resolved content globs
  */
-export const resolveContentPaths = (srcDir: string) => ([
+export const resolveContentPaths = (srcDir: string, assetDir?: string) => ([
+  `${srcDir}/${assetDir}/**/*.{css}`,
   `${srcDir}/components/**/*.{vue,js,ts}`,
   `${srcDir}/layouts/**/*.vue`,
   `${srcDir}/pages/**/*.vue`,
@@ -51,7 +52,7 @@ export const resolveModulePaths = async (configPath: ModuleOptions['configPath']
         resolveContentPaths(layer?.config?.srcDir || layer.cwd)
       ])))
     ).reduce((prev, curr) => prev.map((p, i) => p.concat(curr[i]))) as any
-  : [await resolveConfigPath(configPath), resolveContentPaths(nuxt.options.srcDir)]
+  : [await resolveConfigPath(configPath), resolveContentPaths(nuxt.options.srcDir, nuxt.options.dir.assets || 'assets')]
 )
 
 /**
