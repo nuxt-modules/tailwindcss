@@ -11,6 +11,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/types.d.ts",
       "require": "./dist/module.cjs",
       "import": "./dist/module.mjs"
     }
