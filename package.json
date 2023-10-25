@@ -41,7 +41,7 @@
     "defu": "^6.1.2",
     "destr": "^2.0.1",
     "h3": "^1.8.2",
-    "iron-webcrypto": "^0.10.1",
+    "iron-webcrypto": "^1.0.0",
     "micromatch": "^4.0.5",
     "pathe": "^1.1.1",
     "postcss": "^8.4.31",
