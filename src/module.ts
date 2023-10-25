@@ -95,7 +95,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     /** CSS file handling */
     const cssPath = typeof moduleOptions.cssPath === 'string' ? await resolvePath(moduleOptions.cssPath, { extensions: ['.css', '.sass', '.scss', '.less', '.styl'] }) : false
-    const [resolvedCss, loggerInfo] = resolveCSSPath(cssPath, nuxt)
+    const [resolvedCss, loggerInfo] = await resolveCSSPath(cssPath, nuxt)
     logger.info(loggerInfo)
 
     nuxt.options.css = nuxt.options.css ?? []

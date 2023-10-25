@@ -20,7 +20,7 @@ export default async function (twConfig: Partial<TWConfig>, config: ViewerConfig
   // @ts-ignore
   if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: (req, res) => viewerDevMiddleware(new H3Event(req, res)) }) }
   nuxt.hook('listen', (_, listener) => {
-    const viewerUrl = `${withoutTrailingSlash(listener.url)}${route}`
+    const viewerUrl = `${withoutTrailingSlash(listener.url)}${route}`.replace(/\/+/g, '/')
     useLogger('nuxt:tailwindcss').info(`Tailwind Viewer: ${underline(yellow(withTrailingSlash(viewerUrl)))}`)
   })
 }
