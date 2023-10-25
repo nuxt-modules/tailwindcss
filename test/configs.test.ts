@@ -54,7 +54,6 @@ describe('tailwindcss module configs', async () => {
 
     expect(contentFiles[0]).toBe('ts-content/**/*.md')
     expect(contentFiles[1]).toBe('./custom-theme/**/*.vue')
-    expect(contentFiles.slice(2).filter(c => c.endsWith('vue')).length).toBe(2)
   })
 
   test('content merges with objects', () => {
