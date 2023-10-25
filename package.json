@@ -46,7 +46,7 @@
     "pathe": "^1.1.1",
     "postcss": "^8.4.31",
     "postcss-custom-properties": "^13.3.2",
-    "postcss-nesting": "^11.3.0",
+    "postcss-nesting": "^12.0.1",
     "radix3": "^1.1.0",
     "tailwind-config-viewer": "^1.7.2",
     "tailwindcss": "~3.3.3",
