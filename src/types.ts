@@ -1,10 +1,38 @@
-export type TWConfig = import('tailwindcss').Config
-export type Arrayable<T> = T | Array<T>
-export type InjectPosition = 'first' | 'last' | number | { after: string };
+export type TWConfig = import("tailwindcss").Config;
+export type Arrayable<T> = T | Array<T>;
+export type InjectPosition = "first" | "last" | number | { after: string };
 
 interface ExtendTailwindConfig {
-  content?: TWConfig['content'] | ((contentDefaults: Array<string>) => TWConfig['content']);
+  content?:
+    | TWConfig["content"]
+    | ((contentDefaults: Array<string>) => TWConfig["content"]);
 }
+
+type BoolObj<T extends Record<string, any>> = boolean | Partial<T>;
+
+export type ViewerConfig = {
+  /**
+   * The endpoint for the viewer
+   *
+   * @default '/_tailwind'
+   */
+  endpoint: string
+};
+
+export type ExposeConfig = {
+  /**
+   * Import name for the configuration
+   *
+   * @default '#tailwind-config'
+   */
+  alias: string;
+  /**
+   * Deeper references within configuration for optimal tree-shaking.
+   *
+   * @default 2
+   */
+  level: number
+};
 
 export interface ModuleOptions {
   /**
@@ -28,19 +56,20 @@ export interface ModuleOptions {
   /**
    * [tailwind-config-viewer](https://github.com/rogden/tailwind-config-viewer) usage *in development*
    *
-   * @default true
+   * @default true // { endpoint: '_tailwind' }
    */
-  viewer: boolean;
+  viewer: BoolObj<ViewerConfig>;
   /**
    * Usage of configuration references in runtime. See https://tailwindcss.nuxtjs.org/tailwind/config#referencing-in-the-application
    *
-   * @default false
+   * @default false // if true, { alias: '#tailwind-config', level: 2 }
    */
-  exposeConfig: boolean;
+  exposeConfig: BoolObj<ExposeConfig>;
   /**
    * Deeper references within configuration for optimal tree-shaking.
    *
    * @default 2
+   * @deprecated use exposeConfig as object
    */
   exposeLevel: number;
   /**
