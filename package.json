@@ -56,7 +56,7 @@
   "devDependencies": {
     "@fontsource/inter": "^5.0.15",
     "@nuxt/content": "^2.8.5",
-    "@nuxt/devtools": "^0.8.5",
+    "@nuxt/devtools": "^1.0.0",
     "@nuxt/eslint-config": "latest",
     "@nuxt/module-builder": "^0.5.2",
     "@nuxt/test-utils": "^3.8.0",
