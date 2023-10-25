@@ -2,6 +2,54 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.8.1
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.8.0...v6.8.1)
+
+### 🩹 Fixes
+
+- Typeof import default in dts ([4334ea3](https://github.com/nuxt-modules/tailwindcss/commit/4334ea3))
+- Not require bridge ([c488680](https://github.com/nuxt-modules/tailwindcss/commit/c488680))
+- **docs:** Closes #705 ([#705](https://github.com/nuxt-modules/tailwindcss/issues/705))
+- **ci:** Attempt to fix test ([23233be](https://github.com/nuxt-modules/tailwindcss/commit/23233be))
+- **ci:** Attempt to fix test ([6eb2b07](https://github.com/nuxt-modules/tailwindcss/commit/6eb2b07))
+- Add types to package.json exports map ([#724](https://github.com/nuxt-modules/tailwindcss/pull/724))
+- **ci:** Lock vitest version ([#738](https://github.com/nuxt-modules/tailwindcss/pull/738))
+- Resolve tailwindcss/tailwind.css with pnpm and no shamefully hoist ([#740](https://github.com/nuxt-modules/tailwindcss/pull/740))
+
+### 📖 Documentation
+
+- Update dark mode ([a1b8fa2](https://github.com/nuxt-modules/tailwindcss/commit/a1b8fa2))
+- Improve homepage ([c801b82](https://github.com/nuxt-modules/tailwindcss/commit/c801b82))
+- Update og image ([1825f44](https://github.com/nuxt-modules/tailwindcss/commit/1825f44))
+- Full url for ogImage ([f00a1c6](https://github.com/nuxt-modules/tailwindcss/commit/f00a1c6))
+- Update design ([8763358](https://github.com/nuxt-modules/tailwindcss/commit/8763358))
+- Add command to create tailwind.config file ([0458188](https://github.com/nuxt-modules/tailwindcss/commit/0458188))
+- Fix typo ([#720](https://github.com/nuxt-modules/tailwindcss/pull/720))
+- Rename `NuxtLabs UI` to `Nuxt UI` ([#723](https://github.com/nuxt-modules/tailwindcss/pull/723))
+- Update SB embed ([8ec24ca](https://github.com/nuxt-modules/tailwindcss/commit/8ec24ca))
+
+### 🏡 Chore
+
+- Using nuxt convention for indexing type ([da4f9d3](https://github.com/nuxt-modules/tailwindcss/commit/da4f9d3))
+- Update docs ([20d7922](https://github.com/nuxt-modules/tailwindcss/commit/20d7922))
+- Update lock ([80c2718](https://github.com/nuxt-modules/tailwindcss/commit/80c2718))
+- Update ci.yml ([fa82937](https://github.com/nuxt-modules/tailwindcss/commit/fa82937))
+- Revert change ([43234be](https://github.com/nuxt-modules/tailwindcss/commit/43234be))
+- Remove duplicate / on tailwind viewer ([aa75b79](https://github.com/nuxt-modules/tailwindcss/commit/aa75b79))
+- Fix vitest version ([b4ac533](https://github.com/nuxt-modules/tailwindcss/commit/b4ac533))
+- Ignore vitest in renovate ([1eb0913](https://github.com/nuxt-modules/tailwindcss/commit/1eb0913))
+- Update deps ([77958b8](https://github.com/nuxt-modules/tailwindcss/commit/77958b8))
+- Revert vitest version ([d189d8f](https://github.com/nuxt-modules/tailwindcss/commit/d189d8f))
+
+### ❤️ Contributors
+
+- Inesh Bose <2504266b@student.gla.ac.uk>
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+- Stefanprobst <stefanprobst@posteo.de>
+- Benjamin Canac ([@benjamincanac](http://github.com/benjamincanac))
+- Tech Genius
+
 ## v6.8.0
 
 [compare changes](https://undefined/undefined/compare/v6.7.2...v6.8.0)
