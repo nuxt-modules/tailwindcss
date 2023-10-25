@@ -67,6 +67,6 @@
     "eslint": "latest",
     "jsdom": "^22.1.0",
     "nuxt": "^3.8.0",
-    "vitest": "0.34.6"
+    "vitest": "0.34.2"
   }
 }
