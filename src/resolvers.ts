@@ -1,6 +1,6 @@
 import { existsSync } from 'fs'
 import { join, relative } from 'pathe'
-import { addTemplate, createResolver, findPath, useNuxt } from '@nuxt/kit'
+import { addTemplate, createResolver, findPath, useNuxt, tryResolveModule } from '@nuxt/kit'
 import type { Arrayable, InjectPosition, ModuleOptions } from './types'
 
 /**
@@ -61,11 +61,22 @@ export const resolveModulePaths = async (configPath: ModuleOptions['configPath']
  * @param nuxt
  * @returns [resolvedCss, loggerMessage]
  */
-export function resolveCSSPath (cssPath: ModuleOptions['cssPath'], nuxt = useNuxt()): [string, string] {
+export async function resolveCSSPath (cssPath: ModuleOptions['cssPath'], nuxt = useNuxt()): Promise<[string, string]> {
   if (typeof cssPath === 'string') {
     return existsSync(cssPath)
       ? [cssPath, `Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`]
-      : ['tailwindcss/tailwind.css', 'Using default Tailwind CSS file']
+      : await tryResolveModule('tailwindcss/package.json')
+        .then(twLocation => twLocation ? [join(twLocation, '../tailwind.css'), 'Using default Tailwind CSS file'] : Promise.reject('tailwindcss not resolved'))
+        .catch(e => [
+          createResolver(import.meta.url).resolve(
+            addTemplate({
+              filename: '_tailwind.css',
+              write: true,
+              getContents: () => '@tailwind base;\n@tailwind components;\n@tailwind utilities;'
+            }).dst
+          ),
+          `Faced error while trying to use default Tailwind CSS file: ${e?.name || ''} ${e?.message || e}\nCreated default Tailwind CSS file`
+        ]) as [string, string]
   } else {
     return [
       createResolver(import.meta.url).resolve(
