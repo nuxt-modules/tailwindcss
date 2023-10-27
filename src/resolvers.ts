@@ -23,13 +23,13 @@ export const resolveConfigPath = async (path: Arrayable<string>) => (
  * @returns array of resolved content globs
  */
 export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
-  const r = (p: string) => p.startsWith(srcDir) ? p : `${srcDir}/${p}`
+  const r = (p: string) => p.startsWith(srcDir) ? p : resolve(srcDir, p)
   const extensionFormat = (s: string[]) => s.length > 1 ? `.{${s.join(',')}}` : `.${s.join('') || 'vue'}`
 
   const defaultExtensions = extensionFormat(['js', 'ts', 'mjs'])
   const sfcExtensions = extensionFormat(nuxt.options.extensions.map(e => e.replace(/^\.*/, '')))
 
-  const importDirs = [...(nuxt.options.imports.dirs || [])]
+  const importDirs = [...(nuxt.options.imports.dirs || [])].map(r)
   const [composablesDir, utilsDir] = [resolve(srcDir, 'composables'), resolve(srcDir, 'utils')]
 
   if (!importDirs.includes(composablesDir)) importDirs.push(composablesDir)
@@ -48,8 +48,7 @@ export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
 
     r(`${nuxt.options.dir.plugins}/**/*${defaultExtensions}`),
     r(`${nuxt.options.dir.modules}/**/*${defaultExtensions}`),
-    ...nuxt.options.modulesDir.map(m => r(`${m}/**/*${defaultExtensions}`)),
-    ...importDirs.map(d => r(`${d}/**/*${defaultExtensions}`)),
+    ...importDirs.map(d => `${d}/**/*${defaultExtensions}`),
 
     r(`{A,a}pp${sfcExtensions}`),
     r(`{E,e}rror${sfcExtensions}`),
