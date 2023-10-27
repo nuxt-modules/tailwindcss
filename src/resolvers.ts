@@ -1,5 +1,5 @@
 import { existsSync } from 'fs'
-import { join, relative } from 'pathe'
+import { join, relative, resolve } from 'pathe'
 import { addTemplate, createResolver, findPath, useNuxt, tryResolveModule, resolveAlias } from '@nuxt/kit'
 import type { Arrayable, InjectPosition, ModuleOptions } from './types'
 
@@ -29,6 +29,12 @@ export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
   const defaultExtensions = extensionFormat(['js', 'ts', 'mjs'])
   const sfcExtensions = extensionFormat(nuxt.options.extensions.map(e => e.replace(/^\.*/, '')))
 
+  const importDirs = [...(nuxt.options.imports.dirs || [])]
+  const [composablesDir, utilsDir] = [resolve(srcDir, 'composables'), resolve(srcDir, 'utils')]
+
+  if (!importDirs.includes(composablesDir)) importDirs.push(composablesDir)
+  if (!importDirs.includes(utilsDir)) importDirs.push(utilsDir)
+
   return [
     ...(() => {
       if (nuxt.options.components) {
@@ -43,7 +49,7 @@ export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
     r(`${nuxt.options.dir.plugins}/**/*${defaultExtensions}`),
     r(`${nuxt.options.dir.modules}/**/*${defaultExtensions}`),
     ...nuxt.options.modulesDir.map(m => r(`${m}/**/*${defaultExtensions}`)),
-    ...(nuxt.options.imports.dirs || []).map(d => r(`${d}/**/*${defaultExtensions}`)),
+    ...importDirs.map(d => r(`${d}/**/*${defaultExtensions}`)),
 
     r(`{A,a}pp${sfcExtensions}`),
     r(`{E,e}rror${sfcExtensions}`),
