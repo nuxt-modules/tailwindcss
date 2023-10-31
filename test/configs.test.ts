@@ -1,7 +1,8 @@
-import { describe, test, expect, vi } from 'vitest'
+import { describe, test, expect, vi, afterAll } from 'vitest'
 import { useTestContext } from '@nuxt/test-utils'
 import destr from 'destr'
-import { setupNuxtTailwind } from './util'
+import { setupNuxtTailwind, r } from './util'
+import { Config } from 'tailwindcss'
 
 describe('tailwindcss module configs', async () => {
   const spyStderr = vi.spyOn(process.stderr, 'write').mockImplementation(() => undefined!)
@@ -22,6 +23,12 @@ describe('tailwindcss module configs', async () => {
       'content-obj.config'
     ],
     cssPath: 'tailwind.css'
+  },
+  {
+    dir: { plugins: 'my-pluggable-modules' }, // modules: 'my-modular-plugins' },
+    // modules: ['@nuxtjs/tailwindcss', r('modules/cjs-config.ts')],
+    imports: { dirs: ['my-imports-dir1', 'my-imports-dir2'] },
+    extensions: ['.json', '.mdc', '.mdx', '.coffee']
   })
 
   test('throws error about malformed config', () => {
@@ -34,32 +41,42 @@ describe('tailwindcss module configs', async () => {
 
   test('ts config file is loaded and merged', () => {
     const nuxt = useTestContext().nuxt!
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))!
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('test-tailwind.config.'))!
     // set from ts-tailwind.config.ts
     expect(nuxt.vfs[vfsKey]).contains('"typescriptBlue": "#007acc"')
   })
 
   test('js config file is loaded and merged', () => {
     const nuxt = useTestContext().nuxt!
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))!
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('test-tailwind.config.'))!
     // set from ts-tailwind.config.ts
     expect(nuxt.vfs[vfsKey]).contains('"javascriptYellow": "#f1e05a"')
   })
 
+  test('content is adaptive', () => {
+    const nuxt = useTestContext().nuxt!
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('test-tailwind.config.'))!
+    const { content: { files } } = destr<Omit<Config, 'content'> & { content: Extract<Config['content'], { relative?: boolean }> }>(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, ''))
+
+    expect(files.find(c => c.includes('my-pluggable-modules/**/*'))).toBeDefined()
+    // expect(files).toBe('hi')
+  })
+
   test('content is overridden', () => {
     const nuxt = useTestContext().nuxt!
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))!
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('test-tailwind.config.'))!
     // set from override-tailwind.config.ts
-    const contentFiles = destr(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, '')).content.files
+    const contentFiles = destr<Omit<Config, 'content'> & { content: Extract<Config['content'], { relative?: boolean }> }>(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, '')).content.files
 
     expect(contentFiles[0]).toBe('ts-content/**/*.md')
     expect(contentFiles[1]).toBe('./custom-theme/**/*.vue')
+    expect(contentFiles.filter(c => /{[AE],[ae]}/.test(c)).length).toBe(0)
   })
 
   test('content merges with objects', () => {
     const nuxt = useTestContext().nuxt!
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.'))!
-    const { content } = destr(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, ''))
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('test-tailwind.config.'))!
+    const { content } = destr<Omit<Config, 'content'> & { content: Extract<Config['content'], { relative?: boolean }> }>(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, ''))
 
     expect(content.relative).toBeTruthy()
     expect(content.files.pop()).toBe('./my-components/**/*.tsx')
