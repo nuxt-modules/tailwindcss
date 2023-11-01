@@ -25,8 +25,8 @@ describe('tailwindcss module configs', async () => {
     cssPath: 'tailwind.css'
   },
   {
-    dir: { plugins: 'my-pluggable-modules' }, // modules: 'my-modular-plugins' },
-    // modules: ['@nuxtjs/tailwindcss', r('modules/cjs-config.ts')],
+    dir: { plugins: 'my-pluggable-modules', modules: 'my-modular-plugins' },
+    modules: [r('modules/cjs-config.ts'), '@nuxtjs/tailwindcss'],
     imports: { dirs: ['my-imports-dir1', 'my-imports-dir2'] },
     extensions: ['.json', '.mdc', '.mdx', '.coffee']
   })
@@ -58,8 +58,9 @@ describe('tailwindcss module configs', async () => {
     const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('test-tailwind.config.'))!
     const { content: { files } } = destr<Omit<Config, 'content'> & { content: Extract<Config['content'], { relative?: boolean }> }>(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, ''))
 
-    expect(files.find(c => c.includes('my-pluggable-modules/**/*'))).toBeDefined()
-    // expect(files).toBe('hi')
+    expect(files.find(c => /my-pluggable-modules|my-modular-plugins/.test(c))).toBeDefined()
+    expect(files.filter(c => c.includes('my-imports-dir')).length).toBe(2)
+    expect(files.find(c => c.includes('components/**/*'))?.includes('json,mdc,mdx,coffee')).toBeTruthy()
   })
 
   test('content is overridden', () => {
