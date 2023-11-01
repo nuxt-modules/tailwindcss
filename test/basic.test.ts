@@ -1,10 +1,12 @@
-import { useTestContext } from '@nuxt/test-utils'
+import { useTestContext, $fetch } from '@nuxt/test-utils'
 import { describe, test, expect, vi, afterAll } from 'vitest'
 import { r, setupNuxtTailwind } from './util'
 
 describe('tailwindcss module', async () => {
   // Consola will by default set the log level to warn in test, we trick it into thinking we're in debug mode
   process.env.DEBUG = 'nuxt:*'
+  // // Running dev environment for setup in test-utils to test dev options
+  // process.env.NUXT_TEST_DEV = true
 
   const spyStderr = vi.spyOn(process.stderr, 'write').mockImplementation(() => undefined!)
   const spyStdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => undefined!)
@@ -16,6 +18,7 @@ describe('tailwindcss module', async () => {
 
   await setupNuxtTailwind({
     exposeConfig: { level: 2, alias: '#twcss' },
+    // viewer: { endpoint: '_tw' },
     cssPath: r('tailwind.css')
   })
 
@@ -59,4 +62,9 @@ describe('tailwindcss module', async () => {
     const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.d.ts'))!
     expect(nuxt.vfs[vfsKey]).contains('declare module "#twcss"')
   })
+
+  // test('viewer works', async () => {
+  //   const html = await $fetch('/_tw')
+  //   expect(html).contains("tailwind-config-viewer doesn't work properly without JavaScript enabled")
+  // })
 })
