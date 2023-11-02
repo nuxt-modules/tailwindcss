@@ -1,7 +1,7 @@
 import { existsSync } from 'fs'
 import { defu } from 'defu'
-import { join, relative } from 'pathe'
-import { addTemplate, createResolver, findPath, useNuxt, tryResolveModule } from '@nuxt/kit'
+import { join, relative, resolve } from 'pathe'
+import { addTemplate, createResolver, findPath, useNuxt, tryResolveModule, resolveAlias } from '@nuxt/kit'
 import type { Arrayable, ExposeConfig, InjectPosition, ModuleOptions, ViewerConfig } from './types'
 
 /**
@@ -23,17 +23,39 @@ export const resolveConfigPath = async (path: Arrayable<string>) => (
  * @param srcDir
  * @returns array of resolved content globs
  */
-export const resolveContentPaths = (srcDir: string) => ([
-  `${srcDir}/components/**/*.{vue,js,ts}`,
-  `${srcDir}/layouts/**/*.vue`,
-  `${srcDir}/pages/**/*.vue`,
-  `${srcDir}/composables/**/*.{js,ts}`,
-  `${srcDir}/plugins/**/*.{js,ts}`,
-  `${srcDir}/utils/**/*.{js,ts}`,
-  `${srcDir}/{App,app}.{js,ts,vue}`,
-  `${srcDir}/{Error,error}.{js,ts,vue}`,
-  `${srcDir}/app.config.{js,ts}`
-])
+export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
+  const r = (p: string) => p.startsWith(srcDir) ? p : resolve(srcDir, p)
+  const extensionFormat = (s: string[]) => s.length > 1 ? `.{${s.join(',')}}` : `.${s.join('') || 'vue'}`
+
+  const defaultExtensions = extensionFormat(['js', 'ts', 'mjs'])
+  const sfcExtensions = extensionFormat(nuxt.options.extensions.map(e => e.replace(/^\.*/, '')))
+
+  const importDirs = [...(nuxt.options.imports.dirs || [])].map(r)
+  const [composablesDir, utilsDir] = [resolve(srcDir, 'composables'), resolve(srcDir, 'utils')]
+
+  if (!importDirs.includes(composablesDir)) importDirs.push(composablesDir)
+  if (!importDirs.includes(utilsDir)) importDirs.push(utilsDir)
+
+  return [
+    ...(() => {
+      if (nuxt.options.components) {
+        return (Array.isArray(nuxt.options.components) ? nuxt.options.components : typeof nuxt.options.components === 'boolean' ? ['components'] : nuxt.options.components.dirs).map(d => `${resolveAlias(typeof d === 'string' ? d : d.path)}/**/*${sfcExtensions}`)
+      }
+      return []
+    })(),
+
+    r(`${nuxt.options.dir.layouts}/**/*${sfcExtensions}`),
+    ...(nuxt.options.pages ? [r(`${nuxt.options.dir.pages}/**/*${sfcExtensions}`)] : []),
+
+    r(`${nuxt.options.dir.plugins}/**/*${defaultExtensions}`),
+    r(`${nuxt.options.dir.modules}/**/*${defaultExtensions}`),
+    ...importDirs.map(d => `${d}/**/*${defaultExtensions}`),
+
+    r(`{A,a}pp${sfcExtensions}`),
+    r(`{E,e}rror${sfcExtensions}`),
+    r(`app.config${defaultExtensions}`),
+  ]
+}
 
 /**
  *
