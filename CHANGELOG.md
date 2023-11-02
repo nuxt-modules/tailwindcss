@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.9.1
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.9.0...v6.9.1)
+
+### 🩹 Fixes
+
+- Exclude modules from content ([#748](https://github.com/nuxt-modules/tailwindcss/pull/748))
+- Allow nuxt.options.pages to be unset ([#747](https://github.com/nuxt-modules/tailwindcss/pull/747))
+
+### ❤️ Contributors
+
+- Maddy <maddy@kitty.garden>
+- Inesh Bose
+
 ## v6.9.0
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.8.1...v6.9.0)
