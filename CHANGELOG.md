@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.9.0
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.8.1...v6.9.0)
+
+### 🚀 Enhancements
+
+- More adaptive content paths ([#744](https://github.com/nuxt-modules/tailwindcss/pull/744))
+- More customisable configuration ([#743](https://github.com/nuxt-modules/tailwindcss/pull/743))
+
+### 🏡 Chore
+
+- Add type module to packageJson ([36b4766](https://github.com/nuxt-modules/tailwindcss/commit/36b4766))
+
+### ❤️ Contributors
+
+- Inesh Bose
+
 ## v6.8.1
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.8.0...v6.8.1)
