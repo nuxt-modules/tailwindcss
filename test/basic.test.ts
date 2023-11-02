@@ -1,10 +1,12 @@
-import { useTestContext } from '@nuxt/test-utils'
+import { useTestContext, $fetch } from '@nuxt/test-utils'
 import { describe, test, expect, vi, afterAll } from 'vitest'
 import { r, setupNuxtTailwind } from './util'
 
 describe('tailwindcss module', async () => {
   // Consola will by default set the log level to warn in test, we trick it into thinking we're in debug mode
   process.env.DEBUG = 'nuxt:*'
+  // // Running dev environment for setup in test-utils to test dev options
+  // process.env.NUXT_TEST_DEV = true
 
   const spyStderr = vi.spyOn(process.stderr, 'write').mockImplementation(() => undefined!)
   const spyStdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => undefined!)
@@ -15,23 +17,10 @@ describe('tailwindcss module', async () => {
   })
 
   await setupNuxtTailwind({
-    exposeConfig: true,
-    exposeLevel: 2,
+    exposeConfig: { level: 2, alias: '#twcss' },
+    // viewer: { endpoint: '_tw' },
     cssPath: r('tailwind.css')
   })
-
-  //
-  // test('tailwind works', async () => {
-  //   const manifest = await $fetch('/_nuxt/manifest.json')
-  //   // @ts-expect-error untyped
-  //   const [, { css }] = Object.entries(manifest).find(([, v]) => v.isEntry)
-  //   const cssContents = await $fetch(`/_nuxt/${css[0]}`) as string
-
-  //   // test tailwind is the first entry
-  //   expect(cssContents.startsWith('/*! tailwindcss v')).toBeTruthy()
-  //   // test pages/index.vue is read
-  //   expect(cssContents).toContain('.max-w-7xl')
-  // })
 
   test('include custom tailwind.css file in project css', () => {
     const nuxt = useTestContext().nuxt!
@@ -51,15 +40,6 @@ describe('tailwindcss module', async () => {
     expect(nuxt.vfs[vfsKey]).contains('"primary": "#f1e05a"')
   })
 
-  // @todo re-implement
-  // test('custom paths', () => {
-  //   const ctx = useTestContext()
-  //
-  //   expect(logger.info).toHaveBeenNthCalledWith(1, `Using Tailwind CSS from ~/${relative(rootDir, nuxt.options.tailwindcss.cssPath)}`)
-  //   expect(logger.info).toHaveBeenNthCalledWith(2, `Merging Tailwind config from ~/${relative(rootDir, nuxt.options.tailwindcss.configPath)}`)
-  // })
-  //
-
   test('expose config', () => {
     const nuxt = useTestContext().nuxt!
     const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config/theme/flexBasis.'))!
@@ -73,4 +53,18 @@ describe('tailwindcss module', async () => {
     const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config/theme/animation.'))!
     expect(nuxt.vfs[vfsKey]).contains('const _pulse = "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"')
   })
+
+  test('expose config alias', () => {
+    const nuxt = useTestContext().nuxt!
+    // const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tsconfig'))! // tsconfig is not in vfs in test-build env
+    // const { compilerOptions: {paths} } = destr(nuxt.vfs[vfsKey].slice(nuxt.vfs[vfsKey].indexOf('{')))
+
+    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('tailwind.config.d.ts'))!
+    expect(nuxt.vfs[vfsKey]).contains('declare module "#twcss"')
+  })
+
+  // test('viewer works', async () => {
+  //   const html = await $fetch('/_tw')
+  //   expect(html).contains("tailwind-config-viewer doesn't work properly without JavaScript enabled")
+  // })
 })
