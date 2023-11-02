@@ -30,7 +30,7 @@ export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
   const defaultExtensions = extensionFormat(['js', 'ts', 'mjs'])
   const sfcExtensions = extensionFormat(nuxt.options.extensions.map(e => e.replace(/^\.*/, '')))
 
-  const importDirs = [...(nuxt.options.imports.dirs || [])].map(r)
+  const importDirs = [...(nuxt.options.imports?.dirs || [])].map(r)
   const [composablesDir, utilsDir] = [resolve(srcDir, 'composables'), resolve(srcDir, 'utils')]
 
   if (!importDirs.includes(composablesDir)) importDirs.push(composablesDir)
