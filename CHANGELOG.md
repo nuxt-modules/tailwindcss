@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.9.3
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.9.2...v6.9.3)
+
+### 🩹 Fixes
+
+- Allow options.imports to not be set ([#751](https://github.com/nuxt-modules/tailwindcss/pull/751))
+
+### ❤️ Contributors
+
+- Connor Pearson <cjp822@gmail.com>
+
 ## v6.9.2
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.9.1...v6.9.2)
