@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url'
 import { setup } from '@nuxt/test-utils'
-import { NuxtConfig } from '@nuxt/schema'
-import { ModuleOptions } from '../src/module'
+import type { NuxtConfig } from '@nuxt/schema'
+import type { ModuleOptions } from '../src/module'
 
 export const r = (s: string = '') => fileURLToPath(new URL('./fixtures/basic/' + s, import.meta.url))
 

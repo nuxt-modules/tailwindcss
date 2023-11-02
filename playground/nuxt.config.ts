@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     exposeConfig: true,
     injectPosition: 'last'
   },
+  // @ts-ignore
   content: {
     documentDriven: true
   },

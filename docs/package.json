@@ -1,6 +1,6 @@
 {
   "name": "nuxt-tailwindcss-docs",
-  "version": "1.0.0",
+  "private": true,
   "description": "TailwindCSS module for Nuxt: the docs.",
   "scripts": {
     "dev": "nuxi dev",

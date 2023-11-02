@@ -26,3 +26,5 @@ jobs:
       - run: pnpm build
       # - run: pnpm test:types
       - run: pnpm dev:build
+
+      - run: cd nuxt2-playground && yarn install && yarn build

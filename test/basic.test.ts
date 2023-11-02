@@ -26,7 +26,7 @@ describe('tailwindcss module', async () => {
     const nuxt = useTestContext().nuxt!
 
     expect(nuxt.options.css).toHaveLength(1)
-    expect(nuxt.options.css[0]).toEqual(nuxt.options.tailwindcss.cssPath.replace(/\\/g /* windows protocol */, '/'))
+    expect(nuxt.options.css[0]).toEqual((nuxt.options.tailwindcss!.cssPath as string).replace(/\\/g /* windows protocol */, '/'))
 
     expect(spyStderr).toHaveBeenCalledTimes(0)
     expect(spyStdout).toHaveBeenCalledTimes(1)

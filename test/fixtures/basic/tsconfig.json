@@ -1,4 +1,0 @@
-{
-  // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": "../../../playground/.nuxt/tsconfig.json"
-}

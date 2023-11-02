@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineNuxtConfig } from '@nuxt/bridge'
 import tailwindModule from '../../..'
 

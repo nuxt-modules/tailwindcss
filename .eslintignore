@@ -1,5 +1,2 @@
-node_modules
 dist
-.nuxt
-coverage
-src/*.js
+node_modules
