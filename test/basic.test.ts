@@ -1,6 +1,6 @@
 import { useTestContext, $fetch } from '@nuxt/test-utils'
 import { describe, test, expect, vi, afterAll } from 'vitest'
-import { r, setupNuxtTailwind } from './util'
+import { r, setupNuxtTailwind } from './utils'
 
 describe('tailwindcss module', async () => {
   // Consola will by default set the log level to warn in test, we trick it into thinking we're in debug mode

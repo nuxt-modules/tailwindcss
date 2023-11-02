@@ -23,13 +23,19 @@
     "dist"
   ],
   "scripts": {
-    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "dev": "nuxt dev playground",
-    "dev:nuxt2": "nuxt dev nuxt2-playground",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:generate": "nuxi generate playground",
+    "dev:nuxt2": "nuxi dev nuxt2-playground",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
+    "postinstall": "pnpm dev:prepare",
+    "build": "nuxt-module-build build",
+    "prepack": "pnpm build",
+    "release": "pnpm lint && pnpm test && pnpm prepack && pnpm changelogen --release --push && pnpm publish",
     "lint": "eslint .",
-    "prepack": "nuxt-module-build",
-    "release": "pnpm test && pnpm changelogen --release --push && pnpm publish",
-    "test": "vitest run"
+    "test": "pnpm dev:prepare && vitest run",
+    "test:watch": "pnpm dev:prepare && vitest watch",
+    "test:types": "tsc --noEmit && nuxi typecheck playground"
   },
   "dependencies": {
     "@nuxt/kit": "^3.8.0",
@@ -69,5 +75,9 @@
     "jsdom": "^22.1.0",
     "nuxt": "^3.8.0",
     "vitest": "0.34.2"
+  },
+  "packageManager": "pnpm@8.9.2",
+  "resolutions": {
+    "@nuxtjs/tailwindcss": "link:."
   }
 }

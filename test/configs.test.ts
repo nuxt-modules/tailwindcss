@@ -1,7 +1,7 @@
 import { describe, test, expect, vi, afterAll } from 'vitest'
 import { useTestContext } from '@nuxt/test-utils'
 import destr from 'destr'
-import { setupNuxtTailwind, r } from './util'
+import { setupNuxtTailwind, r } from './utils'
 import { Config } from 'tailwindcss'
 
 describe('tailwindcss module configs', async () => {
