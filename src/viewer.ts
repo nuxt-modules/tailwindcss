@@ -4,7 +4,7 @@ import { addDevServerHandler, isNuxt2, isNuxt3, useLogger, useNuxt } from '@nuxt
 import { withTrailingSlash, withoutTrailingSlash, joinURL } from 'ufo'
 import type { TWConfig, ViewerConfig } from './types'
 
-export default async function (twConfig: Partial<TWConfig>, config: ViewerConfig, nuxt = useNuxt()) {
+export const setupViewer = async (twConfig: Partial<TWConfig>, config: ViewerConfig, nuxt = useNuxt()) => {
   const route = joinURL(nuxt.options.app?.baseURL, config.endpoint)
   // @ts-ignore
   const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r) as any
@@ -23,4 +23,16 @@ export default async function (twConfig: Partial<TWConfig>, config: ViewerConfig
     const viewerUrl = `${withoutTrailingSlash(listener.url)}${route}`.replace(/\/+/g, '/')
     useLogger('nuxt:tailwindcss').info(`Tailwind Viewer: ${underline(yellow(withTrailingSlash(viewerUrl)))}`)
   })
+}
+
+export const exportViewer = async (pathToConfig: string, config: ViewerConfig, nuxt = useNuxt()) => {
+  if (!config.export) {
+    return
+  }
+
+  const dir = joinURL(nuxt.options.buildDir, config.endpoint);
+  // @ts-ignore
+  const cli = await import('tailwind-config-viewer/cli/export.js').then(r => r.default || r) as any
+  cli(dir, pathToConfig)
+  useLogger('nuxt:tailwindcss').info(`Exported viewer to ${yellow(dir)}`)
 }

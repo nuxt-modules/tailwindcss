@@ -17,6 +17,12 @@ export type ViewerConfig = {
    * @default '/_tailwind'
    */
   endpoint: string
+  /**
+   * Export the viewer during build
+   * 
+   * @default false
+   */
+  export: boolean;
 };
 
 export type ExposeConfig = {
