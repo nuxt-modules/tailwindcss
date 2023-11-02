@@ -37,6 +37,7 @@ export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
   if (!importDirs.includes(utilsDir)) importDirs.push(utilsDir)
 
   return [
+    r(`components/**/*${sfcExtensions}`),
     ...(() => {
       if (nuxt.options.components) {
         return (Array.isArray(nuxt.options.components) ? nuxt.options.components : typeof nuxt.options.components === 'boolean' ? ['components'] : nuxt.options.components.dirs).map(d => `${resolveAlias(typeof d === 'string' ? d : d.path)}/**/*${sfcExtensions}`)
