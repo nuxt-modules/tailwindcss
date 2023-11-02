@@ -30,13 +30,14 @@ export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
   const defaultExtensions = extensionFormat(['js', 'ts', 'mjs'])
   const sfcExtensions = extensionFormat(nuxt.options.extensions.map(e => e.replace(/^\.*/, '')))
 
-  const importDirs = [...(nuxt.options.imports.dirs || [])].map(r)
+  const importDirs = [...(nuxt.options.imports?.dirs || [])].map(r)
   const [composablesDir, utilsDir] = [resolve(srcDir, 'composables'), resolve(srcDir, 'utils')]
 
   if (!importDirs.includes(composablesDir)) importDirs.push(composablesDir)
   if (!importDirs.includes(utilsDir)) importDirs.push(utilsDir)
 
   return [
+    r(`components/**/*${sfcExtensions}`),
     ...(() => {
       if (nuxt.options.components) {
         return (Array.isArray(nuxt.options.components) ? nuxt.options.components : typeof nuxt.options.components === 'boolean' ? ['components'] : nuxt.options.components.dirs).map(d => `${resolveAlias(typeof d === 'string' ? d : d.path)}/**/*${sfcExtensions}`)
@@ -45,10 +46,9 @@ export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
     })(),
 
     r(`${nuxt.options.dir.layouts}/**/*${sfcExtensions}`),
-    ...(nuxt.options.pages ? [r(`${nuxt.options.dir.pages}/**/*${sfcExtensions}`)] : []),
+    ...([true, undefined].includes(nuxt.options.pages) ? [r(`${nuxt.options.dir.pages}/**/*${sfcExtensions}`)] : []),
 
     r(`${nuxt.options.dir.plugins}/**/*${defaultExtensions}`),
-    r(`${nuxt.options.dir.modules}/**/*${defaultExtensions}`),
     ...importDirs.map(d => `${d}/**/*${defaultExtensions}`),
 
     r(`{A,a}pp${sfcExtensions}`),
