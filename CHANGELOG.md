@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.9.4
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.9.3...v6.9.4)
+
+### 🩹 Fixes
+
+- Always include vue extension in SFC content paths ([#752](https://github.com/nuxt-modules/tailwindcss/pull/752))
+
+### ❤️ Contributors
+
+- Connor Pearson <connor.pearson@aboutyou.com>
+
 ## v6.9.3
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.9.2...v6.9.3)
