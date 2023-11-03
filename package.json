@@ -35,8 +35,8 @@
     "docs:build": "cd docs && nuxt generate",
     "docs:dev": "pnpm nuxt dev docs",
     "lint": "eslint .",
-    "test": "pnpm dev:prepare && vitest run",
-    "test:watch": "pnpm dev:prepare && vitest watch",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
     "test:types": "tsc --noEmit && nuxi typecheck playground"
   },
   "dependencies": {

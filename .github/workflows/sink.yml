@@ -1,0 +1,34 @@
+name: kitchen sink
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        repository: nuxt/nuxt.com
+        path: test/fixtures/nuxt-website
+      - run: corepack enable
+      - run: |
+          echo "`jq '.dependencies."@nuxtjs/tailwindcss"="workspace:*"' test/fixtures/nuxt-website/package.json`" > test/fixtures/nuxt-website/package.json
+          rm pnpm-lock.yaml
+          echo -e "\n  - \"test/fixtures/nuxt-website\"" >> pnpm-workspace.yaml
+
+          echo -e "import { resolve } from 'pathe'\n$(cat test/fixtures/nuxt-website/nuxt.config.ts)" > test/fixtures/nuxt-website/nuxt.config.ts
+          sed -i 's|export default defineNuxtConfig({|export default defineNuxtConfig({alias: { emojilib: resolve(__dirname, "../../__mocks__/emojilib") },|' test/fixtures/nuxt-website/nuxt.config.ts
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: "pnpm"
+      - run: pnpm install
+      - run: pnpm test
+        env:
+          NUXT_UI_PRO_LICENSE: ${{secrets.NUXT_UI_PRO_LICENSE}}
