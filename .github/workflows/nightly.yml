@@ -1,0 +1,32 @@
+name: nightly release
+
+on:
+  workflow_run:
+    workflows:
+      - ci
+
+jobs:
+  nightly:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: "pnpm"
+      - run: pnpm install
+      - run: pnpm build
+
+      - run: |
+          if [[ ! -z ${NODE_AUTH_TOKEN} ]] ; then
+            echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" >> ~/.npmrc
+            echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
+            echo "always-auth=true" >> ~/.npmrc
+            npm whoami
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
+
+      - run: pnpm changelogen --bump --canary --publish
