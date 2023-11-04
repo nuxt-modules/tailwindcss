@@ -28,8 +28,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 16
-          cache: "pnpm"
+          node-version: 20
       - run: pnpm install
       - run: timeout 5m pnpm --filter nuxt.com generate
         env:
