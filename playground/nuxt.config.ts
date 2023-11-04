@@ -1,6 +1,7 @@
 export default defineNuxtConfig({
   extends: ['./theme'],
   modules: [
+    'nuxt-vitest',
     '@nuxt/content',
     '@nuxtjs/tailwindcss',
     '@nuxt/devtools'

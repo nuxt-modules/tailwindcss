@@ -19,7 +19,7 @@ jobs:
       - run: |
           echo "`jq '.dependencies."@nuxtjs/tailwindcss"="workspace:*"' test/fixtures/nuxt-website/package.json`" > test/fixtures/nuxt-website/package.json
           rm pnpm-lock.yaml
-          echo -e "\n  - \"test/fixtures/nuxt-website\"" >> pnpm-workspace.yaml
+          echo -e "\n  - \"test/fixtures/*\"" >> pnpm-workspace.yaml
 
           echo -e "import { resolve } from 'pathe'\n$(cat test/fixtures/nuxt-website/nuxt.config.ts)" > test/fixtures/nuxt-website/nuxt.config.ts
           sed -i 's|export default defineNuxtConfig({|export default defineNuxtConfig({alias: { emojilib: resolve(__dirname, "../../__mocks__/emojilib") },|' test/fixtures/nuxt-website/nuxt.config.ts
@@ -29,6 +29,8 @@ jobs:
           node-version: 16
           cache: "pnpm"
       - run: pnpm install
-      - run: pnpm test
+      - run: timeout 5m pnpm --filter nuxt.com generate
         env:
           NUXT_UI_PRO_LICENSE: ${{secrets.NUXT_UI_PRO_LICENSE}}
+
+      - run: pnpm test sink

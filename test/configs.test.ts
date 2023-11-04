@@ -1,8 +1,7 @@
 import { describe, test, expect, vi, afterAll } from 'vitest'
-import { useTestContext } from '@nuxt/test-utils'
-import destr from 'destr'
-import { setupNuxtTailwind, r } from './utils'
 import type { Config } from 'tailwindcss'
+import destr from 'destr'
+import { setupNuxtTailwind, r, getVfsFile } from './utils'
 
 type TWConfigWithStringContent<
   C extends Config = Config,
@@ -47,23 +46,17 @@ describe('tailwindcss module configs', async () => {
   })
 
   test('ts config file is loaded and merged', () => {
-    const nuxt = useTestContext().nuxt!
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('test-tailwind.config.'))!
     // set from ts-tailwind.config.ts
-    expect(nuxt.vfs[vfsKey]).contains('"typescriptBlue": "#007acc"')
+    expect(getVfsFile('test-tailwind.config.cjs')).contains('"typescriptBlue": "#007acc"')
   })
 
   test('js config file is loaded and merged', () => {
-    const nuxt = useTestContext().nuxt!
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('test-tailwind.config.'))!
     // set from ts-tailwind.config.ts
-    expect(nuxt.vfs[vfsKey]).contains('"javascriptYellow": "#f1e05a"')
+    expect(getVfsFile('test-tailwind.config.cjs')).contains('"javascriptYellow": "#f1e05a"')
   })
 
   test('content is adaptive', () => {
-    const nuxt = useTestContext().nuxt!
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('test-tailwind.config.'))!
-    const { content: { files: contentFiles } } = destr<TWConfigWithStringContent>(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, ''))
+    const { content: { files: contentFiles } } = destr<TWConfigWithStringContent>(getVfsFile('test-tailwind.config.cjs')!.replace(/^(module\.exports = )/, ''))
 
     expect(contentFiles.find(c => /my-pluggable-modules|my-modular-plugins/.test(c))).toBeDefined()
     expect(contentFiles.filter(c => c.includes('my-imports-dir')).length).toBe(2)
@@ -71,10 +64,8 @@ describe('tailwindcss module configs', async () => {
   })
 
   test('content is overridden', () => {
-    const nuxt = useTestContext().nuxt!
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('test-tailwind.config.'))!
     // set from override-tailwind.config.ts
-    const { content: { files: contentFiles }} = destr<TWConfigWithStringContent>(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, ''))
+    const { content: { files: contentFiles }} = destr<TWConfigWithStringContent>(getVfsFile('test-tailwind.config.cjs')!.replace(/^(module\.exports = )/, ''))
 
     expect(contentFiles[0]).toBe('ts-content/**/*.md')
     expect(contentFiles[1]).toBe('./custom-theme/**/*.vue')
@@ -82,9 +73,7 @@ describe('tailwindcss module configs', async () => {
   })
 
   test('content merges with objects', () => {
-    const nuxt = useTestContext().nuxt!
-    const vfsKey = Object.keys(nuxt.vfs).find(k => k.includes('test-tailwind.config.'))!
-    const { content } = destr<TWConfigWithStringContent>(nuxt.vfs[vfsKey].replace(/^(module\.exports = )/, ''))
+    const { content } = destr<TWConfigWithStringContent>(getVfsFile('test-tailwind.config.cjs')!.replace(/^(module\.exports = )/, ''))
 
     expect(content.relative).toBeTruthy()
     expect(content.files.pop()).toBe('./my-components/**/*.tsx')
