@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { ofetch } from 'ofetch'
 import { r } from './utils'
 
-const fixturePath = r('', 'nuxt-website')
+const fixturePath = r('', 'nuxt.com')
 
 describe.skipIf(!existsSync(fixturePath))('nuxt.com', async () => {
   // await setupNuxtTailwind({}, {}, {}, fixturePath)
@@ -23,6 +23,6 @@ describe.skipIf(!existsSync(fixturePath))('nuxt.com', async () => {
     const expectedStyles = getStyles(expectedHtml)
 
     expect(builtStyles.length).toBeGreaterThanOrEqual(expectedStyles.length)
-    // expect(builtStyles).toBe(expectedStyles)
+    expect(builtStyles).toBe(expectedStyles)
   })
 })

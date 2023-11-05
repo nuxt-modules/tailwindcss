@@ -28,7 +28,6 @@ export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
   const extensionFormat = (s: string[]) => s.length > 1 ? `.{${s.join(',')}}` : `.${s.join('') || 'vue'}`
 
   const defaultExtensions = extensionFormat(['js', 'ts', 'mjs'])
-  const extensions = Array.from(new Set(['vue', ...nuxt.options.extensions]))
   const sfcExtensions = extensionFormat(Array.from(new Set(['vue', ...nuxt.options.extensions])).map(e => e.replace(/^\.*/, '')))
 
   const importDirs = [...(nuxt.options.imports?.dirs || [])].map(r)

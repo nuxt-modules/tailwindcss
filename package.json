@@ -60,7 +60,6 @@
   },
   "devDependencies": {
     "@fontsource/inter": "^5.0.15",
-    "@nuxt/bridge": "3.0.0-rc.2",
     "@nuxt/content": "^2.9.0",
     "@nuxt/devtools": "^1.0.0",
     "@nuxt/eslint-config": "latest",
