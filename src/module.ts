@@ -175,7 +175,7 @@ export default defineNuxtModule<ModuleOptions>({
       // production only
       if (moduleOptions.viewer) {
         const configTemplate = addTemplate({ filename: 'tw-viewer.config.cjs', getContents: () => `module.exports = ${JSON.stringify(tailwindConfig)}`, write: true })
-        nuxt.hook('build:before', () => exportViewer(configTemplate.dst, resolveViewerConfig(moduleOptions.viewer)))
+        exportViewer(configTemplate.dst, resolveViewerConfig(moduleOptions.viewer))
       }
     }
   }

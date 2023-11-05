@@ -20,9 +20,11 @@ export type ViewerConfig = {
   /**
    * Export the viewer during build
    * 
+   * Works in Nuxt 3; for Nuxt 2, use `npx tailwind-config-viewer export`
+   * 
    * @default false
    */
-  export: boolean;
+  exportViewer: boolean;
 };
 
 export type ExposeConfig = {

@@ -2,6 +2,7 @@ import { underline, yellow } from 'colorette'
 import { eventHandler, sendRedirect } from 'h3'
 import { addDevServerHandler, isNuxt2, isNuxt3, useLogger, useNuxt } from '@nuxt/kit'
 import { withTrailingSlash, withoutTrailingSlash, joinURL } from 'ufo'
+import { relative } from 'pathe'
 import type { TWConfig, ViewerConfig } from './types'
 
 export const setupViewer = async (twConfig: Partial<TWConfig>, config: ViewerConfig, nuxt = useNuxt()) => {
@@ -26,13 +27,15 @@ export const setupViewer = async (twConfig: Partial<TWConfig>, config: ViewerCon
 }
 
 export const exportViewer = async (pathToConfig: string, config: ViewerConfig, nuxt = useNuxt()) => {
-  if (!config.export) {
+  if (!config.exportViewer) {
     return
   }
-
-  const dir = joinURL(nuxt.options.buildDir, config.endpoint);
   // @ts-ignore
   const cli = await import('tailwind-config-viewer/cli/export.js').then(r => r.default || r) as any
-  cli(dir, pathToConfig)
-  useLogger('nuxt:tailwindcss').info(`Exported viewer to ${yellow(dir)}`)
+
+  nuxt.hook('nitro:build:public-assets', (nitro) => {
+    const dir = joinURL(nitro.options.output.publicDir, config.endpoint);
+    cli(dir, pathToConfig)
+    useLogger('nuxt:tailwindcss').success(`Exported viewer to ${yellow(relative(nitro.options.srcDir, dir))}`)
+  })
 }
