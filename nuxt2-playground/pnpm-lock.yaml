@@ -11,6 +11,12 @@ dependencies:
   postcss:
     specifier: 8.4.31
     version: 8.4.31
+  vue:
+    specifier: 2.7.15
+    version: 2.7.15
+  vue-router:
+    specifier: 3.6.5
+    version: 3.6.5(vue@2.7.15)
 
 packages:
 
