@@ -7,8 +7,7 @@
   "type": "module",
   "configKey": "tailwindcss",
   "compatibility": {
-    "nuxt": "^2.9.0 || ^3.0.0-rc.1",
-    "bridge": false
+    "nuxt": "^2.9.0 || ^3.0.0-rc.1"
   },
   "exports": {
     ".": {
