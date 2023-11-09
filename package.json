@@ -1,14 +1,13 @@
 {
   "name": "@nuxtjs/tailwindcss",
-  "version": "6.9.3",
+  "version": "6.9.4",
   "description": "TailwindCSS module for Nuxt",
   "repository": "nuxt-modules/tailwindcss",
   "license": "MIT",
   "type": "module",
   "configKey": "tailwindcss",
   "compatibility": {
-    "nuxt": "^2.9.0 || ^3.0.0-rc.1",
-    "bridge": false
+    "nuxt": "^2.9.0 || ^3.0.0-rc.1"
   },
   "exports": {
     ".": {
