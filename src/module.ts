@@ -32,6 +32,7 @@ import { setupViewer, exportViewer } from './viewer'
 import { name, version, configKey, compatibility } from '../package.json'
 
 import type { ModuleOptions, TWConfig } from './types'
+import { withTrailingSlash } from 'ufo'
 export type { ModuleOptions } from './types'
 
 const logger = useLogger('nuxt:tailwindcss')
@@ -164,9 +165,10 @@ export default defineNuxtModule<ModuleOptions>({
             title: 'TailwindCSS',
             name: 'tailwindcss',
             icon: 'logos-tailwindcss-icon',
+            category: 'modules',
             view: {
               type: 'iframe',
-              src: viewerConfig.endpoint
+              src: withTrailingSlash(viewerConfig.endpoint)
             }
           })
         })

@@ -16,7 +16,7 @@ export type ViewerConfig = {
    *
    * @default '/_tailwind'
    */
-  endpoint: string
+  endpoint: `/${string}`
   /**
    * Export the viewer during build
    * 
