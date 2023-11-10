@@ -34,7 +34,6 @@ import { name, version, configKey, compatibility } from '../package.json'
 import type { ModuleOptions, TWConfig } from './types'
 export type { ModuleOptions } from './types'
 
-const logger = useLogger('nuxt:tailwindcss')
 
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: 'tailwind.config',
@@ -44,12 +43,17 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   exposeConfig: false,
   exposeLevel: 2,
   injectPosition: 'first',
-  disableHmrHotfix: false
+  disableHmrHotfix: false,
+  quiet: nuxt.options.logLevel === 'silent'
 })
 
 export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility }, defaults,
   async setup (moduleOptions, nuxt) {
+    const logger = useLogger('nuxt:tailwindcss')
+
+    if(moduleOptions.quiet) logger.level = 0;
+
     const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
 
     const tailwindConfig = await Promise.all((
@@ -158,7 +162,7 @@ export default defineNuxtModule<ModuleOptions>({
       // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
       if (moduleOptions.viewer) {
         const viewerConfig = resolveViewerConfig(moduleOptions.viewer)
-        setupViewer(tailwindConfig, viewerConfig, nuxt)
+        setupViewer(tailwindConfig, viewerConfig, nuxt, logger)
 
         nuxt.hook('devtools:customTabs', (tabs) => {
           tabs.push({

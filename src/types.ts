@@ -82,4 +82,10 @@ export interface ModuleOptions {
    * @default false
    */
   disableHmrHotfix: boolean;
+  /**
+   * Suppress logging to the console when everything is ok
+   *
+   * @default nuxt.options.logLevel === 'silent'
+   */
+  quiet: boolean;
 }
