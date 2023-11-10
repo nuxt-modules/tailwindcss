@@ -25,7 +25,7 @@ import {
   resolveExposeConfig,
   resolveViewerConfig
 } from './resolvers'
-import logger from './logger'
+import logger, { LogLevels } from './logger'
 import createTemplates from './templates'
 import vitePlugin from './vite-hmr'
 import setupViewer from './viewer'
@@ -50,7 +50,7 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
 export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility }, defaults,
   async setup (moduleOptions, nuxt) {
-    if(moduleOptions.quiet) logger.level = 0;
+    if(moduleOptions.quiet) logger.level = LogLevels.silent;
 
     const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
 
