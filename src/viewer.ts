@@ -1,10 +1,11 @@
 import { underline, yellow } from 'colorette'
 import { eventHandler, sendRedirect } from 'h3'
-import { addDevServerHandler, isNuxt2, isNuxt3, useLogger, useNuxt } from '@nuxt/kit'
+import { addDevServerHandler, isNuxt2, isNuxt3, useNuxt } from '@nuxt/kit'
 import { withTrailingSlash, withoutTrailingSlash, joinURL } from 'ufo'
+import logger from './logger'
 import type { TWConfig, ViewerConfig } from './types'
 
-export default async function (twConfig: Partial<TWConfig>, config: ViewerConfig, nuxt = useNuxt(), logger = useLogger('nuxt:tailwindcss')) {
+export default async function (twConfig: Partial<TWConfig>, config: ViewerConfig, nuxt = useNuxt()) {
   const route = joinURL(nuxt.options.app?.baseURL, config.endpoint)
   // @ts-ignore
   const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r) as any

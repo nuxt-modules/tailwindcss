@@ -5,7 +5,6 @@ import {
   defineNuxtModule,
   installModule,
   isNuxt2,
-  useLogger,
   getNuxtVersion,
   resolvePath,
   addVitePlugin,
@@ -26,6 +25,7 @@ import {
   resolveExposeConfig,
   resolveViewerConfig
 } from './resolvers'
+import logger from './logger'
 import createTemplates from './templates'
 import vitePlugin from './vite-hmr'
 import setupViewer from './viewer'
@@ -50,8 +50,6 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
 export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility }, defaults,
   async setup (moduleOptions, nuxt) {
-    const logger = useLogger('nuxt:tailwindcss')
-
     if(moduleOptions.quiet) logger.level = 0;
 
     const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
@@ -162,7 +160,7 @@ export default defineNuxtModule<ModuleOptions>({
       // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
       if (moduleOptions.viewer) {
         const viewerConfig = resolveViewerConfig(moduleOptions.viewer)
-        setupViewer(tailwindConfig, viewerConfig, nuxt, logger)
+        setupViewer(tailwindConfig, viewerConfig, nuxt)
 
         nuxt.hook('devtools:customTabs', (tabs) => {
           tabs.push({
