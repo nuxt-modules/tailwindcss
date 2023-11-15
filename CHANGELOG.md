@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.9.5
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.9.4...v6.9.5)
+
+### 🩹 Fixes
+
+- **compat:** Unspecify bridge option to undefined ([58abedf](https://github.com/nuxt-modules/tailwindcss/commit/58abedf))
+
+### 🏡 Chore
+
+- Implement fixes on viewer and allow exporting ([#754](https://github.com/nuxt-modules/tailwindcss/pull/754))
+
+### ❤️ Contributors
+
+- Inesh Bose <boseinesh@gmail.com>
+
 ## v6.9.4
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.9.3...v6.9.4)
