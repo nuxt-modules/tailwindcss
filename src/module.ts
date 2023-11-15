@@ -10,7 +10,9 @@ import {
   resolvePath,
   addVitePlugin,
   useNuxt,
-  addTemplate
+  addTemplate,
+  addImportsDir,
+  createResolver
 } from '@nuxt/kit'
 
 // @ts-expect-error
@@ -45,12 +47,14 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   exposeConfig: false,
   exposeLevel: 2,
   injectPosition: 'first',
-  disableHmrHotfix: false
+  disableHmrHotfix: false,
+  addTwUtil: false,
 })
 
 export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility }, defaults,
   async setup (moduleOptions, nuxt) {
+    const { resolve } = createResolver(import.meta.url);
     const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
 
     const tailwindConfig = await Promise.all((
@@ -131,6 +135,11 @@ export default defineNuxtModule<ModuleOptions>({
     // install postcss8 module on nuxt < 2.16
     if (parseFloat(getNuxtVersion()) < 2.16) {
       await installModule('@nuxt/postcss8')
+    }
+
+
+    if(moduleOptions.addTwUtil) {
+      addImportsDir(resolve('./runtime/utils'));
     }
 
     // enabled only in development
