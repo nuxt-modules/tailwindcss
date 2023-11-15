@@ -137,7 +137,6 @@ export default defineNuxtModule<ModuleOptions>({
       await installModule('@nuxt/postcss8')
     }
 
-
     if(moduleOptions.addTwUtil) {
       addImportsDir(resolve('./runtime/utils'));
     }
