@@ -1,0 +1,53 @@
+title: 'Add Tailwind CSS to your Nuxt Applications.'
+description: 'Welcome to Nuxt UI Pro documentation template.'
+navigation: false
+hero:
+  title: 'Add TailwindCSS to your [Nuxt Apps]{.text-primary}.'
+  description: 'Welcome to the Nuxt TailwindCSS module documentation to help you set up Tailwind CSS in your Nuxt application in seconds, with many goodies 🍬.'
+  orientation: horizontal
+  links:
+    - label: 'Get started'
+      icon: 'i-heroicons-rocket-launch'
+      to: '/getting-started/setup'
+      size: lg
+    - label: 'Star on GitHub'
+      icon: 'i-simple-icons-github'
+      color: 'white'
+      to: 'https://github.com/nuxt-modules/tailwindcss'
+      target: '_blank'
+      size: lg
+  code: |
+    ```ts [nuxt.config.ts]
+    export default defineNuxtConfig({
+      modules: ['@nuxtjs/tailwindcss'],
+      tailwindcss: {
+        exposeConfig: true,
+        viewer: true,
+        // and more...
+      }
+    })
+    ```
+features:
+  title: 'Shipped with many features.'
+  items:
+    - title: 'Zero Configuration'
+      description: 'This module enables a quick and easy setup of Tailwind CSS in your Nuxt application.'
+      to: '/getting-started/setup'
+    - title: 'CSS Nesting'
+      description: 'Supports CSS Nesting with postcss-nesting to use the latest CSS syntax.'
+      to: 'https://drafts.csswg.org/css-nesting-1/'
+      target: '_blank'
+    - title: 'Tailwind Viewer'
+      description: 'Discover your tailwind config visually with the viewer as well as the Nuxt Devtools integration.'
+      to: /tailwind/viewer
+    - title: 'Tailwind Config'
+      description: 'Reference your Tailwind config in your application using the #tailwind-config alias, supporting tree-shaking.'
+      to: '/tailwind/config#referencing-in-the-application'
+      target: '_blank'
+    - title: 'Extendable'
+      description: 'The module supports the ability to extend the Tailwind config from Nuxt modules or layers.'
+      to: '/tailwind/config#hooks'
+    - title: 'Open Source'
+      description: 'Boasting over 85+ contributors and over 500k+ monthly downloads.'
+      to: 'https://github.com/nuxt-modules/tailwindcss'
+      target: '_blank'
