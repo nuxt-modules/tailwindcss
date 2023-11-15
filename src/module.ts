@@ -28,10 +28,11 @@ import {
 import logger, { LogLevels } from './logger'
 import createTemplates from './templates'
 import vitePlugin from './vite-hmr'
-import setupViewer from './viewer'
+import { setupViewer, exportViewer } from './viewer'
 import { name, version, configKey, compatibility } from '../package.json'
 
 import type { ModuleOptions, TWConfig } from './types'
+import { withTrailingSlash } from 'ufo'
 export type { ModuleOptions } from './types'
 
 
@@ -134,7 +135,6 @@ export default defineNuxtModule<ModuleOptions>({
       await installModule('@nuxt/postcss8')
     }
 
-
     // enabled only in development
     if (nuxt.options.dev) {
       // Watch the Tailwind config file to restart the server
@@ -167,16 +167,22 @@ export default defineNuxtModule<ModuleOptions>({
             title: 'TailwindCSS',
             name: 'tailwindcss',
             icon: 'logos-tailwindcss-icon',
+            category: 'modules',
             view: {
               type: 'iframe',
-              src: viewerConfig.endpoint
+              src: withTrailingSlash(viewerConfig.endpoint)
             }
           })
         })
       }
+    } else {
+      // production only
+      if (moduleOptions.viewer) {
+        const configTemplate = addTemplate({ filename: 'tw-viewer.config.cjs', getContents: () => `module.exports = ${JSON.stringify(tailwindConfig)}`, write: true })
+        exportViewer(configTemplate.dst, resolveViewerConfig(moduleOptions.viewer))
+      }
     }
   }
-
 })
 
 declare module '@nuxt/schema' {
