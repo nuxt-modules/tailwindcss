@@ -56,7 +56,7 @@ export default defineAppConfig({
     title: 'Table of Contents',
     bottom: {
       title: 'Community',
-      edit: 'https://github.com/nuxt-modules/tailwindcss/edit/main/content',
+      edit: 'https://github.com/nuxt-modules/tailwindcss/edit/main/docs/content',
       links: [{
         icon: 'i-heroicons-star',
         label: 'Star on GitHub',
