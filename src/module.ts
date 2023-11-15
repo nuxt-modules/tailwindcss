@@ -35,7 +35,6 @@ import type { ModuleOptions, TWConfig } from './types'
 import { withTrailingSlash } from 'ufo'
 export type { ModuleOptions } from './types'
 
-
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: 'tailwind.config',
   cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
