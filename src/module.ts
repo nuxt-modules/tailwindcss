@@ -50,7 +50,7 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
 export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility }, defaults,
   async setup (moduleOptions, nuxt) {
-    if(moduleOptions.quiet) logger.level = LogLevels.silent;
+    if (moduleOptions.quiet) logger.level = LogLevels.silent;
 
     const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
 
