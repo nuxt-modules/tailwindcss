@@ -167,7 +167,7 @@ export default defineNuxtModule<ModuleOptions>({
             icon: 'logos-tailwindcss-icon',
             view: {
               type: 'iframe',
-              src: viewerConfig.endpoint
+              src: `/${viewerConfig.endpoint}/`.replace(/\/+/g, '/')
             }
           })
         })
