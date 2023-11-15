@@ -21,11 +21,6 @@ export default defineAppConfig({
     search: true,
     colorMode: true,
     links: [{
-      icon: 'i-simple-icons-tailwindcss',
-      to: 'https://tailwindcss.com',
-      target: '_blank',
-      'aria-label': 'TailwindCSS documentation'
-    }, {
       icon: 'i-simple-icons-github',
       to: 'https://github.com/nuxt-modules/tailwindcss',
       target: '_blank',
