@@ -6,8 +6,6 @@ import logger from './logger'
 import { relative } from 'pathe'
 import type { TWConfig, ViewerConfig } from './types'
 
-const logger = useLogger('nuxt:tailwindcss')
-
 export const setupViewer = async (twConfig: Partial<TWConfig>, config: ViewerConfig, nuxt = useNuxt()) => {
   const route = joinURL(nuxt.options.app?.baseURL, config.endpoint)
   // @ts-ignore
