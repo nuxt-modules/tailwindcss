@@ -1,7 +1,7 @@
 import { underline, yellow } from 'colorette'
 import { eventHandler, sendRedirect } from 'h3'
 import { addDevServerHandler, isNuxt2, isNuxt3, useLogger, useNuxt } from '@nuxt/kit'
-import { withTrailingSlash, withoutTrailingSlash, joinURL } from 'ufo'
+import { withTrailingSlash, withoutTrailingSlash, joinURL,cleanDoubleSlashes } from 'ufo'
 import { relative } from 'pathe'
 import type { TWConfig, ViewerConfig } from './types'
 
@@ -24,7 +24,7 @@ export const setupViewer = async (twConfig: Partial<TWConfig>, config: ViewerCon
   // @ts-ignore
   if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: (req, res) => viewerDevMiddleware(new H3Event(req, res)) }) }
   nuxt.hook('listen', (_, listener) => {
-    const viewerUrl = `${withoutTrailingSlash(listener.url)}` + `${route}`.replace(/\/+/g, '/')
+    const viewerUrl = `${cleanDoubleSlashes(joinURL(withoutTrailingSlash(listener.url), route))}`
     logger.info(`Tailwind Viewer: ${underline(yellow(withTrailingSlash(viewerUrl)))}`)
   })
 }
