@@ -1,3 +1,5 @@
+import { version as pkgVersion } from '../package.json';
+
 export default defineAppConfig({
   ui: {
     primary: 'green',
@@ -18,6 +20,7 @@ export default defineAppConfig({
         src: ''
       }
     },
+    pkgVersion,
     search: true,
     colorMode: true,
     links: [{

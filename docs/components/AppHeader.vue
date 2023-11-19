@@ -10,6 +10,7 @@ const { header } = useAppConfig()
   <UHeader>
     <template #logo>
       <Logo class="h-6" />
+      <span class="text-xs font-thin">v{{ header.pkgVersion }}</span>
     </template>
 
     <template v-if="header?.search" #center>
