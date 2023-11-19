@@ -16,7 +16,15 @@ export type ViewerConfig = {
    *
    * @default '/_tailwind'
    */
-  endpoint: string
+  endpoint: `/${string}`
+  /**
+   * Export the viewer during build
+   * 
+   * Works in Nuxt 3; for Nuxt 2, use `npx tailwind-config-viewer export`
+   * 
+   * @default false
+   */
+  exportViewer: boolean;
 };
 
 export type ExposeConfig = {
