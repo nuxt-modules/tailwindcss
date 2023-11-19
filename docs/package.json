@@ -7,7 +7,6 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck"
   },
@@ -31,8 +30,5 @@
     "eslint": "^8.53.0",
     "typescript": "^5.2.2",
     "vue-tsc": "^1.8.22"
-  },
-  "resolutions": {
-    "@nuxtjs/tailwindcss": "workspace:*"
   }
 }
