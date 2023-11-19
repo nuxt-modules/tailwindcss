@@ -30,6 +30,9 @@ export default defineNuxtConfig({
     '/examples': { redirect: '/examples/basic' },
     '/api/search.json': { prerender: true }
   },
+  vite: {
+    resolve: { alias: {'@nuxtjs/tailwindcss': '../src/module'} }
+  },
   // Devtools / Typescript
   devtools: { enabled: true },
   typescript: { strict: false }
