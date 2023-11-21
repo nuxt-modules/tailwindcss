@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.10.0
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.9.5...v6.10.0)
+
+### 🚀 Enhancements
+
+- Add util to write tw classes inside strings ([#761](https://github.com/nuxt-modules/tailwindcss/pull/761))
+- Quiet mode with logger config ([#759](https://github.com/nuxt-modules/tailwindcss/pull/759))
+
+### 📖 Documentation
+
+- Move to UI Pro ([#763](https://github.com/nuxt-modules/tailwindcss/pull/763))
+- Remove emoji ([a697b99](https://github.com/nuxt-modules/tailwindcss/commit/a697b99))
+- Remove tailwind link on header ([ca22728](https://github.com/nuxt-modules/tailwindcss/commit/ca22728))
+- Fix edit link ([15da124](https://github.com/nuxt-modules/tailwindcss/commit/15da124))
+
+### 🏡 Chore
+
+- Update docs ([2632195](https://github.com/nuxt-modules/tailwindcss/commit/2632195))
+- Fix protocol slash on tailwind viewer logger ([#765](https://github.com/nuxt-modules/tailwindcss/pull/765))
+- Update deps & lint fix ([d6111cd](https://github.com/nuxt-modules/tailwindcss/commit/d6111cd))
+
+### ❤️ Contributors
+
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+- Daniel Acuña 
+- Carles Mitjans <carles.mitjans.coma@gmail.com>
+- Rgehbt 
+- Inesh Bose
+
 ## v6.9.5
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.9.4...v6.9.5)
