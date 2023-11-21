@@ -1,4 +1,4 @@
-import { useTestContext, $fetch } from '@nuxt/test-utils'
+import { useTestContext } from '@nuxt/test-utils'
 import { describe, test, expect, vi, afterAll } from 'vitest'
 import { r, setupNuxtTailwind } from './util'
 

@@ -19,9 +19,9 @@ export type ViewerConfig = {
   endpoint: `/${string}`
   /**
    * Export the viewer during build
-   * 
+   *
    * Works in Nuxt 3; for Nuxt 2, use `npx tailwind-config-viewer export`
-   * 
+   *
    * @default false
    */
   exportViewer: boolean;
@@ -96,8 +96,9 @@ export interface ModuleOptions {
    * @default nuxt.options.logLevel === 'silent'
    */
   quiet: boolean;
+  /**
    * Add util to write Tailwind CSS classes inside strings with `` tw`{classes}` ``
-   * 
+   *
    * @default false
    */
   addTwUtil: boolean;

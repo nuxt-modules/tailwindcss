@@ -1,4 +1,4 @@
-import { defineNuxtModule, addTemplate, logger } from '@nuxt/kit'
+import { defineNuxtModule, addTemplate } from '@nuxt/kit'
 
 export default defineNuxtModule({
   setup (_options, nuxt) {
