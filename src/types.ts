@@ -96,4 +96,9 @@ export interface ModuleOptions {
    * @default nuxt.options.logLevel === 'silent'
    */
   quiet: boolean;
+   * Add util to write Tailwind CSS classes inside strings with `` tw`{classes}` ``
+   * 
+   * @default false
+   */
+  addTwUtil: boolean;
 }
