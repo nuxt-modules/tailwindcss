@@ -19,7 +19,8 @@ describe('tailwindcss module', async () => {
   await setupNuxtTailwind({
     exposeConfig: { level: 2, alias: '#twcss' },
     // viewer: { endpoint: '_tw' },
-    cssPath: r('tailwind.css')
+    cssPath: r('tailwind.css'),
+    quiet: false
   })
 
   test('include custom tailwind.css file in project css', () => {
