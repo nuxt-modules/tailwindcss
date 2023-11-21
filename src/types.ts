@@ -91,6 +91,11 @@ export interface ModuleOptions {
    */
   disableHmrHotfix: boolean;
   /**
+   * Suppress logging to the console when everything is ok
+   *
+   * @default nuxt.options.logLevel === 'silent'
+   */
+  quiet: boolean;
    * Add util to write Tailwind CSS classes inside strings with `` tw`{classes}` ``
    * 
    * @default false

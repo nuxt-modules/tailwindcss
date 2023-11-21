@@ -22,7 +22,8 @@ describe('tailwindcss module configs', async () => {
       'override-tailwind.config.js',
       'content-obj.config'
     ],
-    cssPath: 'tailwind.css'
+    cssPath: 'tailwind.css',
+    quiet: false
   },
   {
     dir: { plugins: 'my-pluggable-modules', modules: 'my-modular-plugins' },

@@ -1,11 +1,10 @@
 import { underline, yellow } from 'colorette'
 import { eventHandler, sendRedirect } from 'h3'
-import { addDevServerHandler, isNuxt2, isNuxt3, useLogger, useNuxt } from '@nuxt/kit'
-import { withTrailingSlash, withoutTrailingSlash, joinURL,cleanDoubleSlashes } from 'ufo'
+import { addDevServerHandler, isNuxt2, isNuxt3, useNuxt } from '@nuxt/kit'
+import { withTrailingSlash, withoutTrailingSlash, joinURL, cleanDoubleSlashes } from 'ufo'
+import logger from './logger'
 import { relative } from 'pathe'
 import type { TWConfig, ViewerConfig } from './types'
-
-const logger = useLogger('nuxt:tailwindcss')
 
 export const setupViewer = async (twConfig: Partial<TWConfig>, config: ViewerConfig, nuxt = useNuxt()) => {
   const route = joinURL(nuxt.options.app?.baseURL, config.endpoint)

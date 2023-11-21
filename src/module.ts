@@ -5,7 +5,6 @@ import {
   defineNuxtModule,
   installModule,
   isNuxt2,
-  useLogger,
   getNuxtVersion,
   resolvePath,
   addVitePlugin,
@@ -28,6 +27,7 @@ import {
   resolveExposeConfig,
   resolveViewerConfig
 } from './resolvers'
+import logger, { LogLevels } from './logger'
 import createTemplates from './templates'
 import vitePlugin from './vite-hmr'
 import { setupViewer, exportViewer } from './viewer'
@@ -36,8 +36,6 @@ import { name, version, configKey, compatibility } from '../package.json'
 import type { ModuleOptions, TWConfig } from './types'
 import { withTrailingSlash } from 'ufo'
 export type { ModuleOptions } from './types'
-
-const logger = useLogger('nuxt:tailwindcss')
 
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: 'tailwind.config',
@@ -48,12 +46,14 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   exposeLevel: 2,
   injectPosition: 'first',
   disableHmrHotfix: false,
+  quiet: nuxt.options.logLevel === 'silent',
   addTwUtil: false,
 })
 
 export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility }, defaults,
   async setup (moduleOptions, nuxt) {
+    if (moduleOptions.quiet) logger.level = LogLevels.silent;
     const { resolve } = createResolver(import.meta.url);
     const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
 
