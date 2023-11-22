@@ -134,7 +134,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // install postcss8 module on nuxt < 2.16
     if (parseFloat(getNuxtVersion()) < 2.16) {
-      await installModule('@nuxt/postcss8')
+      await installModule('@nuxt/postcss8').catch(() => logger.error(`Error occurred while loading \`@nuxt/postcss8\` required for Nuxt ${getNuxtVersion()}, is it installed?`))
     }
 
     if (moduleOptions.addTwUtil) {
