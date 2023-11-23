@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.10.1
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.10.0...v6.10.1)
+
+### 🏡 Chore
+
+- Remove @nuxt/postcss8 ([#767](https://github.com/nuxt-modules/tailwindcss/pull/767))
+- Remove tsconfig from playgroun ([603f214](https://github.com/nuxt-modules/tailwindcss/commit/603f214))
+- Update gitignore ([931d479](https://github.com/nuxt-modules/tailwindcss/commit/931d479))
+
+### ❤️ Contributors
+
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+- Inesh Bose <dev@inesh.xyz>
+
 ## v6.10.0
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.9.5...v6.10.0)
