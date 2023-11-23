@@ -10,3 +10,4 @@ dist
 sw.js
 package-lock.json
 .output
+playground/.nuxt
