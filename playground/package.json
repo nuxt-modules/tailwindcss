@@ -1,0 +1,16 @@
+{
+  "name": "nuxt-tailwindcss-playground",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "generate": "nuxi generate"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@nuxt/content": "^2.9.0",
+    "@nuxt/devtools": "^1.0.0",
+    "nuxt": "^3.8.0"
+  }
+}

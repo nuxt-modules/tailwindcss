@@ -1,0 +1,32 @@
+name: kitchen sink
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: "nuxt/nuxt.com"
+          path: test/fixtures/nuxt.com
+      - run: corepack enable
+      - run: |
+          echo -e "import { resolve } from 'pathe'\n$(cat test/fixtures/nuxt.com/nuxt.config.ts)" > test/fixtures/nuxt.com/nuxt.config.ts
+          sed -i -e 's|export default defineNuxtConfig({|export default defineNuxtConfig({\n  alias: { "@nuxtjs/tailwindcss": resolve(__dirname, "../../../src/module") },|' test/fixtures/nuxt.com/nuxt.config.ts
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - run: pnpm install
+      - run: |
+          pnpm install --ignore-workspace
+          timeout 5m pnpm generate || true
+        working-directory: test/fixtures/nuxt.com
+        env:
+          NUXT_UI_PRO_LICENSE: ${{secrets.NUXT_UI_PRO_LICENSE}}
+      - run: pnpm test sink

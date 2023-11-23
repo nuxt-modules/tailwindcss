@@ -1,4 +1,4 @@
-name: ci
+name: nuxt2 compat
 
 on:
   push:
@@ -16,13 +16,7 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
           cache: "pnpm"
       - run: pnpm install
-
-      - run: pnpm dev:prepare
-      - run: pnpm lint
-      - run: pnpm test
-      - run: pnpm build
-      # - run: pnpm test:types
-      - run: pnpm dev:build
+      - run: cd nuxt2-playground && pnpm i --ignore-workspace && pnpm build

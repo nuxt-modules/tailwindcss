@@ -1,8 +1,5 @@
 {
-  "name": "nuxt-dark-tailwindcss",
-  "version": "1.0.0",
-  "description": "Nuxt.js example with @nuxtjs/color-mode and @nuxtjs/tailwindcss module.",
-  "author": "Atinux",
+  "name": "nuxt2-tailwindcss-playground",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -12,7 +9,9 @@
   },
   "dependencies": {
     "nuxt": "2.17.2",
-    "postcss": "8.4.31"
+    "postcss": "8.4.31",
+    "vue": "2.7.15",
+    "vue-router": "3.6.5"
   },
   "keywords": []
 }
