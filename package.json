@@ -33,6 +33,7 @@
     "prepack": "pnpm build",
     "release": "pnpm lint && pnpm test && pnpm prepack && pnpm changelogen --release --push && pnpm publish",
     "docs:build": "nuxi generate docs",
+    "docs:preview": "nuxi preview docs",
     "docs:dev": "nuxi dev docs",
     "lint": "eslint .",
     "test": "vitest run",
