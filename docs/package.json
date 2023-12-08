@@ -15,7 +15,7 @@
     "@iconify-json/heroicons": "^1.1.13",
     "@iconify-json/ph": "^1.1.6",
     "@iconify-json/simple-icons": "^1.1.77",
-    "@nuxt/ui-pro": "latest",
+    "@nuxt/ui-pro": "npm:@nuxt/ui-pro-edge@latest",
     "@nuxtjs/fontaine": "^0.4.1",
     "@nuxtjs/google-fonts": "^3.0.2",
     "@nuxtjs/plausible": "^0.2.3",
