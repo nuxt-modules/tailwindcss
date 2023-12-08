@@ -21,6 +21,7 @@ describe('tailwindcss module configs', async () => {
 
   await setupNuxtTailwind({
     exposeConfig: true,
+    quiet: false,
     configPath: [
       'alt-tailwind.config.js',
       'malformed-tailwind.config',

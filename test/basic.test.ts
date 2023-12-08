@@ -18,6 +18,7 @@ describe('tailwindcss module', async () => {
 
   await setupNuxtTailwind({
     exposeConfig: { level: 2, alias: '#twcss' },
+    quiet: false,
     // viewer: { endpoint: '_tw' },
     cssPath: r('tailwind.css')
   })
