@@ -18,6 +18,7 @@ export const setupNuxtTailwind = (
     ...testOptions,
     nuxtConfig: {
       ...nuxtConfig,
+      // @ts-ignore
       tailwindcss
     }
   })

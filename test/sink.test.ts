@@ -13,7 +13,7 @@ describe.skipIf(!existsSync(fixturePath))('nuxt.com', async () => {
     const getStyles = (html: string) => {
       const searchText = '<style>/*! tailwindcss'
       const _styles = html.slice(html.indexOf(searchText) + '<style>'.length)
-      return _styles.slice(0, _styles.indexOf('</style>'));
+      return _styles.slice(0, _styles.indexOf('</style>'))
     }
 
     const builtHtml = readFileSync(`${fixturePath}.output/public/index.html`, 'utf-8')

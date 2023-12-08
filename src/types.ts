@@ -1,11 +1,11 @@
-export type TWConfig = import("tailwindcss").Config;
+export type TWConfig = import('tailwindcss').Config;
 export type Arrayable<T> = T | Array<T>;
-export type InjectPosition = "first" | "last" | number | { after: string };
+export type InjectPosition = 'first' | 'last' | number | { after: string };
 
 interface ExtendTailwindConfig {
   content?:
-    | TWConfig["content"]
-    | ((contentDefaults: Array<string>) => TWConfig["content"]);
+    | TWConfig['content']
+    | ((contentDefaults: Array<string>) => TWConfig['content']);
 }
 
 type BoolObj<T extends Record<string, any>> = boolean | Partial<T>;

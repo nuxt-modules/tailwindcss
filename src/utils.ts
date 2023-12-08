@@ -18,7 +18,7 @@ export const configMerger: (
   }
 
   // keeping arrayFn
-  if (Array.isArray(obj[key]) && typeof value === "function") {
+  if (Array.isArray(obj[key]) && typeof value === 'function') {
     obj[key] = value(obj[key])
     return true
   }

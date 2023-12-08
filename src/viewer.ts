@@ -36,7 +36,7 @@ export const exportViewer = async (pathToConfig: string, config: ViewerConfig, n
   nuxt.hook('nitro:build:public-assets', (nitro) => {
     // nitro.options.prerender.ignore.push(config.endpoint);
 
-    const dir = joinURL(nitro.options.output.publicDir, config.endpoint);
+    const dir = joinURL(nitro.options.output.publicDir, config.endpoint)
     cli(dir, pathToConfig)
     logger.success(`Exported viewer to ${yellow(relative(nuxt.options.srcDir, dir))}`)
   })
