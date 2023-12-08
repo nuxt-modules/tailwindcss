@@ -68,6 +68,17 @@ Or locally:
 3. Prepare for development using `pnpm dev:prepare`
 4. Start development server using `pnpm dev`
 
+### Docs
+[![Nuxt UI Pro](https://img.shields.io/badge/Made%20with-Nuxt%20UI%20Pro-00DC82?logo=nuxt.js&labelColor=020420)](https://ui.nuxt.com/pro)
+
+You can run `docs/` locally by using `pnpm docs:dev`, or to run a build:
+
+1. Make sure to add your [Nuxt UI Pro](https://ui.nuxt.com/pro) license in the `.env` file before building the application.
+2. Run SSG build using `pnpm docs:build`
+3. Review the production build locally using `pnpm docs:preview`
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
 ## License
 
 [MIT License](./LICENSE)

@@ -53,8 +53,8 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
 export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility }, defaults,
   async setup (moduleOptions, nuxt) {
-    if (moduleOptions.quiet) logger.level = LogLevels.silent;
-    const { resolve } = createResolver(import.meta.url);
+    if (moduleOptions.quiet) logger.level = LogLevels.silent
+    const { resolve } = createResolver(import.meta.url)
     const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
 
     const tailwindConfig = await Promise.all((
@@ -141,7 +141,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     if (moduleOptions.addTwUtil) {
-      addImportsDir(resolve('./runtime/utils'));
+      addImportsDir(resolve('./runtime/utils'))
     }
 
     // enabled only in development

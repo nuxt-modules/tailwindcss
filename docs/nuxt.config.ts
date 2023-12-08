@@ -32,5 +32,8 @@ export default defineNuxtConfig({
   },
   // Devtools / Typescript
   devtools: { enabled: true },
-  typescript: { strict: false }
+  typescript: { strict: false },
+  alias: {
+    '@nuxtjs/tailwindcss': '../src/module'
+  }
 })

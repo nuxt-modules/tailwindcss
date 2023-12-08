@@ -1,0 +1,27 @@
+name: nightly release
+
+on:
+  workflow_run:
+    workflows:
+      - ci
+
+jobs:
+  nightly:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org/"
+          cache: "pnpm"
+
+      - run: pnpm install
+      - run: pnpm build
+
+      - run: pnpm changelogen --bump --canary --publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
