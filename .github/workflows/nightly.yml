@@ -2,8 +2,9 @@ name: nightly release
 
 on:
   workflow_run:
-    workflows:
-      - ci
+    workflows: [ci]
+    types: [completed]
+    branches: [main]
 
 jobs:
   nightly:
@@ -21,7 +22,7 @@ jobs:
       - run: pnpm install
       - run: pnpm build
 
-      - run: pnpm changelogen --bump --canary --publish
+      - run: pnpm changelogen --bump --canary --publish --publishTag nightly
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
