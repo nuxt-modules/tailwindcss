@@ -1,4 +1,5 @@
 export type TWConfig = import('tailwindcss').Config;
+export type ResolvedTwConfig = ReturnType<typeof import('tailwindcss/resolveConfig')>
 export type Arrayable<T> = T | Array<T>;
 export type InjectPosition = 'first' | 'last' | number | { after: string };
 
