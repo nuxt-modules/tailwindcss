@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.10.3
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.10.2...v6.10.3)
+
+### 🩹 Fixes
+
+- Remove postinstall script ([132f5a1](https://github.com/nuxt-modules/tailwindcss/commit/132f5a1))
+
+### ❤️ Contributors
+
+- Sébastien Chopin ([@Atinux](http://github.com/Atinux))
+
 ## v6.10.2
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.10.1...v6.10.2)
