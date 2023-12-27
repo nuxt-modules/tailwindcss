@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.10.2
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.10.1...v6.10.2)
+
+### 🩹 Fixes
+
+- **nightly-ci:** Apply some fixes for nightly releases ([6cc7ae3](https://github.com/nuxt-modules/tailwindcss/commit/6cc7ae3))
+- **nightly-ci:** Provide id-token permission ([32cd19e](https://github.com/nuxt-modules/tailwindcss/commit/32cd19e))
+- **types:** Allow ResolvedTWConfig in templates ([228324e](https://github.com/nuxt-modules/tailwindcss/commit/228324e))
+
+### 🏡 Chore
+
+- Use module-builder stub mode for more accurate types ([#773](https://github.com/nuxt-modules/tailwindcss/pull/773))
+- Update repo ([#768](https://github.com/nuxt-modules/tailwindcss/pull/768))
+- Update tailwindcss to 3.4 ([#779](https://github.com/nuxt-modules/tailwindcss/pull/779))
+- Test bundler module resolution ([c207562](https://github.com/nuxt-modules/tailwindcss/commit/c207562))
+
+### ❤️ Contributors
+
+- Inesh Bose <dev@inesh.xyz>
+- Nathanjcollins 
+- Daniel Roe <daniel@roe.dev>
+
 ## v6.10.1
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.10.0...v6.10.1)
