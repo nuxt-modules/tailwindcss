@@ -28,7 +28,6 @@
     "dev:generate": "nuxi generate playground",
     "dev:nuxt2": "nuxi dev nuxt2-playground",
     "dev:prepare": "nuxt-module-build prepare && nuxt-module-build build --stub && nuxi prepare playground && nuxi prepare docs",
-    "postinstall": "pnpm dev:prepare",
     "build": "nuxt-module-build build",
     "prepack": "pnpm build",
     "release": "pnpm lint && pnpm test && pnpm prepack && pnpm changelogen --release --push && pnpm publish",
