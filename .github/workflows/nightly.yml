@@ -21,7 +21,7 @@ jobs:
           registry-url: "https://registry.npmjs.org/"
           cache: "pnpm"
 
-      - run: pnpm install
+      - run: pnpm install && pnpm dev:prepare
       - run: pnpm build
 
       - run: pnpm changelogen --bump --canary --publish --publishTag nightly
