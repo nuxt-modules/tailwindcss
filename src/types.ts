@@ -1,13 +1,16 @@
+import type { Import } from 'unimport'
+import type { NuxtTemplate } from 'nuxt/schema'
+
 export type TWConfig = import('tailwindcss').Config;
-export type ResolvedTwConfig = ReturnType<typeof import('tailwindcss/resolveConfig')>
+export type ResolvedTwConfig = ReturnType<typeof import('tailwindcss/resolveConfig')>;
 export type Arrayable<T> = T | Array<T>;
 export type InjectPosition = 'first' | 'last' | number | { after: string };
 
 interface ExtendTailwindConfig {
   content?:
-    | TWConfig['content']
-    | ((contentDefaults: Array<string>) => TWConfig['content']);
-}
+  | TWConfig['content']
+  | ((contentDefaults: Array<string>) => TWConfig['content']);
+};
 
 type BoolObj<T extends Record<string, any>> = boolean | Partial<T>;
 
@@ -17,7 +20,7 @@ export type ViewerConfig = {
    *
    * @default '/_tailwind'
    */
-  endpoint: `/${string}`
+  endpoint: `/${string}`;
   /**
    * Export the viewer during build
    *
@@ -41,6 +44,21 @@ export type ExposeConfig = {
    * @default 2
    */
   level: number
+};
+
+export type EditorSupportConfig = {
+  /**
+   * Enable utility to write Tailwind CSS classes inside strings.
+   * 
+   * @default false // if true, { as: 'tw' }
+   */
+  autocompleteUtil: BoolObj<Pick<Import, 'as'>>;
+  /**
+   * Create a flat configuration template for Intellisense plugin.
+   * 
+   * @default false // if true, { filename: 'tailwind.config.cjs', write: true }
+   */
+  generateConfig: BoolObj<Omit<NuxtTemplate, 'getContents'>>;
 };
 
 export interface ModuleOptions {
@@ -101,6 +119,13 @@ export interface ModuleOptions {
    * Add util to write Tailwind CSS classes inside strings with `` tw`{classes}` ``
    *
    * @default false
+   * @deprecated use `editorSupport.autocompleteUtil` as object
    */
   addTwUtil: boolean;
-}
+  /**
+   * Enable some utilities for better editor support and DX.
+   * 
+   * Read https://tailwindcss.nuxtjs.org/tailwind/editor-support.
+   */
+  editorSupport?: BoolObj<EditorSupportConfig>;
+};
