@@ -1,15 +1,15 @@
-name: nuxt2 compat
+name: autofix.ci  # needed to securely identify the workflow
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
 
 jobs:
-  ci:
+  autofix:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,4 +19,5 @@ jobs:
           node-version: 18
           cache: "pnpm"
       - run: pnpm install && pnpm dev:prepare
-      - run: cd nuxt2-playground && pnpm i --ignore-workspace && pnpm build
+      - run: pnpm run lint:fix
+      - uses: autofix-ci/action@ea32e3a12414e6d3183163c3424a7d7a8631ad84

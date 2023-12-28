@@ -11,11 +11,13 @@ describe('nuxt.com', async () => {
   // was going to use test-utils but gave up trying to set it up properly
 
   beforeAll(() => {
-    const generateCommand = exec(`cd ${fixturePath} && pnpm generate`);
+    const generateCommand = exec(`cd ${fixturePath} && pnpm generate`)
+  
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       if (existsSync(`${fixturePath}.output/public/index.html`)) {
-        setTimeout(() => generateCommand.kill(), 5000);
-        break;
+        setTimeout(() => generateCommand.kill(), 5000)
+        break
       }
     }
   })

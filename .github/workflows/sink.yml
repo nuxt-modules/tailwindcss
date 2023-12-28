@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
-      - run: pnpm install
+      - run: pnpm install && pnpm dev:prepare
       - run: |
           cd test/fixtures/nuxt.com && pnpm install --ignore-workspace
       - run: pnpm test sink
