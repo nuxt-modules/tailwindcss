@@ -6,7 +6,7 @@ import { r } from './utils'
 
 const fixturePath = r('', 'nuxt.com')
 
-describe('nuxt.com', async () => {
+describe.skipIf(!existsSync(fixturePath))('nuxt.com', async () => {
   // await setupNuxtTailwind({}, {}, {}, fixturePath)
   // was going to use test-utils but gave up trying to set it up properly
 
