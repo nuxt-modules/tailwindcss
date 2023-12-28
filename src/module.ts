@@ -87,7 +87,6 @@ export default defineNuxtModule<ModuleOptions>({
     await nuxt.callHook('tailwindcss:resolvedConfig', resolvedConfig)
 
     // Expose resolved tailwind config as an alias
-    // https://tailwindcss.com/docs/configuration/#referencing-in-javascript
     if (moduleOptions.exposeConfig) {
       const exposeConfig = resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {})})
       createTemplates(resolvedConfig, exposeConfig, nuxt)
@@ -187,7 +186,7 @@ export default defineNuxtModule<ModuleOptions>({
     } else {
       // production only
       if (moduleOptions.viewer) {
-        const configTemplate = addTemplate({ filename: 'tw-viewer.config.cjs', getContents: () => `module.exports = ${JSON.stringify(tailwindConfig)}`, write: true })
+        const configTemplate = addTemplate({ filename: 'tailwind.config/viewer-config.cjs', getContents: () => `module.exports = ${JSON.stringify(tailwindConfig)}`, write: true })
         exportViewer(configTemplate.dst, resolveViewerConfig(moduleOptions.viewer))
       }
     }

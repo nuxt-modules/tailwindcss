@@ -1,13 +1,24 @@
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect, beforeAll } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
+import { exec } from 'node:child_process'
 import { ofetch } from 'ofetch'
 import { r } from './utils'
 
 const fixturePath = r('', 'nuxt.com')
 
-describe.skipIf(!existsSync(fixturePath))('nuxt.com', async () => {
+describe('nuxt.com', async () => {
   // await setupNuxtTailwind({}, {}, {}, fixturePath)
   // was going to use test-utils but gave up trying to set it up properly
+
+  beforeAll(() => {
+    const generateCommand = exec(`cd ${fixturePath} && pnpm generate`);
+    while (true) {
+      if (existsSync(`${fixturePath}.output/public/index.html`)) {
+        setTimeout(() => generateCommand.kill(), 5000);
+        break;
+      }
+    }
+  })
 
   test('check homepage css', async () => {
     const getStyles = (html: string) => {

@@ -46,16 +46,16 @@ export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
       return []
     })(),
 
-    r(`${nuxt.options.dir.layouts}/**/*${sfcExtensions}`),
+    nuxt.options.dir.layouts && r(`${nuxt.options.dir.layouts}/**/*${sfcExtensions}`),
     ...([true, undefined].includes(nuxt.options.pages) ? [r(`${nuxt.options.dir.pages}/**/*${sfcExtensions}`)] : []),
 
-    r(`${nuxt.options.dir.plugins}/**/*${defaultExtensions}`),
+    nuxt.options.dir.plugins && r(`${nuxt.options.dir.plugins}/**/*${defaultExtensions}`),
     ...importDirs.map(d => `${d}/**/*${defaultExtensions}`),
 
     r(`{A,a}pp${sfcExtensions}`),
     r(`{E,e}rror${sfcExtensions}`),
     r(`app.config${defaultExtensions}`),
-  ]
+  ].filter(Boolean)
 }
 
 /**

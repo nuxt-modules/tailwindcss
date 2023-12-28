@@ -1,5 +1,5 @@
 import { underline, yellow } from 'colorette'
-import { eventHandler, sendRedirect } from 'h3'
+import { eventHandler, sendRedirect, H3Event } from 'h3'
 import { addDevServerHandler, isNuxt2, isNuxt3, useNuxt } from '@nuxt/kit'
 import { withTrailingSlash, withoutTrailingSlash, joinURL, cleanDoubleSlashes } from 'ufo'
 import logger from './logger'
@@ -11,6 +11,7 @@ export const setupViewer = async (twConfig: Partial<TWConfig>, config: ViewerCon
   // @ts-ignore
   const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r) as any
   const routerPrefix = isNuxt3() ? route : undefined
+
   const _viewerDevMiddleware = createServer({ tailwindConfigProvider: () => twConfig, routerPrefix }).asMiddleware()
   const viewerDevMiddleware = eventHandler((event) => {
     const withoutSlash = withoutTrailingSlash(route)
@@ -19,11 +20,13 @@ export const setupViewer = async (twConfig: Partial<TWConfig>, config: ViewerCon
     }
     _viewerDevMiddleware(event.node?.req || event.req, event.node?.res || event.res)
   })
+
   if (isNuxt3()) { addDevServerHandler({ route, handler: viewerDevMiddleware }) }
   // @ts-ignore
   if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: (req, res) => viewerDevMiddleware(new H3Event(req, res)) }) }
+
   nuxt.hook('listen', (_, listener) => {
-    const viewerUrl = `${cleanDoubleSlashes(joinURL(withoutTrailingSlash(listener.url), route))}`
+    const viewerUrl = `${cleanDoubleSlashes(joinURL(withoutTrailingSlash(listener.url), config.endpoint))}`
     logger.info(`Tailwind Viewer: ${underline(yellow(withTrailingSlash(viewerUrl)))}`)
   })
 }

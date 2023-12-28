@@ -63,7 +63,7 @@ export default function createTemplates (resolvedConfig: Partial<TWConfig> | Res
 
   dtsContent.push(`declare module "${config.alias}" {${configOptions.map(v => ` export const ${v}: typeof import("${join(config.alias, v)}")["default"];`).join('')} const defaultExport: { ${configOptions.map(v => `"${v}": typeof ${v}`)} }; export default defaultExport; }`)
   const typesTemplate = addTemplate({
-    filename: 'tailwind.config.d.ts',
+    filename: 'types/tailwind.config.d.ts',
     getContents: () => dtsContent.join('\n'),
     write: true
   })

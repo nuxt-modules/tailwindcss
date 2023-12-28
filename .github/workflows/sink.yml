@@ -24,9 +24,7 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
       - run: |
-          pnpm install --ignore-workspace
-          timeout 5m pnpm generate || true
-        working-directory: test/fixtures/nuxt.com
+          cd test/fixtures/nuxt.com && pnpm install --ignore-workspace
+      - run: pnpm test sink
         env:
           NUXT_UI_PRO_LICENSE: ${{secrets.NUXT_UI_PRO_LICENSE}}
-      - run: pnpm test sink
