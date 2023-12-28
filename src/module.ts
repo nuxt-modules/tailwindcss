@@ -33,9 +33,9 @@ import vitePlugin from './vite-hmr'
 import { setupViewer, exportViewer } from './viewer'
 import { name, version, configKey, compatibility } from '../package.json'
 
-import type { ModuleOptions, TWConfig } from './types'
+import type { ModuleHooks, ModuleOptions, TWConfig } from './types'
 import { withTrailingSlash } from 'ufo'
-export type { ModuleOptions } from './types'
+export type { ModuleOptions, ModuleHooks } from './types'
 
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: 'tailwind.config',
@@ -170,6 +170,7 @@ export default defineNuxtModule<ModuleOptions>({
         const viewerConfig = resolveViewerConfig(moduleOptions.viewer)
         setupViewer(tailwindConfig, viewerConfig, nuxt)
 
+        // @ts-ignore
         nuxt.hook('devtools:customTabs', (tabs) => {
           tabs.push({
             title: 'TailwindCSS',
@@ -193,10 +194,10 @@ export default defineNuxtModule<ModuleOptions>({
   }
 })
 
+declare module 'nuxt/schema' {
+  interface NuxtHooks extends ModuleHooks {}
+}
+
 declare module '@nuxt/schema' {
-  interface NuxtHooks {
-    'tailwindcss:config': (tailwindConfig: Partial<TWConfig>) => void;
-    'tailwindcss:loadConfig': (tailwindConfig: Partial<TWConfig> | undefined, configPath: string, index: number, configPaths: string[]) => void;
-    'tailwindcss:resolvedConfig': (tailwindConfig: ReturnType<typeof resolveConfig<TWConfig>>) => void;
-  }
+  interface NuxtHooks extends ModuleHooks {}
 }

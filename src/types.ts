@@ -104,3 +104,30 @@ export interface ModuleOptions {
    */
   addTwUtil: boolean;
 }
+
+export interface ModuleHooks {
+  /**
+   * Passes any Tailwind configuration read by the module for each (extended) [layer](https://nuxt.com/docs/getting-started/layers) and [path](https://tailwindcss.nuxtjs.org/getting-started/options#configpath) before merging all of them.
+   * 
+   * @param tailwindConfig 
+   * @returns 
+   */
+  'tailwindcss:config': (tailwindConfig: Partial<TWConfig>) => void;
+  /**
+   * Passes the resolved vanilla configuration read from all layers and paths with merging using [defu](https://github.com/unjs/defu).
+   * 
+   * @param tailwindConfig 
+   * @param configPath 
+   * @param index 
+   * @param configPaths 
+   * @returns 
+   */
+  'tailwindcss:loadConfig': (tailwindConfig: Partial<TWConfig> | undefined, configPath: string, index: number, configPaths: string[]) => void;
+  /**
+   * Passes the complete resolved configuration with all defaults from [the full Tailwind config](https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/config.full.js) using resolveConfig.
+   * 
+   * @param tailwindConfig
+   * @returns 
+   */
+  'tailwindcss:resolvedConfig': (tailwindConfig: ResolvedTwConfig) => void;
+}

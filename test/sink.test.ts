@@ -15,7 +15,10 @@ describe.skipIf(!existsSync(fixturePath))('nuxt.com', async () => {
   
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      if (existsSync(`${fixturePath}.output/public/index.html`)) {
+      if (
+        existsSync(`${fixturePath}.output/public/index.html`)
+        && readFileSync(`${fixturePath}.output/public/index.html`, 'utf-8').includes('<style>/*! tailwindcss')
+      ) {
         setTimeout(() => generateCommand.kill(), 5000)
         break
       }
