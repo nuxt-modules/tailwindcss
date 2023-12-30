@@ -11,7 +11,8 @@ import {
   useNuxt,
   addTemplate,
   addImportsDir,
-  createResolver
+  createResolver,
+  addImports
 } from '@nuxt/kit'
 
 // @ts-expect-error
@@ -25,7 +26,8 @@ import {
   resolveCSSPath,
   resolveInjectPosition,
   resolveExposeConfig,
-  resolveViewerConfig
+  resolveViewerConfig,
+  resolveEditorSupportConfig
 } from './resolvers'
 import logger, { LogLevels } from './logger'
 import createTemplates from './templates'
@@ -48,6 +50,7 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   disableHmrHotfix: false,
   quiet: nuxt.options.logLevel === 'silent',
   addTwUtil: false,
+  editorSupport: false,
 })
 
 export default defineNuxtModule<ModuleOptions>({
@@ -90,7 +93,6 @@ export default defineNuxtModule<ModuleOptions>({
     if (moduleOptions.exposeConfig) {
       const exposeConfig = resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {})})
       createTemplates(resolvedConfig, exposeConfig, nuxt)
-      isNuxt2() && addTemplate({ filename: 'tailwind.config.cjs', getContents: () => `module.exports = ${JSON.stringify(resolvedConfig, null, 2)}` })
     }
 
     // Compute tailwindConfig hash
@@ -139,8 +141,26 @@ export default defineNuxtModule<ModuleOptions>({
       })
     }
 
-    if (moduleOptions.addTwUtil) {
-      addImportsDir(resolve('./runtime/utils'))
+    if (moduleOptions.editorSupport || moduleOptions.addTwUtil || isNuxt2()) {
+      const editorSupportConfig = resolveEditorSupportConfig(moduleOptions.editorSupport)
+
+      if (editorSupportConfig.autocompleteUtil || moduleOptions.addTwUtil) {
+        addImports({
+          name: 'autocompleteUtil',
+          from: resolve('./runtime/utils'),
+          as: 'tw',
+          ...(typeof editorSupportConfig.autocompleteUtil === 'object' ? editorSupportConfig.autocompleteUtil : {})
+        })
+      }
+
+      if (editorSupportConfig.generateConfig || isNuxt2()) {
+        addTemplate({
+          filename: 'tailwind.config.cjs',
+          options: resolvedConfig,
+          getContents: (options) => `module.exports = ${JSON.stringify(options, null, 2)}`,
+          ...(typeof editorSupportConfig.generateConfig === 'object' ? editorSupportConfig.generateConfig : {})
+        })
+      }
     }
 
     // enabled only in development

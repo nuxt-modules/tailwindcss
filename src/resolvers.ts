@@ -2,7 +2,7 @@ import { existsSync } from 'fs'
 import { defu } from 'defu'
 import { join, relative, resolve } from 'pathe'
 import { addTemplate, createResolver, findPath, useNuxt, tryResolveModule, resolveAlias } from '@nuxt/kit'
-import type { Arrayable, ExposeConfig, InjectPosition, ModuleOptions, ViewerConfig } from './types'
+import type { Arrayable, EditorSupportConfig, ExposeConfig, InjectPosition, ModuleOptions, ViewerConfig } from './types'
 
 /**
  * Resolves all configPath values for an application
@@ -124,6 +124,7 @@ export async function resolveCSSPath (cssPath: ModuleOptions['cssPath'], nuxt = 
 const resolveBoolObj = <T, U extends Record<string, any>>(config: T, fb: U): U => defu(typeof config === 'object' ? config : {}, fb)
 export const resolveViewerConfig = (config: ModuleOptions['viewer']): ViewerConfig => resolveBoolObj(config, { endpoint: '/_tailwind', exportViewer: false })
 export const resolveExposeConfig = (config: ModuleOptions['exposeConfig']): ExposeConfig => resolveBoolObj(config, { alias: '#tailwind-config', level: 2 })
+export const resolveEditorSupportConfig = (config: ModuleOptions['editorSupport']): EditorSupportConfig => resolveBoolObj(config, { autocompleteUtil: true, generateConfig: false })
 
 /**
  * Resolve human-readable inject position specification into absolute index in the array

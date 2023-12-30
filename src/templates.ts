@@ -1,5 +1,5 @@
 import { dirname, join } from 'pathe'
-import { useNuxt, addTemplate } from '@nuxt/kit'
+import { useNuxt, addTemplate, addTypeTemplate } from '@nuxt/kit'
 import { isJSObject, NON_ALPHANUMERIC_RE } from './utils'
 import type { ExposeConfig, ResolvedTwConfig, TWConfig } from './types'
 
@@ -62,14 +62,11 @@ export default function createTemplates (resolvedConfig: Partial<TWConfig> | Res
   })
 
   dtsContent.push(`declare module "${config.alias}" {${configOptions.map(v => ` export const ${v}: typeof import("${join(config.alias, v)}")["default"];`).join('')} const defaultExport: { ${configOptions.map(v => `"${v}": typeof ${v}`)} }; export default defaultExport; }`)
-  const typesTemplate = addTemplate({
+  addTypeTemplate({
     filename: 'types/tailwind.config.d.ts',
     getContents: () => dtsContent.join('\n'),
     write: true
   })
 
   nuxt.options.alias[config.alias] = dirname(template.dst)
-  nuxt.hook('prepare:types', (opts) => {
-    opts.references.push({ path: typesTemplate.dst })
-  })
 }

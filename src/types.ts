@@ -1,5 +1,4 @@
-import type { Import } from 'unimport'
-import type { NuxtTemplate } from 'nuxt/schema'
+type Import = Exclude<Parameters<typeof import('nuxt/kit')['addImports']>[0], any[]>
 
 export type TWConfig = import('tailwindcss').Config;
 export type ResolvedTwConfig = ReturnType<typeof import('tailwindcss/resolveConfig')>;
@@ -58,7 +57,7 @@ export type EditorSupportConfig = {
    * 
    * @default false // if true, { filename: 'tailwind.config.cjs', write: true }
    */
-  generateConfig: BoolObj<Omit<NuxtTemplate, 'getContents'>>;
+  generateConfig: BoolObj<Omit<import('nuxt/schema').NuxtTemplate, 'getContents'>>;
 };
 
 export interface ModuleOptions {
@@ -126,8 +125,10 @@ export interface ModuleOptions {
    * Enable some utilities for better editor support and DX.
    * 
    * Read https://tailwindcss.nuxtjs.org/tailwind/editor-support.
+   * 
+   * @default false // if true, { autocompleteUtil: true }
    */
-  editorSupport?: BoolObj<EditorSupportConfig>;
+  editorSupport: BoolObj<EditorSupportConfig>;
 };
 
 export interface ModuleHooks {
