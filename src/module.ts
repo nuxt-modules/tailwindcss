@@ -156,8 +156,7 @@ export default defineNuxtModule<ModuleOptions>({
       if (editorSupportConfig.generateConfig || isNuxt2()) {
         addTemplate({
           filename: 'tailwind.config.cjs',
-          options: resolvedConfig,
-          getContents: (options) => `module.exports = ${JSON.stringify(options, null, 2)}`,
+          getContents: () => `module.exports = ${JSON.stringify(resolvedConfig, null, 2)}`,
           ...(typeof editorSupportConfig.generateConfig === 'object' ? editorSupportConfig.generateConfig : {})
         })
       }

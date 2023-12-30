@@ -8,7 +8,8 @@ export default defineNuxtConfig({
   tailwindcss: {
     // viewer: false,
     exposeConfig: true,
-    injectPosition: 'last'
+    injectPosition: 'last',
+    editorSupport: true
   },
   content: {
     documentDriven: true
