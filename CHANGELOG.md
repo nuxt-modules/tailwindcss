@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.10.4
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.10.3...v6.10.4)
+
+### 🩹 Fixes
+
+- **viewer:** Trust listener url for baseURL, closes #782 ([#782](https://github.com/nuxt-modules/tailwindcss/issues/782))
+
+### 📖 Documentation
+
+- Fix defaultTheme.colors.green is undefined ([#788](https://github.com/nuxt-modules/tailwindcss/pull/788))
+
+### 🏡 Chore
+
+- **ci:** Apply some automated fixes ([abc03df](https://github.com/nuxt-modules/tailwindcss/commit/abc03df))
+- **ci:** Keep sink skip ([e808d1f](https://github.com/nuxt-modules/tailwindcss/commit/e808d1f))
+- Update deps ([46ef08a](https://github.com/nuxt-modules/tailwindcss/commit/46ef08a))
+- **ci:** Fix vue to 2.7.15 ([1a8100b](https://github.com/nuxt-modules/tailwindcss/commit/1a8100b))
+- Update deps ([14989c4](https://github.com/nuxt-modules/tailwindcss/commit/14989c4))
+
+### ❤️ Contributors
+
+- Inesh Bose 
+- Isaac Qadri
+
 ## v6.10.3
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.10.2...v6.10.3)
