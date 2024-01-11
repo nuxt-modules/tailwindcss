@@ -51,7 +51,7 @@
     "defu": "^6.1.4",
     "h3": "^1.10.0",
     "micromatch": "^4.0.5",
-    "pathe": "^1.1.1",
+    "pathe": "^1.1.2",
     "postcss": "^8.4.33",
     "postcss-custom-properties": "^13.3.4",
     "postcss-nesting": "^12.0.2",
@@ -76,7 +76,7 @@
     "typescript": "^5.3.3",
     "vitest": "1.1.0"
   },
-  "packageManager": "pnpm@8.14.0",
+  "packageManager": "pnpm@8.14.1",
   "resolutions": {
     "@nuxtjs/tailwindcss": "link:."
   }
