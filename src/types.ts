@@ -49,11 +49,31 @@ export type EditorSupportConfig = {
   /**
    * Enable utility to write Tailwind CSS classes inside strings.
    * 
+   * You will need to update `.vscode/settings.json` based on this value.
+   * 
+   * ```json
+   * {
+   *   "tailwindCSS.experimental.classRegex": ["tw`(.*?)`", "tw\\('(.*?)'\\)"]
+   * }
+   * ```
+   * 
+   * Read https://tailwindcss.nuxtjs.org/tailwind/editor-support#autocomplete.
+   * 
    * @default false // if true, { as: 'tw' }
    */
   autocompleteUtil: BoolObj<Pick<Import, 'as'>>;
   /**
    * Create a flat configuration template for Intellisense plugin.
+   * 
+   * You will need to update `.vscode/settings.json` based on this value.
+   * 
+   * ```json
+   * {
+   *   "tailwindCSS.experimental.configFile": ".nuxt/tailwind.config.cjs"
+   * }
+   * ```
+   * 
+   * Read https://tailwindcss.nuxtjs.org/tailwind/editor-support#load-config-file.
    * 
    * @default false // if true, { filename: 'tailwind.config.cjs', write: true }
    */
