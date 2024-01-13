@@ -84,7 +84,7 @@ export const resolveModulePaths = async (configPath: ModuleOptions['configPath']
  * @param nuxt
  * @returns [resolvedCss, loggerMessage]
  */
-export async function resolveCSSPath (cssPath: ModuleOptions['cssPath'], nuxt = useNuxt()): Promise<[string, string]> {
+export async function resolveCSSPath (cssPath: Exclude<ModuleOptions['cssPath'], Array<any>>, nuxt = useNuxt()): Promise<[string, string]> {
   if (typeof cssPath === 'string') {
     return existsSync(cssPath)
       ? [cssPath, `Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`]
@@ -134,7 +134,7 @@ export const resolveEditorSupportConfig = (config: ModuleOptions['editorSupport'
  *
  * @returns index in the css array
  */
-export function resolveInjectPosition (css: string[], position: InjectPosition) {
+export function resolveInjectPosition (css: string[], position: InjectPosition = 'first') {
   if (typeof (position) === 'number') {
     return ~~Math.min(position, css.length + 1)
   }

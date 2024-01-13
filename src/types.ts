@@ -92,7 +92,7 @@ export interface ModuleOptions {
    *
    * @default '~/assets/css/tailwind.css'
    */
-  cssPath: string | false;
+  cssPath: string | false | [string | false, { injectPosition: InjectPosition }];
   /**
    * Configuration for Tailwind CSS
    *
@@ -122,6 +122,7 @@ export interface ModuleOptions {
    * The position of CSS injection affecting CSS priority
    *
    * @default 'first'
+   * @deprecated use cssPath as [string | false, { injectPosition: InjectPosition }]
    */
   injectPosition: InjectPosition;
   /**
