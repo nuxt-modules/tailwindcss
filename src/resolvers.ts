@@ -1,7 +1,7 @@
 import { existsSync } from 'fs'
 import { defu } from 'defu'
 import { join, relative, resolve } from 'pathe'
-import { addTemplate, createResolver, findPath, useNuxt, tryResolveModule, resolveAlias } from '@nuxt/kit'
+import { findPath, useNuxt, tryResolveModule, resolveAlias } from '@nuxt/kit'
 import type { Arrayable, EditorSupportConfig, ExposeConfig, InjectPosition, ModuleOptions, ViewerConfig } from './types'
 
 /**
@@ -84,31 +84,15 @@ export const resolveModulePaths = async (configPath: ModuleOptions['configPath']
  * @param nuxt
  * @returns [resolvedCss, loggerMessage]
  */
-export async function resolveCSSPath (cssPath: Exclude<ModuleOptions['cssPath'], Array<any>>, nuxt = useNuxt()): Promise<[string, string]> {
+export async function resolveCSSPath (cssPath: Exclude<ModuleOptions['cssPath'], Array<any>>, nuxt = useNuxt()): Promise<[string | false, string]> {
   if (typeof cssPath === 'string') {
     return existsSync(cssPath)
       ? [cssPath, `Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`]
       : await tryResolveModule('tailwindcss/package.json')
-        .then(twLocation => twLocation ? [join(twLocation, '../tailwind.css'), 'Using default Tailwind CSS file'] : Promise.reject('tailwindcss not resolved'))
-        .catch(e => [
-          createResolver(import.meta.url).resolve(
-            addTemplate({
-              filename: '_tailwind.css',
-              write: true,
-              getContents: () => '@tailwind base;\n@tailwind components;\n@tailwind utilities;'
-            }).dst
-          ),
-          `Faced error while trying to use default Tailwind CSS file: ${e?.name || ''} ${e?.message || e}\nCreated default Tailwind CSS file`
-        ]) as [string, string]
+        .then(twLocation => twLocation ? [join(twLocation, '../tailwind.css'), 'Using default Tailwind CSS file'] : Promise.reject('Unable to resolve tailwindcss. Is it installed?'))
   } else {
     return [
-      createResolver(import.meta.url).resolve(
-        addTemplate({
-          filename: 'tailwind-empty.css',
-          write: true,
-          getContents: () => ''
-        }).dst
-      ),
+      cssPath && false,
       'No Tailwind CSS file found. Skipping...'
     ]
   }

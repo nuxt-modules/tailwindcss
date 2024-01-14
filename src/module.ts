@@ -107,10 +107,10 @@ export default defineNuxtModule<ModuleOptions>({
     logger.info(loggerInfo)
 
     nuxt.options.css = nuxt.options.css ?? []
-    const resolvedNuxtCss = await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p)))
+    const resolvedNuxtCss = resolvedCss && await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p))) || []
 
     // Inject only if this file isn't listed already by user (e.g. user may put custom path both here and in css):
-    if (!resolvedNuxtCss.includes(resolvedCss)) {
+    if (resolvedCss && !resolvedNuxtCss.includes(resolvedCss)) {
       let injectPosition: number
       try {
         injectPosition = resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition || moduleOptions.injectPosition)

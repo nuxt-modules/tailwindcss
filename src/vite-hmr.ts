@@ -3,7 +3,7 @@ import type { Plugin as VitePlugin } from 'vite'
 import type { TWConfig } from './types'
 import micromatch from 'micromatch'
 
-export default function (tailwindConfig: Partial<TWConfig> = {}, rootDir: string, cssPath: string): VitePlugin {
+export default function (tailwindConfig: Partial<TWConfig> = {}, rootDir: string, cssPath: string | false): VitePlugin {
   const resolvedContent = ((Array.isArray(tailwindConfig.content) ? tailwindConfig.content : tailwindConfig.content?.files || []).filter(f => typeof f === 'string') as Array<string>).map(f => !isAbsolute(f) ? resolve(rootDir, f) : f)
 
   return {
@@ -13,7 +13,7 @@ export default function (tailwindConfig: Partial<TWConfig> = {}, rootDir: string
         return
       }
 
-      const extraModules = ctx.server.moduleGraph.getModulesByFile(cssPath) || new Set()
+      const extraModules = cssPath && ctx.server.moduleGraph.getModulesByFile(cssPath) || new Set()
       const timestamp = +Date.now()
 
       for (const mod of extraModules) {
