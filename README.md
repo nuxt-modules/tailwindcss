@@ -17,12 +17,12 @@
 
 ## Features
 
-- 👌&nbsp; Zero configuration to start *([see video](https://tailwindcss.nuxtjs.org/#quick-start))*
+- 👌&nbsp; Zero configuration to start
 - 🪄&nbsp; Includes [CSS Nesting](https://drafts.csswg.org/css-nesting-1/) with [postcss-nesting](https://github.com/csstools/postcss-nesting)
-- 🎨&nbsp; Discover your Tailwind Colors *([see video](https://tailwindcss.nuxtjs.org/#tailwind-colors))*
+- 🎨&nbsp; Discover your Tailwind Config & Colors *([see video](https://tailwindcss.nuxtjs.org/tailwind/viewer))*
 - ⚙️&nbsp; [Reference your Tailwind config](https://tailwindcss.nuxtjs.org/tailwind/config/#referencing-in-the-application) in your app
-- 📦&nbsp; Extendable by [Nuxt modules](https://nuxt.com/modules)
-- 🚀&nbsp; Supports both [Nuxt 3](https://nuxt.com) and [Nuxt 2](https://nuxtjs.org/)
+- 📦&nbsp; Extendable by [Nuxt modules](https://nuxt.com/modules) using [hooks](https://tailwindcss.nuxtjs.org/tailwind/config#hooks)
+- 🚀&nbsp; Supports both [Nuxt 3](https://nuxt.com) and [Nuxt 2](https://v2.nuxt.com/)
 
 [📖 &nbsp;Read more](https://tailwindcss.nuxtjs.org)
 
@@ -41,14 +41,16 @@ yarn add --dev @nuxtjs/tailwindcss
 npm install --save-dev @nuxtjs/tailwindcss
 ```
 
+*You can test latest additions on [Nightly Releases](https://tailwindcss.nuxtjs.org/getting-started/setup#nightly-releases)!*
+
 2. Add `@nuxtjs/tailwindcss` to the `modules` section of `nuxt.config.{ts,js}`
 
-```js
-{
+```ts
+export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss'
   ]
-}
+})
 ```
 
 That's it! You can now use Tailwind classes in your Nuxt app ✨
@@ -57,9 +59,10 @@ That's it! You can now use Tailwind classes in your Nuxt app ✨
 
 ## Contributing
 
-You can contribute to this module online with CodeSandBox:
+You can contribute to this module online:
 
-[![Edit @nuxtjs/tailwindcss](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nuxt-modules/tailwindcss/tree/main/?fontsize=14&hidenavigation=1&theme=dark)
+[![Edit @nuxtjs/tailwindcss in CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nuxt-modules/tailwindcss/tree/main/?fontsize=14&hidenavigation=1&theme=dark)
+[![Edit @nuxtjs/tailwindcss in Codeflow](https://developer.stackblitz.com/img/open_in_codeflow.svg)](https://pr.new/nuxt-modules/tailwindcss)
 
 Or locally:
 
@@ -81,9 +84,7 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 
 ## License
 
-[MIT License](./LICENSE)
-
-Copyright (c) Nuxt Community
+[MIT](./LICENSE) - Made with 💚
 
 <!-- Badges -->
 [npm-version-src]: https://img.shields.io/npm/v/@nuxtjs/tailwindcss/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
