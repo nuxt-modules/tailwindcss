@@ -100,18 +100,20 @@ export default defineNuxtModule<ModuleOptions>({
 
 
     /** CSS file handling */
-    const cssPath = typeof moduleOptions.cssPath === 'string' ? await resolvePath(moduleOptions.cssPath, { extensions: ['.css', '.sass', '.scss', '.less', '.styl'] }) : false
-    const [resolvedCss, loggerInfo] = await resolveCSSPath(cssPath, nuxt)
+    const [cssPath, cssPathConfig] = Array.isArray(moduleOptions.cssPath) ? moduleOptions.cssPath : [moduleOptions.cssPath]
+    const [resolvedCss, loggerInfo] = await resolveCSSPath(
+      typeof cssPath === 'string' ? await resolvePath(cssPath, { extensions: ['.css', '.sass', '.scss', '.less', '.styl'] }) : false, nuxt
+    )
     logger.info(loggerInfo)
 
     nuxt.options.css = nuxt.options.css ?? []
-    const resolvedNuxtCss = await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p)))
+    const resolvedNuxtCss = resolvedCss && await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p))) || []
 
     // Inject only if this file isn't listed already by user (e.g. user may put custom path both here and in css):
-    if (!resolvedNuxtCss.includes(resolvedCss)) {
+    if (resolvedCss && !resolvedNuxtCss.includes(resolvedCss)) {
       let injectPosition: number
       try {
-        injectPosition = resolveInjectPosition(nuxt.options.css, moduleOptions.injectPosition)
+        injectPosition = resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition || moduleOptions.injectPosition)
       } catch (e: any) {
         throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
       }
