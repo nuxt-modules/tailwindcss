@@ -1,8 +1,11 @@
+import { existsSync } from 'node:fs'
+import { resolve } from 'pathe'
+
 export default defineNuxtConfig({
   extends: ['./theme'],
   modules: [
     '@nuxt/content',
-    '@nuxtjs/tailwindcss',
+    existsSync(resolve(__dirname, '../dist/module.mjs')) ? '@nuxtjs/tailwindcss' : '../src/module',
     '@nuxt/devtools'
   ],
   tailwindcss: {
