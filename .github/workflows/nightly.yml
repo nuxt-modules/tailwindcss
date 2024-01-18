@@ -24,7 +24,7 @@ jobs:
       - run: pnpm install && pnpm dev:prepare
       - run: pnpm build
 
-      - run: pnpm changelogen --bump --canary --publish --publishTag nightly
+      - run: pnpm changelogen --bump --canary --publish --publishTag nightly --from $(git log -n 1 --pretty=format:%H -- CHANGELOG.md)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
