@@ -117,14 +117,14 @@ export interface ModuleOptions {
    * @default 2
    * @deprecated use exposeConfig as object
    */
-  exposeLevel: number;
+  exposeLevel?: number;
   /**
    * The position of CSS injection affecting CSS priority
    *
    * @default 'first'
    * @deprecated use cssPath as [string | false, { injectPosition: InjectPosition }]
    */
-  injectPosition: InjectPosition;
+  injectPosition?: InjectPosition;
   /**
    * @default false
    */
@@ -141,7 +141,7 @@ export interface ModuleOptions {
    * @default false
    * @deprecated use `editorSupport.autocompleteUtil` as object
    */
-  addTwUtil: boolean;
+  addTwUtil?: boolean;
   /**
    * Enable some utilities for better editor support and DX.
    * 

@@ -45,11 +45,8 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   config: defaultTailwindConfig,
   viewer: true,
   exposeConfig: false,
-  exposeLevel: 2,
-  injectPosition: 'first',
   disableHmrHotfix: false,
   quiet: nuxt.options.logLevel === 'silent',
-  addTwUtil: false,
   editorSupport: false,
 })
 
@@ -57,6 +54,17 @@ export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility }, defaults,
   async setup (moduleOptions, nuxt) {
     if (moduleOptions.quiet) logger.level = LogLevels.silent
+    const deprecatedOptions: Array<[keyof ModuleOptions, string]> = [
+      ['addTwUtil', 'Use `editorSupport.autocompleteUtil` instead.'],
+      ['exposeLevel', 'Use `exposeConfig.level` instead.'],
+      ['injectPosition', `Use \`cssPath: [${
+        moduleOptions.cssPath === join(nuxt.options.dir.assets, 'css/tailwind.css')
+          ? '"~/assets/css/tailwind.css"'
+          : typeof moduleOptions.cssPath === 'string' ? `"${moduleOptions.cssPath}"` : moduleOptions.cssPath
+      }, { injectPosition: ${JSON.stringify(moduleOptions.injectPosition)} }]\` instead.`]
+    ]
+    deprecatedOptions.forEach(([dOption, alternative]) => moduleOptions[dOption] !== undefined && logger.warn(`Deprecated \`${dOption}\`. ${alternative}`))
+
     const { resolve } = createResolver(import.meta.url)
     const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
 
