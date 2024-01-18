@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   tailwindcss: {
     // viewer: false,
     exposeConfig: true,
-    cssPath: ['~/assets/css/tailwind.css', { injectPosition: 'last' }],
+    cssPath: '~/assets/css/tailwind.css',
     editorSupport: true
   },
   content: {

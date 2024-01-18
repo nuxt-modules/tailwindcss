@@ -42,8 +42,8 @@
     "test:types": "pnpm dev:prepare && tsc --noEmit && nuxi typecheck playground"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.9.1",
-    "autoprefixer": "^10.4.16",
+    "@nuxt/kit": "^3.9.3",
+    "autoprefixer": "^10.4.17",
     "chokidar": "^3.5.3",
     "clear-module": "^4.1.2",
     "colorette": "^2.0.20",
@@ -62,17 +62,17 @@
   "devDependencies": {
     "@fontsource/inter": "^5.0.16",
     "@nuxt/content": "^2.10.0",
-    "@nuxt/devtools": "^1.0.6",
+    "@nuxt/devtools": "^1.0.8",
     "@nuxt/eslint-config": "latest",
     "@nuxt/module-builder": "^0.5.5",
-    "@nuxt/test-utils": "^3.9.0",
+    "@nuxt/test-utils": "^3.10.0",
     "@tailwindcss/typography": "^0.5.10",
     "@types/micromatch": "^4.0.6",
     "changelogen": "^0.5.5",
     "destr": "^2.0.2",
     "eslint": "latest",
-    "happy-dom": "^12.10.3",
-    "nuxt": "^3.9.1",
+    "happy-dom": "^13.1.4",
+    "nuxt": "^3.9.3",
     "typescript": "^5.3.3",
     "vitest": "1.1.0"
   },
