@@ -42,7 +42,11 @@ export type ExposeConfig = {
    *
    * @default 2
    */
-  level: number
+  level: number;
+  /**
+   * To write the templates to file-system for usage with code that does not have access to the Virtual File System. This applies only for Nuxt 3 with Vite.
+   */
+  write?: boolean;
 };
 
 export type EditorSupportConfig = {

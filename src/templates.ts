@@ -28,13 +28,15 @@ export default function createTemplates (resolvedConfig: Partial<TWConfig> | Res
 
           addTemplate({
             filename: `tailwind.config/${subpath}.mjs`,
-            getContents: () => `${validKeys.map(i => `const _${i} = ${JSON.stringify(value[i])}`).join('\n')}\nconst config = { ${validKeys.map(i => `"${i}": _${i}, `).join('')}${invalidKeys.map(i => `"${i}": ${JSON.stringify(value[i])}, `).join('')} }\nexport { config as default${validKeys.length > 0 ? ', _' : ''}${validKeys.join(', _')} }`
+            getContents: () => `${validKeys.map(i => `const _${i} = ${JSON.stringify(value[i])}`).join('\n')}\nconst config = { ${validKeys.map(i => `"${i}": _${i}, `).join('')}${invalidKeys.map(i => `"${i}": ${JSON.stringify(value[i])}, `).join('')} }\nexport { config as default${validKeys.length > 0 ? ', _' : ''}${validKeys.join(', _')} }`,
+            write: config.write
           })
           dtsContent.push(`declare module "${config.alias}/${subpath}" { ${validKeys.map(i => `export const _${i}: ${JSON.stringify(value[i])};`).join('')} const defaultExport: { ${validKeys.map(i => `"${i}": typeof _${i}, `).join('')}${invalidKeys.map(i => `"${i}": ${JSON.stringify(value[i])}, `).join('')} }; export default defaultExport; }`)
         } else {
           addTemplate({
             filename: `tailwind.config/${subpath}.mjs`,
-            getContents: () => `export default ${JSON.stringify(value, null, 2)}`
+            getContents: () => `export default ${JSON.stringify(value, null, 2)}`,
+            write: config.write
           })
           dtsContent.push(`declare module "${config.alias}/${subpath}" { const defaultExport: ${JSON.stringify(value)}; export default defaultExport; }`)
         }
@@ -45,7 +47,8 @@ export default function createTemplates (resolvedConfig: Partial<TWConfig> | Res
         const values = Object.keys(value)
         addTemplate({
           filename: `tailwind.config/${subpath}.mjs`,
-          getContents: () => `${values.map(v => `import _${v} from "./${key}/${v}.mjs"`).join('\n')}\nconst config = { ${values.map(k => `"${k}": _${k}`).join(', ')} }\nexport { config as default${values.length > 0 ? ', _' : ''}${values.join(', _')} }`
+          getContents: () => `${values.map(v => `import _${v} from "./${key}/${v}.mjs"`).join('\n')}\nconst config = { ${values.map(k => `"${k}": _${k}`).join(', ')} }\nexport { config as default${values.length > 0 ? ', _' : ''}${values.join(', _')} }`,
+          write: config.write
         })
         dtsContent.push(`declare module "${config.alias}/${subpath}" {${Object.keys(value).map(v => ` export const _${v}: typeof import("${config.alias}/${join(`${key}/${subpath}`, `../${v}`)}")["default"];`).join('')} const defaultExport: { ${values.map(k => `"${k}": typeof _${k}`).join(', ')} }; export default defaultExport; }`)
       }
