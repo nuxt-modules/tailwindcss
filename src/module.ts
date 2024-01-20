@@ -10,7 +10,6 @@ import {
   addVitePlugin,
   useNuxt,
   addTemplate,
-  addImportsDir,
   createResolver,
   addImports
 } from '@nuxt/kit'

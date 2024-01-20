@@ -9,7 +9,7 @@ interface ExtendTailwindConfig {
   content?:
   | TWConfig['content']
   | ((contentDefaults: Array<string>) => TWConfig['content']);
-};
+}
 
 type BoolObj<T extends Record<string, any>> = boolean | Partial<T>;
 
@@ -154,7 +154,7 @@ export interface ModuleOptions {
    * @default false // if true, { autocompleteUtil: true }
    */
   editorSupport: BoolObj<EditorSupportConfig>;
-};
+}
 
 export interface ModuleHooks {
   /**
