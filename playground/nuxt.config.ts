@@ -23,11 +23,20 @@ export default defineNuxtConfig({
       logger.info('Running `tailwindcss:loadConfig` hook...', { configPath, idx })
 
       if (idx === 0 && config) {
-        config.theme!.extend = { screens: { 'xs': '100px' }}
+        config.theme = config.theme ?? {}
+        config.theme.extend = config.theme.extend ?? {}
+        config.theme.extend.screens = { 'md2': '100px' }
+      } else if (idx === 1 && config) {
+        config.content = config.content ?? []
+        Array.isArray(config.content) ? config.content.push('my-content') : config.content.files.push('my-file-content')
       }
     },
     'tailwindcss:config': (config) => {
       logger.info('Running `tailwindcss:config` hook...')
+
+      config.theme = config.theme ?? {}
+      config.theme.extend = config.theme.extend ?? {}
+      config.theme.extend.colors = { extendedColor: '#000' }
     },
     'tailwindcss:resolvedConfig': (config) => {
       logger.info('Running `tailwindcss:resolvedConfig` hook...')

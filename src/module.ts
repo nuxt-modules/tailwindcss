@@ -1,5 +1,4 @@
-import { join, relative } from 'pathe'
-import { watch } from 'chokidar'
+import { join } from 'pathe'
 
 import {
   defineNuxtModule,
@@ -7,49 +6,26 @@ import {
   isNuxt2,
   getNuxtVersion,
   resolvePath,
-  addVitePlugin,
   useNuxt,
   addTemplate,
   createResolver,
-  addImports
+  addImports,
+  updateTemplates
 } from '@nuxt/kit'
 
 // @ts-expect-error
 import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
-import resolveConfig from 'tailwindcss/resolveConfig.js'
-import loadConfig from 'tailwindcss/loadConfig.js'
 
-import { configMerger } from './runtime/utils'
 import * as resolvers from './resolvers'
 import logger, { LogLevels } from './logger'
 import createConfigTemplates from './templates'
-import vitePlugin from './vite-hmr'
 import { setupViewer, exportViewer } from './viewer'
 import { name, version, configKey, compatibility } from '../package.json'
 
-import type { ModuleHooks, ModuleOptions, TWConfig } from './types'
+import type { ModuleHooks, ModuleOptions } from './types'
 import { withTrailingSlash } from 'ufo'
 import loadTwConfig from './config'
 export type { ModuleOptions, ModuleHooks } from './types'
-
-const makeHandler = (proxyConfig: Record<string, any>, path: string[] = []) => ({
-  get(target: Record<string, any>, key: string): any {
-    if (typeof target[key] === 'object' && target[key] !== null) {
-      return new Proxy(target[key], makeHandler(proxyConfig, path.concat(key)))
-    } else {
-      return target[key];
-    }
-  },
-  set (target: Record<string, any>, key: string, value: any) {
-    let result = value;
-    (Array.isArray(target) ? path : path.concat(key)).reverse().forEach((k, idx) => {
-      result = { [k]: Array.isArray(target) && idx === 0 ? [result] : result }
-    })
-    proxyConfig = configMerger(proxyConfig, result)
-    console.log(result)
-    return Reflect.set(target, key, value);
-  }
-});
 
 const deprecationWarnings = (moduleOptions: ModuleOptions, nuxt = useNuxt()) =>
   ([
@@ -68,7 +44,7 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: 'tailwind.config',
   cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
   config: defaultTailwindConfig,
-  mergingStrategy: 'defu',
+  // mergingStrategy: 'defu',
   viewer: true,
   exposeConfig: false,
   disableHmrHotfix: false,
@@ -83,12 +59,15 @@ export default defineNuxtModule<ModuleOptions>({
     deprecationWarnings(moduleOptions, nuxt)
 
     const { resolve } = createResolver(import.meta.url)
-    const configTemplate = await loadTwConfig(moduleOptions.configPath, moduleOptions.config, nuxt);
+    const twConfig = await loadTwConfig(moduleOptions, nuxt);
 
     // Expose resolved tailwind config as an alias
     if (moduleOptions.exposeConfig) {
       const exposeConfig = resolvers.resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {})})
-      // createConfigTemplates(resolvedConfig, exposeConfig, nuxt) // TODO
+      const configTemplates = createConfigTemplates(twConfig, exposeConfig, nuxt)
+      nuxt.hook('builder:watch', async (_, path) => {
+        twConfig.configPaths.includes(join(nuxt.options.rootDir, path)) && await updateTemplates({ filter: template => configTemplates.includes(template.dst) })
+      })
     }
 
     /** CSS file handling */
@@ -125,7 +104,7 @@ export default defineNuxtModule<ModuleOptions>({
     postcssOptions.plugins = postcssOptions.plugins || {}
     postcssOptions.plugins['tailwindcss/nesting'] = postcssOptions.plugins['tailwindcss/nesting'] ?? {}
     postcssOptions.plugins['postcss-custom-properties'] = postcssOptions.plugins['postcss-custom-properties'] ?? {}
-    postcssOptions.plugins.tailwindcss = configTemplate.dst
+    postcssOptions.plugins.tailwindcss = twConfig.template.dst
 
     // install postcss8 module on nuxt < 2.16
     if (parseFloat(getNuxtVersion()) < 2.16) {
@@ -154,7 +133,7 @@ export default defineNuxtModule<ModuleOptions>({
       // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
       if (moduleOptions.viewer) {
         const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
-        // setupViewer(tailwindConfig, viewerConfig, nuxt) // TODO
+        setupViewer(twConfig.tailwindConfig, viewerConfig, nuxt)
 
         // @ts-ignore
         nuxt.hook('devtools:customTabs', (tabs) => {
@@ -173,7 +152,7 @@ export default defineNuxtModule<ModuleOptions>({
     } else {
       // production only
       if (moduleOptions.viewer) {
-        const configTemplate = addTemplate({ filename: 'tailwind.config/viewer-config.cjs', getContents: () => `module.exports = ${JSON.stringify({} /* TODO */)}`, write: true })
+        const configTemplate = addTemplate({ filename: 'tailwind.config/viewer-config.cjs', getContents: () => `module.exports = ${JSON.stringify(twConfig.tailwindConfig)}`, write: true })
         exportViewer(configTemplate.dst, resolvers.resolveViewerConfig(moduleOptions.viewer))
       }
     }

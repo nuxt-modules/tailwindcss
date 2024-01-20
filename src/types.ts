@@ -110,7 +110,7 @@ export interface ModuleOptions {
    * 
    * @default 'defu'
    */
-  mergingStrategy: 'defu' | 'presets';
+  // mergingStrategy: 'defu' | 'presets';
   /**
    * [tailwind-config-viewer](https://github.com/rogden/tailwind-config-viewer) usage *in development*
    *
