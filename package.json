@@ -22,14 +22,15 @@
     "dist"
   ],
   "scripts": {
-    "dev": "nuxi dev playground",
     "play": "pnpm dev",
-    "prepare": "nuxt-module-build prepare && nuxt-module-build build --stub",
+    "prepare": "nuxt-module-build prepare",
+    "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:generate": "nuxi generate playground",
     "dev:nuxt2": "nuxi dev nuxt2-playground",
-    "dev:prepare": "pnpm prepare",
+    "dev:prepare": "pnpm prepare && pnpm build:stub",
     "build": "nuxt-module-build build",
+    "build:stub": "pnpm build --stub",
     "prepack": "pnpm build",
     "release": "pnpm lint && pnpm test && pnpm prepack && pnpm changelogen --release --push && pnpm publish",
     "docs:build": "nuxi generate docs",
@@ -79,5 +80,8 @@
   "packageManager": "pnpm@8.14.1",
   "resolutions": {
     "@nuxtjs/tailwindcss": "link:."
+  },
+  "stackblitz": {
+    "startCommand": "pnpm dev:prepare && pnpm dev"
   }
 }

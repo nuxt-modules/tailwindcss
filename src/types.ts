@@ -79,6 +79,8 @@ export type EditorSupportConfig = {
    * 
    * Read https://tailwindcss.nuxtjs.org/tailwind/editor-support#load-config-file.
    * 
+   * Note: this is experimental and may change in future.
+   * 
    * @default false // if true, { filename: 'tailwind.config.cjs', write: true }
    */
   generateConfig: BoolObj<Omit<import('nuxt/schema').NuxtTemplate, 'getContents'>>;
