@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.12.0
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.10.4...v6.12.0)
+
+### 🚀 Enhancements
+
+- `editorSupport` option ([#784](https://github.com/nuxt-modules/tailwindcss/pull/784))
+
+### 🩹 Fixes
+
+- **nightly-ci:** Specify from flag to changelogen ([ef74d1f](https://github.com/nuxt-modules/tailwindcss/commit/ef74d1f))
+- **nightly-ci:** Fetch-depth 0 ([4f539d0](https://github.com/nuxt-modules/tailwindcss/commit/4f539d0))
+- **nightly-ci:** Run build directly ([e90ea72](https://github.com/nuxt-modules/tailwindcss/commit/e90ea72))
+- Fix prepare command ([f369792](https://github.com/nuxt-modules/tailwindcss/commit/f369792))
+
+### 💅 Refactors
+
+- Move `injectPosition` to `cssPath` ([#792](https://github.com/nuxt-modules/tailwindcss/pull/792))
+
+### 🏡 Chore
+
+- Update dependencies, closes #789 ([#789](https://github.com/nuxt-modules/tailwindcss/issues/789))
+- Update dependencies ([1e372fd](https://github.com/nuxt-modules/tailwindcss/commit/1e372fd))
+- Add config warnings ([d8e36e9](https://github.com/nuxt-modules/tailwindcss/commit/d8e36e9))
+- **exposeConfig:** Provide write option for workaround, resolves #794 ([#794](https://github.com/nuxt-modules/tailwindcss/issues/794))
+- Update readme ([281df61](https://github.com/nuxt-modules/tailwindcss/commit/281df61))
+- Update ([8cf0a04](https://github.com/nuxt-modules/tailwindcss/commit/8cf0a04))
+- Specify prepublishOnly script ([2bca37a](https://github.com/nuxt-modules/tailwindcss/commit/2bca37a))
+- Fix lint ([eab2fb4](https://github.com/nuxt-modules/tailwindcss/commit/eab2fb4))
+
+### ❤️ Contributors
+
+- Inesh Bose <dev@inesh.xyz>
+
 ## v6.10.4
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.10.3...v6.10.4)
