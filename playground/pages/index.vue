@@ -21,11 +21,11 @@
       </div>
       <div>
         <span class="text-sm font-semibold text-gray-700">Resolved tailwind config:</span>
-        <textarea
+        <!-- <textarea
           class="p-4 block text-sm border border-gray-100 rounded shadow w-full h-[32rem] font-mono outline-none"
           readonly
           :value="JSON.stringify(tailwindConfig, null, 2)"
-        />
+        /> -->
       </div>
     </div>
   </div>
@@ -33,7 +33,8 @@
 
 <script setup lang="ts">
 import { tw } from '#imports'
-import tailwindConfig from '#tailwind-config'
+// import tailwindConfig from '#tailwind-config'
 
+// const tw = <T>(s: T) => s
 const mainDivClass = tw`max-w-screen-lg p-4 mx-auto space-y-4`
 </script>

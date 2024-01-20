@@ -106,6 +106,12 @@ export interface ModuleOptions {
    */
   config: Omit<TWConfig, keyof ExtendTailwindConfig> & ExtendTailwindConfig;
   /**
+   * TODO. may want to move to config[1]
+   * 
+   * @default 'defu'
+   */
+  mergingStrategy: 'defu' | 'presets';
+  /**
    * [tailwind-config-viewer](https://github.com/rogden/tailwind-config-viewer) usage *in development*
    *
    * @default true // { endpoint: '_tailwind' }

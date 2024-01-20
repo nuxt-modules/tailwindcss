@@ -1,6 +1,6 @@
 import { dirname, join } from 'pathe'
 import { useNuxt, addTemplate, addTypeTemplate } from '@nuxt/kit'
-import { isJSObject, NON_ALPHANUMERIC_RE } from './utils'
+import { isJSObject, NON_ALPHANUMERIC_RE } from './runtime/utils'
 import type { ExposeConfig, ResolvedTwConfig, TWConfig } from './types'
 
 /**
@@ -9,8 +9,10 @@ import type { ExposeConfig, ResolvedTwConfig, TWConfig } from './types'
  * @param resolvedConfig tailwind config
  * @param maxLevel maximum level of depth
  * @param nuxt nuxt app
+ * 
+ * @returns
  */
-export default function createTemplates (resolvedConfig: Partial<TWConfig> | ResolvedTwConfig, config: ExposeConfig, nuxt = useNuxt()) {
+export default function createConfigTemplates (resolvedConfig: Partial<TWConfig> | ResolvedTwConfig, config: ExposeConfig, nuxt = useNuxt()) {
   const dtsContent: Array<string> = []
 
   const populateMap = (obj: any, path: string[] = [], level = 1) => {
