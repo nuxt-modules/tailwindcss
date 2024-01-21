@@ -1,10 +1,9 @@
 import { relative } from 'pathe'
 import { addTemplate, createResolver, useNuxt } from '@nuxt/kit'
-import resolveConfig from 'tailwindcss/resolveConfig'
-import loadConfig from 'tailwindcss/loadConfig'
+import loadConfig from 'tailwindcss/loadConfig.js'
 import logger from './logger'
 import { resolveModulePaths } from './resolvers'
-import type { ModuleHooks, ModuleOptions, ResolvedTwConfig, TWConfig } from './types'
+import type { ModuleHooks, ModuleOptions, TWConfig } from './types'
 import { configMerger } from './runtime/merger.mjs'
 
 type PartialTWConfig = Partial<TWConfig>
@@ -18,7 +17,7 @@ const makeHandler = <T extends PartialTWConfig>(proxyConfig: T, path: string[] =
 
   set(target, key: string, value) {
     if ((Array.isArray(target) && key === 'length') || JSON.stringify(target[key]) === JSON.stringify(value)) {
-      return Reflect.set(target, key, value);
+      return Reflect.set(target, key, value)
     }
 
     let result = value;
@@ -56,7 +55,7 @@ export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = 
 
       // Transform purge option from Array to object with { content }
       if (_tailwindConfig && !_tailwindConfig.content) {
-        _tailwindConfig.content = _tailwindConfig.purge
+        configProxies[idx][1].content = _tailwindConfig.purge
       }
 
       await nuxt.callHook('tailwindcss:loadConfig', _tailwindConfig && new Proxy(_tailwindConfig, makeHandler(configProxies[idx][1])), configPath, idx, paths)
@@ -66,33 +65,27 @@ export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = 
     (prev, curr) => configMerger(curr, prev),
     // internal default tailwind config
     configMerger(moduleOptions.config, { content: contentPaths })
-  ))
+  )) as TWConfig
 
   // Allow extending tailwindcss config by other modules
   const configProxy: PartialTWConfig = {}
   await nuxt.callHook('tailwindcss:config', new Proxy(tailwindConfig, makeHandler(configProxy)))
 
-  const resolvedConfig = resolveConfig(tailwindConfig as TWConfig)
-  const resolvedConfigProxy: PartialTWConfig = {}
-  await nuxt.callHook('tailwindcss:resolvedConfig', new Proxy(resolvedConfig, makeHandler(resolvedConfigProxy) as unknown as ProxyHandler<ResolvedTwConfig>))
-
   const mergerTemplate = addTemplate({ src: createResolver(import.meta.url).resolve('./runtime/merger.mjs'), write: true })
 
   return {
     template: addTemplate({
-      filename: 'tailwind.config.mjs',
+      filename: 'tailwind.config.cjs',
       write: true,
       getContents: () => {
         return [
-          `import { configMerger } from ${JSON.stringify(mergerTemplate.dst)};`,
-          configPaths.map((p, idx) => `import cfg${idx} from ${JSON.stringify(relative(nuxt.options.buildDir, p))};`).join('\n'),
+          `const { configMerger } = require(${JSON.stringify(mergerTemplate.dst)});`,
+          configPaths.map((p, idx) => `const cfg${idx} = require(${JSON.stringify(relative(nuxt.options.buildDir, p))});`).join('\n'),
           `\nconst inlineConfig = ${JSON.stringify(moduleOptions.config)};\n`,
           `const config = [`,
-          `  ${JSON.stringify(resolvedConfigProxy)},`,
-          `  ${JSON.stringify(configProxy)},`,
           configProxies.map(([_, p], idx) => `  configMerger(${JSON.stringify(p)}, cfg${idx})`).join(', \n'),
           `].reduce((prev, curr) => configMerger(curr, prev), configMerger(inlineConfig, { content: ${JSON.stringify(contentPaths)} }));\n`,
-          `export default config;`
+          `module.exports = configMerger(${JSON.stringify(configProxy)}, config);\n`
         ].join('\n')
       }
     }),

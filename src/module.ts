@@ -1,5 +1,5 @@
 import { join } from 'pathe'
-
+import { withTrailingSlash } from 'ufo'
 import {
   defineNuxtModule,
   installModule,
@@ -15,16 +15,16 @@ import {
 
 // @ts-expect-error
 import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
+import resolveConfig from 'tailwindcss/resolveConfig.js'
 
 import * as resolvers from './resolvers'
 import logger, { LogLevels } from './logger'
+import loadTwConfig from './config'
 import createConfigTemplates from './templates'
 import { setupViewer, exportViewer } from './viewer'
 import { name, version, configKey, compatibility } from '../package.json'
 
 import type { ModuleHooks, ModuleOptions } from './types'
-import { withTrailingSlash } from 'ufo'
-import loadTwConfig from './config'
 export type { ModuleOptions, ModuleHooks } from './types'
 
 const deprecationWarnings = (moduleOptions: ModuleOptions, nuxt = useNuxt()) =>
@@ -60,6 +60,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     const { resolve } = createResolver(import.meta.url)
     const twConfig = await loadTwConfig(moduleOptions, nuxt);
+    await nuxt.callHook('tailwindcss:resolvedConfig', resolveConfig(twConfig.tailwindConfig))
 
     // Expose resolved tailwind config as an alias
     if (moduleOptions.exposeConfig) {

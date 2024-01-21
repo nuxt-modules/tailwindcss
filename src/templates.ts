@@ -1,9 +1,10 @@
 import { dirname, join } from 'pathe'
 import { useNuxt, addTemplate, addTypeTemplate } from '@nuxt/kit'
+import type { ResolvedNuxtTemplate } from 'nuxt/schema'
 import type { ExposeConfig, TWConfig } from './types'
 import type loadTwConfig from './config'
-import resolveConfig from 'tailwindcss/resolveConfig'
-import type { ResolvedNuxtTemplate } from 'nuxt/schema'
+import resolveConfig from 'tailwindcss/resolveConfig.js'
+import loadConfig from 'tailwindcss/loadConfig.js'
 
 const NON_ALPHANUMERIC_RE = /^[0-9a-z]+$/i
 const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(value)
@@ -19,8 +20,11 @@ const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(v
  */
 export default function createConfigTemplates(twConfig: Awaited<ReturnType<typeof loadTwConfig>>, config: ExposeConfig, nuxt = useNuxt()) {
   const templates: ResolvedNuxtTemplate<any>[] = [];
-  const resolvedConfig = resolveConfig(twConfig.tailwindConfig as TWConfig)
-  const getTWConfig = () => import(twConfig.template.dst).then((config: TWConfig) => resolveConfig(config)).catch(() => resolvedConfig)
+  const resolvedConfig = resolveConfig(twConfig.tailwindConfig)
+  const getTWConfig = () =>
+    new Promise<TWConfig>((resolve) => resolve(loadConfig(twConfig.template.dst)))
+      .then((config) => resolveConfig(config))
+      .catch(() => resolvedConfig)
 
   const populateMap = (obj: any, path: string[] = [], level = 1) => {
     Object.entries(obj).forEach(([key, value = {} as any]) => {
