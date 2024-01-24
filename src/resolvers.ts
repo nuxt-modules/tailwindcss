@@ -2,7 +2,7 @@ import { existsSync } from 'fs'
 import { defu } from 'defu'
 import { join, relative, resolve } from 'pathe'
 import { findPath, useNuxt, tryResolveModule, resolveAlias } from '@nuxt/kit'
-import type { Arrayable, EditorSupportConfig, ExposeConfig, InjectPosition, ModuleOptions, ViewerConfig } from './types'
+import type { EditorSupportConfig, ExposeConfig, InjectPosition, ModuleOptions, ViewerConfig } from './types'
 
 /**
  * Resolves all configPath values for an application
@@ -10,27 +10,26 @@ import type { Arrayable, EditorSupportConfig, ExposeConfig, InjectPosition, Modu
  * @param path configPath for a layer
  * @returns array of resolved paths
  */
-export const resolveConfigPath = async (path: Arrayable<string>) => (
-  await Promise.all(
+const resolveConfigPath = async (path: ModuleOptions['configPath']) =>
+  Promise.all(
     (Array.isArray(path) ? path : [path])
       .filter(Boolean)
       .map((path) => findPath(path, { extensions: ['.js', '.cjs', '.mjs', '.ts'] }))
-  )
-).filter((i): i is string => Boolean(i))
+  ).then((paths) => paths.filter((p): p is string => Boolean(p)))
 
 /**
  *
  * @param srcDir
  * @returns array of resolved content globs
  */
-export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
+const resolveContentPaths = (srcDir: string, nuxtOptions = useNuxt().options) => {
   const r = (p: string) => p.startsWith(srcDir) ? p : resolve(srcDir, p)
   const extensionFormat = (s: string[]) => s.length > 1 ? `.{${s.join(',')}}` : `.${s.join('') || 'vue'}`
 
   const defaultExtensions = extensionFormat(['js', 'ts', 'mjs'])
-  const sfcExtensions = extensionFormat(Array.from(new Set(['.vue', ...nuxt.options.extensions])).map(e => e.replace(/^\.*/, '')))
+  const sfcExtensions = extensionFormat(Array.from(new Set(['.vue', ...nuxtOptions.extensions])).map(e => e.replace(/^\.*/, '')))
 
-  const importDirs = [...(nuxt.options.imports?.dirs || [])].map(r)
+  const importDirs = [...(nuxtOptions.imports?.dirs || [])].map(r)
   const [composablesDir, utilsDir] = [resolve(srcDir, 'composables'), resolve(srcDir, 'utils')]
 
   if (!importDirs.includes(composablesDir)) importDirs.push(composablesDir)
@@ -39,16 +38,16 @@ export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
   return [
     r(`components/**/*${sfcExtensions}`),
     ...(() => {
-      if (nuxt.options.components) {
-        return (Array.isArray(nuxt.options.components) ? nuxt.options.components : typeof nuxt.options.components === 'boolean' ? ['components'] : nuxt.options.components.dirs).map(d => `${resolveAlias(typeof d === 'string' ? d : d.path)}/**/*${sfcExtensions}`)
+      if (nuxtOptions.components) {
+        return (Array.isArray(nuxtOptions.components) ? nuxtOptions.components : typeof nuxtOptions.components === 'boolean' ? ['components'] : nuxtOptions.components.dirs).map(d => `${resolveAlias(typeof d === 'string' ? d : d.path)}/**/*${sfcExtensions}`)
       }
       return []
     })(),
 
-    nuxt.options.dir.layouts && r(`${nuxt.options.dir.layouts}/**/*${sfcExtensions}`),
-    ...([true, undefined].includes(nuxt.options.pages) ? [r(`${nuxt.options.dir.pages}/**/*${sfcExtensions}`)] : []),
+    nuxtOptions.dir.layouts && r(`${nuxtOptions.dir.layouts}/**/*${sfcExtensions}`),
+    ...([true, undefined].includes(nuxtOptions.pages) ? [r(`${nuxtOptions.dir.pages}/**/*${sfcExtensions}`)] : []),
 
-    nuxt.options.dir.plugins && r(`${nuxt.options.dir.plugins}/**/*${defaultExtensions}`),
+    nuxtOptions.dir.plugins && r(`${nuxtOptions.dir.plugins}/**/*${defaultExtensions}`),
     ...importDirs.map(d => `${d}/**/*${defaultExtensions}`),
 
     r(`{A,a}pp${sfcExtensions}`),
@@ -63,19 +62,24 @@ export const resolveContentPaths = (srcDir: string, nuxt = useNuxt()) => {
  * @param nuxt
  * @returns [configuration paths, default resolved content paths]
  */
-export const resolveModulePaths = async (configPath: ModuleOptions['configPath'], nuxt = useNuxt()): Promise<[string[], string[]]> => (
-  (nuxt.options._layers && nuxt.options._layers.length > 1)
-  // Support `extends` directories
-  ? (await Promise.all(
-      // nuxt.options._layers is from rootDir to nested level
-      // We need to reverse the order to give the deepest tailwind.config the lowest priority
-      nuxt.options._layers.slice().reverse().map(async (layer) => ([
+export const resolveModulePaths = async (configPath: ModuleOptions['configPath'], nuxt = useNuxt()) => {
+  const mainPaths: [string[], string[]] = [await resolveConfigPath(configPath), resolveContentPaths(nuxt.options.srcDir, nuxt.options)]
+
+  if (Array.isArray(nuxt.options._layers) && nuxt.options._layers.length > 1) {
+    const layerPaths = await Promise.all(
+      nuxt.options._layers.slice(1).reverse().map(async (layer): Promise<[string[], string[]]> => ([
         await resolveConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config')),
-        resolveContentPaths(layer?.config?.srcDir || layer.cwd)
+        resolveContentPaths(layer?.config?.srcDir || layer.cwd, defu(layer.config, nuxt.options) as typeof nuxt.options)
       ])))
-    ).reduce((prev, curr) => prev.map((p, i) => p.concat(curr[i]))) as any
-  : [await resolveConfigPath(configPath), resolveContentPaths(nuxt.options.srcDir)]
-)
+
+    layerPaths.forEach(([configPaths, contentPaths]) => {
+      mainPaths[0].push(...configPaths)
+      mainPaths[1].push(...contentPaths)
+    })
+  }
+
+  return mainPaths
+}
 
 /**
  *
@@ -83,7 +87,7 @@ export const resolveModulePaths = async (configPath: ModuleOptions['configPath']
  * @param nuxt
  * @returns [resolvedCss, loggerMessage]
  */
-export async function resolveCSSPath (cssPath: Exclude<ModuleOptions['cssPath'], Array<any>>, nuxt = useNuxt()): Promise<[string | false, string]> {
+export async function resolveCSSPath(cssPath: Exclude<ModuleOptions['cssPath'], Array<any>>, nuxt = useNuxt()): Promise<[string | false, string]> {
   if (typeof cssPath === 'string') {
     return existsSync(cssPath)
       ? [cssPath, `Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`]
@@ -117,7 +121,7 @@ export const resolveEditorSupportConfig = (config: ModuleOptions['editorSupport'
  *
  * @returns index in the css array
  */
-export function resolveInjectPosition (css: string[], position: InjectPosition = 'first') {
+export function resolveInjectPosition(css: string[], position: InjectPosition = 'first') {
   if (typeof (position) === 'number') {
     return ~~Math.min(position, css.length + 1)
   }
