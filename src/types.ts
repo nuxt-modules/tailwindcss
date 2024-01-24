@@ -1,8 +1,6 @@
 type Import = Exclude<Parameters<typeof import('nuxt/kit')['addImports']>[0], any[]>
 
 export type TWConfig = import('tailwindcss').Config;
-export type ResolvedTwConfig = ReturnType<typeof import('tailwindcss/resolveConfig')>;
-export type Arrayable<T> = T | Array<T>;
 export type InjectPosition = 'first' | 'last' | number | { after: string };
 
 interface ExtendTailwindConfig {
@@ -92,7 +90,7 @@ export interface ModuleOptions {
    *
    * @default 'tailwind.config'
    */
-  configPath: Arrayable<string>;
+  configPath: string | string[];
   /**
    * The path of the Tailwind CSS file. If the file does not exist, the module's default CSS file will be imported instead.
    *
@@ -105,12 +103,6 @@ export interface ModuleOptions {
    * for default, see https://tailwindcss.nuxtjs.org/tailwind/config
    */
   config: Omit<TWConfig, keyof ExtendTailwindConfig> & ExtendTailwindConfig;
-  /**
-   * TODO. may want to move to config[1]
-   * 
-   * @default 'defu'
-   */
-  // mergingStrategy: 'defu' | 'presets';
   /**
    * [tailwind-config-viewer](https://github.com/rogden/tailwind-config-viewer) usage *in development*
    *
@@ -137,10 +129,6 @@ export interface ModuleOptions {
    * @deprecated use cssPath as [string | false, { injectPosition: InjectPosition }]
    */
   injectPosition?: InjectPosition;
-  /**
-   * @default false
-   */
-  disableHmrHotfix: boolean;
   /**
    * Suppress logging to the console when everything is ok
    *
@@ -188,5 +176,5 @@ export interface ModuleHooks {
    * @param tailwindConfig
    * @returns 
    */
-  'tailwindcss:resolvedConfig': (tailwindConfig: ResolvedTwConfig) => void;
+  'tailwindcss:resolvedConfig': (tailwindConfig: ReturnType<typeof import('tailwindcss/resolveConfig')>) => void;
 }

@@ -3,11 +3,9 @@ import { withTrailingSlash } from 'ufo'
 import {
   defineNuxtModule,
   installModule,
-  isNuxt2,
   getNuxtVersion,
   resolvePath,
   useNuxt,
-  addTemplate,
   createResolver,
   addImports,
   updateTemplates
@@ -24,7 +22,7 @@ import createConfigTemplates from './templates'
 import { setupViewer, exportViewer } from './viewer'
 import { name, version, configKey, compatibility } from '../package.json'
 
-import type { ModuleHooks, ModuleOptions } from './types'
+import type { ModuleOptions, ModuleHooks } from './types'
 export type { ModuleOptions, ModuleHooks } from './types'
 
 const deprecationWarnings = (moduleOptions: ModuleOptions, nuxt = useNuxt()) =>
@@ -44,10 +42,8 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: 'tailwind.config',
   cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
   config: defaultTailwindConfig,
-  // mergingStrategy: 'defu',
   viewer: true,
   exposeConfig: false,
-  disableHmrHotfix: false,
   quiet: nuxt.options.logLevel === 'silent',
   editorSupport: false,
 })
@@ -58,8 +54,15 @@ export default defineNuxtModule<ModuleOptions>({
     if (moduleOptions.quiet) logger.level = LogLevels.silent
     deprecationWarnings(moduleOptions, nuxt)
 
+    if (Array.isArray(moduleOptions.config.plugins) && moduleOptions.config.plugins.length > 0) {
+      logger.warn(
+        'You have provided plugins in `tailwindcss.config` in your Nuxt configuration that cannot be serialized for Tailwind Config.',
+        'Please use `tailwind.config` or a separate file (specifying in `tailwindcss.cssPath`) to enable it with additional support for IntelliSense and HMR.'
+      )
+    }
+
     const { resolve } = createResolver(import.meta.url)
-    const twConfig = await loadTwConfig(moduleOptions, nuxt);
+    const twConfig = await loadTwConfig(moduleOptions, nuxt)
     await nuxt.callHook('tailwindcss:resolvedConfig', resolveConfig(twConfig.tailwindConfig))
 
     // Expose resolved tailwind config as an alias
@@ -73,9 +76,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     /** CSS file handling */
     const [cssPath, cssPathConfig] = Array.isArray(moduleOptions.cssPath) ? moduleOptions.cssPath : [moduleOptions.cssPath]
-    const [resolvedCss, loggerInfo] = await resolvers.resolveCSSPath(
-      typeof cssPath === 'string' ? await resolvePath(cssPath, { extensions: ['.css', '.sass', '.scss', '.less', '.styl'] }) : false, nuxt
-    )
+    const [resolvedCss, loggerInfo] = await resolvers.resolveCSSPath(cssPath, nuxt)
     logger.info(loggerInfo)
 
     nuxt.options.css = nuxt.options.css ?? []
@@ -115,7 +116,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
     }
 
-    if (moduleOptions.editorSupport || moduleOptions.addTwUtil || isNuxt2()) {
+    if (moduleOptions.editorSupport || moduleOptions.addTwUtil) {
       const editorSupportConfig = resolvers.resolveEditorSupportConfig(moduleOptions.editorSupport)
 
       if (editorSupportConfig.autocompleteUtil || moduleOptions.addTwUtil) {
@@ -134,7 +135,7 @@ export default defineNuxtModule<ModuleOptions>({
       // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
       if (moduleOptions.viewer) {
         const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
-        setupViewer(twConfig.tailwindConfig, viewerConfig, nuxt)
+        setupViewer(twConfig.template.dst, viewerConfig, nuxt)
 
         // @ts-ignore
         nuxt.hook('devtools:customTabs', (tabs) => {
@@ -153,8 +154,7 @@ export default defineNuxtModule<ModuleOptions>({
     } else {
       // production only
       if (moduleOptions.viewer) {
-        const configTemplate = addTemplate({ filename: 'tailwind.config/viewer-config.cjs', getContents: () => `module.exports = ${JSON.stringify(twConfig.tailwindConfig)}`, write: true })
-        exportViewer(configTemplate.dst, resolvers.resolveViewerConfig(moduleOptions.viewer))
+        exportViewer(twConfig.template.dst, resolvers.resolveViewerConfig(moduleOptions.viewer))
       }
     }
   }

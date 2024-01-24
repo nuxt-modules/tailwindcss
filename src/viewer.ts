@@ -2,17 +2,18 @@ import { underline, yellow } from 'colorette'
 import { eventHandler, sendRedirect, H3Event } from 'h3'
 import { addDevServerHandler, isNuxt2, isNuxt3, useNuxt } from '@nuxt/kit'
 import { withTrailingSlash, withoutTrailingSlash, joinURL, cleanDoubleSlashes } from 'ufo'
+import loadConfig from 'tailwindcss/loadConfig.js'
 import logger from './logger'
 import { relative } from 'pathe'
-import type { TWConfig, ViewerConfig } from './types'
+import type { ViewerConfig } from './types'
 
-export const setupViewer = async (twConfig: Partial<TWConfig>, config: ViewerConfig, nuxt = useNuxt()) => {
+export const setupViewer = async (twConfigPath: string, config: ViewerConfig, nuxt = useNuxt()) => {
   const route = joinURL(nuxt.options.app?.baseURL, config.endpoint)
   // @ts-ignore
   const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r) as any
   const routerPrefix = isNuxt3() ? route : undefined
 
-  const _viewerDevMiddleware = createServer({ tailwindConfigProvider: () => twConfig, routerPrefix }).asMiddleware()
+  const _viewerDevMiddleware = createServer({ tailwindConfigProvider: () => loadConfig(twConfigPath), routerPrefix }).asMiddleware()
   const viewerDevMiddleware = eventHandler((event) => {
     const withoutSlash = withoutTrailingSlash(route)
     if (event.node?.req.url === withoutSlash || event.req.url === withoutSlash) {

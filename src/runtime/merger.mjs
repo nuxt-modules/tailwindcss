@@ -9,7 +9,7 @@ const isJSObject = (value) => typeof value === 'object' && !Array.isArray(value)
  *
  * @type {(...p: Array<Partial<import('tailwindcss').Config> | Record<string | number | symbol, any>>) => Partial<import('tailwindcss').Config>}
  */
-export const configMerger = createDefu((obj, key, value) => {
+export default createDefu((obj, key, value) => {
   if (key === 'content') {
     if (isJSObject(obj[key]) && Array.isArray(value)) {
       obj[key]['files'] = [...(obj[key]['files'] || []), ...value]
