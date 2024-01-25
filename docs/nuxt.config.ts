@@ -25,7 +25,7 @@ export default defineNuxtConfig({
     }
   },
   routeRules: {
-    '/getting-started': { redirect: '/getting-started/setup' },
+    '/getting-started': { redirect: '/getting-started/installation' },
     '/tailwind': { redirect: '/tailwind/config' },
     '/examples': { redirect: '/examples/basic' },
     '/api/search.json': { prerender: true }

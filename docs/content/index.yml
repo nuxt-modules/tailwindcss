@@ -8,7 +8,7 @@ hero:
   links:
     - label: 'Get started'
       icon: 'i-heroicons-rocket-launch'
-      to: '/getting-started/setup'
+      to: '/getting-started/installation'
       size: lg
     - label: 'Star on GitHub'
       icon: 'i-simple-icons-github'
@@ -32,7 +32,7 @@ features:
   items:
     - title: 'Zero Configuration'
       description: 'This module enables a quick and easy setup of Tailwind CSS in your Nuxt application.'
-      to: '/getting-started/setup'
+      to: '/getting-started/installation'
     - title: 'CSS Nesting'
       description: 'Supports CSS Nesting with postcss-nesting to use the latest CSS syntax.'
       to: 'https://drafts.csswg.org/css-nesting-1/'
