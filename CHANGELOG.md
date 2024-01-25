@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.11.1
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.11.0...v6.11.1)
+
+### 🩹 Fixes
+
+- **resolvers:** Respect configPath over layers ([c7fe392](https://github.com/nuxt-modules/tailwindcss/commit/c7fe392))
+
+### ❤️ Contributors
+
+- Inesh Bose
+
 ## v6.11.0
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.10.4...v6.11.0)
