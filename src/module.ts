@@ -54,9 +54,9 @@ export default defineNuxtModule<ModuleOptions>({
     if (moduleOptions.quiet) logger.level = LogLevels.silent
     deprecationWarnings(moduleOptions, nuxt)
 
-    if (Array.isArray(moduleOptions.config.plugins) && moduleOptions.config.plugins.length > 0) {
+    if (Array.isArray(moduleOptions.config.plugins) && moduleOptions.config.plugins.find((p) => typeof p === 'function')) {
       logger.warn(
-        'You have provided plugins in `tailwindcss.config` in your Nuxt configuration that cannot be serialized for Tailwind Config.',
+        'You have provided functional plugins in `tailwindcss.config` in your Nuxt configuration that cannot be serialized for Tailwind Config.',
         'Please use `tailwind.config` or a separate file (specifying in `tailwindcss.cssPath`) to enable it with additional support for IntelliSense and HMR.'
       )
     }
@@ -69,8 +69,8 @@ export default defineNuxtModule<ModuleOptions>({
     if (moduleOptions.exposeConfig) {
       const exposeConfig = resolvers.resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {})})
       const configTemplates = createConfigTemplates(twConfig, exposeConfig, nuxt)
-      nuxt.hook('builder:watch', async (_, path) => {
-        twConfig.configPaths.includes(join(nuxt.options.rootDir, path)) && await updateTemplates({ filter: template => configTemplates.includes(template.dst) })
+      nuxt.hook('builder:watch', (_, path) => {
+        twConfig.configPaths.includes(join(nuxt.options.rootDir, path)) && updateTemplates({ filter: template => configTemplates.includes(template.dst) })
       })
     }
 

@@ -15,11 +15,11 @@ const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(v
  * @param resolvedConfig tailwind config
  * @param maxLevel maximum level of depth
  * @param nuxt nuxt app
- * 
+ *
  * @returns array of templates
  */
 export default function createConfigTemplates(twConfig: Awaited<ReturnType<typeof loadTwConfig>>, config: ExposeConfig, nuxt = useNuxt()) {
-  const templates: ResolvedNuxtTemplate<any>[] = [];
+  const templates: ResolvedNuxtTemplate<any>[] = []
   const resolvedConfig = resolveConfig(twConfig.tailwindConfig)
   const getTWConfig = () =>
     new Promise<TWConfig>((resolve) => resolve(loadConfig(twConfig.template.dst)))
@@ -41,7 +41,7 @@ export default function createConfigTemplates(twConfig: Awaited<ReturnType<typeo
           options: { subpathComponents },
           getContents: async ({ options }) => {
             const _tailwindConfig = await getTWConfig()
-            let _value = _tailwindConfig;
+            let _value = _tailwindConfig
             options.subpathComponents.forEach((c) => _value = _value[c])
 
             if (isJSObject(_value)) {
@@ -67,7 +67,7 @@ export default function createConfigTemplates(twConfig: Awaited<ReturnType<typeo
           options: { subpathComponents },
           getContents: async ({ options }) => {
             const _tailwindConfig = await getTWConfig()
-            let _value = _tailwindConfig;
+            let _value = _tailwindConfig
             options.subpathComponents.forEach((c) => _value = _value[c])
             const values = Object.keys(_value)
 

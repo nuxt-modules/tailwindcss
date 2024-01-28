@@ -16,11 +16,20 @@ const makeHandler = <T extends PartialTWConfig>(proxyConfig: T, path: string[] =
   },
 
   set(target, key: string, value) {
+    if (key === 'plugins' && typeof value === 'function') {
+      logger.warn(
+        'You have injected a functional plugin into your Tailwind Config which cannot be serialized.',
+        'Please use a configuration file/template instead.'
+      )
+      return false
+    }
+
     if ((Array.isArray(target) && key === 'length') || JSON.stringify(target[key]) === JSON.stringify(value)) {
       return Reflect.set(target, key, value)
     }
 
-    let result = typeof target[key] === 'object' && !Array.isArray(target[key])? () => value : value;
+    // let result = typeof target[key] === 'object' && !Array.isArray(target[key])? () => value : value;
+    let result = value;
     (Array.isArray(target) ? path : path.concat(key)).reverse().forEach((k, idx) => {
       result = { [k]: Array.isArray(target) && idx === 0 ? [result] : result }
     })
@@ -33,7 +42,7 @@ const makeHandler = <T extends PartialTWConfig>(proxyConfig: T, path: string[] =
 
 const serializeConfig = <T extends PartialTWConfig>(config: T) =>
   JSON.stringify(
-    configMerger({ plugins: () => [] }, config),
+    config.plugins ? configMerger({ plugins: (defaultPlugins: TWConfig['plugins']) => defaultPlugins?.filter((p) => p && typeof p !== 'function') }, config) : config,
     (_, v) => typeof v === 'function' ? `() => (${JSON.stringify(v())})` : v).replace(/"(\(\) => \(.*\))"/g, (_, substr) => substr.replace(/\\"/g, '"')
   )
 
@@ -82,14 +91,19 @@ export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = 
     filename: 'tailwind.config.cjs',
     write: true,
     getContents: () => {
+      const layerConfigs = configProxies.map(([configPath, proxyObj]) => {
+        const configImport = `require(${JSON.stringify(/[/\\]node_modules[/\\]/.test(configPath) ? configPath : './' + relative(nuxt.options.buildDir, configPath))})`
+        return Object.keys(proxyObj).length > 0 ? `  defuFn(${serializeConfig(proxyObj)}, ${configImport})` : `  ${configImport}`
+      })
+
       return [
         `const configMerger = require(${JSON.stringify(resolve('./runtime/merger.mjs'))});`,
-        configPaths.map((p, idx) => `const cfg${idx} = require(${JSON.stringify(/[/\\]node_modules[/\\]/.test(p) ? p : './' + relative(nuxt.options.buildDir, p))});`).join('\n'),
+        'const { defuFn } = require("defu");',
         `\nconst inlineConfig = ${serializeConfig(moduleOptions.config as PartialTWConfig)};\n`,
         'const config = [',
-        configProxies.map(([_, p], idx) => `  configMerger(${serializeConfig(p)}, cfg${idx})`).join(', \n'),
+        layerConfigs.join(',\n'),
         `].reduce((prev, curr) => configMerger(curr, prev), configMerger(inlineConfig, { content: ${JSON.stringify(contentPaths)} }));\n`,
-        `module.exports = configMerger(${serializeConfig(configProxy)}, config);\n`
+        `module.exports = defuFn(${serializeConfig(configProxy)}, config);\n`
       ].join('\n')
     }
   })
@@ -99,6 +113,21 @@ export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = 
     tailwindConfig,
     configPaths,
   }
+  // new Proxy(tailwindConfig, {
+  //   get: (target, key: string) => {
+  //     if (key in template) {
+  //       return template[key as keyof typeof template]
+  //     }
+  //     switch (key) {
+  //       case 'configPaths':
+  //         return configPaths
+  //       case 'load':
+  //         return () => loadConfig(template.dst)
+  //       default:
+  //         return target[key]
+  //     }
+  //   }
+  // })
 }
 
 declare module 'nuxt/schema' {
