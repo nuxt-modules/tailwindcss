@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.11.2
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.11.1...v6.11.2)
+
+### 🩹 Fixes
+
+- **viewer:** Handle redirect and callback await, thank you danielroe :) ([734ef1c](https://github.com/nuxt-modules/tailwindcss/commit/734ef1c))
+
+### 📖 Documentation
+
+- Fix paths for build ([5971b0a](https://github.com/nuxt-modules/tailwindcss/commit/5971b0a))
+
+### ❤️ Contributors
+
+- Inesh Bose <dev@inesh.xyz>
+
 ## v6.11.1
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.11.0...v6.11.1)

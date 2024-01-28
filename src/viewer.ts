@@ -34,7 +34,7 @@ export const setupViewer = async (twConfig: Partial<TWConfig>, config: ViewerCon
           return sendRedirect(new H3Event(req, res), routeWithSlash, 301)
         }
 
-        next();
+        next()
       },
       // @ts-expect-error untyped handler parameters
       { route, handler: (req, res) => viewerDevMiddleware(new H3Event(req, res)) }
