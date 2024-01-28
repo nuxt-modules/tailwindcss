@@ -4,7 +4,7 @@ const isJSObject = (value) => typeof value === 'object' && !Array.isArray(value)
 
 /**
  * Merges Tailwind CSS configuration objects. This has special logic to merge Content as Array or Object.
- * 
+ *
  * Read <https://tailwindcss.com/docs/content-configuration>.
  *
  * @type {(...p: Array<Partial<import('tailwindcss').Config> | Record<string | number | symbol, any>>) => Partial<import('tailwindcss').Config>}

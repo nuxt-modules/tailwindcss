@@ -42,10 +42,11 @@ const serializeConfig = <T extends PartialTWConfig>(config: T) =>
  *
  * @param moduleOptions configuration for the module
  * @param nuxt nuxt app
- * 
+ *
  * @returns template with all configs handled
  */
 export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = useNuxt()) {
+  const { resolve } = createResolver(import.meta.url)
   const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
   const configProxies: [string, PartialTWConfig][] = configPaths.map((configPath) => [configPath, {}])
 
@@ -77,24 +78,24 @@ export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = 
   const configProxy: PartialTWConfig = {}
   await nuxt.callHook('tailwindcss:config', new Proxy(tailwindConfig, makeHandler(configProxy)))
 
-  const mergerTemplate = addTemplate({ src: createResolver(import.meta.url).resolve('./runtime/merger.mjs'), write: true })
+  const template = addTemplate({
+    filename: 'tailwind.config.cjs',
+    write: true,
+    getContents: () => {
+      return [
+        `const configMerger = require(${JSON.stringify(resolve('./runtime/merger.mjs'))});`,
+        configPaths.map((p, idx) => `const cfg${idx} = require(${JSON.stringify(/[/\\]node_modules[/\\]/.test(p) ? p : './' + relative(nuxt.options.buildDir, p))});`).join('\n'),
+        `\nconst inlineConfig = ${serializeConfig(moduleOptions.config as PartialTWConfig)};\n`,
+        'const config = [',
+        configProxies.map(([_, p], idx) => `  configMerger(${serializeConfig(p)}, cfg${idx})`).join(', \n'),
+        `].reduce((prev, curr) => configMerger(curr, prev), configMerger(inlineConfig, { content: ${JSON.stringify(contentPaths)} }));\n`,
+        `module.exports = configMerger(${serializeConfig(configProxy)}, config);\n`
+      ].join('\n')
+    }
+  })
 
   return {
-    template: addTemplate({
-      filename: 'tailwind.config.cjs',
-      write: true,
-      getContents: () => {
-        return [
-          `const configMerger = require(${JSON.stringify(mergerTemplate.dst)});`,
-          configPaths.map((p, idx) => `const cfg${idx} = require(${JSON.stringify(/[/\\]node_modules[/\\]/.test(p) ? p : './' + relative(nuxt.options.buildDir, p))});`).join('\n'),
-          `\nconst inlineConfig = ${serializeConfig(moduleOptions.config as PartialTWConfig)};\n`,
-          `const config = [`,
-          configProxies.map(([_, p], idx) => `  configMerger(${serializeConfig(p)}, cfg${idx})`).join(', \n'),
-          `].reduce((prev, curr) => configMerger(curr, prev), configMerger(inlineConfig, { content: ${JSON.stringify(contentPaths)} }));\n`,
-          `module.exports = configMerger(${serializeConfig(configProxy)}, config);\n`
-        ].join('\n')
-      }
-    }),
+    template,
     tailwindConfig,
     configPaths,
   }

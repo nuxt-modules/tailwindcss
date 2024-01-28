@@ -9,25 +9,41 @@ import type { ViewerConfig } from './types'
 
 export const setupViewer = async (twConfigPath: string, config: ViewerConfig, nuxt = useNuxt()) => {
   const route = joinURL(nuxt.options.app?.baseURL, config.endpoint)
-  // @ts-ignore
-  const createServer = await import('tailwind-config-viewer/server/index.js').then(r => r.default || r) as any
-  const routerPrefix = isNuxt3() ? route : undefined
+  const [routeWithSlash, routeWithoutSlash] = [withTrailingSlash(route), withoutTrailingSlash(route)]
 
-  const _viewerDevMiddleware = createServer({ tailwindConfigProvider: () => loadConfig(twConfigPath), routerPrefix }).asMiddleware()
-  const viewerDevMiddleware = eventHandler((event) => {
-    const withoutSlash = withoutTrailingSlash(route)
-    if (event.node?.req.url === withoutSlash || event.req.url === withoutSlash) {
-      return sendRedirect(event, route, 301)
-    }
-    _viewerDevMiddleware(event.node?.req || event.req, event.node?.res || event.res)
-  })
+  // @ts-expect-error untyped package export
+  const viewerServer = (await import('tailwind-config-viewer/server/index.js').then(r => r.default || r))({ tailwindConfigProvider: () => loadConfig(twConfigPath) }).asMiddleware()
+  const viewerDevMiddleware = eventHandler(event => viewerServer(event.node?.req || event.req, event.node?.res || event.res))
 
-  if (isNuxt3()) { addDevServerHandler({ route, handler: viewerDevMiddleware }) }
-  // @ts-ignore
-  if (isNuxt2()) { nuxt.options.serverMiddleware.push({ route, handler: (req, res) => viewerDevMiddleware(new H3Event(req, res)) }) }
+  if (isNuxt3()) {
+    addDevServerHandler({
+      handler: eventHandler(event => {
+        if (event.path === routeWithoutSlash) {
+          return sendRedirect(event, routeWithSlash, 301)
+        }
+      })
+    })
+    addDevServerHandler({ route, handler: viewerDevMiddleware })
+  }
+
+  if (isNuxt2()) {
+    // @ts-expect-error untyped nuxt2 property
+    nuxt.options.serverMiddleware.push(
+      // @ts-expect-error untyped handler parameters
+      (req, res, next) => {
+        if (req.url === routeWithoutSlash) {
+          return sendRedirect(new H3Event(req, res), routeWithSlash, 301)
+        }
+
+        next()
+      },
+      // @ts-expect-error untyped handler parameters
+      { route, handler: (req, res) => viewerDevMiddleware(new H3Event(req, res)) }
+    )
+  }
 
   nuxt.hook('listen', (_, listener) => {
-    const viewerUrl = `${cleanDoubleSlashes(joinURL(withoutTrailingSlash(listener.url), config.endpoint))}`
+    const viewerUrl = cleanDoubleSlashes(joinURL(listener.url, config.endpoint))
     logger.info(`Tailwind Viewer: ${underline(yellow(withTrailingSlash(viewerUrl)))}`)
   })
 }
