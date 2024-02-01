@@ -67,14 +67,14 @@ export const resolveModulePaths = async (configPath: ModuleOptions['configPath']
 
   if (Array.isArray(nuxt.options._layers) && nuxt.options._layers.length > 1) {
     const layerPaths = await Promise.all(
-      nuxt.options._layers.slice(1).reverse().map(async (layer): Promise<[string[], string[]]> => ([
+      nuxt.options._layers.slice(1).map(async (layer): Promise<[string[], string[]]> => ([
         await resolveConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config')),
         resolveContentPaths(layer?.config?.srcDir || layer.cwd, defu(layer.config, nuxt.options) as typeof nuxt.options)
       ])))
 
     layerPaths.forEach(([configPaths, contentPaths]) => {
-      mainPaths[0].push(...configPaths)
-      mainPaths[1].push(...contentPaths)
+      mainPaths[0].unshift(...configPaths)
+      mainPaths[1].unshift(...contentPaths)
     })
   }
 

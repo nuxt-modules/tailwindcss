@@ -153,7 +153,7 @@ export default defineNuxtModule<ModuleOptions>({
     if (moduleOptions.editorSupport || moduleOptions.addTwUtil || isNuxt2()) {
       const editorSupportConfig = resolveEditorSupportConfig(moduleOptions.editorSupport)
 
-      if (editorSupportConfig.autocompleteUtil || moduleOptions.addTwUtil) {
+      if ((editorSupportConfig.autocompleteUtil || moduleOptions.addTwUtil) && !isNuxt2()) {
         addImports({
           name: 'autocompleteUtil',
           from: resolve('./runtime/utils'),
