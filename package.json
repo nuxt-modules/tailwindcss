@@ -79,8 +79,7 @@
   },
   "packageManager": "pnpm@8.14.1",
   "resolutions": {
-    "@nuxtjs/tailwindcss": "link:.",
-    "vue": "3.3.13"
+    "@nuxtjs/tailwindcss": "link:."
   },
   "stackblitz": {
     "startCommand": "pnpm dev:prepare && pnpm dev"
