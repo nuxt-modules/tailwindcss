@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.11.3
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.11.2...v6.11.3)
+
+### 🩹 Fixes
+
+- Add tw util for compatible versions and use unshift for module paths ([3f0d6e1](https://github.com/nuxt-modules/tailwindcss/commit/3f0d6e1))
+- Command palette ([#799](https://github.com/nuxt-modules/tailwindcss/pull/799))
+
+### 📖 Documentation
+
+- Add export default to default config example ([#796](https://github.com/nuxt-modules/tailwindcss/pull/796))
+
+### ❤️ Contributors
+
+- Florent Delerue <florentdelerue@hotmail.com>
+- Inesh Bose <dev@inesh.xyz>
+- Johannes Przymusinski ([@cngJo](http://github.com/cngJo))
+
 ## v6.11.2
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.11.1...v6.11.2)
