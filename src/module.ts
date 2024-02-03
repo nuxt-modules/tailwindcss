@@ -188,6 +188,15 @@ export default defineNuxtModule<ModuleOptions>({
         nuxt.hook('close', () => watcher.close())
       }
 
+      // Watch the Tailwind CSS file to restart the server
+      if (resolvedCss) {
+        if (isNuxt2()) {
+          nuxt.options.watch.push(resolvedCss)
+        } else {
+          nuxt.options.watch.push(relative(nuxt.options.srcDir, resolvedCss))
+        }
+      }
+
       // Insert Vite plugin to work around HMR issue
       if (!moduleOptions.disableHmrHotfix) {
         addVitePlugin(vitePlugin(tailwindConfig, nuxt.options.rootDir, resolvedCss))
