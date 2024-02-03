@@ -51,7 +51,7 @@ export type EditorSupportConfig = {
   /**
    * Enable utility to write Tailwind CSS classes inside strings.
    * 
-   * You will need to update `.vscode/settings.json` based on this value.
+   * You will need to update `.vscode/settings.json` based on this value. This works only for Nuxt 3 or Nuxt 2 with Bridge.
    * 
    * ```json
    * {
