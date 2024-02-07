@@ -47,7 +47,6 @@
     "autoprefixer": "^10.4.17",
     "chokidar": "^3.5.3",
     "clear-module": "^4.1.2",
-    "colorette": "^2.0.20",
     "consola": "^3.2.3",
     "defu": "^6.1.4",
     "h3": "^1.10.0",
