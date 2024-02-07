@@ -1,4 +1,4 @@
-import { underline, yellow } from 'colorette'
+import { colors } from 'consola/utils'
 import { eventHandler, sendRedirect, H3Event } from 'h3'
 import { addDevServerHandler, isNuxt2, isNuxt3, useNuxt } from '@nuxt/kit'
 import { withTrailingSlash, withoutTrailingSlash, joinURL, cleanDoubleSlashes } from 'ufo'
@@ -44,7 +44,7 @@ export const setupViewer = async (twConfigPath: string, config: ViewerConfig, nu
 
   nuxt.hook('listen', (_, listener) => {
     const viewerUrl = cleanDoubleSlashes(joinURL(listener.url, config.endpoint))
-    logger.info(`Tailwind Viewer: ${underline(yellow(withTrailingSlash(viewerUrl)))}`)
+    logger.info(`Tailwind Viewer: ${colors.underline(colors.yellow(withTrailingSlash(viewerUrl)))}`)
   })
 }
 
@@ -58,6 +58,6 @@ export const exportViewer = async (pathToConfig: string, config: ViewerConfig, n
 
     const dir = joinURL(nitro.options.output.publicDir, config.endpoint)
     cli(dir, pathToConfig)
-    logger.success(`Exported viewer to ${yellow(relative(nuxt.options.srcDir, dir))}`)
+    logger.success(`Exported viewer to ${colors.yellow(relative(nuxt.options.srcDir, dir))}`)
   })
 }
