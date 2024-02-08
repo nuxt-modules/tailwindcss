@@ -137,10 +137,12 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.postcss || /* nuxt 3 */ /* @ts-ignore */
       nuxt.options.build.postcss.postcssOptions || /* older nuxt3 */ /* @ts-ignore */
       nuxt.options.build.postcss as any
-    postcssOptions.plugins = postcssOptions.plugins || {}
-    postcssOptions.plugins['tailwindcss/nesting'] = postcssOptions.plugins['tailwindcss/nesting'] ?? {}
-    postcssOptions.plugins['postcss-custom-properties'] = postcssOptions.plugins['postcss-custom-properties'] ?? {}
-    postcssOptions.plugins.tailwindcss = tailwindConfig
+    postcssOptions.plugins = {
+      ...(postcssOptions.plugins || {}),
+      'tailwindcss/nesting': postcssOptions.plugins['tailwindcss/nesting'] ?? {},
+      'postcss-custom-properties': postcssOptions.plugins['postcss-custom-properties'] ?? {},
+      tailwindcss: tailwindConfig
+    }
 
     // install postcss8 module on nuxt < 2.16
     if (parseFloat(getNuxtVersion()) < 2.16) {
