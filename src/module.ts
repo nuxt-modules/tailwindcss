@@ -139,8 +139,8 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.build.postcss as any
     postcssOptions.plugins = {
       ...(postcssOptions.plugins || {}),
-      'tailwindcss/nesting': postcssOptions.plugins['tailwindcss/nesting'] ?? {},
-      'postcss-custom-properties': postcssOptions.plugins['postcss-custom-properties'] ?? {},
+      'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
+      'postcss-custom-properties': postcssOptions.plugins?.['postcss-custom-properties'] ?? {},
       tailwindcss: tailwindConfig
     }
 
