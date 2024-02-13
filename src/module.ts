@@ -3,6 +3,7 @@ import { withTrailingSlash } from 'ufo'
 import {
   defineNuxtModule,
   installModule,
+  isNuxt2,
   getNuxtVersion,
   resolvePath,
   useNuxt,
