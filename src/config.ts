@@ -8,6 +8,12 @@ import configMerger from './runtime/merger.mjs'
 
 type PartialTWConfig = Partial<TWConfig>
 
+const serializeConfig = <T extends PartialTWConfig>(config: T) =>
+JSON.stringify(
+  Array.isArray(config.plugins) && config.plugins.length > 0 ? configMerger({ plugins: (defaultPlugins: TWConfig['plugins']) => defaultPlugins?.filter((p) => p && typeof p !== 'function') }, config) : config,
+  (_, v) => typeof v === 'function' ? `() => (${JSON.stringify(v())})` : v).replace(/"(\(\) => \(.*\))"/g, (_, substr) => substr.replace(/\\"/g, '"')
+)
+
 /**
  * Loads all possible Tailwind CSS configuration for a Nuxt project.
  *
@@ -41,21 +47,15 @@ export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = 
         return Reflect.set(target, key, value)
       }
 
-      configUpdatedHook[configPath] += `cfg[${path.concat(key).map((k) => JSON.stringify(k)).join('][')}] = ${JSON.stringify(value)};`
+      configUpdatedHook[configPath] += `cfg${path.concat(key).map((k) => `[${JSON.stringify(k)}]`).join('')} = ${JSON.stringify(value)};`
       return Reflect.set(target, key, value)
     },
 
     deleteProperty(target, key) {
-      configUpdatedHook[configPath] += `delete cfg[${path.concat(key).map((k) => JSON.stringify(k)).join('][')}];`
+      configUpdatedHook[configPath] += `delete cfg${path.concat(key).map((k) => `[${JSON.stringify(k)}]`).join('')};`
       return Reflect.deleteProperty(target, key)
     },
   })
-
-  const serializeConfig = <T extends PartialTWConfig>(config: T) =>
-    JSON.stringify(
-      Array.isArray(config.plugins) && config.plugins.length > 0 ? configMerger({ plugins: (defaultPlugins: TWConfig['plugins']) => defaultPlugins?.filter((p) => p && typeof p !== 'function') }, config) : config,
-      (_, v) => typeof v === 'function' ? `() => (${JSON.stringify(v())})` : v).replace(/"(\(\) => \(.*\))"/g, (_, substr) => substr.replace(/\\"/g, '"')
-    )
 
   const tailwindConfig = await Promise.all((
     configPaths.map(async (configPath, idx, paths) => {
@@ -64,12 +64,13 @@ export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = 
       try {
         _tailwindConfig = loadConfig(configPath)
       } catch (e) {
+        configUpdatedHook[configPath] = 'skip'
         logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
       }
 
       // Transform purge option from Array to object with { content }
-      if (_tailwindConfig && !_tailwindConfig.content) {
-        configUpdatedHook[configPath] = 'cfg.content = cfg.purge;'
+      if (_tailwindConfig && _tailwindConfig.purge && !_tailwindConfig.content) {
+        configUpdatedHook[configPath] += 'cfg.content = cfg.purge;'
       }
 
       await nuxt.callHook('tailwindcss:loadConfig', _tailwindConfig && new Proxy(_tailwindConfig, makeHandler(configPath)), configPath, idx, paths)
@@ -90,9 +91,9 @@ export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = 
     write: true,
     getContents: () => {
       const layerConfigs = configPaths.map((configPath) => {
-        const configImport = `require(${JSON.stringify(/[/\\]node_modules[/\\]/.test(configPath) /* || configPath.startsWith(nuxt.options.buildDir) */ ? configPath : './' + relative(nuxt.options.buildDir, configPath))})`
-        return configUpdatedHook[configPath] ? `(() => {const cfg=${configImport};${configUpdatedHook[configPath]};return cfg;})()` : configImport
-      })
+        const configImport = `require(${JSON.stringify(/[/\\]node_modules[/\\]/.test(configPath) /* || configPath.startsWith(nuxt.options.buildDir) // but this may use updateTemplate */ ? configPath : './' + relative(nuxt.options.buildDir, configPath))})`
+        return configUpdatedHook[configPath] ? configUpdatedHook[configPath] === 'skip' ? '' : `(() => {const cfg=${configImport};${configUpdatedHook[configPath]};return cfg;})()` : configImport
+      }).filter(Boolean)
 
       return [
         `const configMerger = require(${JSON.stringify(resolve('./runtime/merger.mjs'))});`,

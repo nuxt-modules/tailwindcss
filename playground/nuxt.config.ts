@@ -19,28 +19,30 @@ export default defineNuxtConfig({
     editorSupport: true
   } satisfies Partial<ModuleOptions>,
   hooks: {
-    // 'tailwindcss:loadConfig': (config, configPath, idx) => {
-    //   logger.info('Running `tailwindcss:loadConfig` hook...', { configPath, idx })
+    'tailwindcss:loadConfig': (config, configPath, idx) => {
+      logger.info('Running `tailwindcss:loadConfig` hook...', { configPath, idx })
 
-    //   if (idx === 0 && config) {
-    //     config.theme = config.theme ?? {}
-    //     config.theme.extend = config.theme.extend ?? {}
-    //     config.theme.extend.screens = { 'md2': '100px' }
-    //   } else if (idx === 1 && config) {
-    //     config.content = config.content ?? []
-    //     Array.isArray(config.content) ? config.content.push('my-content') : config.content.files.push('my-file-content')
-    //   }
-    // },
-    // 'tailwindcss:config': (config) => {
-    //   logger.info('Running `tailwindcss:config` hook...')
+      if (idx === 0 && config) {
+        config.theme = config.theme ?? {}
+        config.theme.extend = config.theme.extend ?? {}
+        config.theme.extend.screens = { md2: '100px' }
+      } else if (idx === 1 && config) {
+        config.content = config.content ?? []
+        Array.isArray(config.content) ? config.content.push('my-content') : config.content.files.push('my-file-content')
+      }
+    },
+    'tailwindcss:config': (config) => {
+      logger.info('Running `tailwindcss:config` hook...')
 
-    //   config.theme = config.theme ?? {}
-    //   config.theme.extend = config.theme.extend ?? {}
-    //   config.theme.extend.colors = { extendedColor: '#000' }
-    // },
-    // 'tailwindcss:resolvedConfig': (config) => {
-    //   logger.info('Running `tailwindcss:resolvedConfig` hook...')
-    // }
+      config.theme = config.theme ?? {}
+      config.theme.extend = config.theme.extend ?? {}
+      config.theme.extend.colors = config.theme.extend.colors ?? {}
+      // @ts-ignore
+      config.theme.extend.colors.extendedColor = '#f0ff0f'
+    },
+    'tailwindcss:resolvedConfig': (_config) => {
+      logger.info('Running `tailwindcss:resolvedConfig` hook...')
+    }
   } satisfies Partial<ModuleHooks>,
   content: {
     documentDriven: true
