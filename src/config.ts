@@ -1,8 +1,8 @@
 import { relative } from 'pathe'
 import { addTemplate, createResolver, useNuxt } from '@nuxt/kit'
 import loadConfig from 'tailwindcss/loadConfig.js'
+import resolveConfig from 'tailwindcss/resolveConfig.js'
 import logger from './logger'
-import { resolveModulePaths } from './resolvers'
 import type { ModuleHooks, ModuleOptions, TWConfig } from './types'
 import configMerger from './runtime/merger.mjs'
 
@@ -22,9 +22,8 @@ JSON.stringify(
  *
  * @returns template with all configs handled
  */
-export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = useNuxt()) {
+export default async function loadTwConfig(configPaths: string[], contentPaths: string[], inlineConfig: ModuleOptions['config'], nuxt = useNuxt()) {
   const { resolve } = createResolver(import.meta.url)
-  const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
   const configUpdatedHook = Object.fromEntries(configPaths.map((p) => [p, '']))
 
   const makeHandler = (configPath: string, path: (string | symbol)[] = []): ProxyHandler<PartialTWConfig> => ({
@@ -35,16 +34,16 @@ export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = 
     },
 
     set(target, key, value) {
+      if (JSON.stringify(target[key as string]) === JSON.stringify(value)) {
+        return Reflect.set(target, key, value)
+      }
+
       if (key === 'plugins' && typeof value === 'function') {
         logger.warn(
           'You have injected a functional plugin into your Tailwind Config which cannot be serialized.',
           'Please use a configuration file/template instead.'
         )
         return false
-      }
-
-      if (JSON.stringify(target[key as string]) === JSON.stringify(value)) {
-        return Reflect.set(target, key, value)
       }
 
       configUpdatedHook[configPath] += `cfg${path.concat(key).map((k) => `[${JSON.stringify(k)}]`).join('')} = ${JSON.stringify(value)};`
@@ -64,7 +63,7 @@ export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = 
       try {
         _tailwindConfig = loadConfig(configPath)
       } catch (e) {
-        configUpdatedHook[configPath] = 'skip'
+        configUpdatedHook[configPath] = 'return {};'
         logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
       }
 
@@ -79,7 +78,7 @@ export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = 
   ).then((configs) => configs.reduce(
     (prev, curr) => configMerger(curr, prev),
     // internal default tailwind config
-    configMerger(moduleOptions.config, { content: contentPaths })
+    configMerger(inlineConfig, { content: contentPaths })
   )) as TWConfig
 
   // Allow extending tailwindcss config by other modules
@@ -91,13 +90,14 @@ export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = 
     write: true,
     getContents: () => {
       const layerConfigs = configPaths.map((configPath) => {
-        const configImport = `require(${JSON.stringify(/[/\\]node_modules[/\\]/.test(configPath) /* || configPath.startsWith(nuxt.options.buildDir) // but this may use updateTemplate */ ? configPath : './' + relative(nuxt.options.buildDir, configPath))})`
-        return configUpdatedHook[configPath] ? configUpdatedHook[configPath] === 'skip' ? '' : `(() => {const cfg=${configImport};${configUpdatedHook[configPath]};return cfg;})()` : configImport
+        const configImport = `require(${JSON.stringify(/[/\\]node_modules[/\\]/.test(configPath) ? configPath : './' + relative(nuxt.options.buildDir, configPath))})`
+        return configUpdatedHook[configPath] ? configUpdatedHook[configPath].startsWith('return {};') ? '' : `(() => {const cfg=${configImport};${configUpdatedHook[configPath]};return cfg;})()` : configImport
       }).filter(Boolean)
 
       return [
         `const configMerger = require(${JSON.stringify(resolve('./runtime/merger.mjs'))});`,
-        `\nconst inlineConfig = ${serializeConfig(moduleOptions.config as PartialTWConfig)};\n`,
+        // `const configMerger = require(${JSON.stringify(createResolver(import.meta.url).resolve('./runtime/merger.mjs'))});`,
+        `\nconst inlineConfig = ${serializeConfig(inlineConfig as PartialTWConfig)};\n`,
         'const config = [',
         layerConfigs.join(',\n'),
         `].reduce((prev, curr) => configMerger(curr, prev), configMerger(inlineConfig, { content: ${JSON.stringify(contentPaths)} }));\n`,
@@ -106,26 +106,17 @@ export default async function loadTwConfig(moduleOptions: ModuleOptions, nuxt = 
     }
   })
 
-  return {
-    template,
-    tailwindConfig,
-    configPaths,
-  }
-  // new Proxy(tailwindConfig, {
-  //   get: (target, key: string) => {
-  //     if (key in template) {
-  //       return template[key as keyof typeof template]
-  //     }
-  //     switch (key) {
-  //       case 'configPaths':
-  //         return configPaths
-  //       case 'load':
-  //         return () => loadConfig(template.dst)
-  //       default:
-  //         return target[key]
-  //     }
-  //   }
-  // })
+  const resolvedConfig = resolveConfig(tailwindConfig)
+  await nuxt.callHook('tailwindcss:resolvedConfig', resolvedConfig)
+
+  return new Proxy(resolvedConfig, {
+    get: (target, key: string) => {
+      if (key in template) {
+        return template[key as keyof typeof template]
+      }
+      return target[key]
+    }
+  }) as typeof resolvedConfig & typeof template
 }
 
 declare module 'nuxt/schema' {

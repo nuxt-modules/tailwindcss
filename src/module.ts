@@ -12,9 +12,8 @@ import {
   updateTemplates
 } from '@nuxt/kit'
 
-// @ts-expect-error
+// @ts-expect-error no declaration file
 import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
-import resolveConfig from 'tailwindcss/resolveConfig.js'
 
 import * as resolvers from './resolvers'
 import logger, { LogLevels } from './logger'
@@ -63,15 +62,15 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     const { resolve } = createResolver(import.meta.url)
-    const twConfig = await loadTwConfig(moduleOptions, nuxt)
-    await nuxt.callHook('tailwindcss:resolvedConfig', resolveConfig(twConfig.tailwindConfig))
+    const [configPaths, contentPaths] = await resolvers.resolveModulePaths(moduleOptions.configPath, nuxt)
+    const twConfig = await loadTwConfig(configPaths, contentPaths, moduleOptions.config, nuxt)
 
     // Expose resolved tailwind config as an alias
     if (moduleOptions.exposeConfig) {
       const exposeConfig = resolvers.resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {})})
       const configTemplates = createConfigTemplates(twConfig, exposeConfig, nuxt)
       nuxt.hook('builder:watch', (_, path) => {
-        twConfig.configPaths.includes(join(nuxt.options.rootDir, path)) && updateTemplates({ filter: template => configTemplates.includes(template.dst) })
+        configPaths.includes(join(nuxt.options.rootDir, path)) && updateTemplates({ filter: template => configTemplates.includes(template.dst) })
       })
     }
 
@@ -108,7 +107,7 @@ export default defineNuxtModule<ModuleOptions>({
       ...(postcssOptions.plugins || {}),
       'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
       'postcss-custom-properties': postcssOptions.plugins?.['postcss-custom-properties'] ?? {},
-      tailwindcss: twConfig.template.dst
+      tailwindcss: twConfig.dst
     }
 
     // install postcss8 module on nuxt < 2.16
@@ -138,7 +137,7 @@ export default defineNuxtModule<ModuleOptions>({
       // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
       if (moduleOptions.viewer) {
         const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
-        setupViewer(twConfig.template.dst, viewerConfig, nuxt)
+        setupViewer(twConfig, viewerConfig, nuxt)
 
         // @ts-ignore
         nuxt.hook('devtools:customTabs', (tabs) => {
@@ -157,7 +156,7 @@ export default defineNuxtModule<ModuleOptions>({
     } else {
       // production only
       if (moduleOptions.viewer) {
-        exportViewer(twConfig.template.dst, resolvers.resolveViewerConfig(moduleOptions.viewer))
+        exportViewer(twConfig, resolvers.resolveViewerConfig(moduleOptions.viewer))
       }
     }
   }

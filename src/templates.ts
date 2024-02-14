@@ -2,9 +2,7 @@ import { dirname, join } from 'pathe'
 import { useNuxt, addTemplate, addTypeTemplate } from '@nuxt/kit'
 import type { ResolvedNuxtTemplate } from 'nuxt/schema'
 import type { ExposeConfig, TWConfig } from './types'
-import type loadTwConfig from './config'
 import resolveConfig from 'tailwindcss/resolveConfig.js'
-import loadConfig from 'tailwindcss/loadConfig.js'
 
 const NON_ALPHANUMERIC_RE = /^[0-9a-z]+$/i
 const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(value)
@@ -18,13 +16,11 @@ const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(v
  *
  * @returns array of templates
  */
-export default function createConfigTemplates(twConfig: Awaited<ReturnType<typeof loadTwConfig>>, config: ExposeConfig, nuxt = useNuxt()) {
+export default function createConfigTemplates(twConfig: Awaited<ReturnType<typeof import('./config')['default']>>, config: ExposeConfig, nuxt = useNuxt()) {
   const templates: ResolvedNuxtTemplate<any>[] = []
-  const resolvedConfig = resolveConfig(twConfig.tailwindConfig)
-  const getTWConfig = () =>
-    new Promise<TWConfig>((resolve) => resolve(loadConfig(twConfig.template.dst)))
-      .then((config) => resolveConfig(config))
-      .catch(() => resolvedConfig)
+  const getTWConfig = (objPath: string[] = []) =>
+    import(twConfig.dst).then((config: TWConfig) => resolveConfig(config))
+      .catch(() => twConfig).then((c) => objPath.reduce((prev, curr) => prev[curr], c))
 
   const populateMap = (obj: any, path: string[] = [], level = 1) => {
     Object.entries(obj).forEach(([key, value = {} as any]) => {
@@ -38,11 +34,8 @@ export default function createConfigTemplates(twConfig: Awaited<ReturnType<typeo
       ) {
         templates.push(addTemplate({
           filename: `tailwind.config/${subpath}.mjs`,
-          options: { subpathComponents },
-          getContents: async ({ options }) => {
-            const _tailwindConfig = await getTWConfig()
-            let _value = _tailwindConfig
-            options.subpathComponents.forEach((c) => _value = _value[c])
+          getContents: async () => {
+            const _value = await getTWConfig(subpathComponents)
 
             if (isJSObject(_value)) {
               const [validKeys, invalidKeys]: [string[], string[]] = [[], []]
@@ -64,11 +57,8 @@ export default function createConfigTemplates(twConfig: Awaited<ReturnType<typeo
 
         templates.push(addTemplate({
           filename: `tailwind.config/${subpath}.mjs`,
-          options: { subpathComponents },
-          getContents: async ({ options }) => {
-            const _tailwindConfig = await getTWConfig()
-            let _value = _tailwindConfig
-            options.subpathComponents.forEach((c) => _value = _value[c])
+          getContents: async () => {
+            const _value = await getTWConfig(subpathComponents)
             const values = Object.keys(_value)
 
             return [
@@ -83,7 +73,7 @@ export default function createConfigTemplates(twConfig: Awaited<ReturnType<typeo
     })
   }
 
-  populateMap(resolvedConfig)
+  populateMap(twConfig)
 
   const template = addTemplate({
     filename: 'tailwind.config/index.mjs',
@@ -127,7 +117,7 @@ export default function createConfigTemplates(twConfig: Awaited<ReturnType<typeo
           return declareModule(value, path.concat(key), level + 1).join('') + `declare module "${config.alias}/${subpath}" {${Object.keys(value).map(v => ` export const _${v}: typeof import("${config.alias}/${join(`${key}/${subpath}`, `../${v}`)}")["default"];`).join('')} const defaultExport: { ${values.map(k => `"${k}": typeof _${k}`).join(', ')} }; export default defaultExport; }\n`
         })
 
-      const configOptions = Object.keys(resolvedConfig)
+      const configOptions = Object.keys(_tailwindConfig)
       return declareModule(_tailwindConfig).join('') + `declare module "${config.alias}" {${configOptions.map(v => ` export const ${v}: typeof import("${join(config.alias, v)}")["default"];`).join('')} const defaultExport: { ${configOptions.map(v => `"${v}": typeof ${v}`)} }; export default defaultExport; }`
     }
   }))
