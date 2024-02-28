@@ -1,6 +1,8 @@
 type Import = Exclude<Parameters<typeof import('nuxt/kit')['addImports']>[0], any[]>
 
 export type TWConfig = import('tailwindcss').Config;
+export type ResolvedTwConfig = ReturnType<typeof import('tailwindcss/resolveConfig')>;
+export type Arrayable<T> = T | Array<T>;
 export type InjectPosition = 'first' | 'last' | number | { after: string };
 
 interface ExtendTailwindConfig {
@@ -50,20 +52,38 @@ export type ExposeConfig = {
 export type EditorSupportConfig = {
   /**
    * Enable utility to write Tailwind CSS classes inside strings.
-   *
+   * 
    * You will need to update `.vscode/settings.json` based on this value. This works only for Nuxt 3 or Nuxt 2 with Bridge.
-   *
+   * 
    * ```json
    * {
    *   "tailwindCSS.experimental.classRegex": ["tw`(.*?)`", "tw\\('(.*?)'\\)"]
    * }
    * ```
-   *
-   * Read https://tailwindcss.nuxtjs.org/tailwind/editor-support#string-classes-autocomplete.
-   *
+   * 
+   * Read https://tailwindcss.nuxtjs.org/tailwind/editor-support#autocomplete.
+   * 
    * @default false // if true, { as: 'tw' }
    */
   autocompleteUtil: BoolObj<Pick<Import, 'as'>>;
+  /**
+   * Create a flat configuration template for Intellisense plugin.
+   * 
+   * You will need to update `.vscode/settings.json` based on this value.
+   * 
+   * ```json
+   * {
+   *   "tailwindCSS.experimental.configFile": ".nuxt/tailwind.config.cjs"
+   * }
+   * ```
+   * 
+   * Read https://tailwindcss.nuxtjs.org/tailwind/editor-support#load-config-file.
+   * 
+   * Note: this is experimental and may change in future.
+   * 
+   * @default false // if true, { filename: 'tailwind.config.cjs', write: true }
+   */
+  generateConfig: BoolObj<Omit<import('nuxt/schema').NuxtTemplate, 'getContents'>>;
 };
 
 export interface ModuleOptions {
@@ -72,7 +92,7 @@ export interface ModuleOptions {
    *
    * @default 'tailwind.config'
    */
-  configPath: string | string[];
+  configPath: Arrayable<string>;
   /**
    * The path of the Tailwind CSS file. If the file does not exist, the module's default CSS file will be imported instead.
    *
@@ -112,6 +132,10 @@ export interface ModuleOptions {
    */
   injectPosition?: InjectPosition;
   /**
+   * @default false
+   */
+  disableHmrHotfix: boolean;
+  /**
    * Suppress logging to the console when everything is ok
    *
    * @default nuxt.options.logLevel === 'silent'
@@ -126,9 +150,9 @@ export interface ModuleOptions {
   addTwUtil?: boolean;
   /**
    * Enable some utilities for better editor support and DX.
-   *
+   * 
    * Read https://tailwindcss.nuxtjs.org/tailwind/editor-support.
-   *
+   * 
    * @default false // if true, { autocompleteUtil: true }
    */
   editorSupport: BoolObj<EditorSupportConfig>;
@@ -137,26 +161,26 @@ export interface ModuleOptions {
 export interface ModuleHooks {
   /**
    * Passes any Tailwind configuration read by the module for each (extended) [layer](https://nuxt.com/docs/getting-started/layers) and [path](https://tailwindcss.nuxtjs.org/getting-started/options#configpath) before merging all of them.
-   *
-   * @param tailwindConfig
-   * @returns
+   * 
+   * @param tailwindConfig 
+   * @returns 
    */
   'tailwindcss:config': (tailwindConfig: Partial<TWConfig>) => void;
   /**
    * Passes the resolved vanilla configuration read from all layers and paths with merging using [defu](https://github.com/unjs/defu).
-   *
-   * @param tailwindConfig
-   * @param configPath
-   * @param index
-   * @param configPaths
-   * @returns
+   * 
+   * @param tailwindConfig 
+   * @param configPath 
+   * @param index 
+   * @param configPaths 
+   * @returns 
    */
   'tailwindcss:loadConfig': (tailwindConfig: Partial<TWConfig> | undefined, configPath: string, index: number, configPaths: string[]) => void;
   /**
    * Passes the complete resolved configuration with all defaults from [the full Tailwind config](https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/config.full.js) using resolveConfig.
-   *
+   * 
    * @param tailwindConfig
-   * @returns
+   * @returns 
    */
-  'tailwindcss:resolvedConfig': (tailwindConfig: ReturnType<typeof import('tailwindcss/resolveConfig')>) => void;
+  'tailwindcss:resolvedConfig': (tailwindConfig: ResolvedTwConfig) => void;
 }

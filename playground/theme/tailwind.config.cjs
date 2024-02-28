@@ -4,8 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: colors.fuchsia['500'],
-        accent: colors.fuchsia['500']
+        brand: colors.fuchsia['500']
       }
     }
   }

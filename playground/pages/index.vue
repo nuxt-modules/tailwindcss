@@ -9,9 +9,6 @@
         <span class="text-blue-500">meow!</span>
       </div>
       <p class="text-brand">
-        This color comes from the `./tailwind.config`
-      </p>
-      <p class="text-accent">
         This color comes from the `./theme` layer
       </p>
       <div>
@@ -38,6 +35,5 @@
 import { tw } from '#imports'
 import tailwindConfig from '#tailwind-config'
 
-// const tw = <T>(s: T) => s
 const mainDivClass = tw`max-w-screen-lg p-4 mx-auto space-y-4`
 </script>
