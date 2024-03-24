@@ -4,6 +4,9 @@ import type { ResolvedNuxtTemplate } from 'nuxt/schema'
 import type { ExposeConfig, TWConfig } from './types'
 import resolveConfig from 'tailwindcss/resolveConfig.js'
 
+// @ts-expect-error no declaration file
+import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
+
 const NON_ALPHANUMERIC_RE = /^[0-9a-z]+$/i
 const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(value)
 
@@ -19,8 +22,8 @@ const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(v
 export default function createConfigTemplates(twConfig: Awaited<ReturnType<typeof import('./config')['default']>>, config: ExposeConfig, nuxt = useNuxt()) {
   const templates: ResolvedNuxtTemplate<any>[] = []
   const getTWConfig = (objPath: string[] = []) =>
-    import(twConfig.dst).then((config: TWConfig) => resolveConfig(config))
-      .catch(() => twConfig).then((c) => objPath.reduce((prev, curr) => prev[curr], c))
+    import(twConfig).catch(() => defaultTailwindConfig)
+      .then((config: TWConfig) => resolveConfig(config)).then((c) => objPath.reduce((prev, curr) => prev?.[curr], c))
 
   const populateMap = (obj: any, path: string[] = [], level = 1) => {
     Object.entries(obj).forEach(([key, value = {} as any]) => {
@@ -73,7 +76,7 @@ export default function createConfigTemplates(twConfig: Awaited<ReturnType<typeo
     })
   }
 
-  populateMap(twConfig)
+  getTWConfig().then((config) => populateMap(config))
 
   const template = addTemplate({
     filename: 'tailwind.config/index.mjs',

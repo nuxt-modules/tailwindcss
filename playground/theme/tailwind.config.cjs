@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       colors: {
         brand: colors.fuchsia['500'],
-        accent: colors.fuchsia['500']
+        secondary: colors.fuchsia['500']
       }
     }
   }

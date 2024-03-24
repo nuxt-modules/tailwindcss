@@ -11,8 +11,11 @@
       <p class="text-brand">
         This color comes from the `./tailwind.config`
       </p>
-      <p class="text-accent">
+      <p class="text-secondary">
         This color comes from the `./theme` layer
+      </p>
+      <p class="text-brand">
+        This color comes from the `./modules/template` module
       </p>
       <div>
         <NuxtLink

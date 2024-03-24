@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   } satisfies Partial<ModuleOptions>,
   hooks: {
     'tailwindcss:loadConfig': (config, configPath, idx) => {
-      logger.info('Running `tailwindcss:loadConfig` hook...', { configPath, idx })
+      logger.info('Running `tailwindcss:loadConfig` hook...', Object.keys(config || {}), { configPath, idx })
 
       if (idx === 0 && config) {
         config.theme = config.theme ?? {}
@@ -41,7 +41,8 @@ export default defineNuxtConfig({
       config.theme.extend.colors.extendedColor = '#f0ff0f'
     },
     'tailwindcss:resolvedConfig': (_config) => {
-      logger.info('Running `tailwindcss:resolvedConfig` hook...')
+      // @ts-ignore
+      logger.info('Running `tailwindcss:resolvedConfig` hook...', { typography: Boolean(_config.theme.typography) })
     }
   } satisfies Partial<ModuleHooks>,
   content: {

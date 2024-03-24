@@ -69,10 +69,20 @@ export default defineNuxtModule<ModuleOptions>({
     if (moduleOptions.exposeConfig) {
       const exposeConfig = resolvers.resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {})})
       const configTemplates = createConfigTemplates(twConfig, exposeConfig, nuxt)
+
+      nuxt.hook('tailwindcss:regenerateExposeTemplates', () => updateTemplates({ filter: template => configTemplates.includes(template.dst) }))
       nuxt.hook('builder:watch', (_, path) => {
-        configPaths.includes(join(nuxt.options.rootDir, path)) && updateTemplates({ filter: template => configTemplates.includes(template.dst) })
+        configPaths.includes(join(nuxt.options.rootDir, path)) && nuxt.callHook('tailwindcss:regenerateExposeTemplates')
       })
     }
+
+    nuxt.hook('app:templatesGenerated', async (_app, templates) => {
+      if (templates.some((t) => configPaths.includes(t.dst))) {
+        setTimeout((): any =>
+          updateTemplates({ filter: template => template.dst === twConfig }).then(() => moduleOptions.exposeConfig && nuxt.callHook('tailwindcss:regenerateExposeTemplates')
+        ), 100)
+      }
+    })
 
     /** CSS file handling */
     const [cssPath, cssPathConfig] = Array.isArray(moduleOptions.cssPath) ? moduleOptions.cssPath : [moduleOptions.cssPath]
@@ -107,7 +117,7 @@ export default defineNuxtModule<ModuleOptions>({
       ...(postcssOptions.plugins || {}),
       'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
       'postcss-custom-properties': postcssOptions.plugins?.['postcss-custom-properties'] ?? {},
-      tailwindcss: twConfig.dst
+      tailwindcss: twConfig
     }
 
     // install postcss8 module on nuxt < 2.16
