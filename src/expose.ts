@@ -19,7 +19,7 @@ const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(v
  *
  * @returns array of templates
  */
-export default function createConfigTemplates(twConfig: Awaited<ReturnType<typeof import('./config')['default']>>, config: ExposeConfig, nuxt = useNuxt()) {
+export default function createExposeTemplates(twConfig: string, config: ExposeConfig, nuxt = useNuxt()) {
   const templates: ResolvedNuxtTemplate<any>[] = []
   const getTWConfig = (objPath: string[] = []) =>
     import(twConfig).catch(() => defaultTailwindConfig)

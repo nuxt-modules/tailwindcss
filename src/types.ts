@@ -159,10 +159,4 @@ export interface ModuleHooks {
    * @returns
    */
   'tailwindcss:resolvedConfig': (tailwindConfig: ReturnType<typeof import('tailwindcss/resolveConfig')>) => void;
-  /**
-   * Called when regenerating `exposeConfig` templates.
-   *
-   * @returns
-   */
-  'tailwindcss:regenerateExposeTemplates': () => Promise<void>;
 }

@@ -17,9 +17,9 @@ import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
 
 import * as resolvers from './resolvers'
 import logger, { LogLevels } from './logger'
-import loadTwConfig from './config'
-import createConfigTemplates from './templates'
+import createExposeTemplates from './expose'
 import { setupViewer, exportViewer } from './viewer'
+import { createInternalContext } from './context'
 import { name, version, configKey, compatibility } from '../package.json'
 
 import type { ModuleOptions, ModuleHooks } from './types'
@@ -61,28 +61,18 @@ export default defineNuxtModule<ModuleOptions>({
       )
     }
 
-    const { resolve } = createResolver(import.meta.url)
-    const [configPaths, contentPaths] = await resolvers.resolveModulePaths(moduleOptions.configPath, nuxt)
-    const twConfig = await loadTwConfig(configPaths, contentPaths, moduleOptions.config, nuxt)
+    const ctx = await createInternalContext(moduleOptions, nuxt)
+    await ctx.loadConfig()
+
+    const twConfig = ctx.generateConfig()
+    ctx.registerHooks()
 
     // Expose resolved tailwind config as an alias
     if (moduleOptions.exposeConfig) {
       const exposeConfig = resolvers.resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {})})
-      const configTemplates = createConfigTemplates(twConfig, exposeConfig, nuxt)
-
-      nuxt.hook('tailwindcss:regenerateExposeTemplates', () => updateTemplates({ filter: template => configTemplates.includes(template.dst) }))
-      nuxt.hook('builder:watch', (_, path) => {
-        configPaths.includes(join(nuxt.options.rootDir, path)) && nuxt.callHook('tailwindcss:regenerateExposeTemplates')
-      })
+      const exposeTemplates = createExposeTemplates(twConfig.dst, exposeConfig, nuxt)
+      nuxt.hook('tailwindcss:internal:regenerateTemplates', () => updateTemplates({ filter: template => exposeTemplates.includes(template.dst) }))
     }
-
-    nuxt.hook('app:templatesGenerated', async (_app, templates) => {
-      if (templates.some((t) => configPaths.includes(t.dst))) {
-        setTimeout((): any =>
-          updateTemplates({ filter: template => template.dst === twConfig }).then(() => moduleOptions.exposeConfig && nuxt.callHook('tailwindcss:regenerateExposeTemplates')
-        ), 100)
-      }
-    })
 
     /** CSS file handling */
     const [cssPath, cssPathConfig] = Array.isArray(moduleOptions.cssPath) ? moduleOptions.cssPath : [moduleOptions.cssPath]
@@ -117,7 +107,7 @@ export default defineNuxtModule<ModuleOptions>({
       ...(postcssOptions.plugins || {}),
       'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
       'postcss-custom-properties': postcssOptions.plugins?.['postcss-custom-properties'] ?? {},
-      tailwindcss: twConfig
+      tailwindcss: twConfig.dst satisfies string
     }
 
     // install postcss8 module on nuxt < 2.16
@@ -134,7 +124,7 @@ export default defineNuxtModule<ModuleOptions>({
       if ((editorSupportConfig.autocompleteUtil || moduleOptions.addTwUtil) && !isNuxt2()) {
         addImports({
           name: 'autocompleteUtil',
-          from: resolve('./runtime/utils'),
+          from: createResolver(import.meta.url).resolve('./runtime/utils'),
           as: 'tw',
           ...(typeof editorSupportConfig.autocompleteUtil === 'object' ? editorSupportConfig.autocompleteUtil : {})
         })
@@ -147,7 +137,7 @@ export default defineNuxtModule<ModuleOptions>({
       // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
       if (moduleOptions.viewer) {
         const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
-        setupViewer(twConfig, viewerConfig, nuxt)
+        setupViewer(twConfig.dst, viewerConfig, nuxt)
 
         // @ts-ignore
         nuxt.hook('devtools:customTabs', (tabs) => {
@@ -166,16 +156,20 @@ export default defineNuxtModule<ModuleOptions>({
     } else {
       // production only
       if (moduleOptions.viewer) {
-        exportViewer(twConfig, resolvers.resolveViewerConfig(moduleOptions.viewer))
+        exportViewer(twConfig.dst, resolvers.resolveViewerConfig(moduleOptions.viewer))
       }
     }
   }
 })
 
 declare module 'nuxt/schema' {
-  interface NuxtHooks extends ModuleHooks {}
+  interface NuxtHooks extends ModuleHooks {
+    'tailwindcss:internal:regenerateTemplates': () => Promise<void>;
+  }
 }
 
 declare module '@nuxt/schema' {
-  interface NuxtHooks extends ModuleHooks {}
+  interface NuxtHooks extends ModuleHooks {
+    'tailwindcss:internal:regenerateTemplates': () => Promise<void>;
+  }
 }

@@ -7,7 +7,7 @@ import logger from './logger'
 import { relative } from 'pathe'
 import type { ViewerConfig } from './types'
 
-export const setupViewer = async (twConfig: Awaited<ReturnType<typeof import('./config')['default']>>, config: ViewerConfig, nuxt = useNuxt()) => {
+export const setupViewer = async (twConfig: string, config: ViewerConfig, nuxt = useNuxt()) => {
   const route = joinURL(nuxt.options.app?.baseURL, config.endpoint)
   const [routeWithSlash, routeWithoutSlash] = [withTrailingSlash(route), withoutTrailingSlash(route)]
 
@@ -48,7 +48,7 @@ export const setupViewer = async (twConfig: Awaited<ReturnType<typeof import('./
   })
 }
 
-export const exportViewer = async (twConfig: Awaited<ReturnType<typeof import('./config')['default']>>, config: ViewerConfig, nuxt = useNuxt()) => {
+export const exportViewer = async (twConfig: string, config: ViewerConfig, nuxt = useNuxt()) => {
   if (!config.exportViewer) { return }
   // @ts-ignore
   const cli = await import('tailwind-config-viewer/cli/export.js').then(r => r.default || r) as any

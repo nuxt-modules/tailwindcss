@@ -1,6 +1,11 @@
-import { defineNuxtModule, addTemplate } from '@nuxt/kit'
+import { defineNuxtModule, addTemplate, updateTemplates } from '@nuxt/kit'
+import { resolve } from 'pathe'
+import loadConfig from 'tailwindcss/loadConfig.js'
+import resolveConfig from 'tailwindcss/resolveConfig.js'
 
-export default defineNuxtModule((_, nuxt) => {
+export default defineNuxtModule({
+  setup (_options, nuxt) {
+    // logger.info('Creating test-tailwind.config.cjs...')
     nuxt.hook('tailwindcss:resolvedConfig', (config) =>
         addTemplate({
             filename: 'resolved-config.cjs',
@@ -8,4 +13,18 @@ export default defineNuxtModule((_, nuxt) => {
             write: true
         })
     )
+
+    // const template = addTemplate({
+    //   filename: 'resolved-config.config.cjs', // gets prepended by .nuxt/
+    //   getContents: ({ nuxt }) => {
+    //     const config = loadConfig(resolve(nuxt.options.buildDir, 'tailwind.config.cjs'))
+    //     return `module.exports = ${JSON.stringify(resolveConfig(config), null, 2)}`
+    //   },
+    //   write: true
+    // })
+
+    // nuxt.hook('app:templatesGenerated', (_app, templates) => {
+    //   templates.map(t => t.dst).includes(resolve(nuxt.options.buildDir, 'tailwind.config.cjs')) && updateTemplates({ filter: t => t.dst === template.dst })
+    // })
+  }
 })
