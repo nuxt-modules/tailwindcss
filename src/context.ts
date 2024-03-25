@@ -57,7 +57,6 @@ export const createInternalContext = async (moduleOptions: ModuleOptions, nuxt =
           _tailwindConfig = _loadConfig(configPath)
         } catch (e) {
           configUpdatedHook[configPath] = 'return {};'
-          console.log(configPath, 'error')
           !configPath.startsWith(nuxt.options.buildDir) && logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
         }
 
@@ -89,7 +88,6 @@ export const createInternalContext = async (moduleOptions: ModuleOptions, nuxt =
     filename: CONFIG_TEMPLATE_NAME,
     write: true,
     getContents: () => {
-      console.log('yeeeee')
       const serializeConfig = <T extends Partial<TWConfig>>(config: T) =>
         JSON.stringify(
           Array.isArray(config.plugins) && config.plugins.length > 0 ? configMerger({ plugins: (defaultPlugins: TWConfig['plugins']) => defaultPlugins?.filter((p) => p && typeof p !== 'function') }, config) : config,
@@ -98,7 +96,6 @@ export const createInternalContext = async (moduleOptions: ModuleOptions, nuxt =
 
       const layerConfigs = configPaths.map((configPath) => {
         const configImport = `require(${JSON.stringify(/[/\\]node_modules[/\\]/.test(configPath) ? configPath : './' + relative(nuxt.options.buildDir, configPath))})`
-        console.log({ configPath }, configUpdatedHook[configPath])
         return configUpdatedHook[configPath] ? configUpdatedHook[configPath].startsWith('return {};') ? '' : `(() => {const cfg=${configImport};${configUpdatedHook[configPath]};return cfg;})()` : configImport
       }).filter(Boolean)
 
@@ -117,7 +114,6 @@ export const createInternalContext = async (moduleOptions: ModuleOptions, nuxt =
   const registerHooks = () => {
     nuxt.hook('app:templatesGenerated', async (_app, templates) => {
       if (templates.some((t) => configPaths.includes(t.dst))) {
-        console.log('its here')
         await loadConfig()
         setTimeout(async () => {
           await updateTemplates({ filter: template => template.filename === CONFIG_TEMPLATE_NAME })
