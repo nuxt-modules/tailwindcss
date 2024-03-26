@@ -19,7 +19,7 @@ const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(v
  *
  * @returns array of templates
  */
-export default function createExposeTemplates(twConfig: string, config: ExposeConfig, nuxt = useNuxt()) {
+export default async function createExposeTemplates(twConfig: string, config: ExposeConfig, nuxt = useNuxt()) {
   const templates: ResolvedNuxtTemplate<any>[] = []
   const getTWConfig = (objPath: string[] = []) =>
     import(twConfig).catch(() => defaultTailwindConfig)
@@ -76,9 +76,9 @@ export default function createExposeTemplates(twConfig: string, config: ExposeCo
     })
   }
 
-  getTWConfig().then((config) => populateMap(config))
+  await getTWConfig().then((config) => populateMap(config))
 
-  const template = addTemplate({
+  const entryTemplate = addTemplate({
     filename: 'tailwind.config/index.mjs',
     getContents: async () => {
       const _tailwindConfig = await getTWConfig()
@@ -125,8 +125,8 @@ export default function createExposeTemplates(twConfig: string, config: ExposeCo
     }
   }))
 
-  templates.push(template)
-  nuxt.options.alias[config.alias] = dirname(template.dst)
+  templates.push(entryTemplate)
+  nuxt.options.alias[config.alias] = dirname(entryTemplate.dst)
 
   return templates.map((t) => t.dst)
 }

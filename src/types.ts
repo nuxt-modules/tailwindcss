@@ -158,5 +158,5 @@ export interface ModuleHooks {
    * @param tailwindConfig
    * @returns
    */
-  'tailwindcss:resolvedConfig': (tailwindConfig: ReturnType<typeof import('tailwindcss/resolveConfig')>) => void;
+  'tailwindcss:resolvedConfig': (tailwindConfig: ReturnType<typeof import('tailwindcss/resolveConfig')>, oldTailwindConfig: TWConfig | undefined) => void;
 }

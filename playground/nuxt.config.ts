@@ -40,9 +40,9 @@ export default defineNuxtConfig({
       // @ts-ignore
       config.theme.extend.colors.extendedColor = '#f0ff0f'
     },
-    'tailwindcss:resolvedConfig': (_config) => {
+    'tailwindcss:resolvedConfig': (config, oldConfig) => {
       // @ts-ignore
-      logger.info('Running `tailwindcss:resolvedConfig` hook...', { typography: Boolean(_config.theme.typography) })
+      logger.info('Running `tailwindcss:resolvedConfig` hook...', { typography: Boolean(config.theme.typography), hasOld: Boolean(oldConfig) })
     }
   } satisfies Partial<ModuleHooks>,
   content: {

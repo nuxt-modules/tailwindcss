@@ -14,7 +14,7 @@
       <p class="text-secondary">
         This color comes from the `./theme` layer
       </p>
-      <p class="text-brand">
+      <p class="text-accent">
         This color comes from the `./modules/template` module
       </p>
       <div>

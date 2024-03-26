@@ -70,7 +70,7 @@ export default defineNuxtModule<ModuleOptions>({
     // Expose resolved tailwind config as an alias
     if (moduleOptions.exposeConfig) {
       const exposeConfig = resolvers.resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {})})
-      const exposeTemplates = createExposeTemplates(twConfig.dst, exposeConfig, nuxt)
+      const exposeTemplates = await createExposeTemplates(twConfig.dst, exposeConfig, nuxt)
       nuxt.hook('tailwindcss:internal:regenerateTemplates', () => updateTemplates({ filter: template => exposeTemplates.includes(template.dst) }))
     }
 
@@ -134,7 +134,6 @@ export default defineNuxtModule<ModuleOptions>({
     // enabled only in development
     if (nuxt.options.dev) {
       // Add _tailwind config viewer endpoint
-      // TODO: Fix `addServerHandler` on Nuxt 2 w/o Bridge
       if (moduleOptions.viewer) {
         const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
         setupViewer(twConfig.dst, viewerConfig, nuxt)

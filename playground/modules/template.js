@@ -11,7 +11,7 @@ export default defineNuxtModule((_, nuxt) => {
       theme: {
         extend: {
           colors: {
-            accent: colors.fuchsia['500']
+            accent: colors.slate['500']
           }
         }
       }

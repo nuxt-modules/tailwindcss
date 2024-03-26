@@ -6,12 +6,16 @@ import resolveConfig from 'tailwindcss/resolveConfig.js'
 export default defineNuxtModule({
   setup (_options, nuxt) {
     // logger.info('Creating test-tailwind.config.cjs...')
-    nuxt.hook('tailwindcss:resolvedConfig', (config) =>
-        addTemplate({
-            filename: 'resolved-config.cjs',
-            getContents: () => `module.exports = ${JSON.stringify(config, null, 2)}`,
-            write: true
-        })
+    let counter = 1
+
+    nuxt.hook('tailwindcss:resolvedConfig', (config, oldConfig) =>
+        oldConfig
+          ? setTimeout(() => updateTemplates({ filter: t => t.filename === 'resolved-config.cjs' }), 100)
+          : addTemplate({
+              filename: 'resolved-config.cjs',
+              getContents: () => `module.exports = /* ${counter++}, ${Boolean(oldConfig)} */ ${JSON.stringify(config, null, 2)}`,
+              write: true
+          })
     )
 
     // const template = addTemplate({
