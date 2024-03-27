@@ -1,29 +1,15 @@
 import { dirname, join } from 'pathe'
 import { useNuxt, addTemplate, addTypeTemplate } from '@nuxt/kit'
 import type { ResolvedNuxtTemplate } from 'nuxt/schema'
-import type { ExposeConfig, TWConfig } from './types'
-import resolveConfig from 'tailwindcss/resolveConfig.js'
-
-// @ts-expect-error no declaration file
-import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
+import type { ExposeConfig } from './types'
+import { twCtx } from './context'
 
 const NON_ALPHANUMERIC_RE = /^[0-9a-z]+$/i
 const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(value)
 
-/**
- * Creates MJS exports for properties of the config
- *
- * @param resolvedConfig tailwind config
- * @param maxLevel maximum level of depth
- * @param nuxt nuxt app
- *
- * @returns array of templates
- */
-export default async function createExposeTemplates(twConfig: string, config: ExposeConfig, nuxt = useNuxt()) {
+export const createExposeTemplates = (config: ExposeConfig, nuxt = useNuxt()) => {
   const templates: ResolvedNuxtTemplate<any>[] = []
-  const getTWConfig = (objPath: string[] = []) =>
-    import(twConfig).catch(() => defaultTailwindConfig)
-      .then((config: TWConfig) => resolveConfig(config)).then((c) => objPath.reduce((prev, curr) => prev?.[curr], c))
+  const getTWConfig = (objPath: string[] = []) => objPath.reduce((prev, curr) => prev?.[curr], twCtx.tryUse() as any)
 
   const populateMap = (obj: any, path: string[] = [], level = 1) => {
     Object.entries(obj).forEach(([key, value = {} as any]) => {
@@ -37,8 +23,8 @@ export default async function createExposeTemplates(twConfig: string, config: Ex
       ) {
         templates.push(addTemplate({
           filename: `tailwind.config/${subpath}.mjs`,
-          getContents: async () => {
-            const _value = await getTWConfig(subpathComponents)
+          getContents: () => {
+            const _value = getTWConfig(subpathComponents)
 
             if (isJSObject(_value)) {
               const [validKeys, invalidKeys]: [string[], string[]] = [[], []]
@@ -60,8 +46,8 @@ export default async function createExposeTemplates(twConfig: string, config: Ex
 
         templates.push(addTemplate({
           filename: `tailwind.config/${subpath}.mjs`,
-          getContents: async () => {
-            const _value = await getTWConfig(subpathComponents)
+          getContents: () => {
+            const _value = getTWConfig(subpathComponents)
             const values = Object.keys(_value)
 
             return [
@@ -76,12 +62,12 @@ export default async function createExposeTemplates(twConfig: string, config: Ex
     })
   }
 
-  await getTWConfig().then((config) => populateMap(config))
+  populateMap(twCtx.tryUse())
 
   const entryTemplate = addTemplate({
     filename: 'tailwind.config/index.mjs',
-    getContents: async () => {
-      const _tailwindConfig = await getTWConfig()
+    getContents: () => {
+      const _tailwindConfig = getTWConfig()
       const configOptions = Object.keys(_tailwindConfig)
 
       return [
@@ -95,8 +81,8 @@ export default async function createExposeTemplates(twConfig: string, config: Ex
 
   templates.push(addTypeTemplate({
     filename: 'types/tailwind.config.d.ts',
-    getContents: async () => {
-      const _tailwindConfig = await getTWConfig()
+    getContents: () => {
+      const _tailwindConfig = getTWConfig()
 
       const declareModule = (obj: any, path: string[] = [], level = 1) =>
         Object.entries(obj).map(([key, value = {} as any]): string => {

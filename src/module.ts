@@ -17,7 +17,7 @@ import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
 
 import * as resolvers from './resolvers'
 import logger, { LogLevels } from './logger'
-import createExposeTemplates from './expose'
+import { createExposeTemplates } from './expose'
 import { setupViewer, exportViewer } from './viewer'
 import { createInternalContext } from './context'
 import { name, version, configKey, compatibility } from '../package.json'
@@ -70,7 +70,7 @@ export default defineNuxtModule<ModuleOptions>({
     // Expose resolved tailwind config as an alias
     if (moduleOptions.exposeConfig) {
       const exposeConfig = resolvers.resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {})})
-      const exposeTemplates = await createExposeTemplates(twConfig.dst, exposeConfig, nuxt)
+      const exposeTemplates = createExposeTemplates(exposeConfig)
       nuxt.hook('tailwindcss:internal:regenerateTemplates', () => updateTemplates({ filter: template => exposeTemplates.includes(template.dst) }))
     }
 

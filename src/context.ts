@@ -10,9 +10,27 @@ import resolveConfig from 'tailwindcss/resolveConfig.js'
 
 const CONFIG_TEMPLATE_NAME = 'tailwind.config.cjs'
 
-export const twCtx = getContext<TWConfig>('twcss')
+const twCtx = getContext<TWConfig>('twcss')
+const { tryUse, set } = twCtx
+twCtx.tryUse = () => {
+  const ctx = tryUse()
 
-export const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNuxt()) => {
+  if (!ctx) {
+    try {
+      return resolveConfig(_loadConfig(join(useNuxt().options.buildDir, CONFIG_TEMPLATE_NAME))) as unknown as TWConfig
+    } catch { /* empty */ }
+  }
+
+  return ctx
+}
+twCtx.set = (instance, replace = true) => {
+  const resolvedConfig = instance && resolveConfig(instance)
+  resolvedConfig && useNuxt().callHook('tailwindcss:resolvedConfig', resolvedConfig, twCtx.tryUse() ?? undefined)
+
+  set(resolvedConfig as unknown as TWConfig, replace)
+}
+
+const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNuxt()) => {
   const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
   const configUpdatedHook: Record<string, string> = {}
 
@@ -79,11 +97,7 @@ export const createInternalContext = async (moduleOptions: ModuleOptions, nuxt =
     // Allow extending tailwindcss config by other modules
     configUpdatedHook['main-config'] = ''
     await nuxt.callHook('tailwindcss:config', new Proxy(tailwindConfig, trackProxy('main-config')))
-
-    const resolvedConfig = resolveConfig(tailwindConfig)
-    await nuxt.callHook('tailwindcss:resolvedConfig', resolvedConfig, twCtx.tryUse() ?? undefined)
-
-    twCtx.set(resolvedConfig as unknown as TWConfig, true)
+    twCtx.set(tailwindConfig)
 }
 
   const generateConfig = () => addTemplate({
@@ -126,6 +140,7 @@ export const createInternalContext = async (moduleOptions: ModuleOptions, nuxt =
 
     moduleOptions.exposeConfig && nuxt.hook('builder:watch', async (_, path) => {
       if (configPaths.includes(join(nuxt.options.rootDir, path))) {
+        twCtx.set(_loadConfig(join(nuxt.options.buildDir, CONFIG_TEMPLATE_NAME)))
         await nuxt.callHook('tailwindcss:internal:regenerateTemplates')
       }
     })
@@ -137,3 +152,5 @@ export const createInternalContext = async (moduleOptions: ModuleOptions, nuxt =
     registerHooks
   }
 }
+
+export { twCtx, createInternalContext }
