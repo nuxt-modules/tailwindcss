@@ -74,7 +74,7 @@ importers:
         version: 0.5.5(@nuxt/kit@3.9.3)(nuxi@3.10.0)(typescript@5.3.3)
       '@nuxt/test-utils':
         specifier: ^3.10.0
-        version: 3.10.0(h3@1.10.0)(happy-dom@13.1.4)(rollup@3.29.4)(vite@5.0.11)(vitest@1.1.0)(vue-router@4.2.5)(vue@3.4.15)
+        version: 3.10.0(h3@1.10.0)(happy-dom@14.3.9)(rollup@3.29.4)(vite@5.0.11)(vitest@1.1.0)(vue-router@4.2.5)(vue@3.4.15)
       '@tailwindcss/typography':
         specifier: ^0.5.10
         version: 0.5.10(tailwindcss@3.4.1)
@@ -91,8 +91,8 @@ importers:
         specifier: latest
         version: 8.56.0
       happy-dom:
-        specifier: ^13.1.4
-        version: 13.1.4
+        specifier: ^14.3.9
+        version: 14.3.9
       nuxt:
         specifier: ^3.9.3
         version: 3.9.3(eslint@8.56.0)(rollup@3.29.4)(typescript@5.3.3)(vite@5.0.11)
@@ -101,7 +101,7 @@ importers:
         version: 5.3.3
       vitest:
         specifier: 1.1.0
-        version: 1.1.0(happy-dom@13.1.4)
+        version: 1.1.0(happy-dom@14.3.9)
 
   docs:
     dependencies:
@@ -1466,7 +1466,7 @@ packages:
       - rollup
       - supports-color
 
-  /@nuxt/test-utils@3.10.0(h3@1.10.0)(happy-dom@13.1.4)(rollup@3.29.4)(vite@5.0.11)(vitest@1.1.0)(vue-router@4.2.5)(vue@3.4.15):
+  /@nuxt/test-utils@3.10.0(h3@1.10.0)(happy-dom@14.3.9)(rollup@3.29.4)(vite@5.0.11)(vitest@1.1.0)(vue-router@4.2.5)(vue@3.4.15):
     resolution: {integrity: sha512-9ZKKrccCUyZP0P9/BdTNHWwTRvIbBnrmDvqvO0dQpTiUhgDVeO1vdG40o4e4olw7sbzUP51C8uA0OkRur/zBvQ==}
     engines: {node: ^14.18.0 || >=16.10.0}
     peerDependencies:
@@ -1514,7 +1514,7 @@ packages:
       fake-indexeddb: 5.0.2
       get-port-please: 3.1.2
       h3: 1.10.0
-      happy-dom: 13.1.4
+      happy-dom: 14.3.9
       local-pkg: 0.5.0
       magic-string: 0.30.5
       node-fetch-native: 1.6.1
@@ -1528,8 +1528,8 @@ packages:
       unenv: 1.9.0
       unplugin: 1.6.0
       vite: 5.0.11
-      vitest: 1.1.0(happy-dom@13.1.4)
-      vitest-environment-nuxt: 1.0.0(h3@1.10.0)(happy-dom@13.1.4)(rollup@3.29.4)(vite@5.0.11)(vitest@1.1.0)(vue-router@4.2.5)(vue@3.4.15)
+      vitest: 1.1.0(happy-dom@14.3.9)
+      vitest-environment-nuxt: 1.0.0(h3@1.10.0)(happy-dom@14.3.9)(rollup@3.29.4)(vite@5.0.11)(vitest@1.1.0)(vue-router@4.2.5)(vue@3.4.15)
       vue: 3.4.15(typescript@5.3.3)
       vue-router: 4.2.5(vue@3.4.15)
     transitivePeerDependencies:
@@ -4393,10 +4393,6 @@ packages:
     resolution: {integrity: sha512-HTUrgRJ7r4dsZKU6GjmpfRK1O76h97Z8MfS1G0FozR+oF2kG6Vfe8JE6zwrkbxigziPHinCJ+gCPjA9EaBDtRw==}
     engines: {node: '>= 6'}
 
-  /css.escape@1.5.1:
-    resolution: {integrity: sha512-YUifsXXuknHlUsmlgyY0PKzgPOr7/FjCePfHNt0jxm83wHZi44VDMQ7/fGNkjY3/jV1MC+1CmZbaHzugyeRtpg==}
-    dev: true
-
   /cssesc@3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
@@ -5402,14 +5398,12 @@ packages:
       uncrypto: 0.1.3
       unenv: 1.9.0
 
-  /happy-dom@13.1.4:
-    resolution: {integrity: sha512-f8STa4iuJcpXn7YjgqBEemzinyPAdjlHMxlCNbIERdRIjJO9Z9Cj3XW5LuiEhsURFfl0AOWqj0hQitme4gq+Gg==}
+  /happy-dom@14.3.9:
+    resolution: {integrity: sha512-0kPQchwthekcYpYN8CvCiq+/z5bqFYDLbTxZ+yDLwT8AFRVJDFadShHRxp3VAZRy7a5isOZ1j/LzsU1dtAIZMQ==}
+    engines: {node: '>=16.0.0'}
     dependencies:
-      css.escape: 1.5.1
       entities: 4.5.0
-      iconv-lite: 0.6.3
       webidl-conversions: 7.0.0
-      whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
     dev: true
 
@@ -5640,8 +5634,10 @@ packages:
   /iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
     dependencies:
       safer-buffer: 2.1.2
+    optional: true
 
   /ignore-walk@6.0.4:
     resolution: {integrity: sha512-t7sv42WkwFkyKbivUCglsQW5YWMskWtbEf4MNKX5u/CCWHKSPzN4FtBQGsQZgCLbxOzpVlcbWVK5KB3auIOjSw==}
@@ -8557,6 +8553,8 @@ packages:
 
   /safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
+    requiresBuild: true
+    optional: true
 
   /satori-html@0.3.2:
     resolution: {integrity: sha512-wjTh14iqADFKDK80e51/98MplTGfxz2RmIzh0GqShlf4a67+BooLywF17TvJPD6phO0Hxm7Mf1N5LtRYvdkYRA==}
@@ -9988,10 +9986,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
 
-  /vitest-environment-nuxt@1.0.0(h3@1.10.0)(happy-dom@13.1.4)(rollup@3.29.4)(vite@5.0.11)(vitest@1.1.0)(vue-router@4.2.5)(vue@3.4.15):
+  /vitest-environment-nuxt@1.0.0(h3@1.10.0)(happy-dom@14.3.9)(rollup@3.29.4)(vite@5.0.11)(vitest@1.1.0)(vue-router@4.2.5)(vue@3.4.15):
     resolution: {integrity: sha512-AWMO9h4HdbaFdPWZw34gALFI8gbBiOpvfbyeZwHIPfh4kWg/TwElYHvYMQ61WPUlCGaS5LebfHkaI0WPyb//Iw==}
     dependencies:
-      '@nuxt/test-utils': 3.10.0(h3@1.10.0)(happy-dom@13.1.4)(rollup@3.29.4)(vite@5.0.11)(vitest@1.1.0)(vue-router@4.2.5)(vue@3.4.15)
+      '@nuxt/test-utils': 3.10.0(h3@1.10.0)(happy-dom@14.3.9)(rollup@3.29.4)(vite@5.0.11)(vitest@1.1.0)(vue-router@4.2.5)(vue@3.4.15)
     transitivePeerDependencies:
       - '@cucumber/cucumber'
       - '@jest/globals'
@@ -10010,7 +10008,7 @@ packages:
       - vue-router
     dev: true
 
-  /vitest@1.1.0(happy-dom@13.1.4):
+  /vitest@1.1.0(happy-dom@14.3.9):
     resolution: {integrity: sha512-oDFiCrw7dd3Jf06HoMtSRARivvyjHJaTxikFxuqJjO76U436PqlVw1uLn7a8OSPrhSfMGVaRakKpA2lePdw79A==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -10045,7 +10043,7 @@ packages:
       chai: 4.4.0
       debug: 4.3.4
       execa: 8.0.1
-      happy-dom: 13.1.4
+      happy-dom: 14.3.9
       local-pkg: 0.5.0
       magic-string: 0.30.5
       pathe: 1.1.2
@@ -10255,13 +10253,6 @@ packages:
       - esbuild
       - uglify-js
     dev: false
-
-  /whatwg-encoding@2.0.0:
-    resolution: {integrity: sha512-p41ogyeMUrw3jWclHWTQg1k05DSVXPLcVxRTYsXUk+ZooOCZLcoYgPZ/HL/D/N+uQPOtcp1me1WhBEaX02mhWg==}
-    engines: {node: '>=12'}
-    dependencies:
-      iconv-lite: 0.6.3
-    dev: true
 
   /whatwg-mimetype@3.0.0:
     resolution: {integrity: sha512-nt+N2dzIutVRxARx1nghPKGv1xHikU7HKdfafKkLNLindmPU/ch3U31NOCGGA/dmPcmb1VlofO0vnKAcsm0o/Q==}
