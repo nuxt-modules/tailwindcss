@@ -61,55 +61,6 @@ export default defineNuxtModule<ModuleOptions>({
       )
     }
 
-    const ctx = await createInternalContext(moduleOptions, nuxt)
-    await ctx.loadConfig()
-
-    const twConfig = ctx.generateConfig()
-    ctx.registerHooks()
-
-    // Expose resolved tailwind config as an alias
-    if (moduleOptions.exposeConfig) {
-      const exposeConfig = resolvers.resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {})})
-      const exposeTemplates = createExposeTemplates(exposeConfig)
-      nuxt.hook('tailwindcss:internal:regenerateTemplates', () => updateTemplates({ filter: template => exposeTemplates.includes(template.dst) }))
-    }
-
-    /** CSS file handling */
-    const [cssPath, cssPathConfig] = Array.isArray(moduleOptions.cssPath) ? moduleOptions.cssPath : [moduleOptions.cssPath]
-    const [resolvedCss, loggerInfo] = await resolvers.resolveCSSPath(cssPath, nuxt)
-    logger.info(loggerInfo)
-
-    nuxt.options.css = nuxt.options.css ?? []
-    const resolvedNuxtCss = resolvedCss && await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p))) || []
-
-    // Inject only if this file isn't listed already by user (e.g. user may put custom path both here and in css):
-    if (resolvedCss && !resolvedNuxtCss.includes(resolvedCss)) {
-      let injectPosition: number
-      try {
-        injectPosition = resolvers.resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition || moduleOptions.injectPosition)
-      } catch (e: any) {
-        throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
-      }
-
-      nuxt.options.css.splice(injectPosition, 0, resolvedCss)
-    }
-
-
-    /** PostCSS 8 support for Nuxt 2 */
-
-    // Setup postcss plugins
-    // https://tailwindcss.com/docs/using-with-preprocessors#future-css-features
-    const postcssOptions =
-      nuxt.options.postcss || /* nuxt 3 */ /* @ts-ignore */
-      nuxt.options.build.postcss.postcssOptions || /* older nuxt3 */ /* @ts-ignore */
-      nuxt.options.build.postcss as any
-    postcssOptions.plugins = {
-      ...(postcssOptions.plugins || {}),
-      'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
-      'postcss-custom-properties': postcssOptions.plugins?.['postcss-custom-properties'] ?? {},
-      tailwindcss: twConfig.dst satisfies string
-    }
-
     // install postcss8 module on nuxt < 2.16
     if (parseFloat(getNuxtVersion()) < 2.16) {
       await installModule('@nuxt/postcss8').catch((e) => {
@@ -117,6 +68,8 @@ export default defineNuxtModule<ModuleOptions>({
         throw e
       })
     }
+
+    const ctx = await createInternalContext(moduleOptions, nuxt)
 
     if (moduleOptions.editorSupport || moduleOptions.addTwUtil) {
       const editorSupportConfig = resolvers.resolveEditorSupportConfig(moduleOptions.editorSupport)
@@ -131,33 +84,79 @@ export default defineNuxtModule<ModuleOptions>({
       }
     }
 
-    // enabled only in development
-    if (nuxt.options.dev) {
-      // Add _tailwind config viewer endpoint
-      if (moduleOptions.viewer) {
-        const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
-        setupViewer(twConfig.dst, viewerConfig, nuxt)
+    // css file handling
+    const [cssPath, cssPathConfig] = Array.isArray(moduleOptions.cssPath) ? moduleOptions.cssPath : [moduleOptions.cssPath]
+    const [resolvedCss, loggerInfo] = await resolvers.resolveCSSPath(cssPath, nuxt)
+    logger.info(loggerInfo)
 
-        // @ts-ignore
-        nuxt.hook('devtools:customTabs', (tabs) => {
-          tabs.push({
-            title: 'TailwindCSS',
-            name: 'tailwindcss',
-            icon: 'logos-tailwindcss-icon',
-            category: 'modules',
-            view: {
-              type: 'iframe',
-              src: withTrailingSlash(viewerConfig.endpoint)
-            }
-          })
-        })
+    nuxt.options.css = nuxt.options.css ?? []
+    const resolvedNuxtCss = resolvedCss && await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p))) || []
+
+    // inject only if this file isn't listed already by user
+    if (resolvedCss && !resolvedNuxtCss.includes(resolvedCss)) {
+      let injectPosition: number
+      try {
+        injectPosition = resolvers.resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition || moduleOptions.injectPosition)
+      } catch (e: any) {
+        throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
       }
-    } else {
-      // production only
-      if (moduleOptions.viewer) {
-        exportViewer(twConfig.dst, resolvers.resolveViewerConfig(moduleOptions.viewer))
-      }
+
+      nuxt.options.css.splice(injectPosition, 0, resolvedCss)
     }
+
+    nuxt.hook('modules:done', async () => {
+      await ctx.loadConfig()
+
+      const twConfig = ctx.generateConfig()
+      ctx.registerHooks()
+
+      // expose resolved tailwind config as an alias
+      if (moduleOptions.exposeConfig) {
+        const exposeConfig = resolvers.resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {})})
+        const exposeTemplates = createExposeTemplates(exposeConfig)
+        nuxt.hook('tailwindcss:internal:regenerateTemplates', () => updateTemplates({ filter: template => exposeTemplates.includes(template.dst) }))
+      }
+
+      // setup postcss plugins (for Nuxt 2/bridge/3)
+      const postcssOptions =
+        nuxt.options.postcss || /* nuxt 3 */ /* @ts-ignore */
+        nuxt.options.build.postcss.postcssOptions || /* older nuxt3 */ /* @ts-ignore */
+        nuxt.options.build.postcss as any
+      postcssOptions.plugins = {
+        ...(postcssOptions.plugins || {}),
+        'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
+        'postcss-custom-properties': postcssOptions.plugins?.['postcss-custom-properties'] ?? {},
+        tailwindcss: twConfig.dst satisfies string
+      }
+
+      // enabled only in development
+      if (nuxt.options.dev) {
+        // add tailwind-config-viewer endpoint
+        if (moduleOptions.viewer) {
+          const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
+          setupViewer(twConfig.dst, viewerConfig, nuxt)
+
+          // @ts-ignore may not infer types properly
+          nuxt.hook('devtools:customTabs', (tabs: import('@nuxt/devtools').ModuleOptions['customTabs']) => {
+            tabs?.push({
+              title: 'TailwindCSS',
+              name: 'tailwindcss',
+              icon: 'logos-tailwindcss-icon',
+              category: 'modules',
+              view: {
+                type: 'iframe',
+                src: withTrailingSlash(viewerConfig.endpoint)
+              }
+            })
+          })
+        }
+      } else {
+        // production only
+        if (moduleOptions.viewer) {
+          exportViewer(twConfig.dst, resolvers.resolveViewerConfig(moduleOptions.viewer))
+        }
+      }
+    })
   }
 })
 

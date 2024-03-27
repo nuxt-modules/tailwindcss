@@ -8,9 +8,8 @@ const logger = consola.withTag('nuxt:tailwindcss:playground')
 export default defineNuxtConfig({
   extends: ['./theme'],
   modules: [
-    '@nuxt/content',
     existsSync(resolve(__dirname, '../dist/module.mjs')) ? '@nuxtjs/tailwindcss' : '../src/module',
-    '@nuxt/devtools'
+    '@nuxt/content',
   ],
   tailwindcss: {
     // viewer: false,
