@@ -25,6 +25,9 @@ export default defineNuxtConfig({
         config.theme = config.theme ?? {}
         config.theme.extend = config.theme.extend ?? {}
         config.theme.extend.screens = { md2: '100px' }
+        config.theme.extend.colors = config.theme.extend.colors ?? {}
+        // @ts-ignore
+        config.theme.extend.colors.zeroLayer = '#0fe325'
       } else if (idx === 1 && config) {
         config.content = config.content ?? []
         Array.isArray(config.content) ? config.content.push('my-content') : config.content.files.push('my-file-content')
@@ -37,7 +40,7 @@ export default defineNuxtConfig({
       config.theme.extend = config.theme.extend ?? {}
       config.theme.extend.colors = config.theme.extend.colors ?? {}
       // @ts-ignore
-      config.theme.extend.colors.extendedColor = '#f0ff0f'
+      config.theme.extend.colors.twConfig = '#f0ff0f'
     },
     'tailwindcss:resolvedConfig': (config, oldConfig) => {
       // @ts-ignore

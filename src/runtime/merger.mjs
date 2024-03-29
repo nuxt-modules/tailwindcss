@@ -12,7 +12,7 @@ const isJSObject = (value) => typeof value === 'object' && !Array.isArray(value)
 export default createDefu((obj, key, value) => {
   if (key === 'content') {
     if (isJSObject(obj[key]) && Array.isArray(value)) {
-      obj[key]['files'] = [...(obj[key]['files'] || []), ...value]
+      obj[key] = { ...obj[key], files: [...(obj[key]['files'] || []), ...value] }
       return true
     } else if (Array.isArray(obj[key]) && isJSObject(value)) {
       obj[key] = { ...value, files: [...obj[key], ...(value.files || [])] }
@@ -24,5 +24,10 @@ export default createDefu((obj, key, value) => {
   if (Array.isArray(obj[key]) && typeof value === 'function') {
     obj[key] = value(obj[key])
     return true
+  }
+
+  // create copy of object
+  if (!obj[key] && isJSObject(value)) {
+    obj[key] = Object.assign({}, value)
   }
 })

@@ -17,6 +17,12 @@
       <p class="text-accent">
         This color comes from the `./modules/template` module
       </p>
+      <p class="text-zeroLayer">
+        This color comes from the `tailwindcss:loadConfig` hook
+      </p>
+      <p class="text-twConfig">
+        This color comes from the `tailwindcss:config` hook
+      </p>
       <div>
         <NuxtLink
           to="/content"
