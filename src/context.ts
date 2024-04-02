@@ -74,8 +74,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
         let _tailwindConfig: Partial<TWConfig> | undefined
 
         try {
-          const _cfg = _loadConfig(configPath)
-          _tailwindConfig = configMerger(Object.assign({}, _cfg), _cfg)
+          _tailwindConfig = configMerger(undefined, _loadConfig(configPath))
         } catch (e) {
           configUpdatedHook[configPath] = 'return {};'
           !configPath.startsWith(nuxt.options.buildDir) && logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
@@ -113,7 +112,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
 
       const layerConfigs = configPaths.map((configPath) => {
         const configImport = `require(${JSON.stringify(/[/\\]node_modules[/\\]/.test(configPath) ? configPath : './' + relative(nuxt.options.buildDir, configPath))})`
-        return configUpdatedHook[configPath] ? configUpdatedHook[configPath].startsWith('return {};') ? '' : `(() => {const _cfg=${configImport};const cfg=configMerger(Object.assign({}, _cfg), _cfg);${configUpdatedHook[configPath]};return cfg;})()` : configImport
+        return configUpdatedHook[configPath] ? configUpdatedHook[configPath].startsWith('return {};') ? '' : `(() => {const cfg=configMerger(undefined, ${configImport});${configUpdatedHook[configPath]};return cfg;})()` : configImport
       }).filter(Boolean)
 
       return [
@@ -142,7 +141,9 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     moduleOptions.exposeConfig && nuxt.hook('builder:watch', async (_, path) => {
       if (configPaths.includes(join(nuxt.options.rootDir, path))) {
         twCtx.set(_loadConfig(join(nuxt.options.buildDir, CONFIG_TEMPLATE_NAME)))
-        await nuxt.callHook('tailwindcss:internal:regenerateTemplates')
+        setTimeout(async () => {
+          await nuxt.callHook('tailwindcss:internal:regenerateTemplates')
+        }, 100)
       }
     })
   }
