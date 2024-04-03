@@ -31,14 +31,7 @@
 1. Add `@nuxtjs/tailwindcss` dependency to your project
 
 ```bash
-# Using pnpm
-pnpm add --save-dev @nuxtjs/tailwindcss
-
-# Using yarn
-yarn add --dev @nuxtjs/tailwindcss
-
-# Using npm
-npm install --save-dev @nuxtjs/tailwindcss
+npx nuxi@latest module add tailwindcss
 ```
 
 *You can test latest additions on [Nightly Releases](https://tailwindcss.nuxtjs.org/getting-started/installation#nightly-releases)!*
