@@ -28,7 +28,13 @@
 
 ## Quick Setup
 
-1. Add `@nuxtjs/tailwindcss` dependency to your project
+Add `@nuxtjs/tailwindcss` using the [Nuxt CLI](https://github.com/nuxt/cli) to your project
+
+```bash
+npx nuxi@latest module add tailwindcss
+```
+
+or add `@nuxtjs/tailwindcss` using your dependency manager
 
 ```bash
 # Using pnpm
@@ -41,9 +47,7 @@ yarn add --dev @nuxtjs/tailwindcss
 npm install --save-dev @nuxtjs/tailwindcss
 ```
 
-*You can test latest additions on [Nightly Releases](https://tailwindcss.nuxtjs.org/getting-started/installation#nightly-releases)!*
-
-2. Add `@nuxtjs/tailwindcss` to the `modules` section of `nuxt.config.{ts,js}`
+and then to the `modules` section of `nuxt.config.{ts,js}`
 
 ```ts
 export default defineNuxtConfig({
@@ -54,6 +58,8 @@ export default defineNuxtConfig({
 ```
 
 That's it! You can now use Tailwind classes in your Nuxt app ✨
+
+*You can test latest additions on [Nightly Releases](https://tailwindcss.nuxtjs.org/getting-started/installation#nightly-releases)!*
 
 [📖 &nbsp;Read more](https://tailwindcss.nuxtjs.org/getting-started/)
 
