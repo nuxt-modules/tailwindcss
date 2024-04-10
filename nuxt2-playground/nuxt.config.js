@@ -6,6 +6,6 @@ export default {
    */
   buildModules: [
     // Doc: https://github.com/nuxt-modules/tailwindcss
-    localModule
-  ]
+    localModule,
+  ],
 }

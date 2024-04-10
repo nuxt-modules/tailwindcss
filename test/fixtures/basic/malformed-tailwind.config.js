@@ -1,5 +1,5 @@
 module.exports = {
   plugins: [
-    require('something-that-doesnt-exist')
-  ]
+    require('something-that-doesnt-exist'),
+  ],
 }

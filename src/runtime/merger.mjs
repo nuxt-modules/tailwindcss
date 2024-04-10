@@ -2,7 +2,7 @@
 
 import { createDefu } from 'defu'
 
-const isJSObject = (value) => typeof value === 'object' && !Array.isArray(value)
+const isJSObject = value => typeof value === 'object' && !Array.isArray(value)
 
 /**
  * Merges Tailwind CSS configuration objects. This has special logic to merge Content as Array or Object.
@@ -19,7 +19,8 @@ export default (_base, ...defaults) => {
       if (isJSObject(obj[key]) && Array.isArray(value)) {
         obj[key] = { ...obj[key], files: [...(obj[key]['files'] || []), ...value] }
         return true
-      } else if (Array.isArray(obj[key]) && isJSObject(value)) {
+      }
+      else if (Array.isArray(obj[key]) && isJSObject(value)) {
         obj[key] = { ...value, files: [...obj[key], ...(value.files || [])] }
         return true
       }

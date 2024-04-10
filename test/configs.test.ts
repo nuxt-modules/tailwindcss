@@ -1,10 +1,10 @@
 import { describe, test, expect, vi, afterAll } from 'vitest'
 import type { Config } from 'tailwindcss'
 import destr from 'destr'
-import { setupNuxtTailwind, r, getVfsFile } from './utils'
 import loadConfig from 'tailwindcss/loadConfig'
 import { useTestContext } from '@nuxt/test-utils'
 import { join } from 'pathe'
+import { setupNuxtTailwind, r, getVfsFile } from './utils'
 
 type TWConfigWithStringContent<
   C extends Config = Config,
@@ -30,9 +30,9 @@ describe('tailwindcss module configs', async () => {
       'malformed-tailwind.config',
       'ts-tailwind.config',
       'override-tailwind.config.js',
-      'content-obj.config'
+      'content-obj.config',
     ],
-    cssPath: 'tailwind.css'
+    cssPath: 'tailwind.css',
   },
   {
     dir: { plugins: 'my-pluggable-modules', modules: 'my-modular-plugins' },
@@ -45,12 +45,13 @@ describe('tailwindcss module configs', async () => {
 
         if (Array.isArray(tailwindConfig.content)) {
           tailwindConfig.content.push('my-custom-content')
-        } else {
+        }
+        else {
           tailwindConfig.content.files = tailwindConfig.content.files ?? []
           tailwindConfig.content.files.push('my-custom-content')
         }
-      }
-    }
+      },
+    },
   })
 
   test('throws error about malformed config', () => {
@@ -81,7 +82,7 @@ describe('tailwindcss module configs', async () => {
 
   test('content is overridden', () => {
     // set from override-tailwind.config.ts
-    const { content: { files: contentFiles }} = destr<TWConfigWithStringContent>(getVfsFile('test-tailwind.config.mjs')!.replace(/^export default /, ''))
+    const { content: { files: contentFiles } } = destr<TWConfigWithStringContent>(getVfsFile('test-tailwind.config.mjs')!.replace(/^export default /, ''))
 
     expect(contentFiles[0]).toBe('ts-content/**/*.md')
     expect(contentFiles[1]).toBe('./custom-theme/**/*.vue')

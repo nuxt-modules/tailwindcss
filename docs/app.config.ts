@@ -7,53 +7,53 @@ export default defineAppConfig({
     footer: {
       bottom: {
         left: 'text-sm text-gray-500 dark:text-gray-400',
-        wrapper: 'border-t border-gray-200 dark:border-gray-800'
-      }
-    }
+        wrapper: 'border-t border-gray-200 dark:border-gray-800',
+      },
+    },
   },
   header: {
     logo: {
       light: {
-        src: ''
+        src: '',
       },
       dark: {
-        src: ''
-      }
+        src: '',
+      },
     },
     pkgVersion,
     search: true,
     colorMode: true,
     links: [{
-      icon: 'i-simple-icons-github',
-      to: 'https://github.com/nuxt-modules/tailwindcss',
-      target: '_blank',
-      'aria-label': 'Docs template on GitHub'
-    }]
+      'icon': 'i-simple-icons-github',
+      'to': 'https://github.com/nuxt-modules/tailwindcss',
+      'target': '_blank',
+      'aria-label': 'Docs template on GitHub',
+    }],
   },
   footer: {
     credits: 'Copyright © 2023',
     colorMode: false,
     links: [{
-      icon: 'i-simple-icons-nuxtdotjs',
-      to: 'https://nuxt.com',
-      target: '_blank',
-      'aria-label': 'Nuxt Website'
+      'icon': 'i-simple-icons-nuxtdotjs',
+      'to': 'https://nuxt.com',
+      'target': '_blank',
+      'aria-label': 'Nuxt Website',
     }, {
-      icon: 'i-simple-icons-discord',
-      to: 'https://discord.com/invite/ps2h6QT',
-      target: '_blank',
-      'aria-label': 'Nuxt Tailwind on Discord'
+      'icon': 'i-simple-icons-discord',
+      'to': 'https://discord.com/invite/ps2h6QT',
+      'target': '_blank',
+      'aria-label': 'Nuxt Tailwind on Discord',
     }, {
-      icon: 'i-simple-icons-x',
-      to: 'https://x.com/nuxt_js',
-      target: '_blank',
-      'aria-label': 'Nuxt on X'
+      'icon': 'i-simple-icons-x',
+      'to': 'https://x.com/nuxt_js',
+      'target': '_blank',
+      'aria-label': 'Nuxt on X',
     }, {
-      icon: 'i-simple-icons-github',
-      to: 'https://github.com/nuxt-modules/tailwindcss',
-      target: '_blank',
-      'aria-label': 'Nuxt Tailwind on GitHub'
-    }]
+      'icon': 'i-simple-icons-github',
+      'to': 'https://github.com/nuxt-modules/tailwindcss',
+      'target': '_blank',
+      'aria-label': 'Nuxt Tailwind on GitHub',
+    }],
   },
   toc: {
     title: 'Table of Contents',
@@ -75,7 +75,7 @@ export default defineAppConfig({
         label: 'Tailwind CSS docs',
         to: 'https://tailwindcss.com',
         target: '_blank',
-      }]
-    }
-  }
+      }],
+    },
+  },
 })

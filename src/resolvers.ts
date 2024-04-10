@@ -1,4 +1,4 @@
-import { existsSync } from 'fs'
+import { existsSync } from 'node:fs'
 import { defu } from 'defu'
 import { join, relative, resolve } from 'pathe'
 import { findPath, useNuxt, tryResolveModule, resolveAlias, resolvePath } from '@nuxt/kit'
@@ -14,8 +14,8 @@ const resolveConfigPath = async (path: ModuleOptions['configPath'], nuxtOptions 
   Promise.all(
     (Array.isArray(path) ? path : [path])
       .filter(Boolean)
-      .map((path) => path.startsWith(nuxtOptions.buildDir) ? path : findPath(path, { extensions: ['.js', '.cjs', '.mjs', '.ts'] }))
-  ).then((paths) => paths.filter((p): p is string => Boolean(p)))
+      .map(path => path.startsWith(nuxtOptions.buildDir) ? path : findPath(path, { extensions: ['.js', '.cjs', '.mjs', '.ts'] })),
+  ).then(paths => paths.filter((p): p is string => Boolean(p)))
 
 /**
  *
@@ -69,7 +69,7 @@ export const resolveModulePaths = async (configPath: ModuleOptions['configPath']
     const layerPaths = await Promise.all(
       nuxt.options._layers.slice(1).map(async (layer): Promise<[string[], string[]]> => ([
         await resolveConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config'), nuxt.options),
-        resolveContentPaths(layer?.config?.srcDir || layer.cwd, defu(layer.config, nuxt.options) as typeof nuxt.options)
+        resolveContentPaths(layer?.config?.srcDir || layer.cwd, defu(layer.config, nuxt.options) as typeof nuxt.options),
       ])))
 
     layerPaths.forEach(([configPaths, contentPaths]) => {
@@ -95,10 +95,11 @@ export async function resolveCSSPath(cssPath: Exclude<ModuleOptions['cssPath'], 
       ? [_cssPath, `Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, _cssPath)}`]
       : await tryResolveModule('tailwindcss/package.json')
         .then(twLocation => twLocation ? [join(twLocation, '../tailwind.css'), 'Using default Tailwind CSS file'] : Promise.reject('Unable to resolve tailwindcss. Is it installed?'))
-  } else {
+  }
+  else {
     return [
       false,
-      'No Tailwind CSS file found. Skipping...'
+      'No Tailwind CSS file found. Skipping...',
     ]
   }
 }

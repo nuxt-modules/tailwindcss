@@ -3,8 +3,8 @@ import { eventHandler, sendRedirect, H3Event } from 'h3'
 import { addDevServerHandler, isNuxt2, isNuxt3, useNuxt } from '@nuxt/kit'
 import { withTrailingSlash, withoutTrailingSlash, joinURL, cleanDoubleSlashes } from 'ufo'
 import loadConfig from 'tailwindcss/loadConfig.js'
-import logger from './logger'
 import { relative } from 'pathe'
+import logger from './logger'
 import type { TWConfig, ViewerConfig } from './types'
 
 export const setupViewer = async (twConfig: string | TWConfig, config: ViewerConfig, nuxt = useNuxt()) => {
@@ -17,11 +17,11 @@ export const setupViewer = async (twConfig: string | TWConfig, config: ViewerCon
 
   if (isNuxt3()) {
     addDevServerHandler({
-      handler: eventHandler(event => {
+      handler: eventHandler((event) => {
         if (event.path === routeWithoutSlash) {
           return sendRedirect(event, routeWithSlash, 301)
         }
-      })
+      }),
     })
     addDevServerHandler({ route, handler: viewerDevMiddleware })
   }
@@ -38,7 +38,7 @@ export const setupViewer = async (twConfig: string | TWConfig, config: ViewerCon
         next()
       },
       // @ts-expect-error untyped handler parameters
-      { route, handler: (req, res) => viewerDevMiddleware(new H3Event(req, res)) }
+      { route, handler: (req, res) => viewerDevMiddleware(new H3Event(req, res)) },
     )
   }
 
@@ -49,8 +49,10 @@ export const setupViewer = async (twConfig: string | TWConfig, config: ViewerCon
 }
 
 export const exportViewer = async (twConfig: string, config: ViewerConfig, nuxt = useNuxt()) => {
-  if (!config.exportViewer) { return }
-  // @ts-ignore
+  if (!config.exportViewer) {
+    return
+  }
+  // @ts-expect-error no types for tailwind-config-viewer
   const cli = await import('tailwind-config-viewer/cli/export.js').then(r => r.default || r) as any
 
   nuxt.hook('nitro:build:public-assets', (nitro) => {

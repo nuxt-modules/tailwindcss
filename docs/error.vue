@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { NuxtError } from '#app'
 import type { ParsedContent } from '@nuxt/content/dist/runtime/types'
+import type { NuxtError } from '#app'
 
 useSeoMeta({
   title: 'Page not found - Nuxt TailwindCSS',
-  description: 'We are sorry but this page could not be found.'
+  description: 'We are sorry but this page could not be found.',
 })
 
 defineProps<{
@@ -13,8 +13,8 @@ defineProps<{
 
 useHead({
   htmlAttrs: {
-    lang: 'en'
-  }
+    lang: 'en',
+  },
 })
 
 const { data: navigation } = await useAsyncData('navigation', () => fetchContentNavigation())
@@ -41,7 +41,10 @@ provide('navigation', navigation)
     <Footer />
 
     <ClientOnly>
-      <LazyUDocsSearch :files="files" :navigation="navigation" />
+      <LazyUDocsSearch
+        :files="files"
+        :navigation="navigation"
+      />
     </ClientOnly>
 
     <UNotifications />

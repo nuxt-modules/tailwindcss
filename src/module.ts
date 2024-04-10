@@ -10,20 +10,21 @@ import {
   createResolver,
   addImports,
   updateTemplates,
-  addTemplate
+  addTemplate,
 } from '@nuxt/kit'
 
 // @ts-expect-error no declaration file
 import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
 
+import { name, version, configKey, compatibility } from '../package.json'
 import * as resolvers from './resolvers'
 import logger, { LogLevels } from './logger'
 import { createExposeTemplates } from './expose'
 import { setupViewer, exportViewer } from './viewer'
 import { createInternalContext } from './context'
-import { name, version, configKey, compatibility } from '../package.json'
 
 import type { ModuleOptions, ModuleHooks } from './types'
+
 export type { ModuleOptions, ModuleHooks } from './types'
 
 const deprecationWarnings = (moduleOptions: ModuleOptions, nuxt = useNuxt()) =>
@@ -34,9 +35,9 @@ const deprecationWarnings = (moduleOptions: ModuleOptions, nuxt = useNuxt()) =>
       moduleOptions.cssPath === join(nuxt.options.dir.assets, 'css/tailwind.css')
         ? '"~/assets/css/tailwind.css"'
         : typeof moduleOptions.cssPath === 'string' ? `"${moduleOptions.cssPath}"` : moduleOptions.cssPath
-    }, { injectPosition: ${JSON.stringify(moduleOptions.injectPosition)} }]\` instead.`]
+    }, { injectPosition: ${JSON.stringify(moduleOptions.injectPosition)} }]\` instead.`],
   ] satisfies Array<[keyof ModuleOptions, string]>).forEach(
-    ([dOption, alternative]) => moduleOptions[dOption] !== undefined && logger.warn(`Deprecated \`${dOption}\`. ${alternative}`)
+    ([dOption, alternative]) => moduleOptions[dOption] !== undefined && logger.warn(`Deprecated \`${dOption}\`. ${alternative}`),
   )
 
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
@@ -51,22 +52,22 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
 
 export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility }, defaults,
-  async setup (moduleOptions, nuxt) {
+  async setup(moduleOptions, nuxt) {
     if (moduleOptions.quiet) logger.level = LogLevels.silent
     deprecationWarnings(moduleOptions, nuxt)
 
     let enableHMR = true
 
-    if (Array.isArray(moduleOptions.config.plugins) && moduleOptions.config.plugins.find((p) => typeof p === 'function' || typeof p?.handler === 'function')) {
+    if (Array.isArray(moduleOptions.config.plugins) && moduleOptions.config.plugins.find(p => typeof p === 'function' || typeof p?.handler === 'function')) {
       logger.warn(
         'You have provided functional plugins in `tailwindcss.config` in your Nuxt configuration that cannot be serialized for Tailwind Config.',
-        'Please use `tailwind.config` or a separate file (specifying in `tailwindcss.configPath`) to enable it with additional support for IntelliSense and HMR.'
+        'Please use `tailwind.config` or a separate file (specifying in `tailwindcss.configPath`) to enable it with additional support for IntelliSense and HMR.',
       )
       enableHMR = false
     }
 
     // install postcss8 module on nuxt < 2.16
-    if (parseFloat(getNuxtVersion()) < 2.16) {
+    if (Number.parseFloat(getNuxtVersion()) < 2.16) {
       await installModule('@nuxt/postcss8').catch((e) => {
         logger.error(`Error occurred while loading \`@nuxt/postcss8\` required for Nuxt ${getNuxtVersion()}, is it installed?`)
         throw e
@@ -83,7 +84,7 @@ export default defineNuxtModule<ModuleOptions>({
           name: 'autocompleteUtil',
           from: createResolver(import.meta.url).resolve('./runtime/utils'),
           as: 'tw',
-          ...(typeof editorSupportConfig.autocompleteUtil === 'object' ? editorSupportConfig.autocompleteUtil : {})
+          ...(typeof editorSupportConfig.autocompleteUtil === 'object' ? editorSupportConfig.autocompleteUtil : {}),
         })
       }
     }
@@ -94,14 +95,15 @@ export default defineNuxtModule<ModuleOptions>({
     logger.info(loggerInfo)
 
     nuxt.options.css = nuxt.options.css ?? []
-    const resolvedNuxtCss = resolvedCss && await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p))) || []
+    const resolvedNuxtCss = (resolvedCss && await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p)))) || []
 
     // inject only if this file isn't listed already by user
     if (resolvedCss && !resolvedNuxtCss.includes(resolvedCss)) {
       let injectPosition: number
       try {
         injectPosition = resolvers.resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition || moduleOptions.injectPosition)
-      } catch (e: any) {
+      }
+      catch (e: any) {
         throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
       }
 
@@ -116,21 +118,24 @@ export default defineNuxtModule<ModuleOptions>({
 
       // expose resolved tailwind config as an alias
       if (moduleOptions.exposeConfig) {
-        const exposeConfig = resolvers.resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {})})
+        const exposeConfig = resolvers.resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {}) })
         const exposeTemplates = createExposeTemplates(exposeConfig)
         nuxt.hook('tailwindcss:internal:regenerateTemplates', () => updateTemplates({ filter: template => exposeTemplates.includes(template.dst) }))
       }
 
       // setup postcss plugins (for Nuxt 2/bridge/3)
-      const postcssOptions =
-        nuxt.options.postcss || /* nuxt 3 */ /* @ts-ignore */
-        nuxt.options.build.postcss.postcssOptions || /* older nuxt3 */ /* @ts-ignore */
-        nuxt.options.build.postcss as any
+      const postcssOptions
+        /* nuxt 3 */
+        = nuxt.options.postcss
+        // @ts-expect-error older nuxt3
+        || nuxt.options.build.postcss.postcssOptions
+        // @ts-expect-error nuxt 2 type
+        || nuxt.options.build.postcss as any
       postcssOptions.plugins = {
         ...(postcssOptions.plugins || {}),
         'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
         'postcss-custom-properties': postcssOptions.plugins?.['postcss-custom-properties'] ?? {},
-        tailwindcss: enableHMR ? twConfig.dst satisfies string : _config
+        'tailwindcss': enableHMR ? twConfig.dst satisfies string : _config,
       }
 
       // enabled only in development
@@ -140,7 +145,6 @@ export default defineNuxtModule<ModuleOptions>({
           const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
           setupViewer(enableHMR ? twConfig.dst : _config, viewerConfig, nuxt)
 
-          // @ts-ignore may not infer types properly
           nuxt.hook('devtools:customTabs', (tabs: import('@nuxt/devtools').ModuleOptions['customTabs']) => {
             tabs?.push({
               title: 'TailwindCSS',
@@ -149,35 +153,37 @@ export default defineNuxtModule<ModuleOptions>({
               category: 'modules',
               view: {
                 type: 'iframe',
-                src: withTrailingSlash(viewerConfig.endpoint)
-              }
+                src: withTrailingSlash(viewerConfig.endpoint),
+              },
             })
           })
         }
-      } else {
+      }
+      else {
         // production only
         if (moduleOptions.viewer) {
           const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
 
           if (enableHMR) {
             exportViewer(twConfig.dst, viewerConfig)
-          } else {
+          }
+          else {
             exportViewer(addTemplate({ filename: 'tailwind.config/viewer-config.cjs', getContents: () => `module.exports = ${JSON.stringify(_config)}`, write: true }).dst, viewerConfig)
           }
         }
       }
     })
-  }
+  },
 })
 
 declare module 'nuxt/schema' {
   interface NuxtHooks extends ModuleHooks {
-    'tailwindcss:internal:regenerateTemplates': (data?: { configTemplateUpdated?: boolean }) => void | Promise<void>;
+    'tailwindcss:internal:regenerateTemplates': (data?: { configTemplateUpdated?: boolean }) => void | Promise<void>
   }
 }
 
 declare module '@nuxt/schema' {
   interface NuxtHooks extends ModuleHooks {
-    'tailwindcss:internal:regenerateTemplates': (data?: { configTemplateUpdated?: boolean }) => void | Promise<void>;
+    'tailwindcss:internal:regenerateTemplates': (data?: { configTemplateUpdated?: boolean }) => void | Promise<void>
   }
 }

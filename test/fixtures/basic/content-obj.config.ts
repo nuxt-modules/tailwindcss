@@ -5,9 +5,9 @@ const config: Config = {
     relative: true,
     files: ['./my-components/**/*.tsx'],
     extract: {
-      jpg: () => ['bg-red']
-    }
-  }
+      jpg: () => ['bg-red'],
+    },
+  },
 }
 
-export default config;
+export default config
