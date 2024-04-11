@@ -162,12 +162,12 @@ export default defineNuxtModule<ModuleOptions>({
 
 declare module 'nuxt/schema' {
   interface NuxtHooks extends ModuleHooks {
-    'tailwindcss:internal:regenerateTemplates': () => Promise<void>;
+    'tailwindcss:internal:regenerateTemplates': () => void | Promise<void>;
   }
 }
 
 declare module '@nuxt/schema' {
   interface NuxtHooks extends ModuleHooks {
-    'tailwindcss:internal:regenerateTemplates': () => Promise<void>;
+    'tailwindcss:internal:regenerateTemplates': () => void | Promise<void>;
   }
 }

@@ -33,6 +33,7 @@ twCtx.set = (instance, replace = true) => {
 const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNuxt()) => {
   const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
   const configUpdatedHook: Record<string, string> = {}
+  const configResolvedPath = join(nuxt.options.buildDir, CONFIG_TEMPLATE_NAME)
 
   const trackProxy = (configPath: string, path: (string | symbol)[] = []): ProxyHandler<Partial<TWConfig>> => ({
     get: (target, key: string) => {
@@ -138,9 +139,16 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
       }
     })
 
+    nuxt.hook('vite:serverCreated', (server) => {
+      nuxt.hook('tailwindcss:internal:regenerateTemplates', () => {
+        const configFile = server.moduleGraph.getModuleById(configResolvedPath)
+        configFile && server.moduleGraph.invalidateModule(configFile)
+      })
+    })
+
     moduleOptions.exposeConfig && nuxt.hook('builder:watch', async (_, path) => {
       if (configPaths.includes(join(nuxt.options.rootDir, path))) {
-        twCtx.set(_loadConfig(join(nuxt.options.buildDir, CONFIG_TEMPLATE_NAME)))
+        twCtx.set(_loadConfig(configResolvedPath))
         setTimeout(async () => {
           await nuxt.callHook('tailwindcss:internal:regenerateTemplates')
         }, 100)
