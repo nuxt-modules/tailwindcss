@@ -9,7 +9,8 @@ import {
   useNuxt,
   createResolver,
   addImports,
-  updateTemplates
+  updateTemplates,
+  addTemplate
 } from '@nuxt/kit'
 
 // @ts-expect-error no declaration file
@@ -54,11 +55,14 @@ export default defineNuxtModule<ModuleOptions>({
     if (moduleOptions.quiet) logger.level = LogLevels.silent
     deprecationWarnings(moduleOptions, nuxt)
 
-    if (Array.isArray(moduleOptions.config.plugins) && moduleOptions.config.plugins.find((p) => typeof p === 'function')) {
+    let enableHMR = true
+
+    if (Array.isArray(moduleOptions.config.plugins) && moduleOptions.config.plugins.find((p) => typeof p === 'function' || typeof p?.handler === 'function')) {
       logger.warn(
         'You have provided functional plugins in `tailwindcss.config` in your Nuxt configuration that cannot be serialized for Tailwind Config.',
-        'Please use `tailwind.config` or a separate file (specifying in `tailwindcss.cssPath`) to enable it with additional support for IntelliSense and HMR.'
+        'Please use `tailwind.config` or a separate file (specifying in `tailwindcss.configPath`) to enable it with additional support for IntelliSense and HMR.'
       )
+      enableHMR = false
     }
 
     // install postcss8 module on nuxt < 2.16
@@ -105,10 +109,10 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     nuxt.hook('modules:done', async () => {
-      await ctx.loadConfig()
+      const _config = await ctx.loadConfig()
 
-      const twConfig = ctx.generateConfig()
-      ctx.registerHooks()
+      const twConfig = enableHMR ? ctx.generateConfig() : { dst: '' }
+      enableHMR && ctx.registerHooks()
 
       // expose resolved tailwind config as an alias
       if (moduleOptions.exposeConfig) {
@@ -126,7 +130,7 @@ export default defineNuxtModule<ModuleOptions>({
         ...(postcssOptions.plugins || {}),
         'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
         'postcss-custom-properties': postcssOptions.plugins?.['postcss-custom-properties'] ?? {},
-        tailwindcss: twConfig.dst satisfies string
+        tailwindcss: enableHMR ? twConfig.dst satisfies string : _config
       }
 
       // enabled only in development
@@ -134,7 +138,7 @@ export default defineNuxtModule<ModuleOptions>({
         // add tailwind-config-viewer endpoint
         if (moduleOptions.viewer) {
           const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
-          setupViewer(twConfig.dst, viewerConfig, nuxt)
+          setupViewer(enableHMR ? twConfig.dst : _config, viewerConfig, nuxt)
 
           // @ts-ignore may not infer types properly
           nuxt.hook('devtools:customTabs', (tabs: import('@nuxt/devtools').ModuleOptions['customTabs']) => {
@@ -153,7 +157,13 @@ export default defineNuxtModule<ModuleOptions>({
       } else {
         // production only
         if (moduleOptions.viewer) {
-          exportViewer(twConfig.dst, resolvers.resolveViewerConfig(moduleOptions.viewer))
+          const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
+
+          if (enableHMR) {
+            exportViewer(twConfig.dst, viewerConfig)
+          } else {
+            exportViewer(addTemplate({ filename: 'tailwind.config/viewer-config.cjs', getContents: () => `module.exports = ${JSON.stringify(_config)}`, write: true }).dst, viewerConfig)
+          }
         }
       }
     })

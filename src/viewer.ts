@@ -5,14 +5,14 @@ import { withTrailingSlash, withoutTrailingSlash, joinURL, cleanDoubleSlashes } 
 import loadConfig from 'tailwindcss/loadConfig.js'
 import logger from './logger'
 import { relative } from 'pathe'
-import type { ViewerConfig } from './types'
+import type { TWConfig, ViewerConfig } from './types'
 
-export const setupViewer = async (twConfig: string, config: ViewerConfig, nuxt = useNuxt()) => {
+export const setupViewer = async (twConfig: string | TWConfig, config: ViewerConfig, nuxt = useNuxt()) => {
   const route = joinURL(nuxt.options.app?.baseURL, config.endpoint)
   const [routeWithSlash, routeWithoutSlash] = [withTrailingSlash(route), withoutTrailingSlash(route)]
 
   // @ts-expect-error untyped package export
-  const viewerServer = (await import('tailwind-config-viewer/server/index.js').then(r => r.default || r))({ tailwindConfigProvider: () => loadConfig(twConfig) }).asMiddleware()
+  const viewerServer = (await import('tailwind-config-viewer/server/index.js').then(r => r.default || r))({ tailwindConfigProvider: typeof twConfig === 'string' ? () => loadConfig(twConfig) : () => twConfig }).asMiddleware()
   const viewerDevMiddleware = eventHandler(event => viewerServer(event.node?.req || event.req, event.node?.res || event.res))
 
   if (isNuxt3()) {

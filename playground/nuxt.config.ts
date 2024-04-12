@@ -2,6 +2,8 @@ import { defineNuxtConfig } from 'nuxt/config'
 import { existsSync } from 'node:fs'
 import { resolve } from 'pathe'
 import { consola } from 'consola'
+import typography from '@tailwindcss/typography'
+
 import type { ModuleHooks, ModuleOptions } from '../src/types'
 
 const logger = consola.withTag('nuxt:tailwindcss:playground')
@@ -16,6 +18,7 @@ export default defineNuxtConfig({
   // @ts-ignore
   tailwindcss: {
     // viewer: false,
+    config: { plugins: [typography()] },
     exposeConfig: true,
     cssPath: '~/assets/css/tailwind.css',
     editorSupport: true

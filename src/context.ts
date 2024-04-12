@@ -54,7 +54,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
           'You have injected a functional plugin into your Tailwind Config which cannot be serialized.',
           'Please use a configuration file/template instead.'
         )
-        return false
+        // return false // removed for backwards compatibility
       }
 
       configUpdatedHook[configPath] += resultingCode
@@ -103,6 +103,8 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     configUpdatedHook['main-config'] = ''
     await nuxt.callHook('tailwindcss:config', new Proxy(tailwindConfig, trackProxy('main-config')))
     twCtx.set(tailwindConfig)
+
+    return tailwindConfig
 }
 
   const generateConfig = () => addTemplate({
