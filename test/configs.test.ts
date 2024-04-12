@@ -2,6 +2,9 @@ import { describe, test, expect, vi, afterAll } from 'vitest'
 import type { Config } from 'tailwindcss'
 import destr from 'destr'
 import { setupNuxtTailwind, r, getVfsFile } from './utils'
+import loadConfig from 'tailwindcss/loadConfig'
+import { useTestContext } from '@nuxt/test-utils'
+import { join } from 'pathe'
 
 type TWConfigWithStringContent<
   C extends Config = Config,
@@ -35,7 +38,19 @@ describe('tailwindcss module configs', async () => {
     dir: { plugins: 'my-pluggable-modules', modules: 'my-modular-plugins' },
     modules: [r('modules/cjs-config.ts'), '@nuxtjs/tailwindcss'],
     imports: { dirs: ['my-imports-dir1', 'my-imports-dir2'] },
-    extensions: ['.json', '.mdc', '.mdx', '.coffee']
+    extensions: ['.json', '.mdc', '.mdx', '.coffee'],
+    hooks: {
+      'tailwindcss:config': (tailwindConfig) => {
+        tailwindConfig.content = tailwindConfig.content ?? []
+
+        if (Array.isArray(tailwindConfig.content)) {
+          tailwindConfig.content.push('my-custom-content')
+        } else {
+          tailwindConfig.content.files = tailwindConfig.content.files ?? []
+          tailwindConfig.content.files.push('my-custom-content')
+        }
+      }
+    }
   })
 
   test('throws error about malformed config', () => {
@@ -48,16 +63,16 @@ describe('tailwindcss module configs', async () => {
 
   test('ts config file is loaded and merged', () => {
     // set from ts-tailwind.config.ts
-    expect(getVfsFile('test-tailwind.config.cjs')).contains('"typescriptBlue": "#007acc"')
+    expect(getVfsFile('test-tailwind.config.mjs')).contains('"typescriptBlue": "#007acc"')
   })
 
   test('js config file is loaded and merged', () => {
     // set from ts-tailwind.config.ts
-    expect(getVfsFile('test-tailwind.config.cjs')).contains('"javascriptYellow": "#f1e05a"')
+    expect(getVfsFile('test-tailwind.config.mjs')).contains('"javascriptYellow": "#f1e05a"')
   })
 
   test('content is adaptive', () => {
-    const { content: { files: contentFiles } } = destr<TWConfigWithStringContent>(getVfsFile('test-tailwind.config.cjs')!.replace(/^(module\.exports = )/, ''))
+    const { content: { files: contentFiles } } = destr<TWConfigWithStringContent>(getVfsFile('test-tailwind.config.mjs')!.replace(/^export default /, ''))
 
     expect(contentFiles.find(c => /my-pluggable-modules|my-modular-plugins/.test(c))).toBeDefined()
     expect(contentFiles.filter(c => c.includes('my-imports-dir')).length).toBe(2)
@@ -66,17 +81,24 @@ describe('tailwindcss module configs', async () => {
 
   test('content is overridden', () => {
     // set from override-tailwind.config.ts
-    const { content: { files: contentFiles }} = destr<TWConfigWithStringContent>(getVfsFile('test-tailwind.config.cjs')!.replace(/^(module\.exports = )/, ''))
+    const { content: { files: contentFiles }} = destr<TWConfigWithStringContent>(getVfsFile('test-tailwind.config.mjs')!.replace(/^export default /, ''))
 
     expect(contentFiles[0]).toBe('ts-content/**/*.md')
     expect(contentFiles[1]).toBe('./custom-theme/**/*.vue')
     expect(contentFiles.filter(c => /{[AE],[ae]}/.test(c)).length).toBe(0)
+    expect([...contentFiles].pop()).toBe('my-custom-content')
   })
 
   test('content merges with objects', () => {
-    const { content } = destr<TWConfigWithStringContent>(getVfsFile('test-tailwind.config.cjs')!.replace(/^(module\.exports = )/, ''))
+    const { content } = destr<TWConfigWithStringContent>(getVfsFile('test-tailwind.config.mjs')!.replace(/^export default /, ''))
 
     expect(content.relative).toBeTruthy()
-    expect(content.files.pop()).toBe('./my-components/**/*.tsx')
+    expect(content.files.includes('./my-components/**/*.tsx')).toBe(true)
+  })
+
+  test('config template compiled properly', () => {
+    const configFile = getVfsFile('tailwind.config.cjs')
+    const loadedConfig = loadConfig(join(useTestContext().nuxt!.options.buildDir, 'tailwind.config.cjs'))
+    expect(configFile).contains(`module.exports = (() => {const cfg=config;cfg["content"]${'files' in loadedConfig.content ? `["files"]["${loadedConfig.content.files.length - 1}"]` : `["${loadedConfig.content.length - 1}"]`} = "my-custom-content";;return cfg;})()`)
   })
 })
