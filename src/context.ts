@@ -77,8 +77,12 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
         try {
           _tailwindConfig = configMerger(undefined, _loadConfig(configPath))
         } catch (e) {
-          configUpdatedHook[configPath] = 'return {};'
-          !configPath.startsWith(nuxt.options.buildDir) && logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
+          if (!configPath.startsWith(nuxt.options.buildDir)) {
+            configUpdatedHook[configPath] = 'return {};'
+            logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
+          } else {
+            configUpdatedHook[configPath] = nuxt.options.dev ? 'return {};' : ''
+          }
         }
 
         // Transform purge option from Array to object with { content }
