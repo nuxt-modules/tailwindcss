@@ -38,7 +38,7 @@ describe('tailwindcss module', async () => {
   })
 
   test('default js config is merged in', () => {
-    const vfsFile = getVfsFile('test-tailwind.config.cjs')
+    const vfsFile = getVfsFile('test-tailwind.config.mjs')
     // set from default config tailwind.config.js
     expect(vfsFile).contains('"primary": "#f1e05a"')
   })
