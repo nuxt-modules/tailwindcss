@@ -6,8 +6,5 @@
     "dev": "nuxi dev",
     "build": "nuxi build",
     "generate": "nuxi generate"
-  },
-  "devDependencies": {
-    "@nuxt/webpack-builder": "^3.11.2"
   }
 }
