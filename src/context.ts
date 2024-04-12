@@ -134,13 +134,14 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
         await loadConfig()
         setTimeout(async () => {
           await updateTemplates({ filter: t => t.filename === CONFIG_TEMPLATE_NAME })
-          await nuxt.callHook('tailwindcss:internal:regenerateTemplates')
+          await nuxt.callHook('tailwindcss:internal:regenerateTemplates', { configTemplateUpdated: true })
         }, 100)
       }
     })
 
     nuxt.hook('vite:serverCreated', (server) => {
-      nuxt.hook('tailwindcss:internal:regenerateTemplates', () => {
+      nuxt.hook('tailwindcss:internal:regenerateTemplates', (data) => {
+        if (!data || !data.configTemplateUpdated) return
         const configFile = server.moduleGraph.getModuleById(configResolvedPath)
         configFile && server.moduleGraph.invalidateModule(configFile)
       })
