@@ -1,7 +1,7 @@
 import { existsSync } from 'fs'
 import { defu } from 'defu'
 import { join, relative, resolve } from 'pathe'
-import { findPath, useNuxt, tryResolveModule, resolveAlias } from '@nuxt/kit'
+import { findPath, useNuxt, tryResolveModule, resolveAlias, resolvePath } from '@nuxt/kit'
 import type { EditorSupportConfig, ExposeConfig, InjectPosition, ModuleOptions, ViewerConfig } from './types'
 
 /**
@@ -10,11 +10,11 @@ import type { EditorSupportConfig, ExposeConfig, InjectPosition, ModuleOptions, 
  * @param path configPath for a layer
  * @returns array of resolved paths
  */
-const resolveConfigPath = async (path: ModuleOptions['configPath']) =>
+const resolveConfigPath = async (path: ModuleOptions['configPath'], nuxtOptions = useNuxt().options) =>
   Promise.all(
     (Array.isArray(path) ? path : [path])
       .filter(Boolean)
-      .map((path) => findPath(path, { extensions: ['.js', '.cjs', '.mjs', '.ts'] }))
+      .map((path) => path.startsWith(nuxtOptions.buildDir) ? path : findPath(path, { extensions: ['.js', '.cjs', '.mjs', '.ts'] }))
   ).then((paths) => paths.filter((p): p is string => Boolean(p)))
 
 /**
@@ -68,7 +68,7 @@ export const resolveModulePaths = async (configPath: ModuleOptions['configPath']
   if (Array.isArray(nuxt.options._layers) && nuxt.options._layers.length > 1) {
     const layerPaths = await Promise.all(
       nuxt.options._layers.slice(1).map(async (layer): Promise<[string[], string[]]> => ([
-        await resolveConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config')),
+        await resolveConfigPath(layer?.config?.tailwindcss?.configPath || join(layer.cwd, 'tailwind.config'), nuxt.options),
         resolveContentPaths(layer?.config?.srcDir || layer.cwd, defu(layer.config, nuxt.options) as typeof nuxt.options)
       ])))
 
@@ -89,13 +89,15 @@ export const resolveModulePaths = async (configPath: ModuleOptions['configPath']
  */
 export async function resolveCSSPath(cssPath: Exclude<ModuleOptions['cssPath'], Array<any>>, nuxt = useNuxt()): Promise<[string | false, string]> {
   if (typeof cssPath === 'string') {
-    return existsSync(cssPath)
-      ? [cssPath, `Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, cssPath)}`]
+    const _cssPath = await resolvePath(cssPath, { extensions: ['.css', '.sass', '.scss', '.less', '.styl'] })
+
+    return existsSync(_cssPath)
+      ? [_cssPath, `Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, _cssPath)}`]
       : await tryResolveModule('tailwindcss/package.json')
         .then(twLocation => twLocation ? [join(twLocation, '../tailwind.css'), 'Using default Tailwind CSS file'] : Promise.reject('Unable to resolve tailwindcss. Is it installed?'))
   } else {
     return [
-      cssPath && false,
+      false,
       'No Tailwind CSS file found. Skipping...'
     ]
   }
