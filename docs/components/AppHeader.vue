@@ -17,11 +17,11 @@ const { header } = useAppConfig()
       v-if="header?.search"
       #center
     >
-      <UDocsSearchButton class="hidden lg:flex" />
+      <UContentSearchButton class="hidden lg:flex" />
     </template>
 
     <template #right>
-      <UDocsSearchButton
+      <UContentSearchButton
         v-if="header?.search"
         :label="null"
         class="lg:hidden"

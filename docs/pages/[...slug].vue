@@ -61,14 +61,14 @@ const links = computed(() => [toc?.bottom?.edit && {
 
       <hr v-if="surround?.length">
 
-      <UDocsSurround :surround="surround" />
+      <UContentSurround :surround="surround" />
     </UPageBody>
 
     <template
       v-if="page.toc !== false"
       #right
     >
-      <UDocsToc
+      <UContentToc
         :title="toc?.title"
         :links="page.body?.toc?.links"
       >
@@ -94,7 +94,7 @@ const links = computed(() => [toc?.bottom?.edit && {
             <AdsUIPro />
           </div>
         </template>
-      </UDocsToc>
+      </UContentToc>
     </template>
   </UPage>
 </template>
