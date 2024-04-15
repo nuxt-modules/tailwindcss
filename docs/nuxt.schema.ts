@@ -17,46 +17,46 @@ export default defineNuxtSchema({
               title: 'Search Bar',
               description: 'Icon to display in the search bar.',
               icon: 'i-heroicons-magnifying-glass-20-solid',
-              default: 'i-heroicons-magnifying-glass-20-solid'
+              default: 'i-heroicons-magnifying-glass-20-solid',
             }),
             dark: field({
               type: 'icon',
               title: 'Dark mode',
               description: 'Icon of color mode button for dark mode.',
               icon: 'i-heroicons-moon-20-solid',
-              default: 'i-heroicons-moon-20-solid'
+              default: 'i-heroicons-moon-20-solid',
             }),
             light: field({
               type: 'icon',
               title: 'Light mode',
               description: 'Icon of color mode button for light mode.',
               icon: 'i-heroicons-sun-20-solid',
-              default: 'i-heroicons-sun-20-solid'
+              default: 'i-heroicons-sun-20-solid',
             }),
             external: field({
               type: 'icon',
               title: 'External Link',
               description: 'Icon for external link.',
               icon: 'i-heroicons-arrow-up-right-20-solid',
-              default: 'i-heroicons-arrow-up-right-20-solid'
+              default: 'i-heroicons-arrow-up-right-20-solid',
             }),
             chevron: field({
               type: 'icon',
               title: 'Chevron',
               description: 'Icon for chevron.',
               icon: 'i-heroicons-chevron-down-20-solid',
-              default: 'i-heroicons-chevron-down-20-solid'
+              default: 'i-heroicons-chevron-down-20-solid',
             }),
             hash: field({
               type: 'icon',
               title: 'Hash',
               description: 'Icon for hash anchors.',
               icon: 'i-heroicons-hashtag-20-solid',
-              default: 'i-heroicons-hashtag-20-solid'
-            })
-          }
-        })
-      }
+              default: 'i-heroicons-hashtag-20-solid',
+            }),
+          },
+        }),
+      },
     }),
     header: group({
       title: 'Header',
@@ -78,16 +78,16 @@ export default defineNuxtSchema({
                   title: 'Logo',
                   description: 'Pick an image from your gallery.',
                   icon: 'i-mdi-image',
-                  default: ''
+                  default: '',
                 }),
                 alt: field({
                   type: 'string',
                   title: 'Alt',
                   description: 'Alt to display for accessibility.',
                   icon: 'i-mdi-alphabet-latin',
-                  default: ''
-                })
-              }
+                  default: '',
+                }),
+              },
             }),
             light: group({
               title: 'Light',
@@ -99,40 +99,40 @@ export default defineNuxtSchema({
                   title: 'Logo',
                   description: 'Pick an image from your gallery.',
                   icon: 'i-mdi-image',
-                  default: ''
+                  default: '',
                 }),
                 alt: field({
                   type: 'string',
                   title: 'Alt',
                   description: 'Alt to display for accessibility.',
                   icon: 'i-mdi-alphabet-latin',
-                  default: ''
-                })
-              }
+                  default: '',
+                }),
+              },
             }),
-          }
+          },
         }),
         search: field({
           type: 'boolean',
           title: 'Search Bar',
           description: 'Hide or display the search bar.',
           icon: 'i-mdi-magnify',
-          default: true
+          default: true,
         }),
         colorMode: field({
           type: 'boolean',
           title: 'Color Mode',
           description: 'Hide or display the color mode button in your header.',
           icon: 'i-heroicons-moon-20-solid',
-          default: true
+          default: true,
         }),
         links: field({
           type: 'array',
           title: 'Links',
           description: 'Array of link object displayed in header.',
           icon: 'i-mdi-link-variant',
-          default: []
-        })
+          default: [],
+        }),
       },
     }),
     footer: group({
@@ -145,23 +145,23 @@ export default defineNuxtSchema({
           title: 'Footer credits section',
           description: 'Text to display as credits in the footer.',
           icon: 'i-mdi-circle-edit-outline',
-          default: ''
+          default: '',
         }),
         colorMode: field({
           type: 'boolean',
           title: 'Color Mode',
           description: 'Hide or display the color mode button in the footer.',
           icon: 'i-heroicons-moon-20-solid',
-          default: false
+          default: false,
         }),
         links: field({
           type: 'array',
           title: 'Links',
           description: 'Array of link object displayed in footer.',
           icon: 'i-mdi-link-variant',
-          default: []
-        })
-      }
+          default: [],
+        }),
+      },
     }),
     toc: group({
       title: 'Table of contents',
@@ -173,7 +173,7 @@ export default defineNuxtSchema({
           title: 'Title',
           description: 'Text to display as title of the main toc.',
           icon: 'i-mdi-format-title',
-          default: ''
+          default: '',
         }),
         bottom: group({
           title: 'Bottom',
@@ -185,25 +185,25 @@ export default defineNuxtSchema({
               title: 'Title',
               description: 'Text to display as title of the bottom toc.',
               icon: 'i-mdi-format-title',
-              default: ''
+              default: '',
             }),
             edit: field({
               type: 'string',
               title: 'Edit Page Link',
               description: 'URL of your repository content folder.',
               icon: 'i-heroicons-pencil-square',
-              default: ''
+              default: '',
             }),
             links: field({
               type: 'array',
               title: 'Links',
               description: 'Array of link object displayed in bottom toc.',
               icon: 'i-mdi-link-variant',
-              default: []
-            })
-          }
-        })
-      }
-    })
-  }
+              default: [],
+            }),
+          },
+        }),
+      },
+    }),
+  },
 })

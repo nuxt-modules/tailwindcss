@@ -16,7 +16,7 @@ export default defineNuxtModule((_, nuxt) => {
         }
       }
     }
-    `
+    `,
   })
 
   nuxt.options.tailwindcss = nuxt.options.tailwindcss ?? {}

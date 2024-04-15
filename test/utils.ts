@@ -9,7 +9,7 @@ export const setupNuxtTailwind = (
   tailwindcss: Partial<ModuleOptions> = {},
   nuxtConfig: NuxtConfig = {},
   testOptions: Partial<TestOptions> = {},
-  fixture = ''
+  fixture = '',
 ) => {
   return setup({
     rootDir: fixture || r(),
@@ -18,9 +18,8 @@ export const setupNuxtTailwind = (
     ...testOptions,
     nuxtConfig: {
       ...nuxtConfig,
-      // @ts-ignore
-      tailwindcss
-    }
+      tailwindcss,
+    },
   })
 }
 

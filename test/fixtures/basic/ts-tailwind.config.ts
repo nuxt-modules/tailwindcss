@@ -2,13 +2,13 @@ import type { Config } from 'tailwindcss'
 
 export default <Config> {
   content: [
-    'ts-content/**/*.md'
+    'ts-content/**/*.md',
   ],
   theme: {
     extend: {
       colors: {
-        typescriptBlue: '#007acc'
-      }
-    }
-  }
+        typescriptBlue: '#007acc',
+      },
+    },
+  },
 }

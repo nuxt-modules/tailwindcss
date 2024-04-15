@@ -7,7 +7,10 @@
       sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
       class="w-full h-full min-h-[700px] overflow-hidden bg-gray-100 dark:bg-gray-800"
     />
-    <span v-else class="flex-1 text-white">Loading Sandbox...</span>
+    <span
+      v-else
+      class="flex-1 text-white"
+    >Loading Sandbox...</span>
   </div>
 </template>
 
@@ -15,24 +18,24 @@
 const props = defineProps({
   src: {
     type: String,
-    default: ''
+    default: '',
   },
   repo: {
     type: String,
-    default: ''
+    default: '',
   },
   branch: {
     type: String,
-    default: ''
+    default: '',
   },
   dir: {
     type: String,
-    default: ''
+    default: '',
   },
   file: {
     type: String,
-    default: 'app.vue'
-  }
+    default: 'app.vue',
+  },
 })
 
 const colorMode = useColorMode()

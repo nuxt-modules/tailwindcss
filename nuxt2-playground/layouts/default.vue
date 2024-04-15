@@ -12,10 +12,10 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: 'Nuxt.js with TailwindCSS example'
-      }
+        content: 'Nuxt.js with TailwindCSS example',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
-  }
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  },
 }
 </script>

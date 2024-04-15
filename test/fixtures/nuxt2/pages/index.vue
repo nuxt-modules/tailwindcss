@@ -12,7 +12,7 @@ import tailwindConfig from '#tailwind-config'
 
 export default {
   computed: {
-    tailwindConfig: () => tailwindConfig
-  }
+    tailwindConfig: () => tailwindConfig,
+  },
 }
 </script>

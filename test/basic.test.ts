@@ -20,7 +20,7 @@ describe('tailwindcss module', async () => {
     exposeConfig: { level: 2, alias: '#twcss' },
     quiet: false,
     // viewer: { endpoint: '_tw' },
-    cssPath: r('tailwind.css')
+    cssPath: r('tailwind.css'),
   })
 
   test('include custom tailwind.css file in project css', () => {
@@ -28,8 +28,8 @@ describe('tailwindcss module', async () => {
 
     expect(nuxt.options.css).toHaveLength(1)
     expect(nuxt.options.css[0]).toEqual(
-      // @ts-ignore
-      (nuxt.options.tailwindcss.cssPath as string).replace(/\\/g /* windows protocol */, '/')
+      // @ts-expect-error tailwindcss is not typed
+      (nuxt.options.tailwindcss.cssPath as string).replace(/\\/g /* windows protocol */, '/'),
     )
 
     expect(spyStderr).toHaveBeenCalledTimes(0)

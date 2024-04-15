@@ -17,9 +17,9 @@ export const createExposeTemplates = (config: ExposeConfig, nuxt = useNuxt()) =>
       const subpath = subpathComponents.join('/')
 
       if (
-        level >= config.level || // if recursive call is more than desired
-        !isJSObject(value) || // if its not an object, no more recursion required
-        Object.keys(value).find(k => !k.match(NON_ALPHANUMERIC_RE)) // object has non-alphanumeric property (unsafe var name)
+        level >= config.level // if recursive call is more than desired
+        || !isJSObject(value) // if its not an object, no more recursion required
+        || Object.keys(value).find(k => !k.match(NON_ALPHANUMERIC_RE)) // object has non-alphanumeric property (unsafe var name)
       ) {
         templates.push(addTemplate({
           filename: `tailwind.config/${subpath}.mjs`,
@@ -33,14 +33,15 @@ export const createExposeTemplates = (config: ExposeConfig, nuxt = useNuxt()) =>
               return [
                 `${validKeys.map(i => `const _${i} = ${JSON.stringify(_value[i])}`).join('\n')}`,
                 `const config = { ${validKeys.map(i => `"${i}": _${i}, `).join('')}${invalidKeys.map(i => `"${i}": ${JSON.stringify(_value[i])}, `).join('')} }`,
-                `export { config as default${validKeys.length > 0 ? ', _' : ''}${validKeys.join(', _')} }`
+                `export { config as default${validKeys.length > 0 ? ', _' : ''}${validKeys.join(', _')} }`,
               ].join('\n')
             }
             return `export default ${JSON.stringify(_value, null, 2)}`
           },
-          write: config.write
+          write: config.write,
         }))
-      } else {
+      }
+      else {
         // recurse through nested objects
         populateMap(value, path.concat(key), level + 1)
 
@@ -53,10 +54,10 @@ export const createExposeTemplates = (config: ExposeConfig, nuxt = useNuxt()) =>
             return [
               `${values.map(v => `import _${v} from "./${key}/${v}.mjs"`).join('\n')}`,
               `const config = { ${values.map(k => `"${k}": _${k}`).join(', ')} }`,
-              `export { config as default${values.length > 0 ? ', _' : ''}${values.join(', _')} }`
+              `export { config as default${values.length > 0 ? ', _' : ''}${values.join(', _')} }`,
             ].join('\n')
           },
-          write: config.write
+          write: config.write,
         }))
       }
     })
@@ -73,10 +74,10 @@ export const createExposeTemplates = (config: ExposeConfig, nuxt = useNuxt()) =>
       return [
         `${configOptions.map(v => `import ${v} from "#build/tailwind.config/${v}.mjs"`).join('\n')}`,
         `const config = { ${configOptions.join(', ')} }`,
-        `export { config as default, ${configOptions.join(', ')} }`
+        `export { config as default, ${configOptions.join(', ')} }`,
       ].join('\n')
     },
-    write: true
+    write: true,
   })
 
   templates.push(addTypeTemplate({
@@ -88,9 +89,9 @@ export const createExposeTemplates = (config: ExposeConfig, nuxt = useNuxt()) =>
         Object.entries(obj).map(([key, value = {} as any]): string => {
           const subpath = path.concat(key).join('/')
           if (
-            level >= config.level || // if recursive call is more than desired
-            !isJSObject(value) || // if its not an object, no more recursion required
-            Object.keys(value).find(k => !k.match(NON_ALPHANUMERIC_RE)) // object has non-alphanumeric property (unsafe var name)
+            level >= config.level // if recursive call is more than desired
+            || !isJSObject(value) // if its not an object, no more recursion required
+            || Object.keys(value).find(k => !k.match(NON_ALPHANUMERIC_RE)) // object has non-alphanumeric property (unsafe var name)
           ) {
             if (isJSObject(value)) {
               const [validKeys, invalidKeys]: [string[], string[]] = [[], []]
@@ -108,11 +109,11 @@ export const createExposeTemplates = (config: ExposeConfig, nuxt = useNuxt()) =>
 
       const configOptions = Object.keys(_tailwindConfig)
       return declareModule(_tailwindConfig).join('') + `declare module "${config.alias}" {${configOptions.map(v => ` export const ${v}: typeof import("${join(config.alias, v)}")["default"];`).join('')} const defaultExport: { ${configOptions.map(v => `"${v}": typeof ${v}`)} }; export default defaultExport; }`
-    }
+    },
   }))
 
   templates.push(entryTemplate)
   nuxt.options.alias[config.alias] = dirname(entryTemplate.dst)
 
-  return templates.map((t) => t.dst)
+  return templates.map(t => t.dst)
 }

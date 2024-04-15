@@ -9,16 +9,23 @@ const { header } = useAppConfig()
 <template>
   <UHeader>
     <template #logo>
-      <Logo class="h-6" />
+      <TheLogo class="h-6" />
       <span class="text-xs font-thin">v{{ header.pkgVersion }}</span>
     </template>
 
-    <template v-if="header?.search" #center>
+    <template
+      v-if="header?.search"
+      #center
+    >
       <UDocsSearchButton class="hidden lg:flex" />
     </template>
 
     <template #right>
-      <UDocsSearchButton v-if="header?.search" :label="null" class="lg:hidden" />
+      <UDocsSearchButton
+        v-if="header?.search"
+        :label="null"
+        class="lg:hidden"
+      />
 
       <UColorModeButton v-if="header?.colorMode" />
 

@@ -1,5 +1,5 @@
-import { defineNuxtConfig } from 'nuxt/config'
 import { existsSync } from 'node:fs'
+import { defineNuxtConfig } from 'nuxt/config'
 import { resolve } from 'pathe'
 import { consola } from 'consola'
 import typography from '@tailwindcss/typography'
@@ -15,13 +15,12 @@ export default defineNuxtConfig({
     existsSync(resolve(__dirname, '../dist/module.mjs')) ? '@nuxtjs/tailwindcss' : '../src/module',
     '@nuxt/content',
   ],
-  // @ts-ignore
   tailwindcss: {
     // viewer: false,
     config: { plugins: [typography()] },
     exposeConfig: true,
     cssPath: '~/assets/css/tailwind.css',
-    editorSupport: true
+    editorSupport: true,
   } satisfies Partial<ModuleOptions>,
   hooks: {
     'tailwindcss:loadConfig': (config, configPath, idx) => {
@@ -32,9 +31,10 @@ export default defineNuxtConfig({
         config.theme.extend = config.theme.extend ?? {}
         config.theme.extend.screens = { md2: '100px' }
         config.theme.extend.colors = config.theme.extend.colors ?? {}
-        // @ts-ignore
+        // @ts-expect-error TODO: types for colors are not correct
         config.theme.extend.colors.zeroLayer = '#0fe325'
-      } else if (idx === 1 && config) {
+      }
+      else if (idx === 1 && config) {
         config.content = config.content ?? []
         Array.isArray(config.content) ? config.content.push('my-content') : config.content.files.push('my-file-content')
       }
@@ -45,16 +45,16 @@ export default defineNuxtConfig({
       config.theme = config.theme ?? {}
       config.theme.extend = config.theme.extend ?? {}
       config.theme.extend.colors = config.theme.extend.colors ?? {}
-      // @ts-ignore
+      // @ts-expect-error TODO: types for colors are not correct
       config.theme.extend.colors.twConfig = '#f0ff0f'
     },
     'tailwindcss:resolvedConfig': (config, oldConfig) => {
-      // @ts-ignore
+      // @ts-expect-error TODO: types for theme are not correct
       logger.info('Running `tailwindcss:resolvedConfig` hook...', { typography: Boolean(config.theme.typography), hasOld: Boolean(oldConfig) })
-    }
+    },
   } satisfies Partial<ModuleHooks>,
   content: {
-    documentDriven: true
+    documentDriven: true,
   },
   css: [
     // Including Inter CSS is the first component to reproduce HMR issue. It also causes playground to look better,
@@ -62,6 +62,6 @@ export default defineNuxtConfig({
     '@fontsource/inter/400.css',
     '@fontsource/inter/500.css',
     '@fontsource/inter/600.css',
-    '@fontsource/inter/700.css'
-  ]
+    '@fontsource/inter/700.css',
+  ],
 })

@@ -1,6 +1,6 @@
-import { describe, test, expect, beforeAll } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
 import { exec } from 'node:child_process'
+import { describe, test, expect, beforeAll } from 'vitest'
 import { ofetch } from 'ofetch'
 import { r } from './utils'
 
@@ -12,7 +12,7 @@ describe.skipIf(!existsSync(fixturePath))('nuxt.com', async () => {
 
   beforeAll(() => {
     const generateCommand = exec(`cd ${fixturePath} && pnpm generate`)
-  
+
     // eslint-disable-next-line no-constant-condition
     while (true) {
       if (
