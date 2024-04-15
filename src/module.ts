@@ -134,7 +134,7 @@ export default defineNuxtModule<ModuleOptions>({
       postcssOptions.plugins = {
         ...(postcssOptions.plugins || {}),
         'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
-        tailwindcss: enableHMR ? twConfig.dst satisfies string : _config
+        'tailwindcss': enableHMR ? twConfig.dst satisfies string : _config,
       }
 
       // enabled only in development
