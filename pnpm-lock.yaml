@@ -112,8 +112,8 @@ importers:
         specifier: ^3.1.3
         version: 3.1.3(rollup@3.29.4)
       '@nuxtjs/plausible':
-        specifier: ^0.2.4
-        version: 0.2.4(rollup@3.29.4)
+        specifier: ^1.0.0
+        version: 1.0.0(rollup@3.29.4)
       nuxt-og-image:
         specifier: ^2.2.4
         version: 2.2.4(@nuxt/devtools@1.0.8)(@vue/compiler-core@3.4.21)(nuxt@3.11.1)(postcss@8.4.38)(rollup@3.29.4)(vite@5.2.6)(vue@3.4.21)(webpack@5.91.0)
@@ -485,6 +485,10 @@ packages:
       '@babel/helper-string-parser': 7.23.4
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
+
+  /@barbapapazes/plausible-tracker@0.4.0:
+    resolution: {integrity: sha512-4hhXK62ORb4feJfjnIILXRnb6xfejHM6yvGCid6MwNdKiQyj6YLW0M779zXLH5IBS4mQObmrNul2HUleeavSKw==}
+    dev: false
 
   /@capsizecss/metrics@1.2.0:
     resolution: {integrity: sha512-zUYcqaR0rv4TYXyY97G1vRMMOyz+3EteXqLsM1XO/N8LnThwR1wYSE5cU15CUx3KPAiAEIbUZ13B7+plxYjHUA==}
@@ -1348,7 +1352,7 @@ packages:
       nuxt: ^3.9.0
       vite: '*'
     dependencies:
-      '@nuxt/kit': 3.11.1(rollup@3.29.4)
+      '@nuxt/kit': 3.11.2(rollup@3.29.4)
       '@nuxt/schema': 3.10.0(rollup@3.29.4)
       execa: 7.2.0
       nuxt: 3.11.1(@unocss/reset@0.58.3)(eslint@9.0.0)(floating-vue@5.2.2)(rollup@3.29.4)(typescript@5.4.3)(unocss@0.58.3)(vite@5.2.6)
@@ -1384,7 +1388,7 @@ packages:
       '@iconify-json/tabler': 1.1.103
       '@nuxt/devtools': 1.0.8(nuxt@3.11.1)(rollup@3.29.4)(vite@5.2.6)
       '@nuxt/devtools-kit': 1.0.8(nuxt@3.11.1)(rollup@3.29.4)(vite@5.2.6)
-      '@nuxt/kit': 3.11.1(rollup@3.29.4)
+      '@nuxt/kit': 3.11.2(rollup@3.29.4)
       '@nuxtjs/color-mode': 3.3.2(rollup@3.29.4)
       '@unocss/core': 0.58.3
       '@unocss/nuxt': 0.58.3(postcss@8.4.38)(rollup@3.29.4)(vite@5.2.6)(webpack@5.91.0)
@@ -1747,13 +1751,13 @@ packages:
     resolution: {integrity: sha512-XwxyoW1DFMpHsoF3LHvwd2e2JFy9bTBfTo2/gH2RH9tU2W3I56A9uPRBftFXTNEDBrO2whYOFsRgjVOmM0ZZHg==}
     engines: {node: ^14.18.0 || >=16.10.0}
     dependencies:
-      '@nuxt/ui-templates': 1.3.1
+      '@nuxt/ui-templates': 1.3.3
       consola: 3.2.3
       defu: 6.1.4
       hookable: 5.5.3
       pathe: 1.1.2
       pkg-types: 1.0.3
-      scule: 1.2.0
+      scule: 1.3.0
       std-env: 3.7.0
       ufo: 1.5.3
       unimport: 3.7.1(rollup@3.29.4)
@@ -2109,7 +2113,7 @@ packages:
   /@nuxtjs/color-mode@3.3.2(rollup@3.29.4):
     resolution: {integrity: sha512-BLpBfrYZngV2QWFQ4HNEFwAXa3Pno43Ge+2XHcZJTTa1Z4KzRLvOwku8yiyV3ovIaaXKGwduBdv3Z5Ocdp0/+g==}
     dependencies:
-      '@nuxt/kit': 3.11.1(rollup@3.29.4)
+      '@nuxt/kit': 3.11.2(rollup@3.29.4)
       lodash.template: 4.5.0
       pathe: 1.1.2
     transitivePeerDependencies:
@@ -2185,13 +2189,12 @@ packages:
       - supports-color
     dev: true
 
-  /@nuxtjs/plausible@0.2.4(rollup@3.29.4):
-    resolution: {integrity: sha512-9HrSl9ZGKS/7bULAt8uzAGo9BJyIZebzRSLQD8ZhiODaGyRdEQlgcJBw5JgUzjcC5n4T0ZlX3FC6C3Wyp7opgA==}
+  /@nuxtjs/plausible@1.0.0(rollup@3.29.4):
+    resolution: {integrity: sha512-2K0/AbPJAEr3yMA8oDD0I6WB+SXs/YlF297azjR5eSZVQjuimDAwLf4bEXk9ilbrzoMFmm0Tpzn4CC6f0rISBA==}
     dependencies:
-      '@nuxt/kit': 3.9.1(rollup@3.29.4)
+      '@barbapapazes/plausible-tracker': 0.4.0
+      '@nuxt/kit': 3.11.2(rollup@3.29.4)
       defu: 6.1.4
-      pathe: 1.1.2
-      plausible-tracker: 0.3.8
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -3113,15 +3116,8 @@ packages:
   /@types/eslint-scope@3.7.7:
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
     dependencies:
-      '@types/eslint': 8.56.2
+      '@types/eslint': 8.56.9
       '@types/estree': 1.0.5
-    dev: false
-
-  /@types/eslint@8.56.2:
-    resolution: {integrity: sha512-uQDwm1wFHmbBbCZCqAlq6Do9LYwByNZHWzXppSnay9SuwJ+VRbjkbLABer54kcPnMSlG6Fdiy2yaFXm/z9Z5gw==}
-    dependencies:
-      '@types/estree': 1.0.5
-      '@types/json-schema': 7.0.15
     dev: false
 
   /@types/eslint@8.56.9:
@@ -3129,7 +3125,6 @@ packages:
     dependencies:
       '@types/estree': 1.0.5
       '@types/json-schema': 7.0.15
-    dev: true
 
   /@types/estree@1.0.5:
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
@@ -3535,7 +3530,7 @@ packages:
   /@unocss/nuxt@0.58.3(postcss@8.4.38)(rollup@3.29.4)(vite@5.2.6)(webpack@5.91.0):
     resolution: {integrity: sha512-dDQVKb8VtJt2/8SE6/vK1foEaqoTXVUUVq/TT7rSRLHdvRSVKE7M2eeoTS+k38RYdeooMx9YCtzwZDxun6caeQ==}
     dependencies:
-      '@nuxt/kit': 3.11.1(rollup@3.29.4)
+      '@nuxt/kit': 3.11.2(rollup@3.29.4)
       '@unocss/config': 0.58.3
       '@unocss/core': 0.58.3
       '@unocss/preset-attributify': 0.58.3
@@ -4314,7 +4309,7 @@ packages:
     peerDependencies:
       nuxt: ^3.0.0
     dependencies:
-      '@nuxt/kit': 3.11.1(rollup@3.29.4)
+      '@nuxt/kit': 3.11.2(rollup@3.29.4)
       '@vueuse/core': 10.7.1(vue@3.4.21)
       '@vueuse/metadata': 10.7.1
       local-pkg: 0.5.0
@@ -7355,7 +7350,6 @@ packages:
 
   /knitwork@1.1.0:
     resolution: {integrity: sha512-oHnmiBUVHz1V+URE77PNot2lv3QiYU2zQf1JjOVkMt3YDKGbu8NAFr+c4mcNOhdsGrB/VpVbRwPwhiXrPhxQbw==}
-    dev: false
 
   /koa-compose@4.1.0:
     resolution: {integrity: sha512-8ODW8TrDuMYvXRwra/Kh7/rJo9BtOfPc6qO8eAfC80CnCvSjSl0bkRM24X6/XBBEyj0v1nRUQ1LyOy3dbqOWXw==}
@@ -7512,7 +7506,7 @@ packages:
     resolution: {integrity: sha512-ok6z3qlYyCDS4ZEU27HaU6x/xZa9Whf8jD4ptH5UZTQYZVYeb9bnZ3ojVhiJNLiXK1Hfc0GNbLXcmZ5plLDDBg==}
     engines: {node: '>=14'}
     dependencies:
-      mlly: 1.5.0
+      mlly: 1.6.1
       pkg-types: 1.0.3
 
   /locate-path@5.0.0:
@@ -8278,7 +8272,7 @@ packages:
       fs-extra: 11.2.0
       globby: 13.2.2
       jiti: 1.21.0
-      mlly: 1.4.2
+      mlly: 1.6.1
       mri: 1.2.0
       pathe: 1.1.2
       postcss: 8.4.33
@@ -8661,7 +8655,7 @@ packages:
       '@iconify/collections': 1.0.379
       '@iconify/vue': 4.1.1(vue@3.4.21)
       '@nuxt/devtools-kit': 1.0.8(nuxt@3.11.1)(rollup@3.29.4)(vite@5.2.6)
-      '@nuxt/kit': 3.11.1(rollup@3.29.4)
+      '@nuxt/kit': 3.11.2(rollup@3.29.4)
     transitivePeerDependencies:
       - nuxt
       - rollup
@@ -9289,11 +9283,6 @@ packages:
       jsonc-parser: 3.2.0
       mlly: 1.5.0
       pathe: 1.1.2
-
-  /plausible-tracker@0.3.8:
-    resolution: {integrity: sha512-lmOWYQ7s9KOUJ1R+YTOR3HrjdbxIS2Z4de0P/Jx2dQPteznJl2eX3tXxKClpvbfyGP59B5bbhW8ftN59HbbFSg==}
-    engines: {node: '>=10'}
-    dev: false
 
   /playwright-core@1.40.1:
     resolution: {integrity: sha512-+hkOycxPiV534c4HhpfX6yrlawqVUzITRKwHAmYfmsVreltEl6fAZJ3DPfLMOODw0H3s1Itd6MDCWmP1fl/QvQ==}
@@ -11828,7 +11817,7 @@ packages:
   /unwasm@0.3.8:
     resolution: {integrity: sha512-nIJQXxGl/gTUp5dZkSc8jbxAqSOa9Vv4jjSZXNI6OK0JXdvW3SQUHR+KY66rjI0W//km59jivGgd5TCvBUWsnA==}
     dependencies:
-      knitwork: 1.0.0
+      knitwork: 1.1.0
       magic-string: 0.30.8
       mlly: 1.6.1
       pathe: 1.1.2
@@ -11983,7 +11972,7 @@ packages:
       fast-glob: 3.3.2
       fs-extra: 11.2.0
       npm-run-path: 4.0.1
-      semver: 7.5.4
+      semver: 7.6.0
       strip-ansi: 6.0.1
       tiny-invariant: 1.3.1
       typescript: 5.4.3
@@ -12218,7 +12207,7 @@ packages:
     engines: {vscode: ^1.52.0}
     dependencies:
       minimatch: 3.1.2
-      semver: 7.5.4
+      semver: 7.6.0
       vscode-languageserver-protocol: 3.16.0
 
   /vscode-languageserver-protocol@3.16.0:
