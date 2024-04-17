@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.12.0
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.11.4...v6.12.0)
+
+### 🚀 Enhancements
+
+- First class hmr ([#818](https://github.com/nuxt-modules/tailwindcss/pull/818))
+
+### 💅 Refactors
+
+- First class HMR support ([#795](https://github.com/nuxt-modules/tailwindcss/pull/795))
+- First class HMR support " ([#795](https://github.com/nuxt-modules/tailwindcss/pull/795), [#817](https://github.com/nuxt-modules/tailwindcss/pull/817))
+
+### 📖 Documentation
+
+- Update configuration docs ([#827](https://github.com/nuxt-modules/tailwindcss/pull/827))
+- Use new `nuxi module add` command in installation ([#829](https://github.com/nuxt-modules/tailwindcss/pull/829))
+- Update classRegex, closes #824 ([#824](https://github.com/nuxt-modules/tailwindcss/issues/824))
+
+### 🏡 Chore
+
+- Remove unneeded postcss-custom-properties plugin ([#836](https://github.com/nuxt-modules/tailwindcss/pull/836))
+- Migrate to eslint v9 ([#834](https://github.com/nuxt-modules/tailwindcss/pull/834))
+- Update deps ([87fb919](https://github.com/nuxt-modules/tailwindcss/commit/87fb919))
+
+### ❤️ Contributors
+
+- Inesh Bose <dev@inesh.xyz>
+- Daniel Roe ([@danielroe](http://github.com/danielroe))
+- Scott Rees ([@reesscot](http://github.com/reesscot))
+- Selemondev ([@selemondev](http://github.com/selemondev))
+
 ## v6.11.4
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.11.3...v6.11.4)
