@@ -3,7 +3,15 @@ type Import = Exclude<Parameters<typeof import('nuxt/kit')['addImports']>[0], an
 export type TWConfig = import('tailwindcss').Config
 export type InjectPosition = 'first' | 'last' | number | { after: string }
 
-interface ExtendTailwindConfig {
+type _Omit<T, K extends PropertyKey> = { [P in keyof T as Exclude<P, K>]: T[P] }
+
+type InlineTWConfig = _Omit<TWConfig, 'content' | 'plugins' | 'safelist'> & {
+  content?: (Extract<TWConfig['content'], any[]> | _Omit<Extract<TWConfig['content'], Record<string, any>>, 'extract' | 'transform'>)
+  // plugins?: Extract<NonNullable<TWConfig['plugins']>[number], string | [string, any]>[] // incoming in Oxide
+  safelist?: Exclude<NonNullable<TWConfig['safelist']>[number], Record<string, any>>[]
+}
+
+type ExtendTWConfig = {
   content?:
     | TWConfig['content']
     | ((contentDefaults: Array<string>) => TWConfig['content'])
@@ -84,7 +92,7 @@ export interface ModuleOptions {
    *
    * for default, see https://tailwindcss.nuxtjs.org/tailwind/config
    */
-  config: Omit<TWConfig, keyof ExtendTailwindConfig> & ExtendTailwindConfig
+  config: InlineTWConfig
   /**
    * [tailwind-config-viewer](https://github.com/rogden/tailwind-config-viewer) usage *in development*
    *

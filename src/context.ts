@@ -36,10 +36,10 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
   const configUpdatedHook: Record<string, string> = {}
   const configResolvedPath = join(nuxt.options.buildDir, CONFIG_TEMPLATE_NAME)
 
-  const trackProxy = (configPath: string, path: (string | symbol)[] = []): ProxyHandler<Partial<TWConfig>> => ({
+  const trackObjChanges = (configPath: string, path: (string | symbol)[] = []): ProxyHandler<Partial<TWConfig>> => ({
     get: (target, key: string) => {
       return (typeof target[key] === 'object' && target[key] !== null)
-        ? new Proxy(target[key], trackProxy(configPath, path.concat(key)))
+        ? new Proxy(target[key], trackObjChanges(configPath, path.concat(key)))
         : target[key]
     },
 
@@ -50,6 +50,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
         return Reflect.set(target, key, value)
       }
 
+      // check unsafe stuff here
       if (key === 'plugins' && typeof value === 'function') {
         logger.warn(
           'You have injected a functional plugin into your Tailwind Config which cannot be serialized.',
@@ -93,7 +94,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
           configUpdatedHook[configPath] += 'cfg.content = cfg.purge;'
         }
 
-        await nuxt.callHook('tailwindcss:loadConfig', _tailwindConfig && new Proxy(_tailwindConfig, trackProxy(configPath)), configPath, idx, paths)
+        await nuxt.callHook('tailwindcss:loadConfig', _tailwindConfig && new Proxy(_tailwindConfig, trackObjChanges(configPath)), configPath, idx, paths)
         return _tailwindConfig || {}
       })),
     ).then(configs => configs.reduce(
@@ -104,7 +105,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
 
     // Allow extending tailwindcss config by other modules
     configUpdatedHook['main-config'] = ''
-    await nuxt.callHook('tailwindcss:config', new Proxy(tailwindConfig, trackProxy('main-config')))
+    await nuxt.callHook('tailwindcss:config', new Proxy(tailwindConfig, trackObjChanges('main-config')))
     twCtx.set(tailwindConfig)
 
     return tailwindConfig

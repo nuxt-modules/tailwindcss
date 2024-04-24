@@ -17,7 +17,7 @@ export default defineNuxtConfig({
   ],
   tailwindcss: {
     // viewer: false,
-    config: { plugins: [typography()] },
+    config: {},
     exposeConfig: true,
     cssPath: '~/assets/css/tailwind.css',
     editorSupport: true,

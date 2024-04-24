@@ -40,6 +40,34 @@ const deprecationWarnings = (moduleOptions: ModuleOptions, nuxt = useNuxt()) =>
     ([dOption, alternative]) => moduleOptions[dOption] !== undefined && logger.warn(`Deprecated \`${dOption}\`. ${alternative}`),
   )
 
+const unsafeInlineConfig = (inlineConfig: ModuleOptions['config']) => {
+  if (!inlineConfig) return
+
+  if (
+    'plugins' in inlineConfig && Array.isArray(inlineConfig.plugins)
+    && inlineConfig.plugins.find(p => typeof p === 'function' || typeof p?.handler === 'function')
+  ) {
+    return 'plugins'
+  }
+
+  if (inlineConfig.content) {
+    const invalidProperty = ['extract', 'transform'].find((i) => i in inlineConfig.content! && typeof inlineConfig.content![i as keyof ModuleOptions['config']['content']] === 'function' )
+
+    if (invalidProperty) {
+      return `content.${invalidProperty}`
+    }
+  }
+
+  if (inlineConfig.safelist) {
+    // @ts-expect-error `s` is never
+    const invalidIdx = inlineConfig.safelist.findIndex((s) => typeof s === 'object' && s.pattern instanceof RegExp)
+
+    if (invalidIdx > -1) {
+      return `safelist[${invalidIdx}]`
+    }
+  }
+}
+
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: 'tailwind.config',
   cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
@@ -58,10 +86,11 @@ export default defineNuxtModule<ModuleOptions>({
 
     let enableHMR = true
 
-    if (Array.isArray(moduleOptions.config.plugins) && moduleOptions.config.plugins.find(p => typeof p === 'function' || typeof p?.handler === 'function')) {
+    const unsafeProperty = unsafeInlineConfig(moduleOptions.config)
+    if (unsafeProperty) {
       logger.warn(
-        'You have provided functional plugins in `tailwindcss.config` in your Nuxt configuration that cannot be serialized for Tailwind Config.',
-        'Please use `tailwind.config` or a separate file (specifying in `tailwindcss.configPath`) to enable it with additional support for IntelliSense and HMR.',
+        `The provided Tailwind configuration in your \`nuxt.config\` is non-serializable. Check ${unsafeProperty}. Falling back to providing the loaded configuration inlined directly to PostCSS loader..`,
+        'Please consider using `tailwind.config` or a separate file (specifying in `configPath` of the module options) to enable it with additional support for IntelliSense and HMR. Suppress this warning with `quiet: true` in the module options.',
       )
       enableHMR = false
     }
