@@ -78,6 +78,11 @@
   "resolutions": {
     "@nuxtjs/tailwindcss": "link:."
   },
+  "build": {
+    "externals": [
+      "runtime/merger.mjs"
+    ]
+  },
   "stackblitz": {
     "startCommand": "pnpm dev:prepare && pnpm dev"
   }
