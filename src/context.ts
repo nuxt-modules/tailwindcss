@@ -5,8 +5,8 @@ import _loadConfig from 'tailwindcss/loadConfig.js'
 import resolveConfig from 'tailwindcss/resolveConfig.js'
 import type { ModuleOptions, TWConfig } from './types'
 import { resolveModulePaths } from './resolvers'
-import logger from './logger'
 import configMerger from './runtime/merger.mjs'
+import { createConfigLoader } from './config'
 
 const CONFIG_TEMPLATE_NAME = 'tailwind.config.cjs'
 
@@ -36,80 +36,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
   const configUpdatedHook: Record<string, string> = {}
   const configResolvedPath = join(nuxt.options.buildDir, CONFIG_TEMPLATE_NAME)
 
-  const trackObjChanges = (configPath: string, path: (string | symbol)[] = []): ProxyHandler<Partial<TWConfig>> => ({
-    get: (target, key: string) => {
-      return (typeof target[key] === 'object' && target[key] !== null)
-        ? new Proxy(target[key], trackObjChanges(configPath, path.concat(key)))
-        : target[key]
-    },
-
-    set(target, key, value) {
-      const resultingCode = `cfg${path.concat(key).map(k => `[${JSON.stringify(k)}]`).join('')} = ${JSON.stringify(value)};`
-
-      if (JSON.stringify(target[key as string]) === JSON.stringify(value) || configUpdatedHook[configPath].endsWith(resultingCode)) {
-        return Reflect.set(target, key, value)
-      }
-
-      // check unsafe stuff here
-      if (key === 'plugins' && typeof value === 'function') {
-        logger.warn(
-          'You have injected a functional plugin into your Tailwind Config which cannot be serialized.',
-          'Please use a configuration file/template instead.',
-        )
-        // return false // removed for backwards compatibility
-      }
-
-      configUpdatedHook[configPath] += resultingCode
-      return Reflect.set(target, key, value)
-    },
-
-    deleteProperty(target, key) {
-      configUpdatedHook[configPath] += `delete cfg${path.concat(key).map(k => `[${JSON.stringify(k)}]`).join('')};`
-      return Reflect.deleteProperty(target, key)
-    },
-  })
-
-  const loadConfig = async () => {
-    configPaths.forEach(p => configUpdatedHook[p] = '')
-
-    const tailwindConfig = await Promise.all((
-      configPaths.map(async (configPath, idx, paths) => {
-        let _tailwindConfig: Partial<TWConfig> | undefined
-
-        try {
-          _tailwindConfig = configMerger(undefined, _loadConfig(configPath))
-        }
-        catch (e) {
-          if (!configPath.startsWith(nuxt.options.buildDir)) {
-            configUpdatedHook[configPath] = 'return {};'
-            logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
-          }
-          else {
-            configUpdatedHook[configPath] = nuxt.options.dev ? 'return {};' : ''
-          }
-        }
-
-        // Transform purge option from Array to object with { content }
-        if (_tailwindConfig?.purge && !_tailwindConfig.content) {
-          configUpdatedHook[configPath] += 'cfg.content = cfg.purge;'
-        }
-
-        await nuxt.callHook('tailwindcss:loadConfig', _tailwindConfig && new Proxy(_tailwindConfig, trackObjChanges(configPath)), configPath, idx, paths)
-        return _tailwindConfig || {}
-      })),
-    ).then(configs => configs.reduce(
-      (prev, curr) => configMerger(curr, prev),
-      // internal default tailwind config
-      configMerger(moduleOptions.config, { content: contentPaths }),
-    )) as TWConfig
-
-    // Allow extending tailwindcss config by other modules
-    configUpdatedHook['main-config'] = ''
-    await nuxt.callHook('tailwindcss:config', new Proxy(tailwindConfig, trackObjChanges('main-config')))
-    twCtx.set(tailwindConfig)
-
-    return tailwindConfig
-  }
+  const loadConfig = createConfigLoader(configUpdatedHook, configPaths, configMerger(moduleOptions.config, { content: contentPaths }), nuxt)
 
   const generateConfig = () => addTemplate({
     filename: CONFIG_TEMPLATE_NAME,

@@ -17,13 +17,20 @@ import {
 import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
 
 import { name, version, configKey, compatibility } from '../package.json'
-import * as resolvers from './resolvers'
+import {
+  resolveExposeConfig,
+  resolveEditorSupportConfig,
+  resolveViewerConfig,
+  resolveCSSPath,
+  resolveInjectPosition
+} from './resolvers'
 import logger, { LogLevels } from './logger'
 import { createExposeTemplates } from './expose'
 import { setupViewer, exportViewer } from './viewer'
 import { createInternalContext } from './context'
 
 import type { ModuleOptions, ModuleHooks } from './types'
+import { checkUnsafeConfig } from './config'
 
 export type { ModuleOptions, ModuleHooks } from './types'
 
@@ -39,34 +46,6 @@ const deprecationWarnings = (moduleOptions: ModuleOptions, nuxt = useNuxt()) =>
   ] satisfies Array<[keyof ModuleOptions, string]>).forEach(
     ([dOption, alternative]) => moduleOptions[dOption] !== undefined && logger.warn(`Deprecated \`${dOption}\`. ${alternative}`),
   )
-
-const unsafeInlineConfig = (inlineConfig: ModuleOptions['config']) => {
-  if (!inlineConfig) return
-
-  if (
-    'plugins' in inlineConfig && Array.isArray(inlineConfig.plugins)
-    && inlineConfig.plugins.find(p => typeof p === 'function' || typeof p?.handler === 'function')
-  ) {
-    return 'plugins'
-  }
-
-  if (inlineConfig.content) {
-    const invalidProperty = ['extract', 'transform'].find((i) => i in inlineConfig.content! && typeof inlineConfig.content![i as keyof ModuleOptions['config']['content']] === 'function' )
-
-    if (invalidProperty) {
-      return `content.${invalidProperty}`
-    }
-  }
-
-  if (inlineConfig.safelist) {
-    // @ts-expect-error `s` is never
-    const invalidIdx = inlineConfig.safelist.findIndex((s) => typeof s === 'object' && s.pattern instanceof RegExp)
-
-    if (invalidIdx > -1) {
-      return `safelist[${invalidIdx}]`
-    }
-  }
-}
 
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: 'tailwind.config',
@@ -86,10 +65,10 @@ export default defineNuxtModule<ModuleOptions>({
 
     let enableHMR = true
 
-    const unsafeProperty = unsafeInlineConfig(moduleOptions.config)
+    const unsafeProperty = checkUnsafeConfig(moduleOptions.config)
     if (unsafeProperty) {
       logger.warn(
-        `The provided Tailwind configuration in your \`nuxt.config\` is non-serializable. Check ${unsafeProperty}. Falling back to providing the loaded configuration inlined directly to PostCSS loader..`,
+        `The provided Tailwind configuration in your \`nuxt.config\` is non-serializable. Check \`${unsafeProperty}\`. Falling back to providing the loaded configuration inlined directly to PostCSS loader..`,
         'Please consider using `tailwind.config` or a separate file (specifying in `configPath` of the module options) to enable it with additional support for IntelliSense and HMR. Suppress this warning with `quiet: true` in the module options.',
       )
       enableHMR = false
@@ -106,7 +85,7 @@ export default defineNuxtModule<ModuleOptions>({
     const ctx = await createInternalContext(moduleOptions, nuxt)
 
     if (moduleOptions.editorSupport || moduleOptions.addTwUtil) {
-      const editorSupportConfig = resolvers.resolveEditorSupportConfig(moduleOptions.editorSupport)
+      const editorSupportConfig = resolveEditorSupportConfig(moduleOptions.editorSupport)
 
       if ((editorSupportConfig.autocompleteUtil || moduleOptions.addTwUtil) && !isNuxt2()) {
         addImports({
@@ -120,7 +99,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // css file handling
     const [cssPath, cssPathConfig] = Array.isArray(moduleOptions.cssPath) ? moduleOptions.cssPath : [moduleOptions.cssPath]
-    const [resolvedCss, loggerInfo] = await resolvers.resolveCSSPath(cssPath, nuxt)
+    const [resolvedCss, loggerInfo] = await resolveCSSPath(cssPath, nuxt)
     logger.info(loggerInfo)
 
     nuxt.options.css = nuxt.options.css ?? []
@@ -130,7 +109,7 @@ export default defineNuxtModule<ModuleOptions>({
     if (resolvedCss && !resolvedNuxtCss.includes(resolvedCss)) {
       let injectPosition: number
       try {
-        injectPosition = resolvers.resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition || moduleOptions.injectPosition)
+        injectPosition = resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition || moduleOptions.injectPosition)
       }
       catch (e: any) {
         throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
@@ -147,7 +126,7 @@ export default defineNuxtModule<ModuleOptions>({
 
       // expose resolved tailwind config as an alias
       if (moduleOptions.exposeConfig) {
-        const exposeConfig = resolvers.resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {}) })
+        const exposeConfig = resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {}) })
         const exposeTemplates = createExposeTemplates(exposeConfig)
         nuxt.hook('tailwindcss:internal:regenerateTemplates', () => updateTemplates({ filter: template => exposeTemplates.includes(template.dst) }))
       }
@@ -170,7 +149,7 @@ export default defineNuxtModule<ModuleOptions>({
       if (nuxt.options.dev) {
         // add tailwind-config-viewer endpoint
         if (moduleOptions.viewer) {
-          const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
+          const viewerConfig = resolveViewerConfig(moduleOptions.viewer)
           setupViewer(enableHMR ? twConfig.dst : _config, viewerConfig, nuxt)
 
           nuxt.hook('devtools:customTabs', (tabs: import('@nuxt/devtools').ModuleOptions['customTabs']) => {
@@ -190,7 +169,7 @@ export default defineNuxtModule<ModuleOptions>({
       else {
         // production only
         if (moduleOptions.viewer) {
-          const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
+          const viewerConfig = resolveViewerConfig(moduleOptions.viewer)
 
           if (enableHMR) {
             exportViewer(twConfig.dst, viewerConfig)
