@@ -62,7 +62,7 @@
     "@nuxt/content": "^2.12.1",
     "@nuxt/devtools": "^1.1.5",
     "@nuxt/eslint-config": "0.3.7",
-    "@nuxt/module-builder": "^0.5.5",
+    "@nuxt/module-builder": "^0.6.0",
     "@nuxt/test-utils": "^3.12.1",
     "@tailwindcss/typography": "^0.5.12",
     "changelogen": "^0.5.5",
@@ -71,11 +71,17 @@
     "happy-dom": "^13.10.1",
     "nuxt": "^3.11.2",
     "typescript": "^5.4.5",
-    "vitest": "1.5.0"
+    "vitest": "1.5.0",
+    "vue-tsc": "^2.0.14"
   },
   "packageManager": "pnpm@9.0.2",
   "resolutions": {
     "@nuxtjs/tailwindcss": "link:."
+  },
+  "build": {
+    "externals": [
+      "runtime/merger.mjs"
+    ]
   },
   "stackblitz": {
     "startCommand": "pnpm dev:prepare && pnpm dev"
