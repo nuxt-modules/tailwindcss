@@ -40,34 +40,6 @@ const deprecationWarnings = (moduleOptions: ModuleOptions, nuxt = useNuxt()) =>
     ([dOption, alternative]) => moduleOptions[dOption] !== undefined && logger.warn(`Deprecated \`${dOption}\`. ${alternative}`),
   )
 
-const unsafeInlineConfig = (inlineConfig: ModuleOptions['config']) => {
-  if (!inlineConfig) return
-
-  if (
-    'plugins' in inlineConfig && Array.isArray(inlineConfig.plugins)
-    && inlineConfig.plugins.find(p => typeof p === 'function' || typeof p?.handler === 'function')
-  ) {
-    return 'plugins'
-  }
-
-  if (inlineConfig.content) {
-    const invalidProperty = ['extract', 'transform'].find((i) => i in inlineConfig.content! && typeof inlineConfig.content![i as keyof ModuleOptions['config']['content']] === 'function' )
-
-    if (invalidProperty) {
-      return `content.${invalidProperty}`
-    }
-  }
-
-  if (inlineConfig.safelist) {
-    // @ts-expect-error `s` is never
-    const invalidIdx = inlineConfig.safelist.findIndex((s) => typeof s === 'object' && s.pattern instanceof RegExp)
-
-    if (invalidIdx > -1) {
-      return `safelist[${invalidIdx}]`
-    }
-  }
-}
-
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: 'tailwind.config',
   cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
@@ -83,17 +55,6 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(moduleOptions, nuxt) {
     if (moduleOptions.quiet) logger.level = LogLevels.silent
     deprecationWarnings(moduleOptions, nuxt)
-
-    let enableHMR = true
-
-    const unsafeProperty = unsafeInlineConfig(moduleOptions.config)
-    if (unsafeProperty) {
-      logger.warn(
-        `The provided Tailwind configuration in your \`nuxt.config\` is non-serializable. Check ${unsafeProperty}. Falling back to providing the loaded configuration inlined directly to PostCSS loader..`,
-        'Please consider using `tailwind.config` or a separate file (specifying in `configPath` of the module options) to enable it with additional support for IntelliSense and HMR. Suppress this warning with `quiet: true` in the module options.',
-      )
-      enableHMR = false
-    }
 
     // install postcss8 module on nuxt < 2.16
     if (Number.parseFloat(getNuxtVersion()) < 2.16) {
@@ -142,8 +103,8 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hook('modules:done', async () => {
       const _config = await ctx.loadConfig()
 
-      const twConfig = enableHMR ? ctx.generateConfig() : { dst: '' }
-      enableHMR && ctx.registerHooks()
+      const twConfig = ctx.generateConfig()
+      ctx.registerHooks()
 
       // expose resolved tailwind config as an alias
       if (moduleOptions.exposeConfig) {
@@ -163,7 +124,7 @@ export default defineNuxtModule<ModuleOptions>({
       postcssOptions.plugins = {
         ...(postcssOptions.plugins || {}),
         'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
-        'tailwindcss': enableHMR ? twConfig.dst satisfies string : _config,
+        'tailwindcss': twConfig.dst satisfies string || _config,
       }
 
       // enabled only in development
@@ -171,7 +132,7 @@ export default defineNuxtModule<ModuleOptions>({
         // add tailwind-config-viewer endpoint
         if (moduleOptions.viewer) {
           const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
-          setupViewer(enableHMR ? twConfig.dst : _config, viewerConfig, nuxt)
+          setupViewer(twConfig.dst || _config, viewerConfig, nuxt)
 
           nuxt.hook('devtools:customTabs', (tabs: import('@nuxt/devtools').ModuleOptions['customTabs']) => {
             tabs?.push({
@@ -192,12 +153,7 @@ export default defineNuxtModule<ModuleOptions>({
         if (moduleOptions.viewer) {
           const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
 
-          if (enableHMR) {
-            exportViewer(twConfig.dst, viewerConfig)
-          }
-          else {
-            exportViewer(addTemplate({ filename: 'tailwind.config/viewer-config.cjs', getContents: () => `module.exports = ${JSON.stringify(_config)}`, write: true }).dst, viewerConfig)
-          }
+          exportViewer(twConfig.dst || addTemplate({ filename: 'tailwind.config/viewer-config.cjs', getContents: () => `module.exports = ${JSON.stringify(_config)}`, write: true }).dst, viewerConfig)
         }
       }
     })
