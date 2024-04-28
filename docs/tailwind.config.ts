@@ -21,6 +21,7 @@ export default <Partial<Config>>{
           900: '#0A5331',
           950: '#052e16',
         },
+        tailwind: '#38bdf8'
       },
     },
   },

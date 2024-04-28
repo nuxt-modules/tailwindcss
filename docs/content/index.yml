@@ -1,9 +1,9 @@
-title: 'Add Tailwind CSS to your Nuxt Applications.'
-description: 'Welcome to Nuxt UI Pro documentation template.'
+title: 'Tailwind CSS for Nuxt'
+description: 'Add Tailwind CSS to your Nuxt Applications.'
 navigation: false
 hero:
-  title: 'Add TailwindCSS to your [Nuxt Apps]{.text-primary}.'
-  description: 'Welcome to the Nuxt TailwindCSS module documentation to help you set up Tailwind CSS in your Nuxt application in seconds, with many goodies 🍬.'
+  title: '[Tailwind CSS]{.text-nowrap .text-tailwind} for your [Nuxt Apps]{.text-primary}.'
+  description: 'The Tailwind CSS module for Nuxt enables you to set up Tailwind CSS in your Nuxt application in seconds, with many goodies 🍬'
   orientation: horizontal
   links:
     - label: 'Get started'
@@ -17,7 +17,10 @@ hero:
       target: '_blank'
       size: lg
   code: |
-    ```ts [nuxt.config.ts]
+    ```bash
+    npx nuxi@latest module add tailwindcss
+    ```
+    ```ts [nuxt.config]
     export default defineNuxtConfig({
       modules: ['@nuxtjs/tailwindcss'],
       tailwindcss: {
@@ -31,21 +34,21 @@ features:
   title: 'Shipped with many features.'
   items:
     - title: 'Zero Configuration'
-      description: 'This module enables a quick and easy setup of Tailwind CSS in your Nuxt application.'
+      description: 'Enables using Tailwind CSS after simply installing, with support for Nuxt Layers.'
       to: '/getting-started/installation'
     - title: 'CSS Nesting'
       description: 'Supports CSS Nesting with postcss-nesting to use the latest CSS syntax.'
       to: 'https://drafts.csswg.org/css-nesting-1/'
       target: '_blank'
-    - title: 'Tailwind Viewer'
-      description: 'Discover your tailwind config visually with the viewer as well as the Nuxt Devtools integration.'
+    - title: 'Config Viewer'
+      description: 'Discover your configuration visually with the viewer as well as the Nuxt DevTools integration.'
       to: /tailwind/viewer
-    - title: 'Tailwind Config'
-      description: 'Reference your Tailwind config in your application using the #tailwind-config alias, supporting tree-shaking.'
+    - title: 'Referencing Config'
+      description: 'Reference your Tailwind configuration in your app with tree-shaking.'
       to: '/tailwind/config#referencing-in-the-application'
       target: '_blank'
     - title: 'Extendable'
-      description: 'The module supports the ability to extend the Tailwind config from Nuxt modules or layers.'
+      description: 'Allows other modules to extend the configuration using hooks.'
       to: '/tailwind/config#hooks'
     - title: 'Open Source'
       description: 'Boasting over 85+ contributors and over 500k+ monthly downloads.'

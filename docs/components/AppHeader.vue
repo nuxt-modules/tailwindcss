@@ -7,16 +7,14 @@ const { header } = useAppConfig()
 </script>
 
 <template>
-  <UHeader>
+  <UHeader :ui="{ logo: 'items-center' }">
     <template #logo>
-      <TheLogo class="h-6" />
-      <span class="text-xs font-thin">v{{ header.pkgVersion }}</span>
+      <TheLogo class="h-12" />
+      <span>Nuxt</span>
+      <TailwindText class="h-3.5" />
     </template>
 
-    <template
-      v-if="header?.search"
-      #center
-    >
+    <template v-if="header?.search" #center>
       <UContentSearchButton class="hidden lg:flex" />
     </template>
 

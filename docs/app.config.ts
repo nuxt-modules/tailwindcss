@@ -10,6 +10,15 @@ export default defineAppConfig({
         wrapper: 'border-t border-gray-200 dark:border-gray-800',
       },
     },
+    content: {
+      prose: {
+        code: {
+          icon: {
+            'nuxt.config': 'vscode-icons:file-type-nuxt'
+          }
+        }
+      }
+    }
   },
   header: {
     logo: {
@@ -20,7 +29,6 @@ export default defineAppConfig({
         src: '',
       },
     },
-    pkgVersion,
     search: true,
     colorMode: true,
     links: [{
@@ -31,7 +39,7 @@ export default defineAppConfig({
     }],
   },
   footer: {
-    credits: 'Copyright © 2024',
+    pkgVersion,
     colorMode: false,
     links: [{
       'icon': 'i-simple-icons-nuxtdotjs',
@@ -67,12 +75,12 @@ export default defineAppConfig({
         target: '_blank',
       }, {
         icon: 'i-simple-icons-nuxtdotjs',
-        label: 'Nuxt docs',
+        label: 'Nuxt documentation',
         to: 'https://nuxt.com/docs',
         target: '_blank',
       }, {
         icon: 'i-simple-icons-tailwindcss',
-        label: 'Tailwind CSS docs',
+        label: 'Tailwind CSS',
         to: 'https://tailwindcss.com',
         target: '_blank',
       }],
