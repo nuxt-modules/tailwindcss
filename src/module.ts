@@ -56,16 +56,6 @@ export default defineNuxtModule<ModuleOptions>({
     if (moduleOptions.quiet) logger.level = LogLevels.silent
     deprecationWarnings(moduleOptions, nuxt)
 
-    let enableHMR = true
-
-    if (Array.isArray(moduleOptions.config.plugins) && moduleOptions.config.plugins.find(p => typeof p === 'function' || typeof p?.handler === 'function')) {
-      logger.warn(
-        'You have provided functional plugins in `tailwindcss.config` in your Nuxt configuration that cannot be serialized for Tailwind Config.',
-        'Please use `tailwind.config` or a separate file (specifying in `tailwindcss.configPath`) to enable it with additional support for IntelliSense and HMR.',
-      )
-      enableHMR = false
-    }
-
     // install postcss8 module on nuxt < 2.16
     if (Number.parseFloat(getNuxtVersion()) < 2.16) {
       await installModule('@nuxt/postcss8').catch((e) => {
@@ -113,8 +103,8 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hook('modules:done', async () => {
       const _config = await ctx.loadConfig()
 
-      const twConfig = enableHMR ? ctx.generateConfig() : { dst: '' }
-      enableHMR && ctx.registerHooks()
+      const twConfig = ctx.generateConfig()
+      ctx.registerHooks()
 
       // expose resolved tailwind config as an alias
       if (moduleOptions.exposeConfig) {
@@ -134,7 +124,7 @@ export default defineNuxtModule<ModuleOptions>({
       postcssOptions.plugins = {
         ...(postcssOptions.plugins || {}),
         'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
-        'tailwindcss': enableHMR ? twConfig.dst satisfies string : _config,
+        'tailwindcss': twConfig.dst satisfies string || _config,
       }
 
       // enabled only in development
@@ -142,7 +132,7 @@ export default defineNuxtModule<ModuleOptions>({
         // add tailwind-config-viewer endpoint
         if (moduleOptions.viewer) {
           const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
-          setupViewer(enableHMR ? twConfig.dst : _config, viewerConfig, nuxt)
+          setupViewer(twConfig.dst || _config, viewerConfig, nuxt)
 
           nuxt.hook('devtools:customTabs', (tabs: import('@nuxt/devtools').ModuleOptions['customTabs']) => {
             tabs?.push({
@@ -163,12 +153,7 @@ export default defineNuxtModule<ModuleOptions>({
         if (moduleOptions.viewer) {
           const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
 
-          if (enableHMR) {
-            exportViewer(twConfig.dst, viewerConfig)
-          }
-          else {
-            exportViewer(addTemplate({ filename: 'tailwind.config/viewer-config.cjs', getContents: () => `module.exports = ${JSON.stringify(_config)}`, write: true }).dst, viewerConfig)
-          }
+          exportViewer(twConfig.dst || addTemplate({ filename: 'tailwind.config/viewer-config.cjs', getContents: () => `module.exports = ${JSON.stringify(_config)}`, write: true }).dst, viewerConfig)
         }
       }
     })

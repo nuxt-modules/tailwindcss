@@ -31,31 +31,77 @@ twCtx.set = (instance, replace = true) => {
   set(resolvedConfig as unknown as TWConfig, replace)
 }
 
+const unsafeInlineConfig = (inlineConfig: ModuleOptions['config']) => {
+  if (!inlineConfig) return
+
+  if (
+    'plugins' in inlineConfig && Array.isArray(inlineConfig.plugins)
+    && inlineConfig.plugins.find(p => typeof p === 'function' || typeof p?.handler === 'function')
+  ) {
+    return 'plugins'
+  }
+
+  if (inlineConfig.content) {
+    const invalidProperty = ['extract', 'transform'].find((i) => i in inlineConfig.content! && typeof inlineConfig.content![i as keyof ModuleOptions['config']['content']] === 'function' )
+
+    if (invalidProperty) {
+      return `content.${invalidProperty}`
+    }
+  }
+
+  if (inlineConfig.safelist) {
+    // @ts-expect-error `s` is never
+    const invalidIdx = inlineConfig.safelist.findIndex((s) => typeof s === 'object' && s.pattern instanceof RegExp)
+
+    if (invalidIdx > -1) {
+      return `safelist[${invalidIdx}]`
+    }
+  }
+}
+
+const JSONStringifyWithRegex = (obj: any) => JSON.stringify(obj, (_, v) => v instanceof RegExp ? `__REGEXP ${v.toString()}` : v)
+
 const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNuxt()) => {
   const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
   const configUpdatedHook: Record<string, string> = {}
   const configResolvedPath = join(nuxt.options.buildDir, CONFIG_TEMPLATE_NAME)
+  let enableHMR = true
 
-  const trackProxy = (configPath: string, path: (string | symbol)[] = []): ProxyHandler<Partial<TWConfig>> => ({
+  const unsafeProperty = unsafeInlineConfig(moduleOptions.config)
+  if (unsafeProperty) {
+    logger.warn(
+      `The provided Tailwind configuration in your \`nuxt.config\` is non-serializable. Check \`${unsafeProperty}\`. Falling back to providing the loaded configuration inlined directly to PostCSS loader..`,
+      'Please consider using `tailwind.config` or a separate file (specifying in `configPath` of the module options) to enable it with additional support for IntelliSense and HMR. Suppress this warning with `quiet: true` in the module options.',
+    )
+    enableHMR = false
+  }
+
+  const trackObjChanges = (configPath: string, path: (string | symbol)[] = []): ProxyHandler<Partial<TWConfig>> => ({
     get: (target, key: string) => {
       return (typeof target[key] === 'object' && target[key] !== null)
-        ? new Proxy(target[key], trackProxy(configPath, path.concat(key)))
+        ? new Proxy(target[key], trackObjChanges(configPath, path.concat(key)))
         : target[key]
     },
 
     set(target, key, value) {
-      const resultingCode = `cfg${path.concat(key).map(k => `[${JSON.stringify(k)}]`).join('')} = ${JSON.stringify(value)};`
+      const cfgKey = path.concat(key).map(k => `[${JSON.stringify(k)}]`).join('')
+      const resultingCode = `cfg${cfgKey} = ${JSONStringifyWithRegex(value)?.replace(/"__REGEXP (.*)"/g, (_, substr) => substr.replace(/\\"/g, '"')) || `cfg${cfgKey}`};`
+      const functionalStringify = (val: any) => JSON.stringify(val, (_, v) => ['function'].includes(typeof v) ? CONFIG_TEMPLATE_NAME + 'ns' : v)
 
-      if (JSON.stringify(target[key as string]) === JSON.stringify(value) || configUpdatedHook[configPath].endsWith(resultingCode)) {
+      if (functionalStringify(target[key as string]) === functionalStringify(value) || configUpdatedHook[configPath].endsWith(resultingCode)) {
         return Reflect.set(target, key, value)
       }
 
-      if (key === 'plugins' && typeof value === 'function') {
+      if (functionalStringify(value).includes(`"${CONFIG_TEMPLATE_NAME + 'ns'}"`)) {
         logger.warn(
-          'You have injected a functional plugin into your Tailwind Config which cannot be serialized.',
-          'Please use a configuration file/template instead.',
+          `A hook has injected a non-serializable value in \`config${cfgKey}\`, so the Tailwind Config cannot be serialized. Falling back to providing the loaded configuration inlined directly to PostCSS loader..`,
+          'Please consider using a configuration file/template instead (specifying in `configPath` of the module options) to enable additional support for IntelliSense and HMR.',
         )
-        // return false // removed for backwards compatibility
+        enableHMR = false
+      }
+
+      if (JSONStringifyWithRegex(value).includes('__REGEXP')) {
+        logger.warn(`A hook is injecting RegExp values in your configuration (check \`config${cfgKey}\`) which may be unsafely serialized. Consider moving your safelist to a separate configuration file/template instead (specifying in \`configPath\` of the module options)`)
       }
 
       configUpdatedHook[configPath] += resultingCode
@@ -93,7 +139,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
           configUpdatedHook[configPath] += 'cfg.content = cfg.purge;'
         }
 
-        await nuxt.callHook('tailwindcss:loadConfig', _tailwindConfig && new Proxy(_tailwindConfig, trackProxy(configPath)), configPath, idx, paths)
+        await nuxt.callHook('tailwindcss:loadConfig', _tailwindConfig && new Proxy(_tailwindConfig, trackObjChanges(configPath)), configPath, idx, paths)
         return _tailwindConfig || {}
       })),
     ).then(configs => configs.reduce(
@@ -104,21 +150,21 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
 
     // Allow extending tailwindcss config by other modules
     configUpdatedHook['main-config'] = ''
-    await nuxt.callHook('tailwindcss:config', new Proxy(tailwindConfig, trackProxy('main-config')))
+    await nuxt.callHook('tailwindcss:config', new Proxy(tailwindConfig, trackObjChanges('main-config')))
     twCtx.set(tailwindConfig)
 
     return tailwindConfig
   }
 
-  const generateConfig = () => addTemplate({
+  const generateConfig = () => enableHMR ? addTemplate({
     filename: CONFIG_TEMPLATE_NAME,
     write: true,
     getContents: () => {
       const serializeConfig = <T extends Partial<TWConfig>>(config: T) =>
         JSON.stringify(
           Array.isArray(config.plugins) && config.plugins.length > 0 ? configMerger({ plugins: (defaultPlugins: TWConfig['plugins']) => defaultPlugins?.filter(p => p && typeof p !== 'function') }, config) : config,
-          (_, v) => typeof v === 'function' ? `() => (${JSON.stringify(v())})` : v).replace(/"(\(\) => \(.*\))"/g, (_, substr) => substr.replace(/\\"/g, '"'),
-        )
+          (_, v) => typeof v === 'function' ? `() => (${JSON.stringify(v())})` : v
+        ).replace(/"(\(\) => \(.*\))"/g, (_, substr) => substr.replace(/\\"/g, '"'))
 
       const layerConfigs = configPaths.map((configPath) => {
         const configImport = `require(${JSON.stringify(/[/\\]node_modules[/\\]/.test(configPath) ? configPath : './' + relative(nuxt.options.buildDir, configPath))})`
@@ -135,9 +181,11 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
         `module.exports = ${configUpdatedHook['main-config'] ? `(() => {const cfg=config;${configUpdatedHook['main-config']};return cfg;})()` : 'config'}\n`,
       ].join('\n')
     },
-  })
+  }) : { dst: '' }
 
   const registerHooks = () => {
+    if (!enableHMR) return
+
     nuxt.hook('app:templatesGenerated', async (_app, templates) => {
       if (templates.some(t => configPaths.includes(t.dst))) {
         await loadConfig()
