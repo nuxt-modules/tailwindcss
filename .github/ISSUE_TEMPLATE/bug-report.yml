@@ -1,0 +1,38 @@
+name: "\U0001F41E Bug report"
+description: Report a bug report to help us improve the module
+labels: ["bug"]
+body:
+  - type: textarea
+    id: bug-env
+    attributes:
+      label: Environment
+      description: Use `npx nuxi info` to fill this section.
+      placeholder: Environment
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: A link to a repo that can reproduce the problem you ran into, or over a web container like Stackblitz using [our template](https://stackblitz.com/github/nuxt-modules/tailwindcss/tree/docs-examples/examples/basic-usage).
+      placeholder: Reproduction
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: Bug description
+    validations:
+      required: true
+  - type: textarea
+    id: additonal
+    attributes:
+      label: Additional context
+      description: If applicable, add any other context about the problem here.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Optional if provided reproduction. Please try not to insert an image but copy paste the log text.
+      render: shell-script

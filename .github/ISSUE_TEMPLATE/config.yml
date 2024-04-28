@@ -1,5 +1,17 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Nuxt Community Discord
-    url: https://discord.nuxtjs.org/
-    about: Consider asking questions about the module here.
+  - name: 📚 Nuxt Documentation
+    url: https://nuxt.com/docs
+    about: Check the documentation for usage of Nuxt
+  - name: 💬 Nuxt Discussions
+    url: https://github.com/nuxt/nuxt/discussions
+    about: Check if there is anything related to your issue on Nuxt discussions
+  - name: 📚 Tailwind CSS Documentation
+    url: https://tailwindcss.com/docs
+    about: Check the documentation for usage of Tailwind CSS
+  - name: 💬 Tailwind CSS GitHub
+    url: https://github.com/tailwindlabs/tailwindcss
+    about: Check if there is anything related to your issue on the Tailwind CSS repository
+  - name: 👥 Nuxt Discord Server
+    url: https://chat.nuxt.dev/
+    about: Consider asking questions about the module here
