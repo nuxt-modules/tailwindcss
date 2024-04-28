@@ -1,0 +1,23 @@
+{
+  "name": "@nuxtjs-tailwindcss/nuxt-layers",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/content": "latest",
+    "@nuxt/examples-ui": "latest",
+    "@nuxthq/studio": "latest",
+    "@nuxtjs/color-mode": "latest",
+    "@nuxtjs/tailwindcss": "latest",
+    "@tailwindcss/typography": "latest",
+    "content-wind": "latest",
+    "nuxt": "latest",
+    "nuxt-icon": "latest"
+  }
+}

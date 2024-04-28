@@ -1,0 +1,17 @@
+{
+  "name": "@nuxtjs-tailwindcss/dark-mode",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxtjs/color-mode": "latest",
+    "@nuxtjs/tailwindcss": "latest",
+    "nuxt": "latest"
+  }
+}
