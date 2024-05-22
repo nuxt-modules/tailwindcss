@@ -80,12 +80,12 @@ export default defineNuxtModule<ModuleOptions>({
       }
     }
 
-    // css file handling
-    const [cssPath, cssPathConfig] = Array.isArray(moduleOptions.cssPath) ? moduleOptions.cssPath : [moduleOptions.cssPath]
-    const [resolvedCss, loggerInfo] = await resolvers.resolveCSSPath(cssPath, nuxt)
-    logger.info(loggerInfo)
-
     if (moduleOptions.globalInjection) {
+    // css file handling
+      const [cssPath, cssPathConfig] = Array.isArray(moduleOptions.cssPath) ? moduleOptions.cssPath : [moduleOptions.cssPath]
+      const [resolvedCss, loggerInfo] = await resolvers.resolveCSSPath(cssPath, nuxt)
+      logger.info(loggerInfo)
+
       nuxt.options.css = nuxt.options.css ?? []
       const resolvedNuxtCss = (resolvedCss && await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p)))) || []
 
