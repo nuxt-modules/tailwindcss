@@ -82,6 +82,12 @@ export interface ModuleOptions {
    */
   configPath: string | string[]
   /**
+   * Inject tailwind styles at all pages.
+   *
+   * @default true
+   */
+  globalInjection: boolean
+  /**
    * The path of the Tailwind CSS file. If the file does not exist, the module's default CSS file will be imported instead.
    *
    * @default '~/assets/css/tailwind.css'

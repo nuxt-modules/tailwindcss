@@ -42,6 +42,7 @@ const deprecationWarnings = (moduleOptions: ModuleOptions, nuxt = useNuxt()) =>
 
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: 'tailwind.config',
+  globalInjection: true,
   cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
   config: defaultTailwindConfig,
   viewer: true,
@@ -84,20 +85,22 @@ export default defineNuxtModule<ModuleOptions>({
     const [resolvedCss, loggerInfo] = await resolvers.resolveCSSPath(cssPath, nuxt)
     logger.info(loggerInfo)
 
-    nuxt.options.css = nuxt.options.css ?? []
-    const resolvedNuxtCss = (resolvedCss && await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p)))) || []
+    if (moduleOptions.globalInjection) {
+      nuxt.options.css = nuxt.options.css ?? []
+      const resolvedNuxtCss = (resolvedCss && await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p)))) || []
 
-    // inject only if this file isn't listed already by user
-    if (resolvedCss && !resolvedNuxtCss.includes(resolvedCss)) {
-      let injectPosition: number
-      try {
-        injectPosition = resolvers.resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition || moduleOptions.injectPosition)
-      }
-      catch (e: any) {
-        throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
-      }
+      // inject only if this file isn't listed already by user
+      if (resolvedCss && !resolvedNuxtCss.includes(resolvedCss)) {
+        let injectPosition: number
+        try {
+          injectPosition = resolvers.resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition || moduleOptions.injectPosition)
+        }
+        catch (e: any) {
+          throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
+        }
 
-      nuxt.options.css.splice(injectPosition, 0, resolvedCss)
+        nuxt.options.css.splice(injectPosition, 0, resolvedCss)
+      }
     }
 
     nuxt.hook('modules:done', async () => {

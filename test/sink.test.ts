@@ -13,7 +13,6 @@ describe.skipIf(!existsSync(fixturePath))('nuxt.com', async () => {
   beforeAll(() => {
     const generateCommand = exec(`cd ${fixturePath} && pnpm generate`)
 
-    // eslint-disable-next-line no-constant-condition
     while (true) {
       if (
         existsSync(`${fixturePath}.output/public/index.html`)

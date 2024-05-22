@@ -14,7 +14,10 @@ const { header } = useAppConfig()
       <TailwindText class="h-3.5" />
     </template>
 
-    <template v-if="header?.search" #center>
+    <template
+      v-if="header?.search"
+      #center
+    >
       <UContentSearchButton class="hidden lg:flex" />
     </template>
 
