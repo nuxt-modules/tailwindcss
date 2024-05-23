@@ -10,7 +10,7 @@ import {
   createResolver,
   addImports,
   updateTemplates,
-  addTemplate,
+  addTemplate, addImportsDir,
 } from '@nuxt/kit'
 
 // @ts-expect-error no declaration file
@@ -42,8 +42,8 @@ const deprecationWarnings = (moduleOptions: ModuleOptions, nuxt = useNuxt()) =>
 
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: 'tailwind.config',
-  globalInjection: true,
   cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
+  lazy: false,
   config: defaultTailwindConfig,
   viewer: true,
   exposeConfig: false,
@@ -55,6 +55,9 @@ export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility }, defaults,
   async setup(moduleOptions, nuxt) {
     if (moduleOptions.quiet) logger.level = LogLevels.silent
+
+    const resolver = createResolver(import.meta.url)
+
     deprecationWarnings(moduleOptions, nuxt)
 
     // install postcss8 module on nuxt < 2.16
@@ -73,34 +76,41 @@ export default defineNuxtModule<ModuleOptions>({
       if ((editorSupportConfig.autocompleteUtil || moduleOptions.addTwUtil) && !isNuxt2()) {
         addImports({
           name: 'autocompleteUtil',
-          from: createResolver(import.meta.url).resolve('./runtime/utils'),
+          from: resolver.resolve('./runtime/utils'),
           as: 'tw',
           ...(typeof editorSupportConfig.autocompleteUtil === 'object' ? editorSupportConfig.autocompleteUtil : {}),
         })
       }
     }
 
-    if (moduleOptions.globalInjection) {
+    addImportsDir(resolver.resolve('./runtime/composables'))
+
     // css file handling
-      const [cssPath, cssPathConfig] = Array.isArray(moduleOptions.cssPath) ? moduleOptions.cssPath : [moduleOptions.cssPath]
-      const [resolvedCss, loggerInfo] = await resolvers.resolveCSSPath(cssPath, nuxt)
-      logger.info(loggerInfo)
+    const [cssPath, cssPathConfig] = Array.isArray(moduleOptions.cssPath) ? moduleOptions.cssPath : [moduleOptions.cssPath]
+    const [resolvedCss, loggerInfo] = await resolvers.resolveCSSPath(cssPath, nuxt)
+    logger.info(loggerInfo)
 
-      nuxt.options.css = nuxt.options.css ?? []
-      const resolvedNuxtCss = (resolvedCss && await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p)))) || []
+    nuxt.options.css = nuxt.options.css ?? []
+    const resolvedNuxtCss = (resolvedCss && await Promise.all(nuxt.options.css.map((p: any) => resolvePath(p.src ?? p)))) || []
 
-      // inject only if this file isn't listed already by user
-      if (resolvedCss && !resolvedNuxtCss.includes(resolvedCss)) {
-        let injectPosition: number
-        try {
-          injectPosition = resolvers.resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition || moduleOptions.injectPosition)
-        }
-        catch (e: any) {
-          throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
-        }
+    nuxt.options.alias['#tailwind/styles-path'] = addTemplate({
+      filename: 'tailwind.stylesPath.js',
+      getContents: () => {
+        return `export default '${resolvedCss || ''}' || null`
+      },
+    }).dst
 
-        nuxt.options.css.splice(injectPosition, 0, resolvedCss)
+    // inject only if this file isn't listed already by user
+    if (!moduleOptions.lazy && resolvedCss && !resolvedNuxtCss.includes(resolvedCss)) {
+      let injectPosition: number
+      try {
+        injectPosition = resolvers.resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition || moduleOptions.injectPosition)
       }
+      catch (e: any) {
+        throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
+      }
+
+      nuxt.options.css.splice(injectPosition, 0, resolvedCss)
     }
 
     nuxt.hook('modules:done', async () => {

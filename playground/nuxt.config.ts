@@ -19,6 +19,7 @@ export default defineNuxtConfig({
     // viewer: false,
     config: {},
     exposeConfig: true,
+    lazy: true,
     cssPath: '~/assets/css/tailwind.css',
     editorSupport: true,
   } satisfies Partial<ModuleOptions>,

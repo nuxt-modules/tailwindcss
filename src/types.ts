@@ -82,11 +82,11 @@ export interface ModuleOptions {
    */
   configPath: string | string[]
   /**
-   * Inject tailwind styles at all pages.
+   * Make tailwind styles manual, you will need to use the "useTailwind" composable to inject the styles when you need them.
    *
-   * @default true
+   * @default false
    */
-  globalInjection: boolean
+  lazy: boolean
   /**
    * The path of the Tailwind CSS file. If the file does not exist, the module's default CSS file will be imported instead.
    *
