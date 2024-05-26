@@ -28,9 +28,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: docs-examples
-      - run: git config pull.rebase true && git pull origin ${{github.ref}}
+          sparse-checkout: |
+            examples
       - run: corepack enable
       - uses: actions/setup-node@v4
         with:
