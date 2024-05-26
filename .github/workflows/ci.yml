@@ -24,3 +24,21 @@ jobs:
       - run: pnpm build
       # - run: pnpm test:types
       - run: pnpm dev:build
+  examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: docs-examples
+      - run: git pull origin ${{github.ref}}
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - run: pnpm install && pnpm dev:prepare
+      - run: pnpm link --global
+      - run: echo "  - \"examples/*\"" >> pnpm-workspace.yaml
+      # - run: pnpm --filter './examples/**' link @nuxtjs/tailwindcss
+      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm --filter "./examples/**" build
