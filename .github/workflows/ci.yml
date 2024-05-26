@@ -39,7 +39,7 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
-      - run: pnpm install && pnpm dev:prepare
+      - run: pnpm install --no-frozen-lockfile && pnpm dev:prepare
       - run: pnpm link --global
       - run: echo "  - \"docs/examples/*\"" >> pnpm-workspace.yaml
       # - run: pnpm --filter './examples/**' link @nuxtjs/tailwindcss
