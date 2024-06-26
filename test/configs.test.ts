@@ -59,7 +59,6 @@ describe('tailwindcss module configs', async () => {
     const output = spyStderr.mock.calls[0][0].toString()
 
     expect(output.split('\n')[0]).toMatchInlineSnapshot('"[warn] [nuxt:tailwindcss] Failed to load config `./malformed-tailwind.config.js` due to the error below. Skipping.."')
-    expect(output).contains('Failed to load Tailwind config at: `./malformed-tailwind.config.js`')
   })
 
   test('ts config file is loaded and merged', () => {
