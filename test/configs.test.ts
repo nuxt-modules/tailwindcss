@@ -58,7 +58,7 @@ describe('tailwindcss module configs', async () => {
     expect(spyStderr).toBeCalledTimes(1)
     const output = spyStderr.mock.calls[0][0].toString()
 
-    expect(output.split('\n')[0]).toMatchInlineSnapshot('"[warn] [nuxt:tailwindcss] Failed to load Tailwind config at: `./malformed-tailwind.config.js` Cannot find module \'something-that-doesnt-exist\'"')
+    expect(output.split('\n')[0]).toMatchInlineSnapshot('"[warn] [nuxt:tailwindcss] Failed to load config `./malformed-tailwind.config.js` due to the error below. Skipping.."')
     expect(output).contains('Failed to load Tailwind config at: `./malformed-tailwind.config.js`')
   })
 
