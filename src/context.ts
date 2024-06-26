@@ -119,20 +119,22 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
 
     const tailwindConfig = await Promise.all((
       configPaths.map(async (configPath, idx, paths) => {
-        let _tailwindConfig: Partial<TWConfig> | undefined
+        const _tailwindConfig = ((): Partial<TWConfig> | undefined => {
+          try {
+            return configMerger(undefined, _loadConfig(configPath))
+          }
+          catch (e) {
+            const error = e instanceof Error ? ('code' in e ? e.code as string : e.name).toUpperCase() : typeof e === 'string' ? e.toUpperCase() : ''
 
-        try {
-          _tailwindConfig = configMerger(undefined, _loadConfig(configPath))
-        }
-        catch (e) {
-          if (!configPath.startsWith(nuxt.options.buildDir)) {
+            if (configPath.startsWith(nuxt.options.buildDir) && ['MODULE_NOT_FOUND'].includes(error)) {
+              configUpdatedHook[configPath] = nuxt.options.dev ? 'return {};' : ''
+              return
+            }
+
             configUpdatedHook[configPath] = 'return {};'
-            logger.warn(`Failed to load Tailwind config at: \`./${relative(nuxt.options.rootDir, configPath)}\``, e)
+            logger.warn(`Failed to load config \`./${relative(nuxt.options.rootDir, configPath)}\` due to the error below. Skipping..\n`, e)
           }
-          else {
-            configUpdatedHook[configPath] = nuxt.options.dev ? 'return {};' : ''
-          }
-        }
+        })()
 
         // Transform purge option from Array to object with { content }
         if (_tailwindConfig?.purge && !_tailwindConfig.content) {
@@ -187,7 +189,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     if (!enableHMR) return
 
     nuxt.hook('app:templatesGenerated', async (_app, templates) => {
-      if (templates.some(t => configPaths.includes(t.dst))) {
+      if (Array.isArray(templates) && templates?.some(t => configPaths.includes(t.dst))) {
         await loadConfig()
         setTimeout(async () => {
           await updateTemplates({ filter: t => t.filename === CONFIG_TEMPLATE_NAME })
