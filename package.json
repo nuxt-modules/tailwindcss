@@ -79,8 +79,8 @@
     "@nuxtjs/tailwindcss": "link:."
   },
   "build": {
-    "externals": [
-      "runtime/merger.mjs"
+    "entries": [
+      "src/runtime/merger.mjs"
     ]
   },
   "stackblitz": {
