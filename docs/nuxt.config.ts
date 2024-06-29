@@ -36,11 +36,4 @@ export default defineNuxtConfig({
   alias: {
     '@nuxtjs/tailwindcss': '../src/module',
   },
-  $production: {
-    postcss: {
-      plugins: {
-        cssnano: { preset: ['default', { discardComments: { removeAll: true } }] }
-      },
-    }
-  }
 })
