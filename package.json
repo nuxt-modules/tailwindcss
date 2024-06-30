@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "@fontsource/inter": "^5.0.18",
-    "@nuxt/content": "^2.13.0",
+    "@nuxt/content": "2.12.1",
     "@nuxt/devtools": "^1.3.6",
     "@nuxt/eslint-config": "0.3.13",
     "@nuxt/module-builder": "^0.8.0",
@@ -77,14 +77,6 @@
   "packageManager": "pnpm@9.4.0",
   "resolutions": {
     "@nuxtjs/tailwindcss": "link:."
-  },
-  "build": {
-    "entries": [
-      "src/runtime/merger.mjs"
-    ],
-    "externals": [
-      "runtime/merger.mjs"
-    ]
   },
   "stackblitz": {
     "startCommand": "pnpm dev:prepare && pnpm dev"
