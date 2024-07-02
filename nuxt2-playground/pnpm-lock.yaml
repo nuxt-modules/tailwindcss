@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       nuxt:
-        specifier: 2.17.4
-        version: 2.17.4(consola@3.2.3)(vue@2.7.16)
+        specifier: 2.18.1
+        version: 2.18.1(consola@3.2.3)(vue@2.7.16)
       vue:
         specifier: 2.7.16
         version: 2.7.16
@@ -921,6 +921,24 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
+  '@jsonjoy.com/base64@1.1.2':
+    resolution: {integrity: sha512-q6XAnWQDIMA3+FTiOYajoYqySkO+JSat0ytXGSuRdq9uXE7o92gzuQwQM14xaCRlBLGq3v5miDGC4vkVTn54xA==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
+  '@jsonjoy.com/json-pack@1.0.4':
+    resolution: {integrity: sha512-aOcSN4MeAtFROysrbqG137b7gaDDSmVrl5mpo6sT/w+kcXpWnzhMjmY/Fh/sDx26NBxyIE7MB1seqLeCAzy9Sg==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
+  '@jsonjoy.com/util@1.2.0':
+    resolution: {integrity: sha512-4B8B+3vFsY4eo33DMKyJPlQ3sBMpPFUZK2dr3O3rXrOGKKbYG44J0XSFkDo1VOQiri5HFEhIeVvItjR2xcazmg==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
+
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -941,16 +959,16 @@ packages:
     engines: {node: '>=10'}
     deprecated: This functionality has been moved to @npmcli/fs
 
-  '@nuxt/babel-preset-app@2.17.4':
-    resolution: {integrity: sha512-XFDIkSozNS45hZa5PFatJUAZAxP+vLuwfj2TDpasLche3bNXmQfJ04VOWXcSsGcozyZkXm34u0QmN5urjjPPZA==}
+  '@nuxt/babel-preset-app@2.18.1':
+    resolution: {integrity: sha512-7AYAGVjykrvta7k+koMGbt6y6PTMwl74PX2i9Ubyc1VC9ewy9U/b6cW0gVJOR/ZJWPzaABAgVZC7N58PprUDfA==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
-  '@nuxt/builder@2.17.4':
-    resolution: {integrity: sha512-zuJcMp2wf2udiTWZ2n/t7Pm473Mgz61UsxJw3gs31pEbykNAPdFi8B89jAAtIsZx3tpsoRSUSZkl7QiRwFpuHQ==}
+  '@nuxt/builder@2.18.1':
+    resolution: {integrity: sha512-hc4AUP3Nvov7jL0BEP7jFXt8zOfa6gt+y1kyoVvU1WHEVNcWnrGtRKvJuCwi1IwCVlx7Weh+luvHI4nzQwEeKg==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
-  '@nuxt/cli@2.17.4':
-    resolution: {integrity: sha512-+fuyt09XHpCqk1q0Qu8CQER7dHY0gd87TcCOcJbYvwxkCvIykkVZqAmeb4+szLidj3RMp5xmR8rHQM9DnjVaRg==}
+  '@nuxt/cli@2.18.1':
+    resolution: {integrity: sha512-ZOoDlE4Fw1Cum6oG8DVnb7B4ivovXySxdDI8vnIt49Ypx22pBGt5y2ErF7g+5TAxGMIHpyh7peJWJwYp88PqPA==}
     engines: {node: ^14.18.0 || >=16.10.0}
     hasBin: true
 
@@ -959,12 +977,12 @@ packages:
     peerDependencies:
       consola: '*'
 
-  '@nuxt/config@2.17.4':
-    resolution: {integrity: sha512-Rv+tBafVO6AMs6drgV5Sh5IXbN/zL74TlW5Tze5utK23NOG5z/8pG7y1EslLq9vwSTa5hgBQNqGwM7cqKXLmqQ==}
+  '@nuxt/config@2.18.1':
+    resolution: {integrity: sha512-CTsUMFtNCJ6+7AkgMRz53zM9vxmsMYVJWBQOnikVzwFxm/jsWzjyXkp3pQb5/fNZuqR7qXmpUKIRtrdeUeN4JQ==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
-  '@nuxt/core@2.17.4':
-    resolution: {integrity: sha512-0zFlCtpMm7zyL7V00SX+pcyckwwLfx9NA/V9WfDSsm2CFSpHiTAK4Hb51Sat9MdAhfFOAEWvisnHnygTdVlP3w==}
+  '@nuxt/core@2.18.1':
+    resolution: {integrity: sha512-BFnKVH7caEdDrK04qQ2U9F4Rf4hV/BqqXBJiIeHp7vM9CLKjTL5/yhiognDw3SBefmSJkpOATx1HJl3XM8c4fg==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
   '@nuxt/devalue@2.0.2':
@@ -976,8 +994,8 @@ packages:
     peerDependencies:
       webpack: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
 
-  '@nuxt/generator@2.17.4':
-    resolution: {integrity: sha512-LosNgooU3oj3g7M5D9lIcPMeYf1N38r3VItNFhk1CfmD0EZcl1sbbM6kFdN+aj6JsO3sV5lqH0NtG3S/nCLJqQ==}
+  '@nuxt/generator@2.18.1':
+    resolution: {integrity: sha512-kZMfB5Ymvd/5ek+xfk2svQiMJWEAjZf5XNFTG+2WiNsitHb01Bo3W2QGidy+dwfuLtHoiOJkMovRlyAKWxTohg==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
   '@nuxt/loading-screen@2.0.4':
@@ -988,28 +1006,28 @@ packages:
     engines: {node: '>=8.0.0', npm: '>=5.0.0'}
     hasBin: true
 
-  '@nuxt/server@2.17.4':
-    resolution: {integrity: sha512-ubLBPwTUizq0NDYXQgfypDH7715HasMks0CuPr3IJabuUXmFolIGNQLJo3kCB7CNtFs/0TDlD0oDdKfM/t6XUw==}
+  '@nuxt/server@2.18.1':
+    resolution: {integrity: sha512-4GHmgi1NS6uCL+3QzlxmHmEoKkejQKTDrKPtA16w8iw/8EBgCrAkvXukcIMxF7Of+IYi1I/duVmCyferxo7jyw==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
   '@nuxt/telemetry@1.5.0':
     resolution: {integrity: sha512-MhxiiYCFe0MayN2TvmpcsCV66zBePtrSVkFLJHwTFuneQ5Qma5x0NmCwdov7O4NSuTfgSZels9qPJh0zy0Kc4g==}
     hasBin: true
 
-  '@nuxt/utils@2.17.4':
-    resolution: {integrity: sha512-vhnmkB9hUm8Fxtp3vi1hOgZzRqgKGwUVuZbntUyJuu3oLSF4skr1W1Pki4EpIbyNzPn1O7wP3+DICGytUOniMQ==}
+  '@nuxt/utils@2.18.1':
+    resolution: {integrity: sha512-aWeB8VMhtymo5zXUiQaohCu8IqJqENF9iCag3wyJpdhpNDVoghGUJAl0F6mQvNTJgQzseFtf4XKqTfvcgVzyGg==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
-  '@nuxt/vue-app@2.17.4':
-    resolution: {integrity: sha512-ahN0kopC4kD14BE11guUyTcFmPCXswHQlXKkEEYFRkLlATLwE6ycmsBclFqkOQgQJLDUmBhUBbsIfQpEoaBKZw==}
+  '@nuxt/vue-app@2.18.1':
+    resolution: {integrity: sha512-yxkunoTv6EVa42xM7qES0N1DNMo4UbP/s89L7HjqngQ4KzVWyyzK0qqJ9u3Gu4CabXhHFSquu11gtn+dylKyTA==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
-  '@nuxt/vue-renderer@2.17.4':
-    resolution: {integrity: sha512-+qnOMKZ2jjjSu5zHmocBDpDFE9zNtwpYXus0ifBaYAUn2bGxFRLKifIbO4cz6zbq3p25rH2wiIka4VfRqIyf1g==}
+  '@nuxt/vue-renderer@2.18.1':
+    resolution: {integrity: sha512-Nl8/IbV+sTEWCczHKcjLbZrFO6y5fCcFxZwd6Opatcbr2z380abwpDf3a9UjnVW3wPEM+/xoy1/MBCLY3VmWcw==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
-  '@nuxt/webpack@2.17.4':
-    resolution: {integrity: sha512-XJ8RLBQ+fNhINIWWCqcIL/h8p7VCNVD5NpFK4MjDR1hIkc+VNtaZpdJCrp23Di5B/ssPHaKDvlcebKAhSEYDZw==}
+  '@nuxt/webpack@2.18.1':
+    resolution: {integrity: sha512-6EqbIoheLAJ0E7dfQB5ftOKL4d74N98dFMY3q89QTaoS9VXBFB5D1MLd27WuyfhChmzuHRwHfjaBW8QFdhjwew==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
   '@nuxtjs/youch@4.2.3':
@@ -1478,6 +1496,9 @@ packages:
 
   caniuse-lite@1.0.30001637:
     resolution: {integrity: sha512-1x0qRI1mD1o9e+7mBI7XtzFAP4XszbHaVWsMiGbSPLYekKTJF7K+FNk6AsXH4sUpc+qrsI3pVgf1Jdl/uGkuSQ==}
+
+  caniuse-lite@1.0.30001639:
+    resolution: {integrity: sha512-eFHflNTBIlFwP2AIKaYuBQN/apnUoKNhBdza8ZnW/h2di4LCZ4xFqYlxUxo+LQ76KFI1PGcC1QDxMbxTZpSCAg==}
 
   chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -2577,6 +2598,10 @@ packages:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
 
+  hyperdyperid@1.2.0:
+    resolution: {integrity: sha512-Y93lCzHYgGWdrJ66yIktxiaGULYc6oGiABxhcO5AufBeOyoIdZF7bIfLaOrbM0iGIOXQQgxxRrFEnb+Y6w1n4A==}
+    engines: {node: '>=10.18'}
+
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
     engines: {node: '>=0.10.0'}
@@ -2979,6 +3004,10 @@ packages:
     resolution: {integrity: sha512-UERzLsxzllchadvbPs5aolHh65ISpKpM+ccLbOJ8/vvpBKmAWf+la7dXFy7Mr0ySHbdHrFv5kGFCUHHe6GFEmw==}
     engines: {node: '>= 4.0.0'}
 
+  memfs@4.9.3:
+    resolution: {integrity: sha512-bsYSSnirtYTWi1+OPMFb0M048evMKyUYe0EbtuGQgq6BVQM1g1W8/KIUJCCvjgI/El0j6Q4WsmMiBwLUBSw8LA==}
+    engines: {node: '>= 4.0.0'}
+
   memory-fs@0.4.1:
     resolution: {integrity: sha512-cda4JKCxReDXFXRqOHPQscuIYg1PvxbE2S2GP45rnwfEK+vZaXC8C1OFvdHIbgw0DLzowXGVoxLaAmlgRy14GQ==}
 
@@ -3192,8 +3221,8 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nuxt@2.17.4:
-    resolution: {integrity: sha512-+S/3DKAoxDenlHPIOYLGe9a15WmHbGT1i4s1/xJVXj+DOvHGmLEMeQys2WRC5fHDTE/ObjT/42kSxTh2xs9cIQ==}
+  nuxt@2.18.1:
+    resolution: {integrity: sha512-SZFOLDKgCfLu23BrQE0YYNWeoi/h+fw07TNDNDzRfbmMvQlStgTBG7lqeELytXdQnaPKWjWAYo12K7pPPRZb9Q==}
     hasBin: true
 
   object-assign@4.1.1:
@@ -4506,6 +4535,12 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  thingies@1.21.0:
+    resolution: {integrity: sha512-hsqsJsFMsV+aD4s3CWKk85ep/3I9XzYV/IXaSouJMYIoDlgyi11cBhsqYe9/geRfB0YIikBQg6raRaM+nIMP9g==}
+    engines: {node: '>=10.18'}
+    peerDependencies:
+      tslib: ^2
+
   thread-loader@3.0.4:
     resolution: {integrity: sha512-ByaL2TPb+m6yArpqQUZvP+5S1mZtXsEP7nWKKlAUTm7fCml8kB5s1uI3+eHRP2bk5mVYfRSBI7FFf+tWEyLZwA==}
     engines: {node: '>= 10.13.0'}
@@ -4564,6 +4599,12 @@ packages:
 
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
+
+  tree-dump@1.0.2:
+    resolution: {integrity: sha512-dpev9ABuLWdEubk+cIaI9cHwRNNDjkBBLXTwI4UCUFdQ5xXKqNXoK4FEciw/vxf+NQ7Cb7sGUyeUtORvHIdRXQ==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      tslib: '2'
 
   ts-pnp@1.2.0:
     resolution: {integrity: sha512-csd+vJOb/gkzvcCHgTGSChYpy5f1/XKNsmvBGO4JXS+z1v2HobugDz4s1IeFXM3wZB44uczs+eazB5Q/ccdhQw==}
@@ -6019,6 +6060,22 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
+  '@jsonjoy.com/base64@1.1.2(tslib@2.6.3)':
+    dependencies:
+      tslib: 2.6.3
+
+  '@jsonjoy.com/json-pack@1.0.4(tslib@2.6.3)':
+    dependencies:
+      '@jsonjoy.com/base64': 1.1.2(tslib@2.6.3)
+      '@jsonjoy.com/util': 1.2.0(tslib@2.6.3)
+      hyperdyperid: 1.2.0
+      thingies: 1.21.0(tslib@2.6.3)
+      tslib: 2.6.3
+
+  '@jsonjoy.com/util@1.2.0(tslib@2.6.3)':
+    dependencies:
+      tslib: 2.6.3
+
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -6041,7 +6098,7 @@ snapshots:
       mkdirp: 1.0.4
       rimraf: 3.0.2
 
-  '@nuxt/babel-preset-app@2.17.4(vue@2.7.16)':
+  '@nuxt/babel-preset-app@2.18.1(vue@2.7.16)':
     dependencies:
       '@babel/compat-data': 7.24.7
       '@babel/core': 7.24.7
@@ -6064,12 +6121,12 @@ snapshots:
       - supports-color
       - vue
 
-  '@nuxt/builder@2.17.4(vue@2.7.16)':
+  '@nuxt/builder@2.18.1(vue@2.7.16)':
     dependencies:
       '@nuxt/devalue': 2.0.2
-      '@nuxt/utils': 2.17.4
-      '@nuxt/vue-app': 2.17.4
-      '@nuxt/webpack': 2.17.4(vue@2.7.16)
+      '@nuxt/utils': 2.18.1
+      '@nuxt/vue-app': 2.18.1
+      '@nuxt/webpack': 2.18.1(vue@2.7.16)
       chalk: 4.1.2
       chokidar: 3.6.0
       consola: 3.2.3
@@ -6145,10 +6202,10 @@ snapshots:
       - webpack-command
       - whiskers
 
-  '@nuxt/cli@2.17.4':
+  '@nuxt/cli@2.18.1':
     dependencies:
-      '@nuxt/config': 2.17.4
-      '@nuxt/utils': 2.17.4
+      '@nuxt/config': 2.18.1
+      '@nuxt/utils': 2.18.1
       boxen: 5.1.2
       chalk: 4.1.2
       compression: 1.7.4
@@ -6187,9 +6244,9 @@ snapshots:
       upath: 2.0.1
       vue-template-compiler: 2.7.16
 
-  '@nuxt/config@2.17.4':
+  '@nuxt/config@2.18.1':
     dependencies:
-      '@nuxt/utils': 2.17.4
+      '@nuxt/utils': 2.18.1
       consola: 3.2.3
       defu: 6.1.4
       destr: 2.0.3
@@ -6199,11 +6256,11 @@ snapshots:
       std-env: 3.7.0
       ufo: 1.5.3
 
-  '@nuxt/core@2.17.4':
+  '@nuxt/core@2.18.1':
     dependencies:
-      '@nuxt/config': 2.17.4
-      '@nuxt/server': 2.17.4
-      '@nuxt/utils': 2.17.4
+      '@nuxt/config': 2.18.1
+      '@nuxt/server': 2.18.1
+      '@nuxt/utils': 2.18.1
       consola: 3.2.3
       fs-extra: 11.2.0
       hash-sum: 2.0.0
@@ -6222,9 +6279,9 @@ snapshots:
       string-width: 4.2.3
       webpack: 4.47.0
 
-  '@nuxt/generator@2.17.4':
+  '@nuxt/generator@2.18.1':
     dependencies:
-      '@nuxt/utils': 2.17.4
+      '@nuxt/utils': 2.18.1
       chalk: 4.1.2
       consola: 3.2.3
       defu: 6.1.4
@@ -6250,10 +6307,10 @@ snapshots:
       consola: 3.2.3
       node-fetch-native: 1.6.4
 
-  '@nuxt/server@2.17.4':
+  '@nuxt/server@2.18.1':
     dependencies:
-      '@nuxt/utils': 2.17.4
-      '@nuxt/vue-renderer': 2.17.4
+      '@nuxt/utils': 2.18.1
+      '@nuxt/vue-renderer': 2.18.1
       '@nuxtjs/youch': 4.2.3
       compression: 1.7.4
       connect: 3.7.0
@@ -6294,7 +6351,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@nuxt/utils@2.17.4':
+  '@nuxt/utils@2.18.1':
     dependencies:
       consola: 3.2.3
       create-require: 1.1.1
@@ -6309,7 +6366,7 @@ snapshots:
       ua-parser-js: 1.0.38
       ufo: 1.5.3
 
-  '@nuxt/vue-app@2.17.4':
+  '@nuxt/vue-app@2.18.1':
     dependencies:
       node-fetch-native: 1.6.4
       ufo: 1.5.3
@@ -6322,10 +6379,10 @@ snapshots:
       vue-template-compiler: 2.7.16
       vuex: 3.6.2(vue@2.7.16)
 
-  '@nuxt/vue-renderer@2.17.4':
+  '@nuxt/vue-renderer@2.18.1':
     dependencies:
       '@nuxt/devalue': 2.0.2
-      '@nuxt/utils': 2.17.4
+      '@nuxt/utils': 2.18.1
       consola: 3.2.3
       defu: 6.1.4
       fs-extra: 11.2.0
@@ -6336,15 +6393,15 @@ snapshots:
       vue-meta: 2.4.0
       vue-server-renderer: 2.7.16
 
-  '@nuxt/webpack@2.17.4(vue@2.7.16)':
+  '@nuxt/webpack@2.18.1(vue@2.7.16)':
     dependencies:
       '@babel/core': 7.24.7
-      '@nuxt/babel-preset-app': 2.17.4(vue@2.7.16)
+      '@nuxt/babel-preset-app': 2.18.1(vue@2.7.16)
       '@nuxt/friendly-errors-webpack-plugin': 2.6.0(webpack@4.47.0)
-      '@nuxt/utils': 2.17.4
+      '@nuxt/utils': 2.18.1
       babel-loader: 8.3.0(@babel/core@7.24.7)(webpack@4.47.0)
       cache-loader: 4.1.0(webpack@4.47.0)
-      caniuse-lite: 1.0.30001637
+      caniuse-lite: 1.0.30001639
       consola: 3.2.3
       css-loader: 5.2.7(webpack@4.47.0)
       cssnano: 7.0.3(postcss@8.4.38)
@@ -6356,7 +6413,8 @@ snapshots:
       hash-sum: 2.0.0
       html-webpack-plugin: 4.5.2(webpack@4.47.0)
       lodash: 4.17.21
-      memory-fs: 0.5.0
+      memfs: 4.9.3
+      mkdirp: 0.5.6
       optimize-css-assets-webpack-plugin: 6.0.1(webpack@4.47.0)
       pify: 5.0.0
       pnp-webpack-plugin: 1.7.0
@@ -6878,7 +6936,7 @@ snapshots:
   autoprefixer@10.4.19(postcss@8.4.38):
     dependencies:
       browserslist: 4.23.1
-      caniuse-lite: 1.0.30001637
+      caniuse-lite: 1.0.30001639
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.1
@@ -7149,11 +7207,13 @@ snapshots:
   caniuse-api@3.0.0:
     dependencies:
       browserslist: 4.23.1
-      caniuse-lite: 1.0.30001637
+      caniuse-lite: 1.0.30001639
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
   caniuse-lite@1.0.30001637: {}
+
+  caniuse-lite@1.0.30001639: {}
 
   chalk@2.4.2:
     dependencies:
@@ -8315,6 +8375,8 @@ snapshots:
 
   human-signals@2.1.0: {}
 
+  hyperdyperid@1.2.0: {}
+
   iconv-lite@0.4.24:
     dependencies:
       safer-buffer: 2.1.2
@@ -8690,6 +8752,13 @@ snapshots:
     dependencies:
       fs-monkey: 1.0.6
 
+  memfs@4.9.3:
+    dependencies:
+      '@jsonjoy.com/json-pack': 1.0.4(tslib@2.6.3)
+      '@jsonjoy.com/util': 1.2.0(tslib@2.6.3)
+      tree-dump: 1.0.2(tslib@2.6.3)
+      tslib: 2.6.3
+
   memory-fs@0.4.1:
     dependencies:
       errno: 0.1.8
@@ -8939,23 +9008,23 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nuxt@2.17.4(consola@3.2.3)(vue@2.7.16):
+  nuxt@2.18.1(consola@3.2.3)(vue@2.7.16):
     dependencies:
-      '@nuxt/babel-preset-app': 2.17.4(vue@2.7.16)
-      '@nuxt/builder': 2.17.4(vue@2.7.16)
-      '@nuxt/cli': 2.17.4
+      '@nuxt/babel-preset-app': 2.18.1(vue@2.7.16)
+      '@nuxt/builder': 2.18.1(vue@2.7.16)
+      '@nuxt/cli': 2.18.1
       '@nuxt/components': 2.2.1(consola@3.2.3)
-      '@nuxt/config': 2.17.4
-      '@nuxt/core': 2.17.4
-      '@nuxt/generator': 2.17.4
+      '@nuxt/config': 2.18.1
+      '@nuxt/core': 2.18.1
+      '@nuxt/generator': 2.18.1
       '@nuxt/loading-screen': 2.0.4
       '@nuxt/opencollective': 0.4.0
-      '@nuxt/server': 2.17.4
+      '@nuxt/server': 2.18.1
       '@nuxt/telemetry': 1.5.0
-      '@nuxt/utils': 2.17.4
-      '@nuxt/vue-app': 2.17.4
-      '@nuxt/vue-renderer': 2.17.4
-      '@nuxt/webpack': 2.17.4(vue@2.7.16)
+      '@nuxt/utils': 2.18.1
+      '@nuxt/vue-app': 2.18.1
+      '@nuxt/vue-renderer': 2.18.1
+      '@nuxt/webpack': 2.18.1(vue@2.7.16)
     transitivePeerDependencies:
       - '@vue/compiler-sfc'
       - arc-templates
@@ -10450,6 +10519,10 @@ snapshots:
       commander: 2.20.3
       source-map-support: 0.5.21
 
+  thingies@1.21.0(tslib@2.6.3):
+    dependencies:
+      tslib: 2.6.3
+
   thread-loader@3.0.4(webpack@4.47.0):
     dependencies:
       json-parse-better-errors: 1.0.2
@@ -10507,6 +10580,10 @@ snapshots:
   totalist@3.0.1: {}
 
   tr46@0.0.3: {}
+
+  tree-dump@1.0.2(tslib@2.6.3):
+    dependencies:
+      tslib: 2.6.3
 
   ts-pnp@1.2.0: {}
 
