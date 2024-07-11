@@ -20,9 +20,9 @@ const { data: surround } = await useAsyncData(`${route.path}-surround`, () => qu
 )
 
 useSeoMeta({
-  titleTemplate: '%s - Tailwind CSS module for Nuxt',
+  titleTemplate: '%s - Nuxt Tailwind',
   title: page.value.title,
-  ogTitle: `${page.value.title} - Tailwind CSS module for Nuxt`,
+  ogTitle: `${page.value.title} - Nuxt Tailwind`,
   description: page.value.description,
   ogDescription: page.value.description,
 })
