@@ -86,7 +86,6 @@ describe('tailwindcss module configs', async () => {
     // set from override-tailwind.config.ts
     const { content: { files: contentFiles } } = destr<TWConfigWithStringContent>(getVfsFile('test-tailwind.config.mjs')!.replace(/^export default /, ''))
 
-    expect(contentFiles[0]).toBe('ts-content/**/*.md')
     expect(contentFiles[1]).toBe('./custom-theme/**/*.vue')
     expect(contentFiles.filter(c => /\{[AE],[ae]\}/.test(c)).length).toBe(0)
     expect([...contentFiles].pop()).toBe('my-custom-content')

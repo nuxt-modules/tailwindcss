@@ -67,8 +67,12 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
   const configResolvedPath = join(nuxt.options.buildDir, CONFIG_TEMPLATE_NAME)
   let enableHMR = true
 
+  if (moduleOptions.disableHMR) {
+    enableHMR = false
+  }
+
   const unsafeProperty = unsafeInlineConfig(moduleOptions.config)
-  if (unsafeProperty) {
+  if (unsafeProperty && enableHMR) {
     logger.warn(
       `The provided Tailwind configuration in your \`nuxt.config\` is non-serializable. Check \`${unsafeProperty}\`. Falling back to providing the loaded configuration inlined directly to PostCSS loader..`,
       'Please consider using `tailwind.config` or a separate file (specifying in `configPath` of the module options) to enable it with additional support for IntelliSense and HMR. Suppress this warning with `quiet: true` in the module options.',
@@ -92,7 +96,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
         return Reflect.set(target, key, value)
       }
 
-      if (functionalStringify(value).includes(`"${CONFIG_TEMPLATE_NAME + 'ns'}"`)) {
+      if (functionalStringify(value).includes(`"${CONFIG_TEMPLATE_NAME + 'ns'}"`) && enableHMR) {
         logger.warn(
           `A hook has injected a non-serializable value in \`config${cfgKey}\`, so the Tailwind Config cannot be serialized. Falling back to providing the loaded configuration inlined directly to PostCSS loader..`,
           'Please consider using a configuration file/template instead (specifying in `configPath` of the module options) to enable additional support for IntelliSense and HMR.',
@@ -100,7 +104,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
         enableHMR = false
       }
 
-      if (JSONStringifyWithRegex(value).includes('__REGEXP')) {
+      if (JSONStringifyWithRegex(value).includes('__REGEXP') && enableHMR) {
         logger.warn(`A hook is injecting RegExp values in your configuration (check \`config${cfgKey}\`) which may be unsafely serialized. Consider moving your safelist to a separate configuration file/template instead (specifying in \`configPath\` of the module options)`)
       }
 
