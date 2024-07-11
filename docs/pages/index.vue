@@ -1,13 +1,16 @@
 <script setup lang="ts">
+import { joinURL } from 'ufo'
+
 const { data: page } = await useAsyncData('index', () => queryContent('/').findOne())
+const { url } = useSiteConfig()
 
 useSeoMeta({
   title: page.value.title,
   ogTitle: page.value.title,
   description: page.value.description,
   ogDescription: page.value.description,
-  ogImage: 'https://tailwindcss.nuxtjs.org/social-card.png',
-  twitterImage: 'https://tailwindcss.nuxtjs.org/social-card.png',
+  ogImage: joinURL(url, '/social-card.png'),
+  twitterImage: joinURL(url, '/social-card.png'),
 })
 </script>
 
