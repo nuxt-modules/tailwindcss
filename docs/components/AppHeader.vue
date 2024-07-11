@@ -7,11 +7,9 @@ const { header } = useAppConfig()
 </script>
 
 <template>
-  <UHeader :ui="{ logo: 'items-center' }">
+  <UHeader>
     <template #logo>
-      <TheLogo class="h-12" />
-      <span>Nuxt</span>
-      <TailwindText class="h-3.5" />
+      <TheLogo class="h-6" />
     </template>
 
     <template v-if="header?.search" #center>

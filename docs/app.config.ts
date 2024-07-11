@@ -14,11 +14,11 @@ export default defineAppConfig({
       prose: {
         code: {
           icon: {
-            'nuxt.config': 'vscode-icons:file-type-nuxt'
-          }
-        }
-      }
-    }
+            'nuxt.config': 'vscode-icons:file-type-nuxt',
+          },
+        },
+      },
+    },
   },
   header: {
     logo: {
