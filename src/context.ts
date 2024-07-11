@@ -147,7 +147,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     ).then(configs => configs.reduce(
       (prev, curr) => configMerger(curr, prev),
       // internal default tailwind config
-      configMerger(moduleOptions.config, { content: contentPaths }),
+      configMerger(moduleOptions.config, { content: { files: contentPaths } }),
     )) as TWConfig
 
     // Allow extending tailwindcss config by other modules
@@ -180,7 +180,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
         `\nconst inlineConfig = ${serializeConfig(moduleOptions.config as Partial<TWConfig>)};\n`,
         'const config = [',
         layerConfigs.join(',\n'),
-        `].reduce((prev, curr) => configMerger(curr, prev), configMerger(inlineConfig, { content: ${JSON.stringify(contentPaths)} }));\n`,
+        `].reduce((prev, curr) => configMerger(curr, prev), configMerger(inlineConfig, { content: { files: ${JSON.stringify(contentPaths)} } }));\n`,
         `module.exports = ${configUpdatedHook['main-config'] ? `(() => {const cfg=config;${configUpdatedHook['main-config']};return cfg;})()` : 'config'}\n`,
         ].join('\n')
       },

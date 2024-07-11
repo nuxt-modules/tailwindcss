@@ -11,11 +11,13 @@ const logger = consola.withTag('nuxt:tailwindcss:playground')
 
 export default defineNuxtConfig({
   extends: ['./theme'],
+
   // builder: 'webpack',
   modules: [
     existsSync(resolve(__dirname, '../dist/module.mjs')) ? '@nuxtjs/tailwindcss' : '../src/module',
     '@nuxt/content',
   ],
+
   tailwindcss: {
     // viewer: false,
     config: {},
@@ -23,6 +25,7 @@ export default defineNuxtConfig({
     cssPath: '~/assets/css/tailwind.css',
     editorSupport: true,
   } satisfies Partial<ModuleOptions>,
+
   hooks: {
     'tailwindcss:loadConfig': (config, configPath, idx) => {
       logger.info('Running `tailwindcss:loadConfig` hook...', Object.keys(config || {}), { configPath, idx })
@@ -54,9 +57,11 @@ export default defineNuxtConfig({
       logger.info('Running `tailwindcss:resolvedConfig` hook...', { typography: Boolean(config.theme.typography), hasOld: Boolean(oldConfig) })
     },
   } satisfies Partial<ModuleHooks>,
+
   content: {
     documentDriven: true,
   },
+
   css: [
     // Including Inter CSS is the first component to reproduce HMR issue. It also causes playground to look better,
     // since Inter is a native font for Tailwind UI
@@ -65,4 +70,6 @@ export default defineNuxtConfig({
     '@fontsource/inter/600.css',
     '@fontsource/inter/700.css',
   ],
+
+  compatibilityDate: '2024-07-11',
 })
