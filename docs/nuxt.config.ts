@@ -26,8 +26,8 @@ export default defineNuxtConfig({
   },
   nitro: {
     prerender: {
-      routes: ['/']
-    }
+      routes: ['/'],
+    },
   },
   routeRules: {
     '/getting-started': { redirect: '/getting-started/installation' },

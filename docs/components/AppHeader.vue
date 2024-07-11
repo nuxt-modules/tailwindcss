@@ -12,7 +12,10 @@ const { header } = useAppConfig()
       <TheLogo class="h-6" />
     </template>
 
-    <template v-if="header?.search" #center>
+    <template
+      v-if="header?.search"
+      #center
+    >
       <UContentSearchButton class="hidden lg:flex" />
     </template>
 
