@@ -11,12 +11,6 @@ type InlineTWConfig = _Omit<TWConfig, 'content' | 'plugins' | 'safelist'> & {
   safelist?: Exclude<NonNullable<TWConfig['safelist']>[number], Record<string, any>>[]
 }
 
-type ExtendTWConfig = {
-  content?:
-    | TWConfig['content']
-    | ((contentDefaults: Array<string>) => TWConfig['content'])
-}
-
 type BoolObj<T extends Record<string, any>> = boolean | Partial<T>
 
 export type ViewerConfig = {

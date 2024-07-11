@@ -2,7 +2,7 @@ export default {
   content: contentDefaults => [
     contentDefaults[0],
     './custom-theme/**/*.vue',
-    ...contentDefaults.filter(c => !/{[AE],[ae]}/.test(c)),
+    ...contentDefaults.filter(c => !/\{[AE],[ae]\}/.test(c)),
   ],
   theme: {
     extend: {

@@ -61,7 +61,7 @@ describe('tailwindcss module configs', async () => {
     // Warning: To load an ES module, set "type": "module" in the package.json or use the .mjs extension.
     // expect(output).toContain('Warning: To load an ES module, set "type": "module" in the package.json or use the .mjs extension.')
 
-    expect(output).toContain('[warn] [nuxt:tailwindcss] Failed to load config \`./malformed-tailwind.config.js\` due to the error below. Skipping..')
+    expect(output).toContain('[warn] [nuxt:tailwindcss] Failed to load config `./malformed-tailwind.config.js` due to the error below. Skipping..')
   })
 
   test('ts config file is loaded and merged', () => {
@@ -88,7 +88,7 @@ describe('tailwindcss module configs', async () => {
 
     expect(contentFiles[0]).toBe('ts-content/**/*.md')
     expect(contentFiles[1]).toBe('./custom-theme/**/*.vue')
-    expect(contentFiles.filter(c => /{[AE],[ae]}/.test(c)).length).toBe(0)
+    expect(contentFiles.filter(c => /\{[AE],[ae]\}/.test(c)).length).toBe(0)
     expect([...contentFiles].pop()).toBe('my-custom-content')
   })
 

@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs'
 import { defineNuxtConfig } from 'nuxt/config'
 import { resolve } from 'pathe'
 import { consola } from 'consola'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import typography from '@tailwindcss/typography'
 
 import type { ModuleHooks, ModuleOptions } from '../src/types'
