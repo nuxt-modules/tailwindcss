@@ -20,7 +20,7 @@ useHead({
 })
 
 useSeoMeta({
-  ogSiteName: 'Nuxt TailwindCSS',
+  ogSiteName: 'Nuxt Tailwind',
   twitterCard: 'summary_large_image',
 })
 

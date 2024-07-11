@@ -3,7 +3,7 @@ import type { ParsedContent } from '@nuxt/content/dist/runtime/types'
 import type { NuxtError } from '#app'
 
 useSeoMeta({
-  title: 'Page not found - Nuxt TailwindCSS',
+  title: 'Page not found - Nuxt Tailwind',
   description: 'We are sorry but this page could not be found.',
 })
 

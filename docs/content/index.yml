@@ -2,7 +2,7 @@ title: 'Tailwind CSS for Nuxt'
 description: 'Add Tailwind CSS to your Nuxt Applications.'
 navigation: false
 hero:
-  title: 'TailwindCSS for your [Nuxt Apps]{.text-primary}.'
+  title: 'Tailwind CSS for your [Nuxt Apps]{.text-primary}.'
   description: 'The Tailwind CSS module for Nuxt lets you set up Tailwind CSS in your Nuxt application in seconds, with many goodies 🍬'
   orientation: horizontal
   links:

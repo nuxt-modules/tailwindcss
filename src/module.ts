@@ -136,7 +136,7 @@ export default defineNuxtModule<ModuleOptions>({
 
           nuxt.hook('devtools:customTabs', (tabs: import('@nuxt/devtools').ModuleOptions['customTabs']) => {
             tabs?.push({
-              title: 'TailwindCSS',
+              title: 'Tailwind CSS',
               name: 'tailwindcss',
               icon: 'logos-tailwindcss-icon',
               category: 'modules',
