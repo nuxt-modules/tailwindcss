@@ -24,6 +24,11 @@ export default defineNuxtConfig({
       'DM+Sans': [400, 500, 600, 700],
     },
   },
+  nitro: {
+    prerender: {
+      routes: ['/'],
+    },
+  },
   routeRules: {
     '/getting-started': { redirect: '/getting-started/installation' },
     '/tailwind': { redirect: '/tailwind/config' },

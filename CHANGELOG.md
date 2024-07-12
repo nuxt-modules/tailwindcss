@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.12.1
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.12.0...v6.12.1)
+
+### 🩹 Fixes
+
+- Better check for unsafe config to fallback ([#839](https://github.com/nuxt-modules/tailwindcss/pull/839))
+- Safer checking for templates, closes #860 and closes #865 ([#860](https://github.com/nuxt-modules/tailwindcss/issues/860), [#865](https://github.com/nuxt-modules/tailwindcss/issues/865))
+
+### 📖 Documentation
+
+- Polish homepage and logo ([9977f25](https://github.com/nuxt-modules/tailwindcss/commit/9977f25))
+- Update examples, closes #841 ([#841](https://github.com/nuxt-modules/tailwindcss/issues/841))
+- Fix injectPosition typo ([#859](https://github.com/nuxt-modules/tailwindcss/pull/859))
+- Prerender `/` ([427cfb5](https://github.com/nuxt-modules/tailwindcss/commit/427cfb5))
+- Revert logo ([#873](https://github.com/nuxt-modules/tailwindcss/pull/873))
+
+### 📦 Build
+
+- Update merger filename and revert `@nuxt/content` upgrade ([#867](https://github.com/nuxt-modules/tailwindcss/pull/867))
+
+### 🏡 Chore
+
+- Update to latest `@nuxt/module-builder` ([#840](https://github.com/nuxt-modules/tailwindcss/pull/840))
+- Update renovate config ([#844](https://github.com/nuxt-modules/tailwindcss/pull/844))
+- Bump `nuxt-component-meta` ([63a8a8e](https://github.com/nuxt-modules/tailwindcss/commit/63a8a8e))
+- **ci:** Fix test ([71f00b6](https://github.com/nuxt-modules/tailwindcss/commit/71f00b6))
+- **ci:** Fix test ([7704e81](https://github.com/nuxt-modules/tailwindcss/commit/7704e81))
+- Update deps ([a219ef1](https://github.com/nuxt-modules/tailwindcss/commit/a219ef1))
+- **builder:** Specify merger as entry ([2f1c09d](https://github.com/nuxt-modules/tailwindcss/commit/2f1c09d))
+- **ci:** Fix ([2679f27](https://github.com/nuxt-modules/tailwindcss/commit/2679f27))
+- Bump `mkdist` in lockfile ([36febad](https://github.com/nuxt-modules/tailwindcss/commit/36febad))
+- Fix lint ([d11f4f2](https://github.com/nuxt-modules/tailwindcss/commit/d11f4f2))
+
+### ❤️ Contributors
+
+- Inesh Bose <dev@inesh.xyz>
+- Benjamin Canac ([@benjamincanac](http://github.com/benjamincanac))
+- Daniel Roe ([@danielroe](http://github.com/danielroe))
+- M0nch1 ([@m0nch1](http://github.com/m0nch1))
+- Gangan ([@shinGangan](http://github.com/shinGangan))
+
 ## v6.12.0
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.11.4...v6.12.0)

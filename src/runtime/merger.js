@@ -1,6 +1,7 @@
 /** @typedef {import('tailwindcss').Config} TWConfig */
 
 import { createDefu } from 'defu'
+import { klona } from 'klona'
 
 const isJSObject = value => typeof value === 'object' && !Array.isArray(value)
 
@@ -11,8 +12,10 @@ const isJSObject = value => typeof value === 'object' && !Array.isArray(value)
  *
  * @type {(...p: Array<Partial<TWConfig> | Record<string | number | symbol, any> | undefined>) => Partial<TWConfig>}
  */
-export default (_base, ...defaults) => {
-  const base = _base ?? Object.assign({}, defaults[0])
+export default (base, ...defaults) => {
+  if (!base) {
+    return klona(defaults[0])
+  }
 
   return createDefu((obj, key, value) => {
     if (key === 'content') {
@@ -27,14 +30,9 @@ export default (_base, ...defaults) => {
     }
 
     // keeping arrayFn
-    if (Array.isArray(obj[key]) && typeof value === 'function') {
-      obj[key] = value(obj[key])
+    if (obj[key] && typeof value === 'function') {
+      obj[key] = value(Array.isArray(obj[key]) ? obj[key] : obj[key]['files'])
       return true
     }
-
-    // create copy of object
-    if (!obj[key] && isJSObject(value)) {
-      obj[key] = Object.assign({}, value)
-    }
-  })(base, ...defaults)
+  })(klona(base), ...defaults.map(klona))
 }

@@ -6,7 +6,11 @@ const { footer } = useAppConfig()
   <UFooter>
     <template #left>
       <span class="text-sm text-gray-500 dark:text-gray-400">
-        © 2024 | <NuxtLink to="https://github.com/nuxt-modules/tailwindcss/blob/main/LICENSE" target="_blank" class="text-gray-900 dark:text-white">MIT License</NuxtLink> | v{{ footer.pkgVersion }}
+        © 2024 | <NuxtLink
+          to="https://github.com/nuxt-modules/tailwindcss/blob/main/LICENSE"
+          target="_blank"
+          class="text-gray-900 dark:text-white"
+        >MIT License</NuxtLink> | v{{ footer.pkgVersion }}
       </span>
     </template>
 

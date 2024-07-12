@@ -11,12 +11,6 @@ type InlineTWConfig = _Omit<TWConfig, 'content' | 'plugins' | 'safelist'> & {
   safelist?: Exclude<NonNullable<TWConfig['safelist']>[number], Record<string, any>>[]
 }
 
-type ExtendTWConfig = {
-  content?:
-    | TWConfig['content']
-    | ((contentDefaults: Array<string>) => TWConfig['content'])
-}
-
 type BoolObj<T extends Record<string, any>> = boolean | Partial<T>
 
 export type ViewerConfig = {
@@ -140,6 +134,16 @@ export interface ModuleOptions {
    * @default false // if true, { autocompleteUtil: true }
    */
   editorSupport: BoolObj<EditorSupportConfig>
+  /**
+   * This option falls back to the Tailwind configuration inlined to the PostCSS
+   * loader, so any configuration changes while the dev server is running will
+   * not reflect. This is similar to the functionality prior to v6.12.0.
+   *
+   * Note: this is only provided for temporary broken builds that may require
+   * migration. Usage is discouraged. If any issues occur without this, please open
+   * an issue on https://github.com/nuxt-modules/tailwindcss/issues.
+   */
+  disableHMR?: boolean
 }
 
 export interface ModuleHooks {
