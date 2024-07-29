@@ -142,7 +142,7 @@ export default defineNuxtModule<ModuleOptions>({
               category: 'modules',
               view: {
                 type: 'iframe',
-                src: withTrailingSlash(viewerConfig.endpoint),
+                src: withTrailingSlash(nuxt.options.app?.baseURL + viewerConfig.endpoint),
               },
             })
           })
