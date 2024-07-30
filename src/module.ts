@@ -1,5 +1,5 @@
 import { join } from 'pathe'
-import { withTrailingSlash } from 'ufo'
+import { withoutTrailingSlash, withTrailingSlash } from 'ufo'
 import {
   defineNuxtModule,
   installModule,
@@ -142,7 +142,7 @@ export default defineNuxtModule<ModuleOptions>({
               category: 'modules',
               view: {
                 type: 'iframe',
-                src: withTrailingSlash(nuxt.options.app?.baseURL + viewerConfig.endpoint),
+                src: withTrailingSlash((nuxt.options.app?.baseURL === '/' ? '' : withoutTrailingSlash(nuxt.options.app.baseURL)) + viewerConfig.endpoint)
               },
             })
           })
