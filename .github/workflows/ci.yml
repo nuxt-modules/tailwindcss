@@ -1,5 +1,8 @@
 name: ci
 
+env:
+  NODE_OPTIONS: --max_old_space_size=6144
+
 on:
   push:
     branches:
@@ -24,3 +27,26 @@ jobs:
       - run: pnpm build
       # - run: pnpm test:types
       - run: pnpm dev:build
+  examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: docs-examples
+          path: docs-examples
+          sparse-checkout: |
+            examples
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - run: pnpm install && pnpm dev:prepare
+      - run: pnpm link --global
+      - run: echo "  - \"docs-examples/examples/*\"" >> pnpm-workspace.yaml
+      - run: echo "  - \"!docs-examples/examples/nuxt-layers\"" >> pnpm-workspace.yaml
+      - run: echo "  - \"!docs-examples/examples/nuxtui\"" >> pnpm-workspace.yaml
+      # - run: pnpm --filter './examples/**' link @nuxtjs/tailwindcss
+      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm --filter "./docs-examples/examples/**" build
