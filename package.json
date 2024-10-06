@@ -69,7 +69,7 @@
     "changelogen": "^0.5.5",
     "destr": "^2.0.3",
     "eslint": "9.5.0",
-    "happy-dom": "^13.10.1",
+    "happy-dom": "^15.7.4",
     "nuxt": "^3.12.3",
     "typescript": "^5.4.5",
     "vitest": "1.5.0",
