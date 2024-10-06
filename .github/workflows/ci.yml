@@ -1,5 +1,8 @@
 name: ci
 
+env:
+  NODE_OPTIONS: --max_old_space_size=6144
+
 on:
   push:
     branches:
@@ -45,5 +48,3 @@ jobs:
       # - run: pnpm --filter './examples/**' link @nuxtjs/tailwindcss
       - run: pnpm install --no-frozen-lockfile
       - run: pnpm --filter "./docs-examples/examples/**" build
-        env:
-          NODE_OPTIONS: --max_old_space_size=4096
