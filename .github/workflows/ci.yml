@@ -45,6 +45,7 @@ jobs:
       - run: pnpm install && pnpm dev:prepare
       - run: pnpm link --global
       - run: echo "  - \"docs-examples/examples/*\"" >> pnpm-workspace.yaml
+      - run: echo "  - \"!docs-examples/examples/nuxt-layers\"" >> pnpm-workspace.yaml
       - run: echo "  - \"!docs-examples/examples/nuxtui\"" >> pnpm-workspace.yaml
       # - run: pnpm --filter './examples/**' link @nuxtjs/tailwindcss
       - run: pnpm install --no-frozen-lockfile
