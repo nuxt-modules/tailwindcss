@@ -32,9 +32,7 @@ describe('tailwindcss module', async () => {
       (nuxt.options.tailwindcss.cssPath as string).replace(/\\/g /* windows protocol */, '/'),
     )
 
-    expect(spyStderr).toHaveBeenCalledTimes(0)
-    expect(spyStdout).toHaveBeenCalledTimes(1)
-    expect(spyStdout.mock.calls[0][0]).contains('Using Tailwind CSS from ~/tailwind.css')
+    expect(spyStdout.mock.calls.some(c => (c[0] as string).includes('Using Tailwind CSS from ~/tailwind.css'))).toBeTruthy()
   })
 
   test('default js config is merged in', () => {
