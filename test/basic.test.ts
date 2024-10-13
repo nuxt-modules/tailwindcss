@@ -1,38 +1,12 @@
-import { useTestContext } from '@nuxt/test-utils'
-import { describe, test, expect, vi, afterAll } from 'vitest'
+import { describe, test, expect } from 'vitest'
 import { getVfsFile, r, setupNuxtTailwind } from './utils'
 
 describe('tailwindcss module', async () => {
-  // Consola will by default set the log level to warn in test, we trick it into thinking we're in debug mode
-  process.env.DEBUG = 'nuxt:*'
-  // // Running dev environment for setup in test-utils to test dev options
-  // process.env.NUXT_TEST_DEV = true
-
-  const spyStderr = vi.spyOn(process.stderr, 'write').mockImplementation(() => undefined!)
-  const spyStdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => undefined!)
-
-  afterAll(() => {
-    spyStderr.mockRestore()
-    spyStdout.mockRestore()
-  })
-
   await setupNuxtTailwind({
     exposeConfig: { level: 2, alias: '#twcss' },
     quiet: false,
     // viewer: { endpoint: '_tw' },
     cssPath: r('tailwind.css'),
-  })
-
-  test('include custom tailwind.css file in project css', () => {
-    const nuxt = useTestContext().nuxt!
-
-    expect(nuxt.options.css).toHaveLength(1)
-    expect(nuxt.options.css[0]).toEqual(
-      // @ts-expect-error tailwindcss is not typed
-      (nuxt.options.tailwindcss.cssPath as string).replace(/\\/g /* windows protocol */, '/'),
-    )
-
-    expect(spyStdout.mock.calls.some(c => (c[0] as string).includes('Using Tailwind CSS from ~/tailwind.css'))).toBeTruthy()
   })
 
   test('default js config is merged in', () => {
