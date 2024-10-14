@@ -3,7 +3,6 @@ import { joinURL } from 'ufo'
 import {
   defineNuxtModule,
   installModule,
-  isNuxt2,
   getNuxtVersion,
   resolvePath,
   useNuxt,
@@ -11,6 +10,7 @@ import {
   addImports,
   updateTemplates,
   addTemplate,
+  isNuxtMajorVersion,
 } from '@nuxt/kit'
 
 // @ts-expect-error no declaration file
@@ -69,7 +69,7 @@ export default defineNuxtModule<ModuleOptions>({
     if (moduleOptions.editorSupport || moduleOptions.addTwUtil) {
       const editorSupportConfig = resolvers.resolveEditorSupportConfig(moduleOptions.editorSupport)
 
-      if ((editorSupportConfig.autocompleteUtil || moduleOptions.addTwUtil) && !isNuxt2()) {
+      if ((editorSupportConfig.autocompleteUtil || moduleOptions.addTwUtil) && !isNuxtMajorVersion(2, nuxt)) {
         addImports({
           name: 'autocompleteUtil',
           from: createResolver(import.meta.url).resolve('./runtime/utils'),
@@ -100,11 +100,16 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.css.splice(injectPosition, 0, resolvedCss)
     }
 
+    // workaround for nuxt2 middleware race condition
+    let nuxt2ViewerConfig: Parameters<typeof setupViewer>[0] = join(nuxt.options.buildDir, 'tailwind.config.cjs')
+
     nuxt.hook('modules:done', async () => {
       const _config = await ctx.loadConfig()
 
       const twConfig = ctx.generateConfig()
       ctx.registerHooks()
+
+      nuxt2ViewerConfig = twConfig.dst || _config
 
       // expose resolved tailwind config as an alias
       if (moduleOptions.exposeConfig) {
@@ -128,7 +133,7 @@ export default defineNuxtModule<ModuleOptions>({
       }
 
       // enabled only in development
-      if (nuxt.options.dev) {
+      if (nuxt.options.dev && !isNuxtMajorVersion(2, nuxt)) {
         // add tailwind-config-viewer endpoint
         if (moduleOptions.viewer) {
           const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
@@ -150,6 +155,8 @@ export default defineNuxtModule<ModuleOptions>({
       }
       else {
         // production only
+        if (!nuxt.options.dev) return
+
         if (moduleOptions.viewer) {
           const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
 
@@ -157,6 +164,11 @@ export default defineNuxtModule<ModuleOptions>({
         }
       }
     })
+
+    if (nuxt.options.dev && moduleOptions.viewer && isNuxtMajorVersion(2, nuxt)) {
+      const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
+      setupViewer(nuxt2ViewerConfig, viewerConfig, nuxt)
+    }
   },
 })
 

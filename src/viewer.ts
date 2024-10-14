@@ -1,6 +1,6 @@
 import { colors } from 'consola/utils'
 import { eventHandler, sendRedirect, H3Event } from 'h3'
-import { addDevServerHandler, isNuxt2, isNuxt3, useNuxt } from '@nuxt/kit'
+import { addDevServerHandler, isNuxtMajorVersion, useNuxt } from '@nuxt/kit'
 import { withTrailingSlash, withoutTrailingSlash, joinURL, cleanDoubleSlashes } from 'ufo'
 import loadConfig from 'tailwindcss/loadConfig.js'
 import { relative } from 'pathe'
@@ -15,7 +15,7 @@ export const setupViewer = async (twConfig: string | TWConfig, config: ViewerCon
   const viewerServer = (await import('tailwind-config-viewer/server/index.js').then(r => r.default || r))({ tailwindConfigProvider: typeof twConfig === 'string' ? () => loadConfig(twConfig) : () => twConfig }).asMiddleware()
   const viewerDevMiddleware = eventHandler(event => viewerServer(event.node?.req || event.req, event.node?.res || event.res))
 
-  if (isNuxt3()) {
+  if (!isNuxtMajorVersion(2, nuxt)) {
     addDevServerHandler({
       handler: eventHandler((event) => {
         if (event.path === routeWithoutSlash) {
@@ -25,8 +25,7 @@ export const setupViewer = async (twConfig: string | TWConfig, config: ViewerCon
     })
     addDevServerHandler({ route, handler: viewerDevMiddleware })
   }
-
-  if (isNuxt2()) {
+  else {
     // @ts-expect-error untyped nuxt2 property
     nuxt.options.serverMiddleware.push(
       // @ts-expect-error untyped handler parameters
