@@ -40,7 +40,11 @@ export default defineNuxtConfig({
       }
       else if (idx === 1 && config) {
         config.content = config.content ?? []
-        Array.isArray(config.content) ? config.content.push('my-content') : config.content.files.push('my-file-content')
+
+        if (Array.isArray(config.content))
+          config.content.push('my-content')
+        else
+          config.content.files.push('my-file-content')
       }
     },
     'tailwindcss:config': (config) => {
