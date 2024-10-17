@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.12.2
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.12.1...v6.12.2)
+
+### 🩹 Fixes
+
+- #883 Tab view src leading baseURL ([#885](https://github.com/nuxt-modules/tailwindcss/pull/885), [#883](https://github.com/nuxt-modules/tailwindcss/issues/883))
+- **viewer:** Provide workaround for nuxt2 `modules:done` serverMiddleware race condition ([9d42549](https://github.com/nuxt-modules/tailwindcss/commit/9d42549))
+
+### 📖 Documentation
+
+- Mention tailwind intelliSense integration with IDEs pointing to tailwind  docs  / editor config ([#875](https://github.com/nuxt-modules/tailwindcss/pull/875))
+
+### 🏡 Chore
+
+- Use klona and content configuration as object ([f606398](https://github.com/nuxt-modules/tailwindcss/commit/f606398))
+- Fix test and provide toggle ([60a4bba](https://github.com/nuxt-modules/tailwindcss/commit/60a4bba))
+- Update docs and add examples test ci ([#853](https://github.com/nuxt-modules/tailwindcss/pull/853))
+- Update deps ([#900](https://github.com/nuxt-modules/tailwindcss/pull/900))
+- Indicate compatibility with new v4 major ([#876](https://github.com/nuxt-modules/tailwindcss/pull/876))
+- Update test ([2d051e2](https://github.com/nuxt-modules/tailwindcss/commit/2d051e2))
+- Remove console output testing ([98296a8](https://github.com/nuxt-modules/tailwindcss/commit/98296a8))
+- Fix lint ([a7b886a](https://github.com/nuxt-modules/tailwindcss/commit/a7b886a))
+
+### ❤️ Contributors
+
+- Inesh Bose <dev@inesh.xyz>
+- Daniel Roe ([@danielroe](http://github.com/danielroe))
+- Santiago A. ([@santiagoaloi](http://github.com/santiagoaloi))
+- Richardev ([@richardevcom](http://github.com/richardevcom))
+
 ## v6.12.1
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.12.0...v6.12.1)
