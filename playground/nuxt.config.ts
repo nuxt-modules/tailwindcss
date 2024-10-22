@@ -11,6 +11,7 @@ const logger = consola.withTag('nuxt:tailwindcss:playground')
 
 export default defineNuxtConfig({
   extends: ['./theme'],
+  // ssr: false,
 
   // builder: 'webpack',
   modules: [

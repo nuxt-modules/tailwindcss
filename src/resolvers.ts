@@ -53,8 +53,8 @@ const resolveContentPaths = (srcDir: string, nuxtOptions = useNuxt().options) =>
     r(`{A,a}pp${sfcExtensions}`),
     r(`{E,e}rror${sfcExtensions}`),
     r(`app.config${defaultExtensions}`),
-    r(`spa-loading-template.html`),
-  ].filter(Boolean)
+    !nuxtOptions.ssr && nuxtOptions.spaLoadingTemplate !== false && r(typeof nuxtOptions.spaLoadingTemplate === 'string' ? nuxtOptions.spaLoadingTemplate : 'app/spa-loading-template.html'),
+  ].filter((p): p is string => Boolean(p))
 }
 
 /**
