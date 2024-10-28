@@ -1,50 +1,31 @@
-<template>
-  <div class="w-full min-h-[500px] mx-auto mb-6 overflow-hidden text-3xl rounded-md sandbox mt-4">
-    <iframe
-      v-if="url"
-      :src="url"
-      title="Sandbox editor"
-      sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-      class="w-full h-full min-h-[700px] overflow-hidden bg-gray-100 dark:bg-gray-800"
-    />
-    <span
-      v-else
-      class="flex-1 text-white"
-    >Loading Sandbox...</span>
-  </div>
-</template>
-
 <script setup lang="ts">
 const props = defineProps({
-  src: {
-    type: String,
-    default: '',
-  },
-  repo: {
-    type: String,
-    default: '',
-  },
-  branch: {
-    type: String,
-    default: '',
-  },
-  dir: {
-    type: String,
-    default: '',
-  },
-  file: {
-    type: String,
-    default: 'app.vue',
-  },
+  src: { type: String, default: 'main' }
 })
 
 const colorMode = useColorMode()
-const url = ref('')
-
-onMounted(() => {
-  url.value = props.src || `https://stackblitz.com/github/${props.repo}/tree/${props.branch}/${props.dir}?embed=1&file=${props.file}&theme=${colorMode.value}`
-})
 </script>
+
+<template>
+  <div>
+    <div class="w-full min-h-[500px] mx-auto mb-6 overflow-hidden text-3xl rounded-md sandbox mt-4">
+      <iframe
+        :src="`https://stackblitz.com/github/nuxt-modules/tailwindcss/tree/${props.src}?embed=1&theme=${colorMode.value}`"
+        title="Sandbox editor (powered by StackBlitz)"
+        sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+        class="w-full h-full min-h-[700px] overflow-hidden bg-gray-100 dark:bg-gray-800"
+      />
+    </div>
+    
+    <span class="text-sm text-gray-500 dark:text-gray-400">
+      Open in <NuxtLink
+        :to="`https://github.com/nuxt-modules/tailwindcss/tree/${props.src}`"
+        target="_blank"
+        class="text-gray-900 dark:text-white"
+      >GitHub</NuxtLink>
+    </span>
+  </div>
+</template>
 
 <style lang="postcss" scoped>
 .sandbox,
