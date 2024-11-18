@@ -1,4 +1,5 @@
 import { addTemplate, createResolver, findPath, resolveAlias, updateTemplates, useNuxt } from '@nuxt/kit'
+import type { NuxtOptions, NuxtConfig } from '@nuxt/schema'
 import { join, relative, resolve } from 'pathe'
 import { loadConfig, type ResolvedConfig } from 'c12'
 import _loadConfig from 'tailwindcss/loadConfig.js'
@@ -12,7 +13,7 @@ const CONFIG_TEMPLATE_NAME = 'tailwind.config.cjs'
 
 const JSONStringifyWithRegex = (obj: any) => JSON.stringify(obj, (_, v) => v instanceof RegExp ? `__REGEXP ${v.toString()}` : v)
 
-const resolveConfigs = <T extends Partial<TWConfig> | string | undefined>(configs: T | T[], nuxtOptions = useNuxt().options) =>
+const resolveConfigs = <T extends Partial<TWConfig> | string | undefined>(configs: T | T[], nuxt = useNuxt()) =>
   ((Array.isArray(configs) ? configs : [configs])
     .filter(Boolean)
     .map(async (config): Promise<ResolvedConfig | null> => {
@@ -20,7 +21,7 @@ const resolveConfigs = <T extends Partial<TWConfig> | string | undefined>(config
         return { config } as { config: NonNullable<T> }
       }
 
-      const configFile = await (config.startsWith(nuxtOptions.buildDir) ? config : findPath(config, { extensions: ['.js', '.cjs', '.mjs', '.ts'] }))
+      const configFile = await (config.startsWith(nuxt.options.buildDir) ? config : findPath(config, { extensions: ['.js', '.cjs', '.mjs', '.ts'] }))
       return configFile
         ? loadConfig({ configFile }).catch((e) => {
           logger.warn(`Error occurred while loading \`${configFile}\`:`, e)
@@ -29,14 +30,14 @@ const resolveConfigs = <T extends Partial<TWConfig> | string | undefined>(config
         : null
     }))
 
-const resolveContentPaths = (srcDir: string, nuxtOptions = useNuxt().options): ResolvedConfig => {
+const resolveContentPaths = (srcDir: string, nuxtOptions: NuxtOptions | NuxtConfig = useNuxt().options): ResolvedConfig => {
   const r = (p: string) => p.startsWith(srcDir) ? p : resolve(srcDir, p)
   const extensionFormat = (s: string[]) => s.length > 1 ? `.{${s.join(',')}}` : `.${s.join('') || 'vue'}`
 
   const defaultExtensions = extensionFormat(['js', 'ts', 'mjs'])
-  const sfcExtensions = extensionFormat(Array.from(new Set(['.vue', ...nuxtOptions.extensions])).map(e => e.replace(/^\.*/, '')))
+  const sfcExtensions = extensionFormat(Array.from(new Set(['.vue', ...(nuxtOptions.extensions || defaultExtensions)])).map(e => e?.replace(/^\.*/, '')).filter((v): v is string => Boolean(v)))
 
-  const importDirs = [...(nuxtOptions.imports?.dirs || [])].map(r)
+  const importDirs = [...(nuxtOptions.imports?.dirs || [])].filter((v): v is string => Boolean(v)).map(r)
   const [composablesDir, utilsDir] = [resolve(srcDir, 'composables'), resolve(srcDir, 'utils')]
 
   if (!importDirs.includes(composablesDir)) importDirs.push(composablesDir)
@@ -46,15 +47,18 @@ const resolveContentPaths = (srcDir: string, nuxtOptions = useNuxt().options): R
     r(`components/**/*${sfcExtensions}`),
     ...(() => {
       if (nuxtOptions.components) {
-        return (Array.isArray(nuxtOptions.components) ? nuxtOptions.components : typeof nuxtOptions.components === 'boolean' ? ['components'] : nuxtOptions.components.dirs).map(d => `${resolveAlias(typeof d === 'string' ? d : d.path)}/**/*${sfcExtensions}`)
+        return (Array.isArray(nuxtOptions.components) ? nuxtOptions.components : typeof nuxtOptions.components === 'boolean' ? ['components'] : (nuxtOptions.components.dirs || [])).map((d) => {
+          const valueToResolve = typeof d === 'string' ? d : d?.path
+          return valueToResolve ? `${resolveAlias(valueToResolve)}/**/*${sfcExtensions}` : ''
+        }).filter(Boolean)
       }
       return []
     })(),
 
-    nuxtOptions.dir.layouts && r(`${nuxtOptions.dir.layouts}/**/*${sfcExtensions}`),
-    ...([true, undefined].includes(nuxtOptions.pages) ? [r(`${nuxtOptions.dir.pages}/**/*${sfcExtensions}`)] : []),
+    nuxtOptions.dir?.layouts && r(`${nuxtOptions.dir.layouts}/**/*${sfcExtensions}`),
+    ...([true, undefined].includes(nuxtOptions.pages) && nuxtOptions.dir?.pages ? [r(`${nuxtOptions.dir.pages}/**/*${sfcExtensions}`)] : []),
 
-    nuxtOptions.dir.plugins && r(`${nuxtOptions.dir.plugins}/**/*${defaultExtensions}`),
+    nuxtOptions.dir?.plugins && r(`${nuxtOptions.dir.plugins}/**/*${defaultExtensions}`),
     ...importDirs.map(d => `${d}/**/*${defaultExtensions}`),
 
     r(`{A,a}pp${sfcExtensions}`),
@@ -67,14 +71,14 @@ const resolveContentPaths = (srcDir: string, nuxtOptions = useNuxt().options): R
 const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNuxt()) => {
   const getModuleConfigs = () => Promise.all([
     resolveContentPaths(nuxt.options.srcDir, nuxt.options),
-    ...resolveConfigs(moduleOptions.config, nuxt.options),
+    ...resolveConfigs(moduleOptions.config, nuxt),
     loadConfig({ name: 'tailwind', cwd: nuxt.options.rootDir }),
-    ...resolveConfigs(moduleOptions.configPath, nuxt.options),
+    ...resolveConfigs(moduleOptions.configPath, nuxt),
     ...nuxt.options._layers.slice(1).flatMap(nuxtLayer => [
-      resolveContentPaths(nuxtLayer.config?.srcDir || nuxtLayer.cwd, nuxt.options),
-      ...resolveConfigs(nuxtLayer.config.tailwindcss?.config, nuxt.options),
+      resolveContentPaths(nuxtLayer.config?.srcDir || nuxtLayer.cwd, nuxtLayer.config),
+      ...resolveConfigs(nuxtLayer.config.tailwindcss?.config, nuxt),
       loadConfig({ name: 'tailwind', cwd: nuxtLayer.cwd }),
-      ...resolveConfigs(nuxtLayer.config.tailwindcss?.configPath, nuxt.options),
+      ...resolveConfigs(nuxtLayer.config.tailwindcss?.configPath, nuxt),
     ]),
   ])
 
@@ -181,7 +185,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
         return _tailwindConfig || {}
       })),
     ).then(configs => configs.reduce(
-      (prev, curr) => configMerger(curr, prev),
+      (prev, curr) => configMerger(prev, curr),
       {},
     )) as TWConfig
 
@@ -219,7 +223,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
           `const configMerger = require(${JSON.stringify(createResolver(import.meta.url).resolve('../runtime/merger.js'))});`,
           'const config = [',
           layerConfigs.join(',\n'),
-          `].reduce((prev, curr) => configMerger(curr, prev), {});\n`,
+          `].reduce((prev, curr) => configMerger(prev, curr), {});\n`,
           `module.exports = ${configUpdatedHook['main-config'] ? `(() => {const cfg=config;${configUpdatedHook['main-config']};return cfg;})()` : 'config'}\n`,
         ].join('\n')
       },
