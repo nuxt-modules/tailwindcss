@@ -130,6 +130,8 @@ export interface ModuleOptions {
   disableHMR?: boolean
 }
 
+// Hooks TODO: either deprecate or make hooks read-only. Modifications from hooks should rather be done by addition of new configs with defuFn strategy.
+
 export interface ModuleHooks {
   /**
    * Passes any Tailwind configuration read by the module for each (extended) [layer](https://nuxt.com/docs/getting-started/layers) and [path](https://tailwindcss.nuxtjs.org/getting-started/options#configpath) before merging all of them.

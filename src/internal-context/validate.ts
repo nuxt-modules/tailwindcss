@@ -1,6 +1,6 @@
-import type { ModuleOptions } from '../types'
+import type { TWConfig } from '../types'
 
-export const checkUnsafeInlineConfig = <T extends Exclude<ModuleOptions['config'], any[] | string>>(inlineConfig: T | undefined) => {
+export const checkUnsafeInlineConfig = <T extends Partial<TWConfig>>(inlineConfig: T | undefined) => {
   if (!inlineConfig) return
 
   if (
@@ -20,7 +20,6 @@ export const checkUnsafeInlineConfig = <T extends Exclude<ModuleOptions['config'
   }
 
   if (inlineConfig.safelist) {
-    // @ts-expect-error `s` is never
     const invalidIdx = inlineConfig.safelist.findIndex(s => typeof s === 'object' && s.pattern instanceof RegExp)
 
     if (invalidIdx > -1) {
