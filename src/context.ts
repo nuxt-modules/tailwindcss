@@ -32,7 +32,7 @@ twCtx.set = (instance, replace = true) => {
   set(resolvedConfig as unknown as TWConfig, replace)
 }
 
-const unsafeInlineConfig = (inlineConfig: ModuleOptions['config']) => {
+const checkUnsafeInlineConfig = <T extends Exclude<ModuleOptions['config'], any[] | string>>(inlineConfig: T) => {
   if (!inlineConfig) return
 
   if (
@@ -43,7 +43,8 @@ const unsafeInlineConfig = (inlineConfig: ModuleOptions['config']) => {
   }
 
   if (inlineConfig.content) {
-    const invalidProperty = ['extract', 'transform'].find(i => i in inlineConfig.content! && typeof inlineConfig.content![i as keyof ModuleOptions['config']['content']] === 'function')
+    // @ts-expect-error indexing content with different possibilities
+    const invalidProperty = ['extract', 'transform'].find(i => i in inlineConfig.content! && typeof inlineConfig.content![i] === 'function')
 
     if (invalidProperty) {
       return `content.${invalidProperty}`
@@ -63,19 +64,25 @@ const unsafeInlineConfig = (inlineConfig: ModuleOptions['config']) => {
 const JSONStringifyWithRegex = (obj: any) => JSON.stringify(obj, (_, v) => v instanceof RegExp ? `__REGEXP ${v.toString()}` : v)
 
 const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNuxt()) => {
+  // const moduleConfigs: Exclude<ModuleOptions['config'], string | any[]>[] = []
+  // loading order -> main project (or installModule) inline options, main project's tailwind.config, main project's configPaths
+  // layer n -> inline options, tailwind.config, configPaths
+  // nuxt.options._layers.slice(1).map(nuxtLayer => nuxtLayer.config)
+
   const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
   const configUpdatedHook: Record<string, string> = {}
   const configResolvedPath = join(nuxt.options.buildDir, CONFIG_TEMPLATE_NAME)
   let enableHMR = true
+  let unsafeInlineConfig: string | undefined = undefined
 
   if (moduleOptions.disableHMR) {
     enableHMR = false
   }
 
-  const unsafeProperty = unsafeInlineConfig(moduleOptions.config)
-  if (unsafeProperty && enableHMR) {
+  unsafeInlineConfig = checkUnsafeInlineConfig(moduleOptions.config)
+  if (unsafeInlineConfig && enableHMR) {
     logger.warn(
-      `The provided Tailwind configuration in your \`nuxt.config\` is non-serializable. Check \`${unsafeProperty}\`. Falling back to providing the loaded configuration inlined directly to PostCSS loader..`,
+      `The provided Tailwind configuration in your \`nuxt.config\` is non-serializable. Check \`${unsafeInlineConfig}\`. Falling back to providing the loaded configuration inlined directly to PostCSS loader..`,
       'Please consider using `tailwind.config` or a separate file (specifying in `configPath` of the module options) to enable it with additional support for IntelliSense and HMR. Suppress this warning with `quiet: true` in the module options.',
     )
     enableHMR = false

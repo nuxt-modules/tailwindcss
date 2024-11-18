@@ -1,5 +1,4 @@
 import { join } from 'pathe'
-import { joinURL } from 'ufo'
 import {
   defineNuxtModule,
   installModule,
@@ -13,9 +12,6 @@ import {
   isNuxtMajorVersion,
 } from '@nuxt/kit'
 
-// @ts-expect-error no declaration file
-import defaultTailwindConfig from 'tailwindcss/stubs/config.simple.js'
-
 import { name, version, configKey, compatibility } from '../package.json'
 import * as resolvers from './resolvers'
 import logger, { LogLevels } from './logger'
@@ -27,23 +23,14 @@ import type { ModuleOptions, ModuleHooks } from './types'
 
 export type { ModuleOptions, ModuleHooks } from './types'
 
-const deprecationWarnings = (moduleOptions: ModuleOptions, nuxt = useNuxt()) =>
-  ([
-    ['addTwUtil', 'Use `editorSupport.autocompleteUtil` instead.'],
-    ['exposeLevel', 'Use `exposeConfig.level` instead.'],
-    ['injectPosition', `Use \`cssPath: [${
-      moduleOptions.cssPath === join(nuxt.options.dir.assets, 'css/tailwind.css')
-        ? '"~/assets/css/tailwind.css"'
-        : typeof moduleOptions.cssPath === 'string' ? `"${moduleOptions.cssPath}"` : moduleOptions.cssPath
-    }, { injectPosition: ${JSON.stringify(moduleOptions.injectPosition)} }]\` instead.`],
-  ] satisfies Array<[keyof ModuleOptions, string]>).forEach(
-    ([dOption, alternative]) => moduleOptions[dOption] !== undefined && logger.warn(`Deprecated \`${dOption}\`. ${alternative}`),
-  )
-
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: 'tailwind.config',
   cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
-  config: defaultTailwindConfig,
+  config: {
+    content: [],
+    theme: { extend: {} },
+    plugins: [],
+  },
   viewer: true,
   exposeConfig: false,
   quiet: nuxt.options.logLevel === 'silent',
@@ -53,8 +40,7 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
 export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility }, defaults,
   async setup(moduleOptions, nuxt) {
-    if (moduleOptions.quiet) logger.level = LogLevels.silent
-    deprecationWarnings(moduleOptions, nuxt)
+    if (moduleOptions.quiet) logger.level = LogLevels.silent // possibly remove now
 
     // install postcss8 module on nuxt < 2.16
     if (Number.parseFloat(getNuxtVersion()) < 2.16) {
@@ -66,10 +52,10 @@ export default defineNuxtModule<ModuleOptions>({
 
     const ctx = await createInternalContext(moduleOptions, nuxt)
 
-    if (moduleOptions.editorSupport || moduleOptions.addTwUtil) {
+    if (moduleOptions.editorSupport) {
       const editorSupportConfig = resolvers.resolveEditorSupportConfig(moduleOptions.editorSupport)
 
-      if ((editorSupportConfig.autocompleteUtil || moduleOptions.addTwUtil) && !isNuxtMajorVersion(2, nuxt)) {
+      if ((editorSupportConfig.autocompleteUtil) && !isNuxtMajorVersion(2, nuxt)) {
         addImports({
           name: 'autocompleteUtil',
           from: createResolver(import.meta.url).resolve('./runtime/utils'),
@@ -91,7 +77,7 @@ export default defineNuxtModule<ModuleOptions>({
     if (resolvedCss && !resolvedNuxtCss.includes(resolvedCss)) {
       let injectPosition: number
       try {
-        injectPosition = resolvers.resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition || moduleOptions.injectPosition)
+        injectPosition = resolvers.resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition)
       }
       catch (e: any) {
         throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
@@ -113,7 +99,7 @@ export default defineNuxtModule<ModuleOptions>({
 
       // expose resolved tailwind config as an alias
       if (moduleOptions.exposeConfig) {
-        const exposeConfig = resolvers.resolveExposeConfig({ level: moduleOptions.exposeLevel, ...(typeof moduleOptions.exposeConfig === 'object' ? moduleOptions.exposeConfig : {}) })
+        const exposeConfig = resolvers.resolveExposeConfig(moduleOptions.exposeConfig)
         const exposeTemplates = createExposeTemplates(exposeConfig)
         nuxt.hook('tailwindcss:internal:regenerateTemplates', () => updateTemplates({ filter: template => exposeTemplates.includes(template.dst) }))
       }
@@ -138,19 +124,6 @@ export default defineNuxtModule<ModuleOptions>({
         if (moduleOptions.viewer) {
           const viewerConfig = resolvers.resolveViewerConfig(moduleOptions.viewer)
           setupViewer(twConfig.dst || _config, viewerConfig, nuxt)
-
-          nuxt.hook('devtools:customTabs', (tabs: import('@nuxt/devtools').ModuleOptions['customTabs']) => {
-            tabs?.push({
-              title: 'Tailwind CSS',
-              name: 'tailwindcss',
-              icon: 'logos-tailwindcss-icon',
-              category: 'modules',
-              view: {
-                type: 'iframe',
-                src: joinURL(nuxt.options.app?.baseURL, viewerConfig.endpoint),
-              },
-            })
-          })
         }
       }
       else {

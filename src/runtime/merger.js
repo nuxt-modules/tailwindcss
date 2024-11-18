@@ -27,12 +27,12 @@ export default (base, ...defaults) => {
         obj[key] = { ...value, files: [...obj[key], ...(value.files || [])] }
         return true
       }
-    }
 
-    // keeping arrayFn
-    if (obj[key] && typeof value === 'function') {
-      obj[key] = value(Array.isArray(obj[key]) ? obj[key] : obj[key]['files'])
-      return true
+      // keeping arrayFn
+      if (obj[key] && typeof value === 'function') {
+        obj[key] = value(Array.isArray(obj[key]) ? obj[key] : obj[key]['files'])
+        return true
+      }
     }
   })(klona(base), ...defaults.map(klona))
 }

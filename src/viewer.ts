@@ -41,6 +41,16 @@ export const setupViewer = async (twConfig: string | TWConfig, config: ViewerCon
     )
   }
 
+  nuxt.hook('devtools:customTabs', (tabs: import('@nuxt/devtools').ModuleOptions['customTabs']) => {
+    tabs?.push({
+      title: 'Tailwind CSS',
+      name: 'tailwindcss',
+      icon: 'logos-tailwindcss-icon',
+      category: 'modules',
+      view: { type: 'iframe', src: route },
+    })
+  })
+
   nuxt.hook('listen', (_, listener) => {
     const viewerUrl = cleanDoubleSlashes(joinURL(listener.url, config.endpoint))
     logger.info(`Tailwind Viewer: ${colors.underline(colors.yellow(withTrailingSlash(viewerUrl)))}`)
@@ -55,8 +65,6 @@ export const exportViewer = async (twConfig: string, config: ViewerConfig, nuxt 
   const cli = await import('tailwind-config-viewer/cli/export.js').then(r => r.default || r) as any
 
   nuxt.hook('nitro:build:public-assets', (nitro) => {
-    // nitro.options.prerender.ignore.push(config.endpoint);
-
     const dir = joinURL(nitro.options.output.publicDir, config.endpoint)
     cli(dir, twConfig)
     logger.success(`Exported viewer to ${colors.yellow(relative(nuxt.options.srcDir, dir))}`)

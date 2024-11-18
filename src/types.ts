@@ -12,6 +12,7 @@ type InlineTWConfig = _Omit<TWConfig, 'content' | 'plugins' | 'safelist'> & {
 }
 
 type BoolObj<T extends Record<string, any>> = boolean | Partial<T>
+type Arrayable<T> = T | T[]
 
 export type ViewerConfig = {
   /**
@@ -35,6 +36,7 @@ export type ExposeConfig = {
    * Import name for the configuration
    *
    * @default '#tailwind-config'
+   * @deprecated use `alias` in `nuxt.config` instead - https://nuxt.com/docs/api/nuxt-config#alias
    */
   alias: string
   /**
@@ -45,6 +47,8 @@ export type ExposeConfig = {
   level: number
   /**
    * To write the templates to file-system for usage with code that does not have access to the Virtual File System. This applies only for Nuxt 3 with Vite.
+   *
+   * @deprecated use a module if a necessary using the `app:templates` hook to write templates like so: https://github.com/nuxt/module-builder/blob/4697f18429efb83b82f3b256dd8926bb94d3df77/src/commands/prepare.ts#L37-L43
    */
   write?: boolean
 }
@@ -74,7 +78,7 @@ export interface ModuleOptions {
    *
    * @default 'tailwind.config'
    */
-  configPath: string | string[]
+  configPath: Arrayable<string>
   /**
    * The path of the Tailwind CSS file. If the file does not exist, the module's default CSS file will be imported instead.
    *
@@ -86,7 +90,7 @@ export interface ModuleOptions {
    *
    * for default, see https://tailwindcss.nuxtjs.org/tailwind/config
    */
-  config: InlineTWConfig
+  config: Arrayable<InlineTWConfig | string>
   /**
    * [tailwind-config-viewer](https://github.com/rogden/tailwind-config-viewer) usage *in development*
    *
@@ -100,32 +104,11 @@ export interface ModuleOptions {
    */
   exposeConfig: BoolObj<ExposeConfig>
   /**
-   * Deeper references within configuration for optimal tree-shaking.
-   *
-   * @default 2
-   * @deprecated use exposeConfig as object
-   */
-  exposeLevel?: number
-  /**
-   * The position of CSS injection affecting CSS priority
-   *
-   * @default 'first'
-   * @deprecated use cssPath as [string | false, { injectPosition: InjectPosition }]
-   */
-  injectPosition?: InjectPosition
-  /**
    * Suppress logging to the console when everything is ok
    *
    * @default nuxt.options.logLevel === 'silent'
    */
   quiet: boolean
-  /**
-   * Add util to write Tailwind CSS classes inside strings with `` tw`{classes}` ``
-   *
-   * @default false
-   * @deprecated use `editorSupport.autocompleteUtil` as object
-   */
-  addTwUtil?: boolean
   /**
    * Enable some utilities for better editor support and DX.
    *
