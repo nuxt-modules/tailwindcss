@@ -26,6 +26,10 @@
   "files": [
     "dist"
   ],
+  "build": {
+    "entries": ["./src/config"],
+    "rollup": { "emitCJS": true }
+  },
   "scripts": {
     "play": "pnpm dev",
     "prepare": "nuxt-module-build prepare",

@@ -17,7 +17,7 @@ import * as resolvers from './resolvers'
 import logger, { LogLevels } from './logger'
 import { createExposeTemplates } from './expose'
 import { setupViewer, exportViewer } from './viewer'
-import { createInternalContext } from './context'
+import { createInternalContext } from './internal-context/load'
 
 import type { ModuleOptions, ModuleHooks } from './types'
 
@@ -90,7 +90,7 @@ export default defineNuxtModule<ModuleOptions>({
     let nuxt2ViewerConfig: Parameters<typeof setupViewer>[0] = join(nuxt.options.buildDir, 'tailwind.config.cjs')
 
     nuxt.hook('modules:done', async () => {
-      const _config = await ctx.loadConfig()
+      const _config = await ctx.loadConfigs()
 
       const twConfig = ctx.generateConfig()
       ctx.registerHooks()

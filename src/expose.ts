@@ -2,7 +2,7 @@ import { dirname, join } from 'pathe'
 import { useNuxt, addTemplate, addTypeTemplate } from '@nuxt/kit'
 import type { ResolvedNuxtTemplate } from 'nuxt/schema'
 import type { ExposeConfig } from './types'
-import { twCtx } from './context'
+import { twCtx } from './internal-context/use'
 
 const NON_ALPHANUMERIC_RE = /^[0-9a-z]+$/i
 const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(value)
