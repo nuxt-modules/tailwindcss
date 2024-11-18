@@ -24,7 +24,7 @@ import type { ModuleOptions, ModuleHooks } from './types'
 export type { ModuleOptions, ModuleHooks } from './types'
 
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
-  configPath: 'tailwind.config',
+  configPath: [],
   cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
   config: {
     content: [],

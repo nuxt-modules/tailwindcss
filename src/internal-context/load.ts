@@ -3,7 +3,6 @@ import { join, relative, resolve } from 'pathe'
 import { loadConfig, type ResolvedConfig } from 'c12'
 import _loadConfig from 'tailwindcss/loadConfig.js'
 import type { ModuleOptions, TWConfig } from '../types'
-import { resolveModulePaths } from '../resolvers'
 import logger from '../logger'
 import configMerger from '../runtime/merger.js'
 import { twCtx } from './use'
@@ -22,7 +21,12 @@ const resolveConfigs = <T extends Partial<TWConfig> | string | undefined>(config
       }
 
       const configFile = await (config.startsWith(nuxtOptions.buildDir) ? config : findPath(config, { extensions: ['.js', '.cjs', '.mjs', '.ts'] }))
-      return configFile ? loadConfig({ configFile }) : null
+      return configFile
+        ? loadConfig({ configFile }).catch((e) => {
+          logger.warn(`Error occurred while loading \`${configFile}\`:`, e)
+          return null
+        })
+        : null
     }))
 
 const resolveContentPaths = (srcDir: string, nuxtOptions = useNuxt().options): ResolvedConfig => {
@@ -61,7 +65,7 @@ const resolveContentPaths = (srcDir: string, nuxtOptions = useNuxt().options): R
 }
 
 const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNuxt()) => {
-  const moduleConfigs = await Promise.all([
+  const getModuleConfigs = () => Promise.all([
     resolveContentPaths(nuxt.options.srcDir, nuxt.options),
     ...resolveConfigs(moduleOptions.config, nuxt.options),
     loadConfig({ name: 'tailwind', cwd: nuxt.options.rootDir }),
@@ -74,7 +78,6 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     ]),
   ])
 
-  const [configPaths, contentPaths] = await resolveModulePaths(moduleOptions.configPath, nuxt)
   const configUpdatedHook: Record<string, string> = {}
   const configResolvedPath = join(nuxt.options.buildDir, CONFIG_TEMPLATE_NAME)
   let enableHMR = true
@@ -84,7 +87,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     enableHMR = false
   }
 
-  for (const c of moduleConfigs) {
+  for (const c of await getModuleConfigs()) {
     if (c?.configFile) continue
     const hasUnsafeProperty = checkUnsafeInlineConfig(c?.config)
 
@@ -141,33 +144,40 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
   })
 
   const loadConfigs = async () => {
-    configPaths.forEach(p => configUpdatedHook[p] = '')
+    const moduleConfigs = await getModuleConfigs()
+    moduleConfigs.forEach((p) => {
+      if (p?.configFile) configUpdatedHook[p.configFile] = ''
+    })
 
     const tailwindConfig = await Promise.all((
-      configPaths.map(async (configPath, idx, paths) => {
+      moduleConfigs.map(async (c, idx) => {
         const _tailwindConfig = ((): Partial<TWConfig> | undefined => {
           try {
-            return configMerger(undefined, _loadConfig(configPath))
+            return configMerger(undefined, c?.config)
           }
           catch (e) {
             const error = e instanceof Error ? ('code' in e ? e.code as string : e.name).toUpperCase() : typeof e === 'string' ? e.toUpperCase() : ''
 
-            if (configPath.startsWith(nuxt.options.buildDir) && ['MODULE_NOT_FOUND'].includes(error)) {
-              configUpdatedHook[configPath] = nuxt.options.dev ? 'return {};' : ''
+            if (c?.configFile?.startsWith(nuxt.options.buildDir) && ['MODULE_NOT_FOUND'].includes(error)) {
+              configUpdatedHook[c.configFile] = nuxt.options.dev ? 'return {};' : ''
               return
             }
 
-            configUpdatedHook[configPath] = 'return {};'
-            logger.warn(`Failed to load config \`./${relative(nuxt.options.rootDir, configPath)}\` due to the error below. Skipping..\n`, e)
+            if (c?.configFile) {
+              configUpdatedHook[c.configFile] = 'return {};'
+              logger.warn(`Failed to load config \`./${relative(nuxt.options.rootDir, c.configFile)}\` due to the error below. Skipping..\n`, e)
+            }
           }
         })()
 
         // Transform purge option from Array to object with { content }
-        if (_tailwindConfig?.purge && !_tailwindConfig.content) {
-          configUpdatedHook[configPath] += 'cfg.content = cfg.purge;'
+        if (c?.configFile && _tailwindConfig?.purge && !_tailwindConfig.content) {
+          configUpdatedHook[c.configFile] += 'cfg.content = cfg.purge;'
         }
 
-        await nuxt.callHook('tailwindcss:loadConfig', _tailwindConfig && new Proxy(_tailwindConfig, trackObjChanges(configPath)), configPath, idx, paths)
+        if (c?.configFile)
+          await nuxt.callHook('tailwindcss:loadConfig', _tailwindConfig && new Proxy(_tailwindConfig, trackObjChanges(c.configFile)), c.configFile, idx, [])
+
         return _tailwindConfig || {}
       })),
     ).then(configs => configs.reduce(
@@ -187,25 +197,29 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     ? addTemplate({
       filename: CONFIG_TEMPLATE_NAME,
       write: true,
-      getContents: () => {
+      getContents: async () => {
+        const moduleConfigs = await getModuleConfigs()
         const serializeConfig = <T extends Partial<TWConfig>>(config: T) =>
           JSON.stringify(
             Array.isArray(config.plugins) && config.plugins.length > 0 ? configMerger({ plugins: (defaultPlugins: TWConfig['plugins']) => defaultPlugins?.filter(p => p && typeof p !== 'function') }, config) : config,
             (_, v) => typeof v === 'function' ? `() => (${JSON.stringify(v())})` : v,
           ).replace(/"(\(\) => \(.*\))"/g, (_, substr) => substr.replace(/\\"/g, '"'))
 
-        const layerConfigs = configPaths.map((configPath) => {
-          const configImport = `require(${JSON.stringify(/[/\\]node_modules[/\\]/.test(configPath) ? configPath : './' + relative(nuxt.options.buildDir, configPath))})`
-          return configUpdatedHook[configPath] ? configUpdatedHook[configPath].startsWith('return {};') ? '' : `(() => {const cfg=configMerger(undefined, ${configImport});${configUpdatedHook[configPath]};return cfg;})()` : configImport
+        const layerConfigs = moduleConfigs.map((c) => {
+          if (c?.configFile) {
+            const configImport = `require(${JSON.stringify(/[/\\]node_modules[/\\]/.test(c.configFile) ? c.configFile : './' + relative(nuxt.options.buildDir, c.configFile))})`
+            return configUpdatedHook[c.configFile] ? configUpdatedHook[c.configFile].startsWith('return {};') ? '' : `(() => {const cfg=configMerger(undefined, ${configImport});${configUpdatedHook[c.configFile]};return cfg;})()` : configImport
+          }
+
+          return c && serializeConfig(c.config)
         }).filter(Boolean)
 
         return [
           `// generated by the @nuxtjs/tailwindcss <https://github.com/nuxt-modules/tailwindcss> module at ${(new Date()).toLocaleString()}`,
-          `const configMerger = require(${JSON.stringify(createResolver(import.meta.url).resolve('./runtime/merger.js'))});`,
-          `\nconst inlineConfig = ${serializeConfig(moduleOptions.config as Partial<TWConfig>)};\n`,
+          `const configMerger = require(${JSON.stringify(createResolver(import.meta.url).resolve('../runtime/merger.js'))});`,
           'const config = [',
           layerConfigs.join(',\n'),
-          `].reduce((prev, curr) => configMerger(curr, prev), configMerger(inlineConfig, { content: { files: ${JSON.stringify(contentPaths)} } }));\n`,
+          `].reduce((prev, curr) => configMerger(curr, prev), {});\n`,
           `module.exports = ${configUpdatedHook['main-config'] ? `(() => {const cfg=config;${configUpdatedHook['main-config']};return cfg;})()` : 'config'}\n`,
         ].join('\n')
       },
@@ -216,7 +230,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     if (!enableHMR) return
 
     nuxt.hook('app:templatesGenerated', async (_app, templates) => {
-      if (Array.isArray(templates) && templates?.some(t => configPaths.includes(t.dst))) {
+      if (Array.isArray(templates) && templates?.some(t => Object.keys(configUpdatedHook).includes(t.dst))) {
         await loadConfigs()
         setTimeout(async () => {
           await updateTemplates({ filter: t => t.filename === CONFIG_TEMPLATE_NAME })
@@ -236,7 +250,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     moduleOptions.exposeConfig && nuxt.hook('builder:watch', async (_, path) => {
-      if (configPaths.includes(join(nuxt.options.rootDir, path))) {
+      if (Object.keys(configUpdatedHook).includes(join(nuxt.options.rootDir, path))) {
         twCtx.set(_loadConfig(configResolvedPath))
         setTimeout(async () => {
           await nuxt.callHook('tailwindcss:internal:regenerateTemplates')

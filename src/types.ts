@@ -76,7 +76,8 @@ export interface ModuleOptions {
   /**
    * The path of the Tailwind configuration file. The extension can be omitted, in which case it will try to find a `.js`, `.cjs`, `.mjs`, or `.ts` file.
    *
-   * @default 'tailwind.config'
+   * @default []
+   * @deprecated provide string in `config`
    */
   configPath: Arrayable<string>
   /**
@@ -86,7 +87,7 @@ export interface ModuleOptions {
    */
   cssPath: string | false | [string | false, { injectPosition: InjectPosition }]
   /**
-   * Configuration for Tailwind CSS
+   * Configuration for Tailwind CSS. Accepts (array of) string and inline configurations.
    *
    * for default, see https://tailwindcss.nuxtjs.org/tailwind/config
    */
