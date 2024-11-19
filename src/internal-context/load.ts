@@ -106,7 +106,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     loadConfig({ name: 'tailwind', cwd: nuxt.options.rootDir }),
     ...resolveConfigs(moduleOptions.configPath, nuxt),
 
-    ...nuxt.options._layers.slice(1).flatMap(nuxtLayer => [
+    ...(nuxt.options._layers || []).slice(1).flatMap(nuxtLayer => [
       resolveContentConfig(nuxtLayer.config?.srcDir || nuxtLayer.cwd, nuxtLayer.config),
       ...resolveConfigs(nuxtLayer.config.tailwindcss?.config, nuxt),
       loadConfig({ name: 'tailwind', cwd: nuxtLayer.cwd }),
