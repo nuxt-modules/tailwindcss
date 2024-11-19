@@ -44,7 +44,7 @@
     "test:types": "pnpm dev:prepare && tsc --noEmit && nuxi typecheck playground"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.13.2",
+    "@nuxt/kit": "^3.14.1592",
     "autoprefixer": "^10.4.20",
     "consola": "^3.2.3",
     "defu": "^6.1.4",
@@ -64,13 +64,13 @@
     "@nuxt/devtools": "^1.5.2",
     "@nuxt/eslint-config": "^0.5.7",
     "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/test-utils": "^3.14.2",
+    "@nuxt/test-utils": "^3.14.4",
     "@tailwindcss/typography": "^0.5.15",
     "changelogen": "^0.5.7",
     "destr": "^2.0.3",
     "eslint": "^9.12.0",
     "happy-dom": "^15.7.4",
-    "nuxt": "^3.13.2",
+    "nuxt": "^3.14.1592",
     "typescript": "^5.6.2",
     "vitest": "^2.1.2",
     "vue-tsc": "^2.1.6"
