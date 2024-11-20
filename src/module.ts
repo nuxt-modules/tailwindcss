@@ -40,7 +40,7 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
 export default defineNuxtModule<ModuleOptions>({
   meta: { name, version, configKey, compatibility }, defaults,
   async setup(moduleOptions, nuxt) {
-    if (moduleOptions.quiet) logger.level = LogLevels.silent // possibly remove now
+    if (moduleOptions.quiet) logger.level = LogLevels.silent
 
     // install postcss8 module on nuxt < 2.16
     if (Number.parseFloat(getNuxtVersion()) < 2.16) {

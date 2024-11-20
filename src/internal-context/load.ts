@@ -103,13 +103,15 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
   const getModuleConfigs = () => Promise.all([
     resolveContentConfig(nuxt.options.srcDir, nuxt.options),
     ...resolveConfigs(moduleOptions.config, nuxt),
-    loadConfig({ name: 'tailwind', cwd: nuxt.options.rootDir }),
+    loadConfig({ name: 'tailwind', cwd: nuxt.options.rootDir, merger: configMerger }),
     ...resolveConfigs(moduleOptions.configPath, nuxt),
 
     ...(nuxt.options._layers || []).slice(1).flatMap(nuxtLayer => [
       resolveContentConfig(nuxtLayer.config?.srcDir || nuxtLayer.cwd, nuxtLayer.config),
+      // @ts-expect-error layer config
       ...resolveConfigs(nuxtLayer.config.tailwindcss?.config, nuxt),
-      loadConfig({ name: 'tailwind', cwd: nuxtLayer.cwd }),
+      loadConfig({ name: 'tailwind', cwd: nuxtLayer.cwd, merger: configMerger }),
+      // @ts-expect-error layer config
       ...resolveConfigs(nuxtLayer.config.tailwindcss?.configPath, nuxt),
     ]),
   ])
@@ -119,7 +121,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
   const loadConfigs = async () => {
     const moduleConfigs = await getModuleConfigs()
     resolvedConfigsCtx.set(moduleConfigs, true)
-    const tailwindConfig = moduleConfigs.reduce((acc, curr) => configMerger(acc, curr?.config ?? {}), {})
+    const tailwindConfig = moduleConfigs.reduce((acc, curr) => configMerger(acc, curr?.config ?? {}), {} as Partial<TWConfig>)
 
     // Allow extending tailwindcss config by other modules
     configUpdatedHook['main-config'] = ''

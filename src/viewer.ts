@@ -7,7 +7,7 @@ import { relative } from 'pathe'
 import logger from './logger'
 import type { TWConfig, ViewerConfig } from './types'
 
-export const setupViewer = async (twConfig: string | TWConfig, config: ViewerConfig, nuxt = useNuxt()) => {
+export const setupViewer = async (twConfig: string | Partial<TWConfig>, config: ViewerConfig, nuxt = useNuxt()) => {
   const route = joinURL(nuxt.options.app?.baseURL, config.endpoint)
   const [routeWithSlash, routeWithoutSlash] = [withTrailingSlash(route), withoutTrailingSlash(route)]
 

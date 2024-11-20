@@ -10,7 +10,7 @@ const isJSObject = value => typeof value === 'object' && !Array.isArray(value)
  *
  * Read <https://tailwindcss.com/docs/content-configuration>.
  *
- * @type {(...p: Array<Partial<TWConfig> | Record<string | number | symbol, any> | undefined>) => Partial<TWConfig>}
+ * @type {(...p: Array<Partial<TWConfig> | Record<PropertyKey, any> | null | undefined>) => Partial<TWConfig>}
  */
 export default (base, ...defaults) => {
   if (!base) {
