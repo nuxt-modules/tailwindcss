@@ -103,7 +103,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
   const getModuleConfigs = () => {
     const thenCallHook = async (resolvedConfig: ResolvedConfig) => {
       const { configFile: resolvedConfigFile } = resolvedConfig
-      const config = configMerger(undefined, resolvedConfig.config)
+      const config = configMerger(undefined, resolvedConfig.config ?? {})
       if (!resolvedConfigFile) {
         return { ...resolvedConfig, config }
       }
