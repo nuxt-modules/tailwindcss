@@ -103,7 +103,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
   const getModuleConfigs = () => {
     const thenCallHook = async (resolvedConfig: ResolvedConfig) => {
       const { configFile: resolvedConfigFile } = resolvedConfig
-      if (!resolvedConfigFile) {
+      if (!resolvedConfigFile || !resolvedConfig.config) {
         return resolvedConfig
       }
 
