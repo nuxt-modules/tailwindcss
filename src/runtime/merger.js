@@ -33,6 +33,10 @@ export default (base, ...defaults) => {
         obj[key] = value(Array.isArray(obj[key]) ? obj[key] : obj[key]['files'])
         return true
       }
+      if (typeof obj[key] === 'function' && value) {
+        obj[key] = obj[key](Array.isArray(value) ? value : value['files'])
+        return true
+      }
     }
   })(klona(base), ...defaults.map(klona))
 }
