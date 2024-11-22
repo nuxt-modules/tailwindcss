@@ -42,6 +42,7 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
+      - uses: pnpm/action-setup@v4
       - run: pnpm install && pnpm dev:prepare
       - run: pnpm link --global
       - run: echo "  - \"docs-examples/examples/*\"" >> pnpm-workspace.yaml
