@@ -2,7 +2,8 @@ import logger from '../logger'
 import type { TWConfig } from '../types'
 import { twCtx } from './context'
 
-const FUNCTIONAL_STR = 'functional_str'
+const UNSUPPORTED_VAL_STR = 'UNSUPPORTED_VAL_STR'
+const JSONStringifyWithUnsupportedVals = (val: any) => JSON.stringify(val, (_, v) => ['function'].includes(typeof v) ? UNSUPPORTED_VAL_STR : v)
 const JSONStringifyWithRegex = (obj: any) => JSON.stringify(obj, (_, v) => v instanceof RegExp ? `__REGEXP ${v.toString()}` : v)
 
 export const createObjProxy = (configUpdatedHook: Record<string, string>, meta: ReturnType<typeof twCtx.use>['meta']) => {
@@ -16,13 +17,12 @@ export const createObjProxy = (configUpdatedHook: Record<string, string>, meta: 
     set(target, key, value) {
       const cfgKey = path.concat(key).map(k => `[${JSON.stringify(k)}]`).join('')
       const resultingCode = `cfg${cfgKey} = ${JSONStringifyWithRegex(value)?.replace(/"__REGEXP (.*)"/g, (_, substr) => substr.replace(/\\"/g, '"')) || `cfg${cfgKey}`};`
-      const functionalStringify = (val: any) => JSON.stringify(val, (_, v) => ['function'].includes(typeof v) ? FUNCTIONAL_STR + 'ns' : v)
 
-      if (functionalStringify(target[key as string]) === functionalStringify(value) || configUpdatedHook[configPath].endsWith(resultingCode)) {
+      if (JSONStringifyWithUnsupportedVals(target[key as string]) === JSONStringifyWithUnsupportedVals(value) || configUpdatedHook[configPath].endsWith(resultingCode)) {
         return Reflect.set(target, key, value)
       }
 
-      if (functionalStringify(value).includes(`"${FUNCTIONAL_STR + 'ns'}"`) && !meta?.disableHMR) {
+      if (JSONStringifyWithUnsupportedVals(value).includes(`"${UNSUPPORTED_VAL_STR}"`) && !meta?.disableHMR) {
         logger.warn(
           `A hook has injected a non-serializable value in \`config${cfgKey}\`, so the Tailwind Config cannot be serialized. Falling back to providing the loaded configuration inlined directly to PostCSS loader..`,
           'Please consider using a configuration file/template instead (specifying in `configPath` of the module options) to enable additional support for IntelliSense and HMR.',

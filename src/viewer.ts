@@ -2,7 +2,6 @@ import { colors } from 'consola/utils'
 import { eventHandler, sendRedirect, H3Event } from 'h3'
 import { addDevServerHandler, isNuxtMajorVersion, useNuxt } from '@nuxt/kit'
 import { withTrailingSlash, withoutTrailingSlash, joinURL, cleanDoubleSlashes } from 'ufo'
-import loadConfig from 'tailwindcss/loadConfig.js'
 import { relative } from 'pathe'
 import logger from './logger'
 import type { TWConfig, ViewerConfig } from './types'
@@ -11,8 +10,11 @@ export const setupViewer = async (twConfig: string | Partial<TWConfig>, config: 
   const route = joinURL(nuxt.options.app?.baseURL, config.endpoint)
   const [routeWithSlash, routeWithoutSlash] = [withTrailingSlash(route), withoutTrailingSlash(route)]
 
-  // @ts-expect-error untyped package export
-  const viewerServer = (await import('tailwind-config-viewer/server/index.js').then(r => r.default || r))({ tailwindConfigProvider: typeof twConfig === 'string' ? () => loadConfig(twConfig) : () => twConfig }).asMiddleware()
+  const viewerServer = await Promise.all([
+    // @ts-expect-error untyped package export
+    import('tailwind-config-viewer/server/index.js').then(r => r.default || r),
+    typeof twConfig === 'string' ? import('tailwindcss/loadConfig.js').then(r => r.default || r).then(loadConfig => () => loadConfig(twConfig)) : () => twConfig,
+  ]).then(([server, tailwindConfigProvider]) => server({ tailwindConfigProvider }).asMiddleware())
   const viewerDevMiddleware = eventHandler(event => viewerServer(event.node?.req || event.req, event.node?.res || event.res))
 
   if (!isNuxtMajorVersion(2, nuxt)) {

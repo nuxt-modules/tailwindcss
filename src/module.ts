@@ -26,11 +26,7 @@ export type { ModuleOptions, ModuleHooks } from './types'
 const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: [],
   cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
-  config: {
-    content: [],
-    theme: { extend: {} },
-    plugins: [],
-  },
+  config: {},
   viewer: true,
   exposeConfig: false,
   quiet: nuxt.options.logLevel === 'silent',
