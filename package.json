@@ -75,7 +75,7 @@
     "vitest": "^2.1.5",
     "vue-tsc": "^2.1.10"
   },
-  "packageManager": "pnpm@9.14.1",
+  "packageManager": "pnpm@9.14.2",
   "resolutions": {
     "@nuxtjs/tailwindcss": "link:."
   },
