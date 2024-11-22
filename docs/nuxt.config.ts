@@ -41,4 +41,6 @@ export default defineNuxtConfig({
   alias: {
     '@nuxtjs/tailwindcss': '../src/module',
   },
+
+  compatibilityDate: '2024-07-11',
 })
