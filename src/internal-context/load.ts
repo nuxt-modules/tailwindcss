@@ -222,7 +222,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
       if (Object.keys(configUpdatedHook).includes(join(nuxt.options.rootDir, path))) {
         const ctx = twCtx.use()
         setTimeout(async () => {
-          await import(ctx.dst).then(async (config) => {
+          await import(ctx.dst).then(async (_config) => {
             twCtx.set({ config: resolveTWConfig(_config) })
             await nuxt.callHook('tailwindcss:internal:regenerateTemplates')
           })
