@@ -88,7 +88,7 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hook('modules:done', async () => {
       const _config = await ctx.loadConfigs()
 
-      const twConfig = ctx.generateConfig({ mergerPath: createResolver(import.meta.url).resolve('./runtime/merger.js') })
+      const twConfig = ctx.generateConfig()
       ctx.registerHooks()
 
       nuxt2ViewerConfig = twConfig.dst || _config

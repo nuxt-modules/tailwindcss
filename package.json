@@ -19,6 +19,11 @@
       "types": "./dist/config.d.ts",
       "require": "./dist/config.cjs",
       "import": "./dist/config.mjs"
+    },
+    "./merger": {
+      "types": "./dist/merger.d.ts",
+      "require": "./dist/merger.cjs",
+      "import": "./dist/merger.mjs"
     }
   },
   "main": "./dist/module.cjs",
@@ -27,7 +32,7 @@
     "dist"
   ],
   "build": {
-    "entries": ["./src/config"],
+    "entries": ["./src/config", "./src/merger"],
     "rollup": { "emitCJS": true }
   },
   "scripts": {

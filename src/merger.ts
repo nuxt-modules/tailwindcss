@@ -1,20 +1,19 @@
-/** @typedef {import('tailwindcss').Config} TWConfig */
-
 import { createDefu } from 'defu'
 import { klona } from 'klona'
+import type { TWConfig } from './types'
 
-const isJSObject = value => typeof value === 'object' && !Array.isArray(value)
+const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(value)
+
+type Input = Partial<TWConfig> | Record<PropertyKey, any> | null | undefined
 
 /**
  * Merges Tailwind CSS configuration objects. This has special logic to merge Content as Array or Object.
  *
  * Read <https://tailwindcss.com/docs/content-configuration>.
- *
- * @type {(...p: Array<Partial<TWConfig> | Record<PropertyKey, any> | null | undefined>) => Partial<TWConfig>}
  */
-export default (base, ...defaults) => {
+export default (base: Input, ...defaults: Input[]): Partial<TWConfig> => {
   if (!base) {
-    return klona(defaults[0])
+    return klona(defaults[0]) as Partial<TWConfig>
   }
 
   return createDefu((obj, key, value) => {
