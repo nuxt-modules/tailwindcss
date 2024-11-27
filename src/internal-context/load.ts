@@ -221,10 +221,11 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     moduleOptions.exposeConfig && nuxt.hook('builder:watch', async (_, path) => {
       if (Object.keys(configUpdatedHook).includes(join(nuxt.options.rootDir, path))) {
         const ctx = twCtx.use()
-        await loadConfig({ configFile: ctx.dst }).then(({ config }) => twCtx.set({ config }))
-
         setTimeout(async () => {
-          await nuxt.callHook('tailwindcss:internal:regenerateTemplates')
+          await import(ctx.dst).then(async (config) => {
+            twCtx.set({ config: resolveTWConfig(_config) })
+            await nuxt.callHook('tailwindcss:internal:regenerateTemplates')
+          })
         }, 100)
       }
     })
