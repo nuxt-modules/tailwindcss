@@ -2,16 +2,20 @@ import { dirname, join } from 'pathe'
 import { useNuxt, addTemplate, addTypeTemplate } from '@nuxt/kit'
 import type { ResolvedNuxtTemplate } from 'nuxt/schema'
 import type { ExposeConfig } from './types'
-import { twCtx } from './context'
+import { twCtx } from './internal-context/context'
 
 const NON_ALPHANUMERIC_RE = /^[0-9a-z]+$/i
 const isJSObject = (value: any) => typeof value === 'object' && !Array.isArray(value)
 
 export const createExposeTemplates = (config: ExposeConfig, nuxt = useNuxt()) => {
   const templates: ResolvedNuxtTemplate<any>[] = []
-  const getTWConfig = (objPath: string[] = []) => objPath.reduce((prev, curr) => prev?.[curr], twCtx.tryUse() as any)
 
-  const populateMap = (obj: any, path: string[] = [], level = 1) => {
+  const getTWConfig = (
+    objPath: string[] = [],
+    twConfig = twCtx.use().config,
+  ) => objPath.reduce((prev, curr) => prev?.[curr], twConfig as Record<string, any>)
+
+  const populateMap = (obj: any = twCtx.use().config, path: string[] = [], level = 1) => {
     Object.entries(obj).forEach(([key, value = {} as any]) => {
       const subpathComponents = path.concat(key)
       const subpath = subpathComponents.join('/')
@@ -63,7 +67,7 @@ export const createExposeTemplates = (config: ExposeConfig, nuxt = useNuxt()) =>
     })
   }
 
-  populateMap(twCtx.tryUse())
+  populateMap()
 
   const entryTemplate = addTemplate({
     filename: 'tailwind.config/index.mjs',

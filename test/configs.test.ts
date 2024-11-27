@@ -64,7 +64,7 @@ describe('tailwindcss module configs', async () => {
   })
 
   test('js config file is loaded and merged', () => {
-    // set from ts-tailwind.config.ts
+    // set from alt-tailwind.config.js
     expect(getVfsFile('test-tailwind.config.mjs')).contains('"javascriptYellow": "#f1e05a"')
   })
 
@@ -73,16 +73,16 @@ describe('tailwindcss module configs', async () => {
 
     expect(contentFiles.find(c => /my-pluggable-modules|my-modular-plugins/.test(c))).toBeDefined()
     expect(contentFiles.filter(c => c.includes('my-imports-dir')).length).toBe(2)
-    expect(contentFiles.find(c => c.includes('components/**/*'))?.includes('json,mdc,mdx,coffee')).toBeTruthy()
+    expect(contentFiles.find(c => c.includes('/components/**/*'))?.includes('json,mdc,mdx,coffee')).toBeTruthy()
   })
 
   test('content is overridden', () => {
     // set from override-tailwind.config.ts
     const { content: { files: contentFiles } } = destr<TWConfigWithStringContent>(getVfsFile('test-tailwind.config.mjs')!.replace(/^export default /, ''))
 
-    expect(contentFiles[1]).toBe('./custom-theme/**/*.vue')
+    expect(contentFiles).includes('./custom-theme/**/*.vue')
     expect(contentFiles.filter(c => /\{[AE],[ae]\}/.test(c)).length).toBe(0)
-    expect([...contentFiles].pop()).toBe('my-custom-content')
+    expect(contentFiles).includes('my-custom-content')
   })
 
   test('content merges with objects', () => {

@@ -11,9 +11,14 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/types.d.ts",
+      "types": "./dist/module.d.ts",
       "require": "./dist/module.cjs",
       "import": "./dist/module.mjs"
+    },
+    "./config": {
+      "types": "./dist/config.d.ts",
+      "require": "./dist/config.cjs",
+      "import": "./dist/config.mjs"
     }
   },
   "main": "./dist/module.cjs",
@@ -21,6 +26,10 @@
   "files": [
     "dist"
   ],
+  "build": {
+    "entries": ["./src/config"],
+    "rollup": { "emitCJS": true }
+  },
   "scripts": {
     "play": "pnpm dev",
     "prepare": "nuxt-module-build prepare",
@@ -46,6 +55,7 @@
   "dependencies": {
     "@nuxt/kit": "^3.14.1592",
     "autoprefixer": "^10.4.20",
+    "c12": "^2.0.1",
     "consola": "^3.2.3",
     "defu": "^6.1.4",
     "h3": "^1.13.0",

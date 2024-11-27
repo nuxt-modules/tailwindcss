@@ -21,7 +21,7 @@ export default defineNuxtModule((_, nuxt) => {
 
   nuxt.options.tailwindcss = nuxt.options.tailwindcss ?? {}
   if (!Array.isArray(nuxt.options.tailwindcss.configPath)) {
-    nuxt.options.tailwindcss.configPath = nuxt.options.tailwindcss.configPath ? [nuxt.options.tailwindcss.configPath] : ['tailwind.config']
+    nuxt.options.tailwindcss.configPath = nuxt.options.tailwindcss.configPath ? [nuxt.options.tailwindcss.configPath] : []
   }
   nuxt.options.tailwindcss.configPath.push(template.dst)
 })
