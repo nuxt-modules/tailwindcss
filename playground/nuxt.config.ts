@@ -1,4 +1,5 @@
 import { existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { defineNuxtConfig } from 'nuxt/config'
 import { resolve } from 'pathe'
 import { consola } from 'consola'
@@ -12,6 +13,10 @@ const logger = consola.withTag('nuxt:tailwindcss:playground')
 export default defineNuxtConfig({
   extends: ['./theme'],
   // ssr: false,
+
+  alias: {
+    '@nuxtjs/tailwindcss': fileURLToPath(new URL('../', import.meta.url)),
+  },
 
   // builder: 'webpack',
   modules: [
