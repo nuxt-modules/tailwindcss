@@ -74,7 +74,7 @@
     "@nuxt/devtools": "^1.6.1",
     "@nuxt/eslint-config": "^0.7.1",
     "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/test-utils": "^3.14.4",
+    "@nuxt/test-utils": "^3.15.1",
     "@tailwindcss/typography": "^0.5.15",
     "changelogen": "^0.5.7",
     "destr": "^2.0.3",
