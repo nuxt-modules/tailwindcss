@@ -47,6 +47,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     const ctx = await createInternalContext(moduleOptions, nuxt)
+    const resolver = createResolver(import.meta.url)
 
     if (moduleOptions.editorSupport) {
       const editorSupportConfig = resolvers.resolveEditorSupportConfig(moduleOptions.editorSupport)
@@ -54,7 +55,7 @@ export default defineNuxtModule<ModuleOptions>({
       if ((editorSupportConfig.autocompleteUtil) && !isNuxtMajorVersion(2, nuxt)) {
         addImports({
           name: 'autocompleteUtil',
-          from: createResolver(import.meta.url).resolve('./runtime/utils'),
+          from: resolver.resolve('./runtime/utils'),
           as: 'tw',
           ...(typeof editorSupportConfig.autocompleteUtil === 'object' ? editorSupportConfig.autocompleteUtil : {}),
         })
@@ -88,7 +89,7 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hook('modules:done', async () => {
       const _config = await ctx.loadConfigs()
 
-      const twConfig = ctx.generateConfig({ mergerPath: createResolver(import.meta.url).resolve('./runtime/merger.js') })
+      const twConfig = ctx.generateConfig({ mergerPath: resolver.resolve('./runtime/merger.js') })
       ctx.registerHooks()
 
       nuxt2ViewerConfig = twConfig.dst || _config
