@@ -81,7 +81,7 @@
     "eslint": "^9.15.0",
     "happy-dom": "^15.11.6",
     "nuxt": "^3.14.1592",
-    "typescript": "^5.6.3",
+    "typescript": "^5.7.2",
     "vitest": "^2.1.5",
     "vue-tsc": "^2.1.10"
   },
