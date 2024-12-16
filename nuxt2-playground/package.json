@@ -8,6 +8,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/tailwindcss": "link:..",
     "nuxt": "2.18.1",
     "vue": "2.7.16",
     "vue-router": "3.6.5"
