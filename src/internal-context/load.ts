@@ -135,7 +135,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     ])
   }
 
-  const resolveTWConfig = await import('tailwindcss/resolveConfig').then(m => m.default || m).catch(() => (c: unknown) => c) as <T extends Partial<TWConfig>>(config: T) => T
+  const resolveTWConfig = await import('tailwindcss/resolveConfig.js').then(m => m.default || m).catch(() => (c: unknown) => c) as <T extends Partial<TWConfig>>(config: T) => T
 
   const loadConfigs = async () => {
     const moduleConfigs = await getModuleConfigs()
