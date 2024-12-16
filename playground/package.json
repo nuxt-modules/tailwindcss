@@ -8,7 +8,7 @@
     "generate": "nuxi generate"
   },
   "dependencies": {
-    "@nuxtjs/tailwindcss": "latest",
+    "@nuxtjs/tailwindcss": "link:..",
     "nuxt": "latest"
   }
 }
