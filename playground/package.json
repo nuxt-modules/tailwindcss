@@ -6,5 +6,9 @@
     "dev": "nuxi dev",
     "build": "nuxi build",
     "generate": "nuxi generate"
+  },
+  "dependencies": {
+    "@nuxtjs/tailwindcss": "link:..",
+    "nuxt": "latest"
   }
 }

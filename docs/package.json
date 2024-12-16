@@ -7,7 +7,6 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck"
   },
@@ -18,6 +17,7 @@
     "@nuxt/ui-pro": "^1.5.0",
     "@nuxtjs/fontaine": "^0.4.4",
     "@nuxtjs/google-fonts": "^3.2.0",
+    "@nuxtjs/tailwindcss": "link:..",
     "@nuxtjs/plausible": "^1.1.1",
     "nuxt-og-image": "^3.0.8"
   },

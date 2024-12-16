@@ -1,6 +1,4 @@
-import { existsSync } from 'node:fs'
 import { defineNuxtConfig } from 'nuxt/config'
-import { resolve } from 'pathe'
 import { consola } from 'consola'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import typography from '@tailwindcss/typography'
@@ -15,7 +13,7 @@ export default defineNuxtConfig({
 
   // builder: 'webpack',
   modules: [
-    existsSync(resolve(__dirname, '../dist/module.mjs')) ? '@nuxtjs/tailwindcss' : '../src/module',
+    '@nuxtjs/tailwindcss',
     '@nuxt/content',
   ],
 
