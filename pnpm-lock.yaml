@@ -131,7 +131,14 @@ importers:
         specifier: latest
         version: 2.2.1(magicast@0.3.5)(rollup@4.27.3)
 
-  playground: {}
+  playground:
+    dependencies:
+      '@nuxtjs/tailwindcss':
+        specifier: link:..
+        version: link:..
+      nuxt:
+        specifier: latest
+        version: 3.14.1592(@parcel/watcher@2.5.0)(@types/node@22.9.1)(eslint@9.15.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.27.3)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.1)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3))
 
 packages:
 
