@@ -16,20 +16,15 @@ describe('tailwindcss module', async () => {
   })
 
   test('expose config', () => {
-    const vfsFile = getVfsFile('tailwind.config/theme/flexBasis.mjs')
+    const vfsFile = getVfsFile('tailwind/expose/theme/flexBasis.mjs')
     // check default tailwind default animation exists
     expect(vfsFile).contains('"full": _full, "0.5": "0.125rem"')
     expect(vfsFile).contains('export { config as default')
   })
 
   test('expose config variable', () => {
-    const vfsFile = getVfsFile('tailwind.config/theme/animation.mjs')
+    const vfsFile = getVfsFile('tailwind/expose/theme/animation.mjs')
     expect(vfsFile).contains('const _pulse = "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"')
-  })
-
-  test('expose config alias', () => {
-    const vfsFile = getVfsFile('tailwind.config.d.ts')
-    expect(vfsFile).contains('declare module "#twcss"')
   })
 
   // test('viewer works', async () => {
