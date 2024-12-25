@@ -53,7 +53,10 @@ export const setupViewer = async (twConfig: string | Partial<TWConfig>, config: 
     })
   })
 
-  nuxt.hook('listen', (_, listener) => {
+  const shouldLogUrl = 'devtools' in nuxt.options ? !nuxt.options.devtools.enabled : true
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+  shouldLogUrl && nuxt.hook('listen', (_, listener) => {
     const viewerUrl = cleanDoubleSlashes(joinURL(listener.url, config.endpoint))
     logger.info(`Tailwind Viewer: ${colors.underline(colors.yellow(withTrailingSlash(viewerUrl)))}`)
   })

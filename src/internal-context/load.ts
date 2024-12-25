@@ -1,6 +1,6 @@
 import { addTemplate, findPath, resolveAlias, updateTemplates, useNuxt } from '@nuxt/kit'
 import type { NuxtOptions, NuxtConfig } from '@nuxt/schema'
-import { join, relative, resolve } from 'pathe'
+import { join, relative, resolve, isAbsolute } from 'pathe'
 import { getContext } from 'unctx'
 import { loadConfig as loadConfigC12, type ResolvedConfig as ResolvedC12Config } from 'c12'
 import type { ModuleOptions, TWConfig } from '../types'
@@ -58,15 +58,17 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
           : null
       }))
 
-  const resolveContentConfig = (srcDir: string, nuxtOptions: NuxtOptions | NuxtConfig = useNuxt().options): ResolvedConfig => {
-    const r = (p: string) => p.startsWith(srcDir) ? p : resolve(srcDir, p)
-    const extensionFormat = (s: string[]) => s.length > 1 ? `.{${s.join(',')}}` : `.${s.join('') || 'vue'}`
+  const resolveContentConfig = (rootDir: string, nuxtOptions: NuxtOptions | NuxtConfig = useNuxt().options): ResolvedConfig => {
+    const r = (p: string) => isAbsolute(p) || p.startsWith(rootDir) ? p : resolve(rootDir, p)
+    const withSrcDir = (p: string) => r(nuxtOptions.srcDir && !p.startsWith(nuxtOptions.srcDir) ? resolve(nuxtOptions.srcDir, p) : p)
+    // const withAppDir = (p: string) => r(nuxtOptions.appDir && !p.startsWith(nuxtOptions.appDir) ? resolve(nuxtOptions.appDir, p) : p)
 
-    const defaultExtensions = extensionFormat(['js', 'ts', 'mjs'])
-    const sfcExtensions = extensionFormat(Array.from(new Set(['.vue', ...(nuxtOptions.extensions || nuxt.options.extensions)])).map(e => e?.replace(/^\.*/, '')).filter((v): v is string => Boolean(v)))
+    const formatExtensions = (s: string[]) => s.length > 1 ? `.{${s.join(',')}}` : `.${s.join('') || 'vue'}`
+    const defaultExtensions = formatExtensions(['js', 'ts', 'mjs'])
+    const sfcExtensions = formatExtensions(Array.from(new Set(['.vue', ...(nuxtOptions.extensions || nuxt.options.extensions)])).map(e => e?.replace(/^\.*/, '')).filter((v): v is string => Boolean(v)))
 
-    const importDirs = [...(nuxtOptions.imports?.dirs || [])].filter((v): v is string => Boolean(v)).map(r)
-    const [composablesDir, utilsDir] = [resolve(srcDir, 'composables'), resolve(srcDir, 'utils')]
+    const importDirs = [...(nuxtOptions.imports?.dirs || [])].filter((v): v is string => Boolean(v)).map(withSrcDir)
+    const [composablesDir, utilsDir] = [resolve(rootDir, 'composables'), resolve(rootDir, 'utils')]
 
     if (!importDirs.includes(composablesDir)) importDirs.push(composablesDir)
     if (!importDirs.includes(utilsDir)) importDirs.push(utilsDir)
@@ -74,7 +76,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     return {
       config: {
         content: [
-          r(`components/**/*${sfcExtensions}`),
+          withSrcDir(`components/**/*${sfcExtensions}`),
           ...(() => {
             if (nuxtOptions.components) {
               return (Array.isArray(nuxtOptions.components) ? nuxtOptions.components : typeof nuxtOptions.components === 'boolean' ? ['components'] : (nuxtOptions.components.dirs || [])).map((d) => {
@@ -85,16 +87,16 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
             return []
           })(),
 
-          nuxtOptions.dir?.layouts && r(`${nuxtOptions.dir.layouts}/**/*${sfcExtensions}`),
-          ...([true, undefined].includes(nuxtOptions.pages) && nuxtOptions.dir?.pages ? [r(`${nuxtOptions.dir.pages}/**/*${sfcExtensions}`)] : []),
+          nuxtOptions.dir?.layouts && withSrcDir(`${nuxtOptions.dir.layouts}/**/*${sfcExtensions}`),
+          ...([true, undefined].includes(nuxtOptions.pages) && nuxtOptions.dir?.pages ? [withSrcDir(`${nuxtOptions.dir.pages}/**/*${sfcExtensions}`)] : []),
 
-          nuxtOptions.dir?.plugins && r(`${nuxtOptions.dir.plugins}/**/*${defaultExtensions}`),
+          nuxtOptions.dir?.plugins && withSrcDir(`${nuxtOptions.dir.plugins}/**/*${defaultExtensions}`),
           ...importDirs.map(d => `${d}/**/*${defaultExtensions}`),
 
-          r(`{A,a}pp${sfcExtensions}`),
-          r(`{E,e}rror${sfcExtensions}`),
-          r(`app.config${defaultExtensions}`),
-          !nuxtOptions.ssr && nuxtOptions.spaLoadingTemplate !== false && r(typeof nuxtOptions.spaLoadingTemplate === 'string' ? nuxtOptions.spaLoadingTemplate : 'app/spa-loading-template.html'),
+          withSrcDir(`{A,a}pp${sfcExtensions}`),
+          withSrcDir(`{E,e}rror${sfcExtensions}`),
+          withSrcDir(`app.config${defaultExtensions}`),
+          !nuxtOptions.ssr && nuxtOptions.spaLoadingTemplate !== false && withSrcDir(typeof nuxtOptions.spaLoadingTemplate === 'string' ? nuxtOptions.spaLoadingTemplate : 'app/spa-loading-template.html'),
         ].filter((p): p is string => Boolean(p)),
       },
     }
@@ -119,13 +121,13 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     }
 
     return Promise.all([
-      resolveContentConfig(nuxt.options.srcDir, nuxt.options),
+      resolveContentConfig(nuxt.options.rootDir, nuxt.options),
       ...resolveConfigs(moduleOptions.config, nuxt),
       loadConfig({ name: 'tailwind', cwd: nuxt.options.rootDir, merger: configMerger, packageJson: true, extend: false }).then(thenCallHook),
       ...resolveConfigs(moduleOptions.configPath, nuxt),
 
       ...(nuxt.options._layers || []).slice(1).flatMap(nuxtLayer => [
-        resolveContentConfig(nuxtLayer.config?.srcDir || nuxtLayer.cwd, nuxtLayer.config),
+        resolveContentConfig(nuxtLayer.config.rootDir || nuxtLayer.cwd, nuxtLayer.config),
         ...resolveConfigs(nuxtLayer.config.tailwindcss?.config, nuxt),
         loadConfig({ name: 'tailwind', cwd: nuxtLayer.cwd, merger: configMerger, packageJson: true, extend: false }).then(thenCallHook),
         ...resolveConfigs(nuxtLayer.config.tailwindcss?.configPath, nuxt),
