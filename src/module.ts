@@ -83,7 +83,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     // workaround for nuxt2 middleware race condition
-    let nuxt2ViewerConfig: Parameters<typeof setupViewer>[0] = join(nuxt.options.buildDir, 'tailwind.config.cjs')
+    let nuxt2ViewerConfig: Parameters<typeof setupViewer>[0] = join(nuxt.options.buildDir, 'tailwind/postcss.mjs')
 
     nuxt.hook('modules:done', async () => {
       const _config = await ctx.loadConfigs()

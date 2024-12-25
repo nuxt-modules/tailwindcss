@@ -26,7 +26,7 @@ export const createExposeTemplates = (config: ExposeConfig, nuxt = useNuxt()) =>
         || Object.keys(value).find(k => !k.match(NON_ALPHANUMERIC_RE)) // object has non-alphanumeric property (unsafe var name)
       ) {
         templates.push(addTemplate({
-          filename: `tailwind.config/${subpath}.mjs`,
+          filename: `tailwind/expose/${subpath}.mjs`,
           getContents: () => {
             const _value = getTWConfig(subpathComponents)
 
@@ -50,7 +50,7 @@ export const createExposeTemplates = (config: ExposeConfig, nuxt = useNuxt()) =>
         populateMap(value, path.concat(key), level + 1)
 
         templates.push(addTemplate({
-          filename: `tailwind.config/${subpath}.mjs`,
+          filename: `tailwind/expose/${subpath}.mjs`,
           getContents: () => {
             const _value = getTWConfig(subpathComponents)
             const values = Object.keys(_value)
@@ -70,13 +70,13 @@ export const createExposeTemplates = (config: ExposeConfig, nuxt = useNuxt()) =>
   populateMap()
 
   const entryTemplate = addTemplate({
-    filename: 'tailwind.config/index.mjs',
+    filename: 'tailwind/expose/index.mjs',
     getContents: () => {
       const _tailwindConfig = getTWConfig()
       const configOptions = Object.keys(_tailwindConfig)
 
       return [
-        `${configOptions.map(v => `import ${v} from "#build/tailwind.config/${v}.mjs"`).join('\n')}`,
+        `${configOptions.map(v => `import ${v} from "#build/tailwind/expose/${v}.mjs"`).join('\n')}`,
         `const config = { ${configOptions.join(', ')} }`,
         `export { config as default, ${configOptions.join(', ')} }`,
       ].join('\n')
