@@ -55,7 +55,7 @@ describe('tailwindcss module configs', async () => {
   })
 
   test('malformed config is not read', () => {
-    expect(getVfsFile('tailwind.config.cjs')).not.contains('malformed-tailwind.config')
+    expect(getVfsFile('tailwind/postcss.mjs')).not.contains('malformed-tailwind.config')
   })
 
   test('ts config file is loaded and merged', () => {
@@ -93,8 +93,8 @@ describe('tailwindcss module configs', async () => {
   })
 
   test('config template compiled properly', () => {
-    const configFile = getVfsFile('tailwind.config.cjs')
-    const loadedConfig = loadConfig(join(useTestContext().nuxt!.options.buildDir, 'tailwind.config.cjs'))
-    expect(configFile).contains(`module.exports = (() => {const cfg=config;cfg["content"]${'files' in loadedConfig.content ? `["files"]["${loadedConfig.content.files.length - 1}"]` : `["${loadedConfig.content.length - 1}"]`} = "my-custom-content";;return cfg;})()`)
+    const configFile = getVfsFile('tailwind/postcss.mjs')
+    const loadedConfig = loadConfig(join(useTestContext().nuxt!.options.buildDir, 'tailwind/postcss.mjs'))
+    expect(configFile).contains(`const resolvedConfig = (() => {const cfg=config;cfg["content"]${'files' in loadedConfig.content ? `["files"]["${loadedConfig.content.files.length - 1}"]` : `["${loadedConfig.content.length - 1}"]`} = "my-custom-content";;return cfg;})()`)
   })
 })

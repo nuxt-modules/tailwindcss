@@ -175,7 +175,8 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
             'const config = [',
             layerConfigs.map(([_, i]) => i).filter(Boolean).join(',\n'),
             `].reduce((acc, curr) => configMerger(acc, curr), {});\n`,
-            `module.exports = ${configUpdatedHook['main-config'] ? `(() => {const cfg=config;${configUpdatedHook['main-config']};return cfg;})()` : 'config'}\n`,
+            `const resolvedConfig = ${configUpdatedHook['main-config'] ? `(() => {const cfg=config;${configUpdatedHook['main-config']};return cfg;})()` : 'config'};\n`,
+            'export default resolvedConfig;',
           ].join('\n')
         },
       })
