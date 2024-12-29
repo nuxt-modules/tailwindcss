@@ -61,7 +61,7 @@
     "@nuxt/kit": "^3.15.0",
     "autoprefixer": "^10.4.20",
     "c12": "^2.0.1",
-    "consola": "^3.3.1",
+    "consola": "^3.3.3",
     "defu": "^6.1.4",
     "h3": "^1.13.0",
     "klona": "^2.0.6",
@@ -74,9 +74,9 @@
     "unctx": "^2.4.1"
   },
   "devDependencies": {
-    "@fontsource/inter": "^5.1.0",
+    "@fontsource/inter": "^5.1.1",
     "@nuxt/content": "^2.13.4",
-    "@nuxt/devtools": "^1.6.4",
+    "@nuxt/devtools": "^1.7.0",
     "@nuxt/eslint-config": "^0.7.4",
     "@nuxt/module-builder": "^0.8.4",
     "@nuxt/test-utils": "^3.14.4",
@@ -86,11 +86,11 @@
     "eslint": "^9.17.0",
     "happy-dom": "^15.11.7",
     "nuxt": "^3.15.0",
-    "typescript": "5.6.3",
+    "typescript": "5.7.2",
     "vitest": "^2.1.5",
     "vue-tsc": "^2.2.0"
   },
-  "packageManager": "pnpm@9.15.1",
+  "packageManager": "pnpm@9.15.2",
   "resolutions": {
     "@nuxtjs/tailwindcss": "link:."
   },
