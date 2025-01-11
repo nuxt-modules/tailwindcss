@@ -41,20 +41,20 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
         const configFile = await (config.startsWith(nuxt.options.buildDir) ? config : findPath(config, { extensions: ['.js', '.cjs', '.mjs', '.ts'] }))
         return configFile
           ? loadConfig({ configFile }).then(async (resolvedConfig) => {
-            const { configFile: resolvedConfigFile = configFile } = resolvedConfig
-            const config = configMerger(undefined, resolvedConfig.config)
-            configUpdatedHook[resolvedConfigFile] = ''
+              const { configFile: resolvedConfigFile = configFile } = resolvedConfig
+              const config = configMerger(undefined, resolvedConfig.config)
+              configUpdatedHook[resolvedConfigFile] = ''
 
-            if (resolvedConfig.config?.purge && !resolvedConfig.config.content) {
-              configUpdatedHook[resolvedConfigFile] += 'cfg.content = cfg.purge;'
-            }
+              if (resolvedConfig.config?.purge && !resolvedConfig.config.content) {
+                configUpdatedHook[resolvedConfigFile] += 'cfg.content = cfg.purge;'
+              }
 
-            await nuxt.callHook('tailwindcss:loadConfig', new Proxy(config, trackObjChanges(resolvedConfigFile)), resolvedConfigFile, idx, arr as any)
-            return { ...resolvedConfig, config }
-          }).catch((e) => {
-            logger.warn(`Failed to load config \`./${relative(nuxt.options.rootDir, configFile)}\` due to the error below. Skipping..\n`, e)
-            return null
-          })
+              await nuxt.callHook('tailwindcss:loadConfig', new Proxy(config, trackObjChanges(resolvedConfigFile)), resolvedConfigFile, idx, arr as any)
+              return { ...resolvedConfig, config }
+            }).catch((e) => {
+              logger.warn(`Failed to load config \`./${relative(nuxt.options.rootDir, configFile)}\` due to the error below. Skipping..\n`, e)
+              return null
+            })
           : null
       }))
 
@@ -75,29 +75,31 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
 
     return {
       config: {
-        content: [
-          withSrcDir(`components/**/*${sfcExtensions}`),
-          ...(() => {
-            if (nuxtOptions.components) {
-              return (Array.isArray(nuxtOptions.components) ? nuxtOptions.components : typeof nuxtOptions.components === 'boolean' ? ['components'] : (nuxtOptions.components.dirs || [])).map((d) => {
-                const valueToResolve = typeof d === 'string' ? d : d?.path
-                return valueToResolve ? `${resolveAlias(valueToResolve)}/**/*${sfcExtensions}` : ''
-              }).filter(Boolean)
-            }
-            return []
-          })(),
+        content: {
+          files: [
+            withSrcDir(`components/**/*${sfcExtensions}`),
+            ...(() => {
+              if (nuxtOptions.components) {
+                return (Array.isArray(nuxtOptions.components) ? nuxtOptions.components : typeof nuxtOptions.components === 'boolean' ? ['components'] : (nuxtOptions.components.dirs || [])).map((d) => {
+                  const valueToResolve = typeof d === 'string' ? d : d?.path
+                  return valueToResolve ? `${resolveAlias(valueToResolve)}/**/*${sfcExtensions}` : ''
+                }).filter(Boolean)
+              }
+              return []
+            })(),
 
-          nuxtOptions.dir?.layouts && withSrcDir(`${nuxtOptions.dir.layouts}/**/*${sfcExtensions}`),
-          ...([true, undefined].includes(nuxtOptions.pages) && nuxtOptions.dir?.pages ? [withSrcDir(`${nuxtOptions.dir.pages}/**/*${sfcExtensions}`)] : []),
+            nuxtOptions.dir?.layouts && withSrcDir(`${nuxtOptions.dir.layouts}/**/*${sfcExtensions}`),
+            ...([true, undefined].includes(nuxtOptions.pages) && nuxtOptions.dir?.pages ? [withSrcDir(`${nuxtOptions.dir.pages}/**/*${sfcExtensions}`)] : []),
 
-          nuxtOptions.dir?.plugins && withSrcDir(`${nuxtOptions.dir.plugins}/**/*${defaultExtensions}`),
-          ...importDirs.map(d => `${d}/**/*${defaultExtensions}`),
+            nuxtOptions.dir?.plugins && withSrcDir(`${nuxtOptions.dir.plugins}/**/*${defaultExtensions}`),
+            ...importDirs.map(d => `${d}/**/*${defaultExtensions}`),
 
-          withSrcDir(`{A,a}pp${sfcExtensions}`),
-          withSrcDir(`{E,e}rror${sfcExtensions}`),
-          withSrcDir(`app.config${defaultExtensions}`),
-          !nuxtOptions.ssr && nuxtOptions.spaLoadingTemplate !== false && withSrcDir(typeof nuxtOptions.spaLoadingTemplate === 'string' ? nuxtOptions.spaLoadingTemplate : 'app/spa-loading-template.html'),
-        ].filter((p): p is string => Boolean(p)),
+            withSrcDir(`{A,a}pp${sfcExtensions}`),
+            withSrcDir(`{E,e}rror${sfcExtensions}`),
+            withSrcDir(`app.config${defaultExtensions}`),
+            !nuxtOptions.ssr && nuxtOptions.spaLoadingTemplate !== false && withSrcDir(typeof nuxtOptions.spaLoadingTemplate === 'string' ? nuxtOptions.spaLoadingTemplate : 'app/spa-loading-template.html'),
+          ].filter((p): p is string => Boolean(p)),
+        },
       },
     }
   }
@@ -159,29 +161,30 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
 
     const template = !meta.disableHMR || !ctx?.meta?.disableHMR
       ? addTemplate({
-        filename: 'tailwind/postcss.mjs',
-        write: true,
-        getContents: () => {
-          const serializeConfig = <T extends Partial<TWConfig>>(config: T) =>
-            JSON.stringify(
-              Array.isArray(config.plugins) && config.plugins.length > 0 ? configMerger({ plugins: (defaultPlugins: TWConfig['plugins']) => defaultPlugins?.filter(p => p && typeof p !== 'function') }, config) : config,
-              (_, v) => typeof v === 'function' ? `() => (${JSON.stringify(v())})` : v,
-            ).replace(/"(\(\) => \(.*\))"/g, (_, substr) => substr.replace(/\\"/g, '"'))
+          filename: 'tailwind/postcss.mjs',
+          write: true,
+          getContents: () => {
+            const serializeConfig = <T extends Partial<TWConfig>>(config: T) =>
+              JSON.stringify(
+                Array.isArray(config.plugins) && config.plugins.length > 0 ? configMerger({ plugins: (defaultPlugins: TWConfig['plugins']) => defaultPlugins?.filter(p => p && typeof p !== 'function') }, config) : config,
+                (_, v) => typeof v === 'function' ? `() => (${JSON.stringify(v())})` : v,
+              ).replace(/"(\(\) => \(.*\))"/g, (_, substr) => substr.replace(/\\"/g, '"'))
 
-          const layerConfigs = resolvedConfigsCtx.use().map((c, idx): [string | null, string | null] => c?.configFile ? [`import cfg${idx} from ${JSON.stringify(/[/\\]node_modules[/\\]/.test(c.configFile) ? c.configFile : './' + relative(targetDir, c.configFile))}`, configUpdatedHook[c.configFile] ? `(() => {const cfg=configMerger(undefined, cfg${idx});${configUpdatedHook[c.configFile]};return cfg;})()` : `cfg${idx}`] : [null, c && serializeConfig(c.config)])
+            const layerConfigs = resolvedConfigsCtx.use().map((c, idx): [string | null, string | null] => c?.configFile ? [`import cfg${idx} from ${JSON.stringify(/[/\\]node_modules[/\\]/.test(c.configFile) ? c.configFile : './' + relative(targetDir, c.configFile))}`, configUpdatedHook[c.configFile] ? `(() => {const cfg=configMerger(undefined, cfg${idx});${configUpdatedHook[c.configFile]};return cfg;})()` : `cfg${idx}`] : [null, c && serializeConfig(c.config)])
 
-          return [
-            `// generated by the @nuxtjs/tailwindcss <https://github.com/nuxt-modules/tailwindcss> module at ${(new Date()).toLocaleString()}`,
-            `import configMerger from "@nuxtjs/tailwindcss/merger";\n`,
-            layerConfigs.map(([i, _]) => i).filter(Boolean).join(';\n') + ';',
-            'const config = [',
-            layerConfigs.map(([_, i]) => i).filter(Boolean).join(',\n'),
-            `].reduce((acc, curr) => configMerger(acc, curr), {});\n`,
-            `const resolvedConfig = ${configUpdatedHook['main-config'] ? `(() => {const cfg=config;${configUpdatedHook['main-config']};return cfg;})()` : 'config'};\n`,
-            'export default resolvedConfig;',
-          ].join('\n')
-        },
-      })
+            return [
+              `// generated by the @nuxtjs/tailwindcss <https://github.com/nuxt-modules/tailwindcss> module at ${(new Date()).toLocaleString()}`,
+              `import configMerger from "@nuxtjs/tailwindcss/merger";\n`,
+              layerConfigs.map(([i, _]) => i).filter(Boolean).join(';\n') + ';',
+              'const config = [',
+              layerConfigs.map(([_, i]) => i).filter(Boolean).join(',\n'),
+              `].reduce((acc, curr) => configMerger(acc, curr), {});\n`,
+              `const resolvedConfig = ${configUpdatedHook['main-config'] ? `(() => {const cfg=config;${configUpdatedHook['main-config']};return cfg;})()` : 'config'};\n`,
+              `console.log(resolvedConfig);`,
+              'export default resolvedConfig;',
+            ].join('\n')
+          },
+        })
       : { dst: '' }
 
     twCtx.set({ dst: template.dst })
