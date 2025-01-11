@@ -10,6 +10,12 @@ const { header } = useAppConfig()
   <UHeader>
     <template #logo>
       <TheLogo class="h-6" />
+      <TailwindText class="h-4" />
+       <UTooltip v-if="header.pkgVersion" :text="`Latest release: v${header.pkgVersion}`">
+            <UBadge variant="subtle" size="xs" class="-mb-[2px] rounded font-semibold">
+              v{{ header.pkgVersion.match(/[0-9]+\.[0-9]+/)[0] }}
+            </UBadge>
+          </UTooltip>
     </template>
 
     <template

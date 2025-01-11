@@ -85,7 +85,7 @@ export interface ModuleOptions {
    *
    * @default '~/assets/css/tailwind.css'
    */
-  cssPath: string | false | [string | false, { injectPosition: InjectPosition }]
+  cssPath: string | false | [string, { injectPosition: InjectPosition }]
   /**
    * Configuration for Tailwind CSS. Accepts (array of) string and inline configurations.
    *

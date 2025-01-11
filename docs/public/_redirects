@@ -1,3 +1,8 @@
 /installation /getting-started/installation 302!
-/configuration /getting-started/configuration 302!
+/configuration /getting-started/module-options 302!
+/getting-started/configuration /getting-started/module-options 302!
+/tailwind /tailwindcss 302!
+/tailwind/config /tailwindcss/configuration 302!
+/tailwind/config-viewer /getting-started/module-options#viewer 302!
+/tailwind/editor-support /tailwindcss/editor-support 302!
 /releases /community/changelog 302!
