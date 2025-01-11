@@ -180,7 +180,6 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
               layerConfigs.map(([_, i]) => i).filter(Boolean).join(',\n'),
               `].reduce((acc, curr) => configMerger(acc, curr), {});\n`,
               `const resolvedConfig = ${configUpdatedHook['main-config'] ? `(() => {const cfg=config;${configUpdatedHook['main-config']};return cfg;})()` : 'config'};\n`,
-              `console.log(resolvedConfig);`,
               'export default resolvedConfig;',
             ].join('\n')
           },
