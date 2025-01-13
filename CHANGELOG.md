@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.13.0
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.12.2...v6.13.0)
+
+### 🚀 Enhancements
+
+- **content:** Add `spaLoadingTemplate` to content resolution ([#907](https://github.com/nuxt-modules/tailwindcss/pull/907))
+- Enable c12 for loading config and provide `defineConfig` ([#913](https://github.com/nuxt-modules/tailwindcss/pull/913))
+- **merger:** Add to exports ([#922](https://github.com/nuxt-modules/tailwindcss/pull/922))
+
+### 🩹 Fixes
+
+- **hmr:** Fix variable ([f47e093](https://github.com/nuxt-modules/tailwindcss/commit/f47e093))
+- **load:** Add .js to tailwindcss/resolveConfig ([0696aba](https://github.com/nuxt-modules/tailwindcss/commit/0696aba))
+- **config:** Use mjs template ([#930](https://github.com/nuxt-modules/tailwindcss/pull/930))
+- **injectPosition:** Resolve file paths to determine position ([71be9ac](https://github.com/nuxt-modules/tailwindcss/commit/71be9ac))
+
+### 📖 Documentation
+
+- Add command to create tailwind.config.js for pnpm ([#910](https://github.com/nuxt-modules/tailwindcss/pull/910))
+- Provide GitHub link for examples ([#904](https://github.com/nuxt-modules/tailwindcss/pull/904))
+- Update outdated content ([#937](https://github.com/nuxt-modules/tailwindcss/pull/937))
+
+### 🏡 Chore
+
+- Update dependencies ([#917](https://github.com/nuxt-modules/tailwindcss/pull/917))
+- Update deps ([2077e60](https://github.com/nuxt-modules/tailwindcss/commit/2077e60))
+- Update resolveContentConfig a bit and viewer logging ([#931](https://github.com/nuxt-modules/tailwindcss/pull/931))
+- Update deps ([3ff6d76](https://github.com/nuxt-modules/tailwindcss/commit/3ff6d76))
+
+### ❤️ Contributors
+
+- Inesh Bose <dev@inesh.xyz>
+- John Farrar ([@sosensible](http://github.com/sosensible))
+- Dereck Lam Hon Wah ([@derecklhw](http://github.com/derecklhw))
+- Nikolasdas ([@nikolasdas](http://github.com/nikolasdas))
+
 ## v6.12.2
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.12.1...v6.12.2)

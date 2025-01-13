@@ -1,6 +1,6 @@
 {
   "name": "@nuxtjs/tailwindcss",
-  "version": "6.12.2",
+  "version": "6.13.0",
   "description": "Tailwind CSS module for Nuxt",
   "repository": "nuxt-modules/tailwindcss",
   "license": "MIT",
@@ -32,8 +32,13 @@
     "dist"
   ],
   "build": {
-    "entries": ["./src/config", "./src/merger"],
-    "rollup": { "emitCJS": true }
+    "entries": [
+      "./src/config",
+      "./src/merger"
+    ],
+    "rollup": {
+      "emitCJS": true
+    }
   },
   "scripts": {
     "play": "pnpm dev",
