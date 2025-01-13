@@ -18,8 +18,8 @@
     "@nuxtjs/fontaine": "^0.4.4",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/tailwindcss": "link:..",
-    "@nuxtjs/plausible": "^1.1.1",
-    "nuxt-og-image": "^3.0.8"
+    "@nuxtjs/plausible": "^1.2.0",
+    "nuxt-og-image": "^4.0.2"
   },
   "devDependencies": {
     "@nuxthq/studio": "latest"
