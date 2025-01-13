@@ -71,14 +71,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // inject only if this file isn't listed already by user
     if (resolvedCss && !resolvedNuxtCss.includes(resolvedCss)) {
-      let injectPosition: number
-      try {
-        injectPosition = resolvers.resolveInjectPosition(nuxt.options.css, cssPathConfig?.injectPosition)
-      }
-      catch (e: any) {
-        throw new Error('failed to resolve Tailwind CSS injection position: ' + e.message)
-      }
-
+      const injectPosition = await resolvers.resolveInjectPosition(resolvedNuxtCss, cssPathConfig?.injectPosition)
       nuxt.options.css.splice(injectPosition, 0, resolvedCss)
     }
 

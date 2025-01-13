@@ -47,7 +47,7 @@ export const resolveEditorSupportConfig = (config: ModuleOptions['editorSupport'
  *
  * @returns index in the css array
  */
-export function resolveInjectPosition(css: string[], position: InjectPosition = 'first') {
+export async function resolveInjectPosition(css: string[], position: InjectPosition = 'first') {
   if (typeof (position) === 'number') {
     return ~~Math.min(position, css.length + 1)
   }
@@ -56,18 +56,23 @@ export function resolveInjectPosition(css: string[], position: InjectPosition = 
     switch (position) {
       case 'first': return 0
       case 'last': return css.length
-      default: throw new Error('invalid literal: ' + position)
     }
   }
 
-  if (position.after !== undefined) {
-    const index = css.indexOf(position.after)
-    if (index === -1) {
-      throw new Error('`after` position specifies a file which does not exists on CSS stack: ' + position.after)
+  if (typeof (position) === 'object') {
+    const minIndex = 'after' in position ? css.indexOf(await resolvePath(position.after)) + 1 : 0
+    const maxIndex = 'before' in position ? css.indexOf(await resolvePath(position.before as string)) : css.length
+
+    if ([minIndex, maxIndex].includes(-1) || ('after' in position && minIndex === 0)) {
+      throw new Error(`\`injectPosition\` specifies a file which does not exists on CSS stack: ` + JSON.stringify(position))
     }
 
-    return index + 1
+    if (minIndex > maxIndex) {
+      throw new Error(`\`injectPosition\` specifies a relative location \`${minIndex}\` that cannot be resolved (i.e., \`after\` orders \`before\` may be reversed): ` + JSON.stringify(position))
+    }
+
+    return 'after' in position ? minIndex : maxIndex
   }
 
-  throw new Error('invalid position: ' + JSON.stringify(position))
+  throw new Error('invalid `injectPosition`: ' + JSON.stringify(position))
 }
