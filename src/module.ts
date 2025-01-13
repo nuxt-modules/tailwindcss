@@ -27,7 +27,7 @@ const defaults = (nuxt = useNuxt()): ModuleOptions => ({
   configPath: [],
   cssPath: join(nuxt.options.dir.assets, 'css/tailwind.css'),
   config: {},
-  viewer: true,
+  viewer: nuxt.options.dev,
   exposeConfig: false,
   quiet: nuxt.options.logLevel === 'silent',
   editorSupport: false,

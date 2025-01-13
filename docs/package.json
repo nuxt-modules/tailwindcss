@@ -23,5 +23,8 @@
   },
   "devDependencies": {
     "@nuxthq/studio": "latest"
+  },
+  "resolutions": {
+    "@nuxt/ui": "npm:@nuxt/ui-edge"
   }
 }

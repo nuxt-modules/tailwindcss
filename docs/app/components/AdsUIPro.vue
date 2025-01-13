@@ -489,7 +489,7 @@
       </UBadge>
     </div>
     <p class="text-sm dark:text-gray-400 text-gray-500 pb-1">
-      Building Blocks with Nuxt Tailwind.
+      Building Blocks with Tailwind CSS and Nuxt.
     </p>
   </UPageCard>
 </template>

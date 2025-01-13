@@ -1,8 +1,8 @@
-import { version as pkgVersion } from '../package.json'
+import { version as pkgVersion } from '../../package.json'
 
 export default defineAppConfig({
   ui: {
-    primary: 'green',
+    primary: 'sky',
     gray: 'slate',
     footer: {
       bottom: {
@@ -21,6 +21,7 @@ export default defineAppConfig({
     },
   },
   header: {
+    pkgVersion,
     logo: {
       light: {
         src: '',
