@@ -64,7 +64,7 @@
     "defu": "^6.1.4",
     "h3": "^1.13.0",
     "klona": "^2.0.6",
-    "pathe": "^1.1.2",
+    "pathe": "^2.0.1",
     "postcss": "^8.4.49",
     "postcss-nesting": "^13.0.1",
     "tailwind-config-viewer": "^2.0.4",
