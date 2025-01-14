@@ -17,13 +17,20 @@ export default defineNuxtConfig({
     '@nuxt/content',
   ],
 
-  tailwindcss: {
-    // viewer: false,
-    config: {},
-    exposeConfig: true,
-    cssPath: '~/assets/css/tailwind.css',
-    editorSupport: true,
-  } satisfies Partial<ModuleOptions>,
+  css: [
+    // Including Inter CSS is the first component to reproduce HMR issue. It also causes playground to look better,
+    // since Inter is a native font for Tailwind UI
+    '@fontsource/inter/400.css',
+    '@fontsource/inter/500.css',
+    '@fontsource/inter/600.css',
+    '@fontsource/inter/700.css',
+  ],
+
+  content: {
+    documentDriven: true,
+  },
+
+  compatibilityDate: '2024-07-11',
 
   hooks: {
     'tailwindcss:loadConfig': (config, configPath, idx) => {
@@ -61,18 +68,11 @@ export default defineNuxtConfig({
     },
   } satisfies Partial<ModuleHooks>,
 
-  content: {
-    documentDriven: true,
-  },
-
-  css: [
-    // Including Inter CSS is the first component to reproduce HMR issue. It also causes playground to look better,
-    // since Inter is a native font for Tailwind UI
-    '@fontsource/inter/400.css',
-    '@fontsource/inter/500.css',
-    '@fontsource/inter/600.css',
-    '@fontsource/inter/700.css',
-  ],
-
-  compatibilityDate: '2024-07-11',
+  tailwindcss: {
+    // viewer: false,
+    config: {},
+    exposeConfig: true,
+    cssPath: '~/assets/css/tailwind.css',
+    editorSupport: true,
+  } satisfies Partial<ModuleOptions>,
 })

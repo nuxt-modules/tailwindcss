@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps({
-  src: { type: String, default: 'main' }
+  src: { type: String, default: 'main' },
 })
 
 const colorMode = useColorMode()
@@ -16,7 +16,7 @@ const colorMode = useColorMode()
         class="w-full h-full min-h-[700px] overflow-hidden bg-gray-100 dark:bg-gray-800"
       />
     </div>
-    
+
     <span class="text-sm text-gray-500 dark:text-gray-400">
       Open in <NuxtLink
         :to="`https://github.com/nuxt-modules/tailwindcss/tree/${props.src}`"

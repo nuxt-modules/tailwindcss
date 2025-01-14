@@ -12,10 +12,10 @@ export default defineNuxtModule({
       oldConfig
         ? setTimeout(() => updateTemplates({ filter: t => t.filename === 'resolved-config.cjs' }), 100)
         : addTemplate({
-          filename: 'resolved-config.cjs',
-          getContents: () => `module.exports = /* ${counter++}, ${Boolean(oldConfig)} */ ${JSON.stringify(config, null, 2)}`,
-          write: true,
-        }),
+            filename: 'resolved-config.cjs',
+            getContents: () => `module.exports = /* ${counter++}, ${Boolean(oldConfig)} */ ${JSON.stringify(config, null, 2)}`,
+            write: true,
+          }),
     )
 
     // const template = addTemplate({
