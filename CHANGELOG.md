@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.13.1
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.13.0...v6.13.1)
+
+### 🩹 Fixes
+
+- Check for non-resolved tailwind.config ([c448158](https://github.com/nuxt-modules/tailwindcss/commit/c448158))
+
+### ❤️ Contributors
+
+- Inesh Bose <dev@inesh.xyz>
+
 ## v6.13.0
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.12.2...v6.13.0)
