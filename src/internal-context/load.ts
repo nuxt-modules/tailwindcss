@@ -68,7 +68,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     const sfcExtensions = formatExtensions(Array.from(new Set(['.vue', ...(nuxtOptions.extensions || nuxt.options.extensions)])).map(e => e?.replace(/^\.*/, '')).filter((v): v is string => Boolean(v)))
 
     const importDirs = [...(nuxtOptions.imports?.dirs || [])].filter((v): v is string => Boolean(v)).map(withSrcDir)
-    const [composablesDir, utilsDir] = [resolve(rootDir, 'composables'), resolve(rootDir, 'utils')]
+    const [composablesDir, utilsDir] = [withSrcDir('composables'), withSrcDir('utils')]
 
     if (!importDirs.includes(composablesDir)) importDirs.push(composablesDir)
     if (!importDirs.includes(utilsDir)) importDirs.push(utilsDir)
