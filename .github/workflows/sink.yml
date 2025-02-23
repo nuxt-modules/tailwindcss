@@ -14,7 +14,7 @@ jobs:
         with:
           repository: "nuxt/nuxt.com"
           path: test/fixtures/nuxt.com
-      - run: corepack enable
+      - run: npm i -g --force corepack && corepack enable
       - run: |
           sed -i '1s/^/import { resolve } from "pathe"\n/' test/fixtures/nuxt.com/nuxt.config.ts
           sed -i -e 's|export default defineNuxtConfig({|export default defineNuxtConfig({\n  alias: { "@nuxtjs/tailwindcss": resolve(__dirname, "../../../src/module") },|' test/fixtures/nuxt.com/nuxt.config.ts
