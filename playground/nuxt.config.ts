@@ -64,7 +64,10 @@ export default defineNuxtConfig({
     },
     'tailwindcss:resolvedConfig': (config, oldConfig) => {
       // @ts-expect-error TODO: types for theme are not correct
-      logger.info('Running `tailwindcss:resolvedConfig` hook...', { typography: Boolean(config.theme.typography), hasOld: Boolean(oldConfig) })
+      logger.info('Running `tailwindcss:resolvedConfig` hook...', {
+        typography: Boolean(config.theme.typography),
+        hasOld: Boolean(oldConfig)
+      })
     },
   } satisfies Partial<ModuleHooks>,
 
