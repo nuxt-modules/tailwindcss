@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "@fontsource/inter": "^5.1.1",
-    "@nuxt/content": "^2.13.4",
+    "@nuxt/content": "^3.3.0",
     "@nuxt/devtools": "^1.7.0",
     "@nuxt/eslint-config": "^0.7.5",
     "@nuxt/module-builder": "^0.8.4",
