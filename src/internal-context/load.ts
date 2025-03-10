@@ -1,5 +1,5 @@
 import { addTemplate, findPath, resolveAlias, updateTemplates, useNuxt } from '@nuxt/kit'
-import type { NuxtOptions, NuxtConfig } from '@nuxt/schema'
+import type { NuxtOptions, NuxtConfig, NuxtPage } from '@nuxt/schema'
 import { join, relative, resolve, isAbsolute } from 'pathe'
 import { getContext } from 'unctx'
 import { loadConfig as loadConfigC12, type ResolvedConfig as ResolvedC12Config } from 'c12'
@@ -13,6 +13,7 @@ import { createObjProxy } from './proxy'
 const loadConfig = loadConfigC12<Partial<TWConfig>>
 type ResolvedConfig = ResolvedC12Config<Partial<TWConfig>>
 
+const pagesContentPath = getContext<string[]>('twcss-pages-path')
 const resolvedConfigsCtx = getContext<Array<ResolvedConfig | null>>('twcss-resolved-configs')
 
 const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNuxt()) => {
@@ -73,12 +74,26 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     if (!importDirs.includes(composablesDir)) importDirs.push(composablesDir)
     if (!importDirs.includes(utilsDir)) importDirs.push(utilsDir)
 
+    const isLayer = rootDir !== nuxt.options.rootDir
+    const rootProjectFiles: string[] = []
+
+    if (!isLayer) {
+      const pageFiles = pagesContentPath.tryUse()
+
+      if (pageFiles && pageFiles.length) {
+        rootProjectFiles.push(...pageFiles)
+      }
+      // @ts-expect-error pages can be an object
+      else if (nuxtOptions.pages !== false && nuxtOptions.pages?.enabled !== false) {
+        rootProjectFiles.push(withSrcDir(`${nuxtOptions.dir?.pages || 'pages'}/**/*${sfcExtensions}`))
+      }
+    }
+
     return {
       config: {
         content: {
           files: [
             withSrcDir(`components/**/*${sfcExtensions}`),
-            withSrcDir(`pages/**/*${sfcExtensions}`),
             ...(() => {
               if (nuxtOptions.components) {
                 return (Array.isArray(nuxtOptions.components) ? nuxtOptions.components : typeof nuxtOptions.components === 'boolean' ? ['components'] : (nuxtOptions.components.dirs || [])).map((d) => {
@@ -90,10 +105,9 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
             })(),
 
             nuxtOptions.dir?.layouts && withSrcDir(`${nuxtOptions.dir.layouts}/**/*${sfcExtensions}`),
-            ...([true, undefined].includes(nuxtOptions.pages) && nuxtOptions.dir?.pages ? [withSrcDir(`${nuxtOptions.dir.pages}/**/*${sfcExtensions}`)] : []),
-
             nuxtOptions.dir?.plugins && withSrcDir(`${nuxtOptions.dir.plugins}/**/*${defaultExtensions}`),
             ...importDirs.map(d => `${d}/**/*${defaultExtensions}`),
+            ...rootProjectFiles,
 
             withSrcDir(`{A,a}pp${sfcExtensions}`),
             withSrcDir(`{E,e}rror${sfcExtensions}`),
@@ -103,6 +117,22 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
         },
       },
     }
+  }
+
+  const resolvePageFiles = (pages: NuxtPage[]) => {
+    const filePaths: string[] = []
+
+    pages.forEach((page) => {
+      if (page.file) {
+        filePaths.push(page.file)
+      }
+
+      if (page.children && page.children.length) {
+        filePaths.push(...resolvePageFiles(page.children))
+      }
+    })
+
+    return filePaths
   }
 
   const getModuleConfigs = () => {
@@ -194,15 +224,28 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
   const registerHooks = () => {
     if (twCtx.use().meta?.disableHMR) return
 
+    const reloadConfigTemplate = async () => {
+      const { dst } = twCtx.use()
+      await loadConfigs()
+
+      setTimeout(async () => {
+        await updateTemplates({ filter: t => t.dst === dst || dst?.endsWith(t.filename) || false })
+        await nuxt.callHook('tailwindcss:internal:regenerateTemplates', { configTemplateUpdated: true })
+      }, 100)
+    }
+
     nuxt.hook('app:templatesGenerated', async (_app, templates) => {
       if (Array.isArray(templates) && templates?.some(t => Object.keys(configUpdatedHook).includes(t.dst))) {
-        const { dst } = twCtx.use()
-        await loadConfigs()
+        await reloadConfigTemplate()
+      }
+    })
 
-        setTimeout(async () => {
-          await updateTemplates({ filter: t => t.dst === dst || dst?.endsWith(t.filename) || false })
-          await nuxt.callHook('tailwindcss:internal:regenerateTemplates', { configTemplateUpdated: true })
-        }, 100)
+    nuxt.hook('pages:extend', async (pages) => {
+      const newPageFiles = resolvePageFiles(pages)
+
+      if (newPageFiles.length !== pagesContentPath.tryUse()?.length) {
+        pagesContentPath.set(newPageFiles, true)
+        await reloadConfigTemplate()
       }
     })
 
