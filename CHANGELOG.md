@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.13.2
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.13.1...v6.13.2)
+
+### 🩹 Fixes
+
+- **content:** Resolve `app/` dir for `utils`, resolves #955 ([#955](https://github.com/nuxt-modules/tailwindcss/issues/955))
+- **content:** Use `pages:extend` to get page routes ([f226a64](https://github.com/nuxt-modules/tailwindcss/commit/f226a64))
+- **config:** Dedupe `tailwind.config` from configPaths, closes #949 ([#949](https://github.com/nuxt-modules/tailwindcss/issues/949))
+
+### 📖 Documentation
+
+- Mention `tailwindcss-cli` if `tailwindcss init` fails ([#946](https://github.com/nuxt-modules/tailwindcss/pull/946))
+- Direct to v3 tailwindcss docs ([a7c54c4](https://github.com/nuxt-modules/tailwindcss/commit/a7c54c4))
+- Revert to NuxtTailwind ([#963](https://github.com/nuxt-modules/tailwindcss/pull/963))
+- Update module-options.md ([159ab53](https://github.com/nuxt-modules/tailwindcss/commit/159ab53))
+
+### 🏡 Chore
+
+- **ci:** Fix corepack for actions/setup-node ([c996f0a](https://github.com/nuxt-modules/tailwindcss/commit/c996f0a))
+- Fix lint ([3dd3ada](https://github.com/nuxt-modules/tailwindcss/commit/3dd3ada))
+
+### ❤️ Contributors
+
+- Inesh Bose <dev@inesh.xyz>
+- David Marr ([@marr](http://github.com/marr))
+- Ditmar Entwicklerberg ([@entwicklerberg](http://github.com/entwicklerberg))
+- Dev By Ray ([@devbyray](http://github.com/devbyray))
+
 ## v6.13.1
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.13.0...v6.13.1)
