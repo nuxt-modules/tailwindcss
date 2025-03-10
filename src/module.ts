@@ -97,10 +97,10 @@ export default defineNuxtModule<ModuleOptions>({
       const postcssOptions
         /* nuxt 3 */
         = nuxt.options.postcss
-        // @ts-expect-error older nuxt3
-        || nuxt.options.build.postcss.postcssOptions
-        // @ts-expect-error nuxt 2 type
-        || nuxt.options.build.postcss as any
+          // @ts-expect-error older nuxt3
+          || nuxt.options.build.postcss.postcssOptions
+          // @ts-expect-error nuxt 2 type
+          || nuxt.options.build.postcss as any
       postcssOptions.plugins = {
         ...(postcssOptions.plugins || {}),
         'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
