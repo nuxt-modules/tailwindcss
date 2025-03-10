@@ -23,7 +23,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
 
   const resolveConfigs = <T extends Partial<TWConfig> | string | undefined>(configs: T | T[], nuxt = useNuxt()) =>
     ((Array.isArray(configs) ? configs : [configs])
-      .filter(Boolean)
+      .filter((c): c is NonNullable<T> => Boolean(c) && c !== join(nuxt.options.rootDir, 'tailwind.config'))
       .map(async (config, idx, arr): Promise<ResolvedConfig | null> => {
         if (typeof config !== 'string') {
           const hasUnsafeProperty = checkUnsafeInlineConfig(config)
