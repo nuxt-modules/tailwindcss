@@ -62,6 +62,7 @@
     "test:types": "pnpm dev:prepare && tsc --noEmit && nuxi typecheck playground"
   },
   "dependencies": {
+    "@nuxt/kit": "^3.16.0",
     "autoprefixer": "^10.4.20",
     "c12": "^3.0.2",
     "consola": "^3.4.0",
@@ -81,7 +82,6 @@
     "@nuxt/content": "^2.13.4",
     "@nuxt/devtools": "^2.2.1",
     "@nuxt/eslint-config": "^0.7.6",
-    "@nuxt/kit": "^3.16.0",
     "@nuxt/module-builder": "^0.8.4",
     "@nuxt/test-utils": "^3.17.1",
     "@tailwindcss/typography": "^0.5.16",
