@@ -81,7 +81,8 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
       const pageFiles = pagesContentPath.tryUse()
 
       if (pageFiles && pageFiles.length) {
-        rootProjectFiles.push(...pageFiles)
+        // replace filenames like [...path].vue with ?...path?.vue because [ and ] are reserved in glob matching
+        rootProjectFiles.push(...pageFiles.map(p => p.replaceAll(/\[(\.+)([^.].*)\]/g, '?$1$2?')))
       }
       // @ts-expect-error pages can be an object
       else if (nuxtOptions.pages !== false && nuxtOptions.pages?.enabled !== false) {
