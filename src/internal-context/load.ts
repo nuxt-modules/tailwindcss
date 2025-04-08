@@ -14,6 +14,7 @@ const loadConfig = loadConfigC12<Partial<TWConfig>>
 type ResolvedConfig = ResolvedC12Config<Partial<TWConfig>>
 
 const pagesContentPath = getContext<string[]>('twcss-pages-path')
+const componentsContentPath = getContext<string[]>('twcss-components-path')
 const resolvedConfigsCtx = getContext<Array<ResolvedConfig | null>>('twcss-resolved-configs')
 
 const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNuxt()) => {
@@ -80,7 +81,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     if (!isLayer) {
       const pageFiles = pagesContentPath.tryUse()
 
-      if (pageFiles && pageFiles.length) {
+      if (moduleOptions.experimental?.strictScanContentPaths && pageFiles && pageFiles.length) {
         // replace filenames like [...path].vue with ?...path?.vue because [ and ] are reserved in glob matching
         rootProjectFiles.push(...pageFiles.map(p => p.replaceAll(/\[(\.+)([^.].*)\]/g, '?$1$2?')))
       }
@@ -90,21 +91,32 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
       }
     }
 
+    const componentPaths: string[] = []
+    const componentFiles = componentsContentPath.tryUse()
+
+    if (moduleOptions.experimental?.strictScanContentPaths && componentFiles && componentFiles.length) {
+      if (!isLayer) componentPaths.push(...componentFiles)
+    }
+    else {
+      componentPaths.push(
+        withSrcDir(`components/**/*${sfcExtensions}`),
+        ...(() => {
+          if (nuxtOptions.components) {
+            return (Array.isArray(nuxtOptions.components) ? nuxtOptions.components : typeof nuxtOptions.components === 'boolean' ? ['components'] : (nuxtOptions.components.dirs || [])).map((d) => {
+              const valueToResolve = typeof d === 'string' ? d : d?.path
+              return valueToResolve ? `${resolveAlias(valueToResolve)}/**/*${sfcExtensions}` : ''
+            }).filter(Boolean)
+          }
+          return []
+        })(),
+      )
+    }
+
     return {
       config: {
         content: {
           files: [
-            withSrcDir(`components/**/*${sfcExtensions}`),
-            ...(() => {
-              if (nuxtOptions.components) {
-                return (Array.isArray(nuxtOptions.components) ? nuxtOptions.components : typeof nuxtOptions.components === 'boolean' ? ['components'] : (nuxtOptions.components.dirs || [])).map((d) => {
-                  const valueToResolve = typeof d === 'string' ? d : d?.path
-                  return valueToResolve ? `${resolveAlias(valueToResolve)}/**/*${sfcExtensions}` : ''
-                }).filter(Boolean)
-              }
-              return []
-            })(),
-
+            ...componentPaths,
             nuxtOptions.dir?.layouts && withSrcDir(`${nuxtOptions.dir.layouts}/**/*${sfcExtensions}`),
             nuxtOptions.dir?.plugins && withSrcDir(`${nuxtOptions.dir.plugins}/**/*${defaultExtensions}`),
             ...importDirs.map(d => `${d}/**/*${defaultExtensions}`),
@@ -241,14 +253,28 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
       }
     })
 
-    nuxt.hook('pages:extend', async (pages) => {
-      const newPageFiles = resolvePageFiles(pages)
+    if (moduleOptions.experimental?.strictScanContentPaths) {
+      nuxt.hook('pages:extend', async (pages) => {
+        const newPageFiles = resolvePageFiles(pages)
 
-      if (newPageFiles.length !== pagesContentPath.tryUse()?.length) {
-        pagesContentPath.set(newPageFiles, true)
-        await reloadConfigTemplate()
-      }
-    })
+        if (newPageFiles.length !== pagesContentPath.tryUse()?.length) {
+          pagesContentPath.set(newPageFiles, true)
+          await reloadConfigTemplate()
+        }
+      })
+
+      nuxt.hook('components:extend', async (components) => {
+        const newComponentFiles = components.map(c => c.filePath)
+
+        if (newComponentFiles.length !== componentsContentPath.tryUse()?.length) {
+          componentsContentPath.set(newComponentFiles, true)
+          await reloadConfigTemplate()
+        }
+      })
+    }
+    else {
+      nuxt.hook('pages:extend', () => reloadConfigTemplate())
+    }
 
     nuxt.hook('vite:serverCreated', (server) => {
       nuxt.hook('tailwindcss:internal:regenerateTemplates', (data) => {

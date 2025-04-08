@@ -77,5 +77,6 @@ export default defineNuxtConfig({
     exposeConfig: true,
     cssPath: '~/assets/css/tailwind.css',
     editorSupport: true,
+    // experimental: { strictScanContentPaths: true },
   } satisfies Partial<ModuleOptions>,
 })
