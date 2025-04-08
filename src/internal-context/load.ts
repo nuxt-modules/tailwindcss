@@ -125,7 +125,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
             withSrcDir(`{A,a}pp${sfcExtensions}`),
             withSrcDir(`{E,e}rror${sfcExtensions}`),
             withSrcDir(`app.config${defaultExtensions}`),
-            !nuxtOptions.ssr && nuxtOptions.spaLoadingTemplate !== false && withSrcDir(typeof nuxtOptions.spaLoadingTemplate === 'string' ? nuxtOptions.spaLoadingTemplate : 'app/spa-loading-template.html'),
+            !nuxtOptions.ssr && nuxtOptions.spaLoadingTemplate !== false && r(typeof nuxtOptions.spaLoadingTemplate === 'string' ? nuxtOptions.spaLoadingTemplate : 'app/spa-loading-template.html'),
           ].filter((p): p is string => Boolean(p)),
         },
       },
