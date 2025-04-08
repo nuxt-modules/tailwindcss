@@ -133,7 +133,7 @@ export interface ModuleOptions {
    *
    * @default false
    */
-  experimental: Partial<ExperimentalOptions>
+  experimental?: Partial<ExperimentalOptions>
   /**
    * This option falls back to the Tailwind configuration inlined to the PostCSS
    * loader, so any configuration changes while the dev server is running will
