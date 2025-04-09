@@ -1,7 +1,8 @@
 import typography from '@tailwindcss/typography'
 import colors from 'tailwindcss/colors'
+import { defineConfig } from '../src/config'
 
-export default {
+export default defineConfig({
   theme: {
     extend: {
       colors: {
@@ -15,4 +16,4 @@ export default {
   plugins: [
     typography(),
   ],
-}
+})

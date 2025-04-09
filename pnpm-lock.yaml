@@ -7,6 +7,7 @@ settings:
 overrides:
   '@nuxtjs/tailwindcss': link:.
   '@nuxt/ui': npm:@nuxt/ui-edge
+  unicorn-magic: 0.2.0
 
 importers:
 
@@ -5364,8 +5365,8 @@ packages:
   unicode-trie@2.0.0:
     resolution: {integrity: sha512-x7bc76x0bm4prf1VLg79uhAzKw8DVboClSN5VxJuQ+LKDOVEW9CdH+VY7SP+vX7xCYQqzzgQpFqz15zeLvAtZQ==}
 
-  unicorn-magic@0.3.0:
-    resolution: {integrity: sha512-+QBBXBCvifc56fsbuxZQ6Sic3wqqc3WWaqxs58gvJrcOuN83HGTCwz3oS5phzU9LthRNE9VrJCFCLUgHeeFnfA==}
+  unicorn-magic@0.2.0:
+    resolution: {integrity: sha512-q83y+/QtXrbKX1jYY+bdQROAbZj6EeSP+Plv0cYZBMPfirSaEvnnhMwRk2WH4n5XkNCQHygAiwTVNpvw3I1dCg==}
     engines: {node: '>=18'}
 
   unified@11.0.5:
@@ -9675,7 +9676,7 @@ snapshots:
       ignore: 7.0.3
       path-type: 6.0.0
       slash: 5.1.0
-      unicorn-magic: 0.3.0
+      unicorn-magic: 0.2.0
 
   google-fonts-helper@3.5.0:
     dependencies:
@@ -10975,7 +10976,7 @@ snapshots:
   npm-run-path@6.0.0:
     dependencies:
       path-key: 4.0.0
-      unicorn-magic: 0.3.0
+      unicorn-magic: 0.2.0
 
   nth-check@2.1.1:
     dependencies:
@@ -12677,7 +12678,7 @@ snapshots:
       pako: 0.2.9
       tiny-inflate: 1.0.3
 
-  unicorn-magic@0.3.0: {}
+  unicorn-magic@0.2.0: {}
 
   unified@11.0.5:
     dependencies:
