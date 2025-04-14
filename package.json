@@ -59,7 +59,8 @@
     "lint:fix": "pnpm lint --fix",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "test:types": "pnpm dev:prepare && tsc --noEmit && nuxi typecheck playground"
+    "test:types": "pnpm dev:prepare && tsc --noEmit && nuxi typecheck playground",
+    "prepare": "pnpm dev:prepare && pnpm run build"
   },
   "dependencies": {
     "autoprefixer": "^10.4.20",
