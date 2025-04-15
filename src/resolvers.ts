@@ -16,7 +16,7 @@ export async function resolveCSSPath(cssPath: Exclude<ModuleOptions['cssPath'], 
 
     return existsSync(_cssPath)
       ? [_cssPath, `Using Tailwind CSS from ~/${relative(nuxt.options.srcDir, _cssPath)}`]
-      : await tryResolveModule('tailwindcss/package.json')
+      : await tryResolveModule('tailwindcss/package.json', import.meta.url)
         .then(twLocation => twLocation ? [join(twLocation, '../tailwind.css'), 'Using default Tailwind CSS file'] : Promise.reject('Unable to resolve tailwindcss. Is it installed?'))
   }
   else {

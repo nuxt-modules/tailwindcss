@@ -72,6 +72,16 @@ export type EditorSupportConfig = {
   autocompleteUtil: BoolObj<Pick<Import, 'as'>>
 }
 
+export type ExperimentalOptions = {
+  /**
+   * Specify individual files for Nuxt scanned directories in content configuration
+   * using `pages:extend` and `components:extend` hook.
+   *
+   * @default false
+   */
+  strictScanContentPaths: boolean
+}
+
 export interface ModuleOptions {
   /**
    * The path of the Tailwind configuration file. The extension can be omitted, in which case it will try to find a `.js`, `.cjs`, `.mjs`, or `.ts` file.
@@ -118,6 +128,12 @@ export interface ModuleOptions {
    * @default false // if true, { autocompleteUtil: true }
    */
   editorSupport: BoolObj<EditorSupportConfig>
+  /**
+   * Enable module experimental functionalities.
+   *
+   * @default false
+   */
+  experimental?: Partial<ExperimentalOptions>
   /**
    * This option falls back to the Tailwind configuration inlined to the PostCSS
    * loader, so any configuration changes while the dev server is running will
