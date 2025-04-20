@@ -12,6 +12,7 @@ import {
   isNuxtMajorVersion,
   addVitePlugin,
 } from '@nuxt/kit'
+import { readPackageJSON } from 'pkg-types'
 
 import { name, version, configKey, compatibility } from '../package.json'
 import * as resolvers from './resolvers'
@@ -47,7 +48,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
     }
 
-    const isTailwind4 = await import('tailwindcss/package.json').then(m => m.default ?? m).then(m => Number.parseFloat(m.version) >= 4)
+    const isTailwind4 = await readPackageJSON('tailwindcss', { parent: import.meta.url }).then(m => Number.parseFloat(m.version!) >= 4)
 
     if (!moduleOptions.experimental?.tailwindcss4) {
       logger.warn('Tailwind CSS v4 detected. The current version of `@nuxtjs/tailwindcss` supports Tailwind CSS 3 officially and support for v4 is experimental. To suppress this warning, set `tailwindcss.experimental.tailwindcss4` to  `true` in your `nuxt.config`.')
