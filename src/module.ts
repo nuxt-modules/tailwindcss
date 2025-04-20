@@ -87,6 +87,12 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.css.splice(injectPosition, 0, resolvedCss)
     }
 
+    const shouldInstallTWVitePlugin = isTailwind4 && nuxt.options.builder === '@nuxt/vite-builder'
+    if (shouldInstallTWVitePlugin) {
+      // @ts-expect-error may not be installed
+      await import('@tailwindcss/vite').then(r => addVitePlugin(r.default()))
+    }
+
     // workaround for nuxt2 middleware race condition
     let nuxt2ViewerConfig: Parameters<typeof setupViewer>[0] = join(nuxt.options.buildDir, 'tailwind/postcss.mjs')
 
@@ -105,11 +111,7 @@ export default defineNuxtModule<ModuleOptions>({
         nuxt.hook('tailwindcss:internal:regenerateTemplates', () => updateTemplates({ filter: template => exposeTemplates.includes(template.dst) }))
       }
 
-      if (isTailwind4 && nuxt.options.builder === '@nuxt/vite-builder') {
-        // @ts-expect-error may not be installed
-        await import('@tailwindcss/vite').then(r => addVitePlugin(r.default()))
-      }
-      else {
+      if (!shouldInstallTWVitePlugin) {
         // setup postcss plugins (for Nuxt 2/bridge/3)
         const postcssOptions
           /* nuxt 3 */

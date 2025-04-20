@@ -36,6 +36,9 @@
       "./src/config",
       "./src/merger"
     ],
+    "externals": [
+      "@tailwindcss/vite"
+    ],
     "rollup": {
       "emitCJS": true
     }
