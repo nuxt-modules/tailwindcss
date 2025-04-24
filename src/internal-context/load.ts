@@ -76,19 +76,17 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     if (!importDirs.includes(utilsDir)) importDirs.push(utilsDir)
 
     const isLayer = rootDir !== nuxt.options.rootDir
-    const rootProjectFiles: string[] = []
 
-    if (!isLayer) {
-      const pageFiles = pagesContentPath.tryUse()
+    const pagePaths: string[] = []
+    const pageFiles = pagesContentPath.tryUse()
 
-      if (moduleOptions.experimental?.strictScanContentPaths && pageFiles && pageFiles.length) {
-        // replace filenames like [...path].vue with ?...path?.vue because [ and ] are reserved in glob matching
-        rootProjectFiles.push(...pageFiles.map(p => p.replaceAll(/\[(\.+)([^.].*)\]/g, '?$1$2?')))
-      }
-      // @ts-expect-error pages can be an object
-      else if (nuxtOptions.pages !== false && nuxtOptions.pages?.enabled !== false) {
-        rootProjectFiles.push(withSrcDir(`${nuxtOptions.dir?.pages || 'pages'}/**/*${sfcExtensions}`))
-      }
+    if (moduleOptions.experimental?.strictScanContentPaths && pageFiles && pageFiles.length) {
+      // replace filenames like [...path].vue with ?...path?.vue because [ and ] are reserved in glob matching
+      if (!isLayer) pagePaths.push(...pageFiles.map(p => p.replaceAll(/\[(\.+)([^.].*)\]/g, '?$1$2?')))
+    }
+    // @ts-expect-error pages can be an object
+    else if (nuxtOptions.pages !== false && nuxtOptions.pages?.enabled !== false) {
+      pagePaths.push(withSrcDir(`${nuxtOptions.dir?.pages || 'pages'}/**/*${sfcExtensions}`))
     }
 
     const componentPaths: string[] = []
@@ -120,7 +118,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
             nuxtOptions.dir?.layouts && withSrcDir(`${nuxtOptions.dir.layouts}/**/*${sfcExtensions}`),
             nuxtOptions.dir?.plugins && withSrcDir(`${nuxtOptions.dir.plugins}/**/*${defaultExtensions}`),
             ...importDirs.map(d => `${d}/**/*${defaultExtensions}`),
-            ...rootProjectFiles,
+            ...pagePaths,
 
             withSrcDir(`{A,a}pp${sfcExtensions}`),
             withSrcDir(`{E,e}rror${sfcExtensions}`),

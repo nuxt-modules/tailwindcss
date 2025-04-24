@@ -10,7 +10,9 @@ import {
   updateTemplates,
   addTemplate,
   isNuxtMajorVersion,
+  addVitePlugin,
 } from '@nuxt/kit'
+import { readPackageJSON } from 'pkg-types'
 
 import { name, version, configKey, compatibility } from '../package.json'
 import * as resolvers from './resolvers'
@@ -46,6 +48,12 @@ export default defineNuxtModule<ModuleOptions>({
       })
     }
 
+    const isTailwind4 = await readPackageJSON('tailwindcss', { parent: import.meta.url }).then(m => Number.parseFloat(m.version!) >= 4)
+
+    if (!moduleOptions.experimental?.tailwindcss4) {
+      logger.warn('Tailwind CSS v4 detected. The current version of `@nuxtjs/tailwindcss` supports Tailwind CSS 3 officially and support for v4 is experimental. To suppress this warning, set `tailwindcss.experimental.tailwindcss4` to  `true` in your `nuxt.config`.')
+    }
+
     const ctx = await createInternalContext(moduleOptions, nuxt)
 
     if (moduleOptions.editorSupport) {
@@ -63,7 +71,12 @@ export default defineNuxtModule<ModuleOptions>({
 
     // css file handling
     const [cssPath, cssPathConfig] = Array.isArray(moduleOptions.cssPath) ? moduleOptions.cssPath : [moduleOptions.cssPath]
-    const [resolvedCss, loggerInfo] = await resolvers.resolveCSSPath(cssPath, nuxt)
+    const [resolvedCss, loggerInfo] = await resolvers.resolveCSSPath(cssPath, nuxt).catch((e) => {
+      if (isTailwind4) {
+        return [addTemplate({ filename: 'tailwind.css', getContents: () => `@import 'tailwindcss';`, write: true }).dst, 'Generating default CSS file for Tailwind CSS 4...']
+      }
+      throw e
+    })
     logger.info(loggerInfo)
 
     nuxt.options.css = nuxt.options.css ?? []
@@ -73,6 +86,12 @@ export default defineNuxtModule<ModuleOptions>({
     if (resolvedCss && !resolvedNuxtCss.includes(resolvedCss)) {
       const injectPosition = await resolvers.resolveInjectPosition(resolvedNuxtCss, cssPathConfig?.injectPosition)
       nuxt.options.css.splice(injectPosition, 0, resolvedCss)
+    }
+
+    const shouldInstallTWVitePlugin = isTailwind4 && nuxt.options.builder === '@nuxt/vite-builder'
+    if (shouldInstallTWVitePlugin) {
+      // @ts-expect-error may not be installed
+      await import('@tailwindcss/vite').then(r => addVitePlugin(r.default()))
     }
 
     // workaround for nuxt2 middleware race condition
@@ -93,18 +112,28 @@ export default defineNuxtModule<ModuleOptions>({
         nuxt.hook('tailwindcss:internal:regenerateTemplates', () => updateTemplates({ filter: template => exposeTemplates.includes(template.dst) }))
       }
 
-      // setup postcss plugins (for Nuxt 2/bridge/3)
-      const postcssOptions
-        /* nuxt 3 */
-        = nuxt.options.postcss
-          // @ts-expect-error older nuxt3
-          || nuxt.options.build.postcss.postcssOptions
-          // @ts-expect-error nuxt 2 type
-          || nuxt.options.build.postcss as any
-      postcssOptions.plugins = {
-        ...(postcssOptions.plugins || {}),
-        'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
-        'tailwindcss': twConfig.dst satisfies string || _config,
+      if (!shouldInstallTWVitePlugin) {
+        // setup postcss plugins (for Nuxt 2/bridge/3)
+        const postcssOptions
+          /* nuxt 3 */
+          = nuxt.options.postcss
+            // @ts-expect-error older nuxt3
+            || nuxt.options.build.postcss.postcssOptions
+            // @ts-expect-error nuxt 2 type
+            || nuxt.options.build.postcss as any
+
+        const pluginsToAdd
+          = isTailwind4
+            ? { '@tailwindcss/postcss': {} }
+            : {
+                'tailwindcss/nesting': postcssOptions.plugins?.['tailwindcss/nesting'] ?? {},
+                'tailwindcss': twConfig.dst satisfies string || _config,
+              }
+
+        postcssOptions.plugins = {
+          ...(postcssOptions.plugins || {}),
+          ...pluginsToAdd,
+        }
       }
 
       // enabled only in development
