@@ -36,6 +36,9 @@
       "./src/config",
       "./src/merger"
     ],
+    "externals": [
+      "@tailwindcss/vite"
+    ],
     "rollup": {
       "emitCJS": true
     }
@@ -70,6 +73,7 @@
     "h3": "^1.15.1",
     "klona": "^2.0.6",
     "pathe": "^2.0.3",
+    "pkg-types": "^2.1.0",
     "postcss": "^8.5.3",
     "postcss-nesting": "^13.0.1",
     "tailwind-config-viewer": "^2.0.4",

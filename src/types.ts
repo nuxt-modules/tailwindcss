@@ -80,6 +80,12 @@ export type ExperimentalOptions = {
    * @default false
    */
   strictScanContentPaths: boolean
+  /**
+   * Allow usage of Tailwind CSS 4.
+   *
+   * @default false
+   */
+  tailwindcss4: boolean
 }
 
 export interface ModuleOptions {
