@@ -1,5 +1,13 @@
 import { createDefineConfig } from 'c12'
+import { getContext } from 'unctx'
+import { tryUseNuxt, requireModule } from '@nuxt/kit'
 import type { Config } from 'tailwindcss'
 
-export const defineConfig = createDefineConfig<Partial<Config>>()
+export const ctx = getContext<boolean>('tw-config-ctx')
+
+const _defineConfig = createDefineConfig<Partial<Config>>()
+export const defineConfig: typeof _defineConfig = (config) => {
+  const isNuxt = !!tryUseNuxt()
+  return isNuxt || ctx.tryUse() ? config : requireModule('.nuxt/tailwind/postcss.mjs')
+}
 export default defineConfig

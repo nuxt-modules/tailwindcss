@@ -24,6 +24,11 @@
       "types": "./dist/merger.d.ts",
       "require": "./dist/merger.cjs",
       "import": "./dist/merger.mjs"
+    },
+    "./config-ctx": {
+      "types": "./dist/config-ctx.d.ts",
+      "require": "./dist/config-ctx.cjs",
+      "import": "./dist/config-ctx.mjs"
     }
   },
   "main": "./dist/module.cjs",
@@ -34,7 +39,8 @@
   "build": {
     "entries": [
       "./src/config",
-      "./src/merger"
+      "./src/merger",
+      "./src/config-ctx"
     ],
     "externals": [
       "@tailwindcss/vite"
@@ -101,7 +107,8 @@
   "packageManager": "pnpm@9.15.3",
   "resolutions": {
     "@nuxtjs/tailwindcss": "link:.",
-    "@nuxt/ui": "npm:@nuxt/ui-edge"
+    "@nuxt/ui": "npm:@nuxt/ui-edge",
+    "unicorn-magic": "0.2.0"
   },
   "stackblitz": {
     "startCommand": "pnpm dev:prepare && pnpm dev"
