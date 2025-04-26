@@ -51,7 +51,8 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
                 configUpdatedHook[resolvedConfigFile] += 'cfg.content = cfg.purge;'
               }
 
-              await nuxt.callHook('tailwindcss:loadConfig', new Proxy(config, trackObjChanges(resolvedConfigFile)), resolvedConfigFile, idx, arr as any)
+              await nuxt.callHook('tailwindcss:loadConfig', config, resolvedConfigFile, idx, arr as any)
+              trackObjChanges(resolvedConfigFile, resolvedConfig.config, config)
               return { ...resolvedConfig, config }
             }).catch((e) => {
               logger.warn(`Failed to load config \`./${relative(nuxt.options.rootDir, configFile)}\` due to the error below. Skipping..\n`, e)
@@ -160,7 +161,8 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
         configUpdatedHook[resolvedConfigFile] += 'cfg.content = cfg.purge;'
       }
 
-      await nuxt.callHook('tailwindcss:loadConfig', new Proxy(config, trackObjChanges(resolvedConfigFile)), resolvedConfigFile, 0, [])
+      await nuxt.callHook('tailwindcss:loadConfig', config, resolvedConfigFile, 0, [])
+      trackObjChanges(resolvedConfigFile, resolvedConfig.config, config)
       return { ...resolvedConfig, config }
     }
 
@@ -185,10 +187,12 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     const moduleConfigs = await getModuleConfigs()
     resolvedConfigsCtx.set(moduleConfigs, true)
     const tailwindConfig = moduleConfigs.reduce((acc, curr) => configMerger(acc, curr?.config ?? {}), {} as Partial<TWConfig>)
+    const clonedConfig = configMerger(undefined, tailwindConfig)
 
     // Allow extending tailwindcss config by other modules
     configUpdatedHook['main-config'] = ''
-    await nuxt.callHook('tailwindcss:config', new Proxy(tailwindConfig, trackObjChanges('main-config')))
+    await nuxt.callHook('tailwindcss:config', clonedConfig)
+    trackObjChanges('main-config', tailwindConfig, clonedConfig)
 
     const resolvedConfig = resolveTWConfig(tailwindConfig)
     await nuxt.callHook('tailwindcss:resolvedConfig', resolvedConfig as any, twCtx.tryUse()?.config as any ?? undefined)
