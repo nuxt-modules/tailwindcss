@@ -194,7 +194,7 @@ const createInternalContext = async (moduleOptions: ModuleOptions, nuxt = useNux
     await nuxt.callHook('tailwindcss:config', clonedConfig)
     trackObjChanges('main-config', tailwindConfig, clonedConfig)
 
-    const resolvedConfig = resolveTWConfig(tailwindConfig)
+    const resolvedConfig = resolveTWConfig(clonedConfig)
     await nuxt.callHook('tailwindcss:resolvedConfig', resolvedConfig as any, twCtx.tryUse()?.config as any ?? undefined)
     twCtx.set({ config: resolvedConfig })
 
