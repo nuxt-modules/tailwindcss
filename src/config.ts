@@ -8,6 +8,12 @@ export const ctx = getContext<boolean>('tw-config-ctx')
 const _defineConfig = createDefineConfig<Partial<Config>>()
 export const defineConfig: typeof _defineConfig = (config) => {
   const isNuxt = !!tryUseNuxt()
-  return isNuxt || ctx.tryUse() ? config : requireModule('.nuxt/tailwind/postcss.mjs')
+
+  if (isNuxt || ctx.tryUse()) {
+    return config
+  }
+
+  const nuxtTwConfig = requireModule<Config>('./.nuxt/tailwind/postcss.mjs', { paths: [process.cwd()] })
+  return nuxtTwConfig?.default || nuxtTwConfig
 }
 export default defineConfig
