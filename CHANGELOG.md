@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v6.14.0
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.13.2...v6.14.0)
+
+### 🚀 Enhancements
+
+- Add initial tw4 support in v6 ([#980](https://github.com/nuxt-modules/tailwindcss/pull/980))
+- **defineConfig:** Enable conditional return ([#979](https://github.com/nuxt-modules/tailwindcss/pull/979))
+
+### 🩹 Fixes
+
+- Content resolution for [...path].vue pages ([#965](https://github.com/nuxt-modules/tailwindcss/pull/965))
+- Try resolving `tailwindcss` from module ([#974](https://github.com/nuxt-modules/tailwindcss/pull/974))
+- **config-hmr:** InteropDefault when importing config changes ([d3e4de7](https://github.com/nuxt-modules/tailwindcss/commit/d3e4de7))
+- **content:** Move strict scanning to experimental ([75efd5c](https://github.com/nuxt-modules/tailwindcss/commit/75efd5c))
+- **types:** Mark  as optional ([4a4af2c](https://github.com/nuxt-modules/tailwindcss/commit/4a4af2c))
+- **content:** Spa-loading-template path with nuxt 4 app dir ([3f59d4a](https://github.com/nuxt-modules/tailwindcss/commit/3f59d4a))
+- **content:** Revert pages to only app as layers also inherit it ([4eea740](https://github.com/nuxt-modules/tailwindcss/commit/4eea740))
+- Only show Tailwind v4 warning when v4 is used ([#983](https://github.com/nuxt-modules/tailwindcss/pull/983), [#984](https://github.com/nuxt-modules/tailwindcss/pull/984))
+- **defineConfig:** Pass cwd path to requireModule ([a0da2ee](https://github.com/nuxt-modules/tailwindcss/commit/a0da2ee))
+
+### 💅 Refactors
+
+- **proxy:** Use ohash diff to determine changes instead ([#985](https://github.com/nuxt-modules/tailwindcss/pull/985))
+
+### 🏡 Chore
+
+- Move kit back to explicit dependency ([#968](https://github.com/nuxt-modules/tailwindcss/pull/968))
+
+### ❤️ Contributors
+
+- Inesh Bose <dev@inesh.xyz>
+- Connor Pearson ([@cjpearson](http://github.com/cjpearson))
+- Daniel Roe ([@danielroe](http://github.com/danielroe))
+- Juho Rutila ([@jrutila](http://github.com/jrutila))
+
 ## v6.13.2
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.13.1...v6.13.2)
