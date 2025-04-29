@@ -12,7 +12,7 @@ const colorMode = useColorMode()
       <iframe
         :src="`https://stackblitz.com/github/nuxt-modules/tailwindcss/tree/${props.src}?embed=1&theme=${colorMode.value}`"
         title="Sandbox editor (powered by StackBlitz)"
-        sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+        sandbox="allow-modals allow-forms allow-popups allow-popups-to-escape-sandbox allow-scripts allow-same-origin"
         class="w-full h-full min-h-[700px] overflow-hidden bg-gray-100 dark:bg-gray-800"
       />
     </div>
