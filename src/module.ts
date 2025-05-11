@@ -73,19 +73,19 @@ type EditorSupportConfig = Partial<{
 
 export interface ModuleOptions {
   /**
-  * The path of the Tailwind CSS file. If the file does not exist, the module's default CSS file will be imported instead.
-  *
-  * The default is `<assets>/css/tailwind.css` if found, else we generate a CSS file with `@import "tailwindcss"` in the buildDir.
-  */
- cssFile: string | false | [string, { position: InjectPosition }]
- /**
-  * Enable some utilities for better editor support and DX.
-  *
-  * Read https://tailwindcss.nuxtjs.org/tailwind/editor-support.
-  *
-  * @default false // if true, { autocompleteUtil: true }
-  */
- editorSupport: false | true | EditorSupportConfig
+   * The path of the Tailwind CSS file. If the file does not exist, the module's default CSS file will be imported instead.
+   *
+   * The default is `<assets>/css/tailwind.css` if found, else we generate a CSS file with `@import "tailwindcss"` in the buildDir.
+   */
+  cssFile: string | false | [string, { position: InjectPosition }]
+  /**
+   * Enable some utilities for better editor support and DX.
+   *
+   * Read https://tailwindcss.nuxtjs.org/tailwind/editor-support.
+   *
+   * @default false // if true, { autocompleteUtil: true }
+   */
+  editorSupport: false | true | EditorSupportConfig
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -101,11 +101,26 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(moduleOptions, nuxt) {
     const resolver = createResolver(import.meta.url)
 
-    // add plugin
     if (nuxt.options.builder === '@nuxt/vite-builder') {
-      await import('@tailwindcss/vite').then((r) => addVitePlugin(r.default()))
-    } else {
-      nuxt.options.postcss.plugins['@tailwindcss/postcss'] = {}
+      const existsTailwindPlugin = (plugins = nuxt.options.vite.plugins): boolean => !!plugins?.some((plugin) => {
+        if (Array.isArray(plugin)) {
+          return existsTailwindPlugin(plugin)
+        }
+
+        return plugin && 'name' in plugin && plugin.name.startsWith('@tailwindcss/vite')
+      })
+
+      if (!existsTailwindPlugin()) {
+        await import('@tailwindcss/vite').then(r => addVitePlugin(r.default()))
+      }
+    }
+    else {
+      nuxt.options.postcss ??= { plugins: {}, order: [] }
+      nuxt.options.postcss.plugins ??= {}
+
+      if (!nuxt.options.postcss.plugins['@tailwindcss/postcss']) {
+        nuxt.options.postcss.plugins['@tailwindcss/postcss'] = {}
+      }
     }
 
     if (moduleOptions.editorSupport) {
