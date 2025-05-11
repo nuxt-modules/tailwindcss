@@ -90,7 +90,7 @@
   },
   "devDependencies": {
     "@fontsource/inter": "^5.2.5",
-    "@nuxt/content": "^2.13.4",
+    "@nuxt/content": "^3.5.1",
     "@nuxt/devtools": "^2.2.1",
     "@nuxt/eslint-config": "^0.7.6",
     "@nuxt/module-builder": "^0.8.4",
