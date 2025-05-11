@@ -19,15 +19,13 @@ export default async function importCSS(nuxt = useNuxt()) {
 
   const filesImportingTailwind = analyzedFiles.filter(file => file[1].hasImport)
 
-  if (filesImportingTailwind.length === 0) {
-    const template = addTemplate({ filename: 'tailwind.css', getContents: () => `@import 'tailwindcss';`, write: true })
-    nuxt.options.css.push(template.dst)
-    return
+  const [file, { isInNuxt } = {}] = filesImportingTailwind.length === 0
+    ? [addTemplate({ filename: 'tailwind.css', getContents: () => `@import 'tailwindcss';`, write: true }).dst]
+    : filesImportingTailwind.find(file => file[1].isInNuxt) || filesImportingTailwind.pop()!
+
+  if (!isInNuxt) {
+    nuxt.options.css.push(file)
   }
 
-  if (!filesImportingTailwind.some(file => file[1].isInNuxt)) {
-    const [file] = filesImportingTailwind.pop()!
-    nuxt.options.css.push(file)
-    return
-  }
+  nuxt.options.alias['#tailwind'] = file
 }

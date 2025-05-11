@@ -1,13 +1,8 @@
-import { existsSync, promises as fsp } from 'node:fs'
 import {
   defineNuxtModule,
-  addVitePlugin,
-  resolvePath,
-  useNuxt,
   createResolver,
   addImports,
 } from '@nuxt/kit'
-import { join } from 'pathe'
 import { name, version, configKey, compatibility } from '../package.json'
 import installPlugin from './install-plugin'
 import importCSS from './import-css'
@@ -22,9 +17,6 @@ export default defineNuxtModule<ModuleOptions>({
     configKey,
     compatibility,
   },
-  defaults: (nuxt = useNuxt()) => ({
-    cssFile: join(nuxt.options.dir.assets, 'css/tailwind.css'),
-  }),
   async setup(moduleOptions, nuxt) {
     const resolver = createResolver(import.meta.url)
 
