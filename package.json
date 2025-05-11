@@ -105,7 +105,7 @@
     "vitest": "^3.0.8",
     "vue-tsc": "^2.2.8"
   },
-  "packageManager": "pnpm@9.15.3",
+  "packageManager": "pnpm@10.10.0",
   "resolutions": {
     "@nuxtjs/tailwindcss": "link:.",
     "@nuxt/ui": "npm:@nuxt/ui-edge",
