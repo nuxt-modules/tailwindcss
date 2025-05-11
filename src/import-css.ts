@@ -10,7 +10,15 @@ const getDefaults = (nuxt = useNuxt()) => [
 
 export default async function importCSS(nuxt = useNuxt()) {
   const defaultCSSFiles = getDefaults(nuxt)
-  const resolvedCSSFiles = await Promise.all(nuxt.options.css.map(p => resolvePath(p))).then(arr => arr.reverse())
+  const resolvedCSSFiles = await Promise.all(nuxt.options.css.map(p => resolvePath(p)))
+
+  const layerSourcesTemplate = addTemplate({
+    filename: 'tailwind/layer-sources.css',
+    getContents: () => {
+      return nuxt.options._layers.slice(1).map(layer => `@source ${JSON.stringify(layer.config.srcDir || layer.cwd)};`).join('\n')
+    },
+    write: true,
+  })
 
   const analyzedFiles = await Promise.all([...new Set([...resolvedCSSFiles, ...defaultCSSFiles])].map(async (file) => {
     const fileContents = await readFile(file, { encoding: 'utf-8' }).catch(() => '')
@@ -20,7 +28,15 @@ export default async function importCSS(nuxt = useNuxt()) {
   const filesImportingTailwind = analyzedFiles.filter(file => file[1].hasImport)
 
   const [file, { isInNuxt } = {}] = filesImportingTailwind.length === 0
-    ? [addTemplate({ filename: 'tailwind.css', getContents: () => `@import 'tailwindcss';`, write: true }).dst]
+    ? [
+        addTemplate({
+          filename: 'tailwind.css',
+          getContents: () => {
+            return [`@import 'tailwindcss';`, `@import ${JSON.stringify(layerSourcesTemplate.dst)};`].join('\n')
+          },
+          write: true,
+        }).dst,
+      ]
     : filesImportingTailwind.find(file => file[1].isInNuxt) || filesImportingTailwind.pop()!
 
   if (!isInNuxt) {
@@ -28,4 +44,5 @@ export default async function importCSS(nuxt = useNuxt()) {
   }
 
   nuxt.options.alias['#tailwind'] = file
+  nuxt.options.alias['#tailwind-layer-sources'] = layerSourcesTemplate.dst
 }

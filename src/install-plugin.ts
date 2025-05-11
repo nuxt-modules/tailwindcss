@@ -12,8 +12,6 @@ export default async function installPlugin(nuxt = useNuxt()) {
 
     if (!existsTailwindPlugin()) {
       await import('@tailwindcss/vite').then(r => addVitePlugin(r.default()))
-    } else {
-      console.log('already installed')
     }
   }
   else {
