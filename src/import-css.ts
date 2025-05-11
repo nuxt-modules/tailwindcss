@@ -20,7 +20,7 @@ export default async function importCSS(nuxt = useNuxt()) {
     write: true,
   })
 
-  const analyzedFiles = await Promise.all([...new Set([...resolvedCSSFiles, ...defaultCSSFiles])].map(async (file) => {
+  const analyzedFiles = await Promise.all([...new Set([...defaultCSSFiles, ...resolvedCSSFiles])].map(async (file) => {
     const fileContents = await readFile(file, { encoding: 'utf-8' }).catch(() => '')
     return [file, { hasImport: IMPORT_REGEX.test(fileContents), isInNuxt: resolvedCSSFiles.includes(file) }] as const
   }))
@@ -40,7 +40,7 @@ export default async function importCSS(nuxt = useNuxt()) {
     : filesImportingTailwind.find(file => file[1].isInNuxt) || filesImportingTailwind.pop()!
 
   if (!isInNuxt) {
-    nuxt.options.css.push(file)
+    nuxt.options.css.unshift(file)
   }
 
   nuxt.options.alias['#tailwind'] = file
