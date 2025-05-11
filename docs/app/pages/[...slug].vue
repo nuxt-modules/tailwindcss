@@ -1,51 +1,59 @@
 <script setup lang="ts">
-import { withoutTrailingSlash } from 'ufo'
+import type { ContentNavigationItem } from '@nuxt/content'
+import { findPageHeadline } from '#ui-pro/utils/content'
 
 definePageMeta({
-  layout: 'docs',
+  layout: 'docs'
 })
 
 const route = useRoute()
 const { toc } = useAppConfig()
+const navigation = inject<Ref<ContentNavigationItem[]>>('navigation')
 
-const { data: page } = await useAsyncData(route.path, () => queryContent(route.path).findOne())
+const { data: page } = await useAsyncData(route.path, () => queryCollection('docs').path(route.path).first())
 if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
 
-const { data: surround } = await useAsyncData(`${route.path}-surround`, () => queryContent()
-  .where({ _extension: 'md', navigation: { $ne: false } })
-  .only(['title', 'description', '_path'])
-  .findSurround(withoutTrailingSlash(route.path)),
-)
+const { data: surround } = await useAsyncData(`${route.path}-surround`, () => {
+  return queryCollectionItemSurroundings('docs', route.path, {
+    fields: ['description']
+  })
+})
+
+const title = page.value.seo?.title || page.value.title
+const description = page.value.seo?.description || page.value.description
 
 useSeoMeta({
-  titleTemplate: '%s - Tailwind CSS module for Nuxt',
-  title: page.value.title,
-  ogTitle: `${page.value.title} - Tailwind CSS module for Nuxt`,
-  description: page.value.description,
-  ogDescription: page.value.description,
+  title,
+  ogTitle: title,
+  description,
+  ogDescription: description
 })
 
-defineOgImage({
-  component: 'Docs',
-  title: page.value.title,
-  description: page.value.description,
-  headline: 'Nuxt Tailwind',
+const headline = computed(() => findPageHeadline(navigation?.value, page.value))
+
+defineOgImageComponent('Docs', {
+  headline: headline.value
 })
 
-const headline = computed(() => findPageHeadline(page.value))
+const links = computed(() => {
+  const links = []
+  if (toc?.bottom?.edit) {
+    links.push({
+      icon: 'i-lucide-external-link',
+      label: 'Edit this page',
+      to: `${toc.bottom.edit}/${page?.value?.stem}.${page?.value?.extension}`,
+      target: '_blank'
+    })
+  }
 
-const links = computed(() => [toc?.bottom?.edit && {
-  icon: 'i-heroicons-pencil-square',
-  label: 'Edit this page',
-  to: `${toc.bottom.edit}/${page?.value?._file}`,
-  target: '_blank',
-}, ...(toc?.bottom?.links || [])].filter(Boolean))
+  return [...links, ...(toc?.bottom?.links || [])].filter(Boolean)
+})
 </script>
 
 <template>
-  <UPage>
+  <UPage v-if="page">
     <UPageHeader
       :title="page.title"
       :description="page.description"
@@ -53,19 +61,19 @@ const links = computed(() => [toc?.bottom?.edit && {
       :headline="headline"
     />
 
-    <UPageBody prose>
+    <UPageBody>
       <ContentRenderer
-        v-if="page.body"
+        v-if="page"
         :value="page"
       />
 
-      <hr v-if="surround?.length">
+      <USeparator v-if="surround?.length" />
 
       <UContentSurround :surround="surround" />
     </UPageBody>
 
     <template
-      v-if="page.toc !== false"
+      v-if="page?.body?.toc?.links?.length"
       #right
     >
       <UContentToc
@@ -80,7 +88,7 @@ const links = computed(() => [toc?.bottom?.edit && {
             class="hidden lg:block space-y-6"
             :class="{ '!mt-6': page.body?.toc?.links?.length }"
           >
-            <UDivider
+            <USeparator
               v-if="page.body?.toc?.links?.length"
               type="dashed"
             />
@@ -89,9 +97,6 @@ const links = computed(() => [toc?.bottom?.edit && {
               :title="toc.bottom.title"
               :links="links"
             />
-
-            <UDivider type="dashed" />
-            <AdsUIPro />
           </div>
         </template>
       </UContentToc>
