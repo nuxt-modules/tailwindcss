@@ -21,14 +21,22 @@ export default async function importCSS(nuxt = useNuxt()) {
   })
 
   const filesImportingTailwind: (readonly [string, { isInNuxt: boolean }])[] = []
+  const projectCSSFiles = await Promise.all(nuxt.options.css.map(p => resolvePath(p)))
 
-  for (const layer of nuxt.options._layers) {
-    const defaultCSSFiles = getDefaults(layer.config)
-    const resolvedCSSFiles = layer.config.css ? await Promise.all(layer.config.css.filter(p => typeof p === 'string').map(p => resolvePath(p))) : []
+  for (let i = 0; i < nuxt.options._layers.length; i++) {
+    const layer = nuxt.options._layers[i]
+    const resolvedCSSFiles: string[] = []
 
-    const analyzedFiles = await Promise.all([...new Set([...defaultCSSFiles, ...resolvedCSSFiles])].map(async (file) => {
+    if (i === 0) {
+      resolvedCSSFiles.push(...projectCSSFiles)
+    }
+    else if (layer.config.css) {
+      await Promise.all(layer.config.css.filter(p => typeof p === 'string').map(p => resolvePath(p))).then(files => resolvedCSSFiles.push(...files))
+    }
+
+    const analyzedFiles = await Promise.all([...new Set([...getDefaults(layer.config), ...resolvedCSSFiles])].map(async (file) => {
       const fileContents = await readFile(file, { encoding: 'utf-8' }).catch(() => '')
-      return [file, { hasImport: IMPORT_REGEX.test(fileContents), isInNuxt: resolvedCSSFiles.includes(file) }] as const
+      return [file, { hasImport: IMPORT_REGEX.test(fileContents), isInNuxt: projectCSSFiles.includes(file) }] as const
     })).then(files => files.filter(file => file[1].hasImport))
 
     if (analyzedFiles.length) {
