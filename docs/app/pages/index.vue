@@ -1,44 +1,27 @@
 <script setup lang="ts">
-import { joinURL } from 'ufo'
+const { data: page } = await useAsyncData('index', () => queryCollection('landing').path('/').first())
+if (!page.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+}
 
-const { data: page } = await useAsyncData('index', () => queryContent('/').findOne())
-const { url } = useSiteConfig()
+const title = page.value.seo?.title || page.value.title
+const description = page.value.seo?.description || page.value.description
 
 useSeoMeta({
-  title: page.value.title,
-  ogTitle: page.value.title,
-  description: page.value.description,
-  ogDescription: page.value.description,
-  ogImage: joinURL(url, '/social-card.png'),
-  twitterImage: joinURL(url, '/social-card.png'),
+  titleTemplate: '',
+  title,
+  ogTitle: title,
+  description,
+  ogDescription: description,
+  ogImage: 'https://assets.hub.nuxt.com/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJodHRwczovL2RvY3MtdGVtcGxhdGUubnV4dC5kZXYiLCJpYXQiOjE3Mzk0NjM0MTd9.ltVAqPgKG38O01X1zl6MXfrJc55nf9OewXNFjpZ_2JY.jpg?theme=light',
+  twitterImage: 'https://assets.hub.nuxt.com/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJodHRwczovL2RvY3MtdGVtcGxhdGUubnV4dC5kZXYiLCJpYXQiOjE3Mzk0NjM0MTd9.ltVAqPgKG38O01X1zl6MXfrJc55nf9OewXNFjpZ_2JY.jpg?theme=light'
 })
 </script>
 
 <template>
-  <div>
-    <ULandingHero
-      v-if="page.hero"
-      v-bind="page.hero"
-    >
-      <template #title>
-        <MDC :value="page.hero.title" />
-      </template>
-
-      <MDC
-        :value="page.hero.code"
-        tag="pre"
-        class="prose prose-primary dark:prose-invert max-w-none"
-      />
-    </ULandingHero>
-
-    <ULandingSection :title="page.features.title">
-      <UPageGrid>
-        <ULandingCard
-          v-for="(item, index) of page.features.items"
-          :key="index"
-          v-bind="item"
-        />
-      </UPageGrid>
-    </ULandingSection>
-  </div>
+  <ContentRenderer
+    v-if="page"
+    :value="page"
+    :prose="false"
+  />
 </template>

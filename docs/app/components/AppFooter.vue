@@ -5,13 +5,7 @@ const { footer } = useAppConfig()
 <template>
   <UFooter>
     <template #left>
-      <span class="text-sm text-gray-500 dark:text-gray-400">
-        © 2025 | <NuxtLink
-          to="https://github.com/nuxt-modules/tailwindcss/blob/main/LICENSE"
-          target="_blank"
-          class="text-gray-900 dark:text-white"
-        >MIT License</NuxtLink>
-      </span>
+      {{ footer.credits }}
     </template>
 
     <template #right>
@@ -21,7 +15,7 @@ const { footer } = useAppConfig()
         <UButton
           v-for="(link, index) of footer?.links"
           :key="index"
-          v-bind="{ color: 'gray', variant: 'ghost', ...link }"
+          v-bind="{ color: 'neutral', variant: 'ghost', ...link }"
         />
       </template>
     </template>

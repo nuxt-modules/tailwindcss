@@ -1,90 +1,69 @@
-import { version as pkgVersion } from '../../package.json'
-
 export default defineAppConfig({
   ui: {
-    primary: 'sky',
-    gray: 'slate',
+    colors: {
+      primary: 'green',
+      neutral: 'slate'
+    }
+  },
+  uiPro: {
     footer: {
-      bottom: {
-        left: 'text-sm text-gray-500 dark:text-gray-400',
-        wrapper: 'border-t border-gray-200 dark:border-gray-800',
-      },
-    },
-    content: {
-      prose: {
-        code: {
-          icon: {
-            'nuxt.config': 'vscode-icons:file-type-nuxt',
-          },
-        },
-      },
-    },
+      slots: {
+        root: 'border-t border-default',
+        left: 'text-sm text-muted'
+      }
+    }
+  },
+  seo: {
+    siteName: '@nuxtjs/tailwindcss'
   },
   header: {
-    pkgVersion,
+    title: '',
+    to: '/',
     logo: {
-      light: {
-        src: '',
-      },
-      dark: {
-        src: '',
-      },
+      alt: '',
+      light: '',
+      dark: ''
     },
     search: true,
     colorMode: true,
     links: [{
       'icon': 'i-simple-icons-github',
-      'to': 'https://github.com/nuxt-modules/tailwindcss',
+      'to': 'https://github.com/nuxt-ui-pro/docs',
       'target': '_blank',
-      'aria-label': 'Docs template on GitHub',
-    }],
+      'aria-label': 'GitHub'
+    }]
   },
   footer: {
-    pkgVersion,
+    credits: `Copyright © ${new Date().getFullYear()}`,
     colorMode: false,
     links: [{
       'icon': 'i-simple-icons-nuxtdotjs',
       'to': 'https://nuxt.com',
       'target': '_blank',
-      'aria-label': 'Nuxt Website',
-    }, {
-      'icon': 'i-simple-icons-discord',
-      'to': 'https://chat.nuxt.dev/',
-      'target': '_blank',
-      'aria-label': 'Nuxt Discord',
-    }, {
-      'icon': 'i-simple-icons-x',
-      'to': 'https://twitter.nuxt.dev/',
-      'target': '_blank',
-      'aria-label': 'Nuxt on X',
+      'aria-label': 'Nuxt Website'
     }, {
       'icon': 'i-simple-icons-github',
       'to': 'https://github.com/nuxt-modules/tailwindcss',
       'target': '_blank',
-      'aria-label': 'GitHub Repository',
-    }],
+      'aria-label': '@nuxtjs/tailwindcss on GitHub'
+    }]
   },
   toc: {
     title: 'Table of Contents',
     bottom: {
       title: 'Community',
-      edit: 'https://github.com/nuxt-modules/tailwindcss/edit/main/docs/content',
+      edit: 'https://github.com/nuxt-modules/tailwindcss/edit/main/content',
       links: [{
-        icon: 'i-heroicons-star',
+        icon: 'i-lucide-star',
         label: 'Star on GitHub',
         to: 'https://github.com/nuxt-modules/tailwindcss',
-        target: '_blank',
+        target: '_blank'
       }, {
         icon: 'i-simple-icons-nuxtdotjs',
-        label: 'Nuxt documentation',
-        to: 'https://nuxt.com/docs',
-        target: '_blank',
-      }, {
-        icon: 'i-simple-icons-tailwindcss',
-        label: 'Tailwind CSS',
-        to: 'https://tailwindcss.com',
-        target: '_blank',
-      }],
-    },
-  },
+        label: 'Explore Nuxt UI',
+        to: 'https://ui.nuxt.com',
+        target: '_blank'
+      }]
+    }
+  }
 })
