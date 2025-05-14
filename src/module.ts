@@ -22,10 +22,24 @@ export default defineNuxtModule<ModuleOptions>({
 
     await installPlugin(nuxt)
 
-    addImports({ name: 'autocompleteUtil', from: resolver.resolve('./runtime/utils'), as: 'tw' })
+    addImports([
+      { name: 'autocompleteUtil', from: resolver.resolve('./runtime/utils'), as: 'tw' },
+    ])
 
     nuxt.hook('modules:done', async () => {
       await importCSS(nuxt)
     })
   },
 })
+
+export interface ModuleHooks {
+  /**
+   * Allows extending sources for Tailwind CSS.
+   */
+  'tailwindcss:sources:extend': (sources: string[]) => void
+}
+
+declare module '@nuxt/schema' {
+  // eslint-disable-next-line
+  interface NuxtHooks extends ModuleHooks {}
+}
