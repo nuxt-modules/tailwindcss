@@ -11,12 +11,18 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/types.d.ts",
-      "require": "./dist/module.cjs",
+      "types": "./dist/types.d.mts",
       "import": "./dist/module.mjs"
     }
   },
-  "main": "./dist/module.cjs",
+  "main": "./dist/module.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types.d.mts"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],
