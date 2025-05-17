@@ -14,12 +14,12 @@
     "@iconify-json/heroicons": "latest",
     "@iconify-json/ph": "latest",
     "@iconify-json/simple-icons": "latest",
-    "@nuxt/ui-pro": "^1.6.0",
-    "@nuxtjs/fontaine": "^0.4.4",
+    "@nuxt/ui-pro": "^1.8.0",
+    "@nuxtjs/fontaine": "^0.5.0",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/tailwindcss": "link:..",
     "@nuxtjs/plausible": "^1.2.0",
-    "nuxt-og-image": "^4.0.2"
+    "nuxt-og-image": "^4.2.0"
   },
   "devDependencies": {
     "@nuxthq/studio": "latest"
