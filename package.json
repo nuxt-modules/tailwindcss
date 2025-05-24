@@ -7,55 +7,31 @@
   "type": "module",
   "configKey": "tailwindcss",
   "compatibility": {
-    "nuxt": "^2.9.0 || >=3.0.0-rc.1"
+    "nuxt": ">=3.0.0"
   },
   "exports": {
     ".": {
-      "types": "./dist/module.d.ts",
-      "require": "./dist/module.cjs",
+      "types": "./dist/types.d.mts",
       "import": "./dist/module.mjs"
-    },
-    "./config": {
-      "types": "./dist/config.d.ts",
-      "require": "./dist/config.cjs",
-      "import": "./dist/config.mjs"
-    },
-    "./merger": {
-      "types": "./dist/merger.d.ts",
-      "require": "./dist/merger.cjs",
-      "import": "./dist/merger.mjs"
-    },
-    "./config-ctx": {
-      "types": "./dist/config-ctx.d.ts",
-      "require": "./dist/config-ctx.cjs",
-      "import": "./dist/config-ctx.mjs"
     }
   },
-  "main": "./dist/module.cjs",
-  "types": "./dist/types.d.ts",
+  "main": "./dist/module.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types.d.mts"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],
-  "build": {
-    "entries": [
-      "./src/config",
-      "./src/merger",
-      "./src/config-ctx"
-    ],
-    "externals": [
-      "@tailwindcss/vite"
-    ],
-    "rollup": {
-      "emitCJS": true
-    }
-  },
   "scripts": {
     "play": "pnpm dev",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:generate": "nuxi generate playground",
     "dev:preview": "nuxi preview playground",
-    "dev:nuxt2": "nuxi dev nuxt2-playground",
     "dev:prepare": "nuxt-module-build prepare && pnpm build:stub",
     "build": "nuxt-module-build build",
     "build:stub": "pnpm build --stub",
@@ -71,45 +47,28 @@
     "test:types": "pnpm dev:prepare && tsc --noEmit && nuxi typecheck playground"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.16.0",
-    "autoprefixer": "^10.4.20",
-    "c12": "^3.0.2",
-    "consola": "^3.4.0",
-    "defu": "^6.1.4",
-    "h3": "^1.15.1",
-    "klona": "^2.0.6",
-    "ohash": "^2.0.11",
+    "@nuxt/kit": "^3.17.1",
+    "@tailwindcss/postcss": "^4.1.6",
+    "@tailwindcss/vite": "^4.1.6",
     "pathe": "^2.0.3",
-    "pkg-types": "^2.1.0",
-    "postcss": "^8.5.3",
-    "postcss-nesting": "^13.0.1",
-    "tailwind-config-viewer": "^2.0.4",
-    "tailwindcss": "~3.4.17",
-    "ufo": "^1.5.4",
-    "unctx": "^2.4.1"
+    "tailwindcss": "^4.1.6"
   },
   "devDependencies": {
-    "@fontsource/inter": "^5.2.5",
-    "@nuxt/content": "^2.13.4",
-    "@nuxt/devtools": "^2.2.1",
-    "@nuxt/eslint-config": "^0.7.6",
-    "@nuxt/module-builder": "^0.8.4",
+    "@nuxt/devtools": "^2.4.0",
+    "@nuxt/eslint": "^1.3.0",
+    "@nuxt/eslint-config": "^1.3.0",
+    "@nuxt/module-builder": "^1.0.1",
     "@nuxt/test-utils": "^3.17.1",
-    "@tailwindcss/typography": "^0.5.16",
-    "changelogen": "^0.5.7",
-    "destr": "^2.0.3",
     "eslint": "^9.21.0",
-    "happy-dom": "^16.8.1",
-    "nuxt": "^3.16.0",
-    "typescript": "5.6.3",
-    "vitest": "^3.0.8",
-    "vue-tsc": "^2.2.8"
+    "happy-dom": "^17.4.7",
+    "nuxt": "^3.17.2",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.3",
+    "vue-tsc": "^2.2.10"
   },
   "packageManager": "pnpm@9.15.3",
   "resolutions": {
-    "@nuxtjs/tailwindcss": "link:.",
-    "@nuxt/ui": "npm:@nuxt/ui-edge",
-    "unicorn-magic": "0.2.0"
+    "@nuxtjs/tailwindcss": "link:."
   },
   "stackblitz": {
     "startCommand": "pnpm dev:prepare && pnpm dev"

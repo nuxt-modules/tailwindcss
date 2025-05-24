@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-tailwindcss-playground",
+  "name": "@nuxtjs/tailwindcss-playground",
   "private": true,
   "type": "module",
   "scripts": {
