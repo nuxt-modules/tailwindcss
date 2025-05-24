@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v7.0.0-beta.0
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.14.0...v7.0.0-beta.0)
+
+### 🚀 Enhancements
+
+- ⚠️  Update to Tailwind CSS v4 ([#991](https://github.com/nuxt-modules/tailwindcss/pull/991))
+
+### 🩹 Fixes
+
+- **docs:** Add iframe sandbox property as else COOP errors occur ([#988](https://github.com/nuxt-modules/tailwindcss/pull/988))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Update to Tailwind CSS v4 ([#991](https://github.com/nuxt-modules/tailwindcss/pull/991))
+
+### ❤️ Contributors
+
+- Inesh Bose <dev@inesh.xyz>
+- Chocolateimage <chocolateimage@protonmail.com>
+
 ## v6.14.0
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.13.2...v6.14.0)
