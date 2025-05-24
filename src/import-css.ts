@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { useNuxt, resolvePath, addTemplate } from '@nuxt/kit'
+import { useNuxt, resolvePath, addTemplate, logger } from '@nuxt/kit'
 import type { NuxtConfig } from 'nuxt/schema'
 import { join } from 'pathe'
 
@@ -61,4 +61,14 @@ export default async function importCSS(nuxt = useNuxt()) {
 
   nuxt.options.alias['#tailwindcss'] = file
   nuxt.options.alias['#tailwindcss/sources'] = sourcesTemplate.dst
+
+  nuxt.hook('builder:watch', (_e, path) => {
+    if (path !== file && projectCSSFiles.includes(path)) {
+      readFile(file, { encoding: 'utf-8' }).then((fileContents) => {
+        if (IMPORT_REGEX.test(fileContents)) {
+          logger.withTag('@nuxtjs/tailwindcss').warn(`New import for \`tailwindcss\` detected in ${file}. Restart server.`)
+        }
+      })
+    }
+  })
 }
