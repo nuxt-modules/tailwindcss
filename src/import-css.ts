@@ -11,12 +11,22 @@ const getDefaults = (nuxtConfig: NuxtConfig & { srcDir: string }) => [
 ].map(defaultPath => join(nuxtConfig.srcDir, nuxtConfig.dir?.assets || 'assets', defaultPath))
 
 export default async function importCSS(nuxt = useNuxt()) {
-  const sources = nuxt.options._layers.map(layer => layer.config.srcDir || layer.cwd)
+  const sources = nuxt.options._layers.map(layer => JSON.stringify(layer.config.srcDir || layer.cwd))
+
+  // Add variables from Nuxt config that need parsing
+  const sourceConfigs = [
+    nuxt.options.app?.head?.htmlAttrs?.class,
+    nuxt.options.app?.head?.bodyAttrs?.class,
+  ]
+  sourceConfigs.forEach((value) => {
+    if (value) sources.push(`inline(${JSON.stringify(value)})`)
+  })
+
   await nuxt.callHook('tailwindcss:sources:extend', sources)
 
   const sourcesTemplate = addTemplate({
     filename: 'tailwindcss/sources.css',
-    getContents: () => sources.map(source => `@source ${JSON.stringify(source)};`).join('\n'),
+    getContents: () => sources.map(source => `@source ${source};`).join('\n'),
     write: true,
   })
 
