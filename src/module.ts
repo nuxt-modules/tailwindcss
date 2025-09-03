@@ -36,7 +36,7 @@ export interface ModuleHooks {
   /**
    * Allows extending sources for Tailwind CSS.
    */
-  'tailwindcss:sources:extend': (sources: string[]) => void
+  'tailwindcss:sources:extend': (sources: Array<{ type: string, source: string }>) => void
 }
 
 declare module '@nuxt/schema' {
