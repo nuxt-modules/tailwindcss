@@ -7,7 +7,6 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 [![Tailwind CSS][tw-src]][tw-href]
-[![Volta board][volta-src]][volta-href]
 
 Enable [Tailwind CSS](https://tailwindcss.com) for [Nuxt](https://nuxt.com) ⚡️
 
@@ -16,11 +15,7 @@ Enable [Tailwind CSS](https://tailwindcss.com) for [Nuxt](https://nuxt.com) ⚡�
 ## Features
 
 - 👌&nbsp; Zero configuration to start
-- 🪄&nbsp; Includes [CSS Nesting](https://drafts.csswg.org/css-nesting-1/) with [postcss-nesting](https://github.com/csstools/postcss-nesting)
-- 🎨&nbsp; Discover your Tailwind Config & Colors *([see video](https://tailwindcss.nuxtjs.org/getting-started/module-options#viewer))*
-- ⚙️&nbsp; [Reference your Tailwind config](https://tailwindcss.nuxtjs.org/tailwindcss/configuration/#referencing-in-the-application) in your app
 - 📦&nbsp; Extendable by [Nuxt modules](https://nuxt.com/modules) using [hooks](https://tailwindcss.nuxtjs.org/tailwindcss/config#hooks)
-- 🚀&nbsp; Supports both [Nuxt 3](https://nuxt.com) and [Nuxt 2](https://v2.nuxt.com/)
 
 ## Quick Setup
 
@@ -77,18 +72,6 @@ You can contribute to this module online:
 
 </details>
 
-### Docs
-
-[![Nuxt UI Pro](https://img.shields.io/badge/Made%20with-Nuxt%20UI%20Pro-00DC82?logo=nuxt.js&labelColor=020420)](https://ui.nuxt.com/pro)
-
-You can run `docs/` locally by using `pnpm docs:dev`, or to run a build:
-
-1. Make sure to add your [Nuxt UI Pro](https://ui.nuxt.com/pro) license in the `.env` file before building the application.
-2. Run SSG build using `pnpm docs:build`
-3. Review the production build locally using `pnpm docs:preview`
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
-
 ## License
 
 [MIT](./LICENSE) - Made with 💚
@@ -108,6 +91,3 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 
 [tw-src]: https://img.shields.io/badge/tailwindcss-0F172A?&logo=tailwindcss
 [tw-href]: https://tailwindcss.com
-
-[volta-src]: https://user-images.githubusercontent.com/904724/209143798-32345f6c-3cf8-4e06-9659-f4ace4a6acde.svg
-[volta-href]: https://volta.net/nuxt-modules/tailwindcss?utm_source=nuxt_tailwind_readme

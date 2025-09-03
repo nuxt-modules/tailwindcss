@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises'
+import { resolveModulePath } from 'exsolve'
 import { useNuxt, resolvePath, addTemplate, logger } from '@nuxt/kit'
 import type { NuxtConfig } from 'nuxt/schema'
 import { join } from 'pathe'
@@ -45,11 +46,12 @@ export default async function importCSS(nuxt = useNuxt()) {
     }
   }
 
+  const tailwindPath = resolveModulePath('tailwindcss', { from: import.meta.url, conditions: ['style'] })
   const [file, { isInNuxt } = {}] = filesImportingTailwind.length === 0
     ? [
         addTemplate({
           filename: 'tailwind.css',
-          getContents: () => [`@import 'tailwindcss';`, `@import ${JSON.stringify(sourcesTemplate.dst)};`].join('\n'),
+          getContents: () => [`@import ${JSON.stringify(tailwindPath)};`, `@import ${JSON.stringify(sourcesTemplate.dst)};`].join('\n'),
           write: true,
         }).dst,
       ]

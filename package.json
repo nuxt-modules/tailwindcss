@@ -50,6 +50,7 @@
     "@nuxt/kit": "^3.17.1",
     "@tailwindcss/postcss": "^4.1.6",
     "@tailwindcss/vite": "^4.1.6",
+    "exsolve": "^1.0.7",
     "pathe": "^2.0.3",
     "tailwindcss": "^4.1.6"
   },
