@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## v7.0.0-beta.1
+
+[compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v7.0.0-beta.0...v7.0.0-beta.1)
+
+### 🩹 Fixes
+
+- Use exsolve to resolve tailwind import ([cc9763a](https://github.com/nuxt-modules/tailwindcss/commit/cc9763a))
+- **sources:** ⚠️  Provide sources as object ([255361d](https://github.com/nuxt-modules/tailwindcss/commit/255361d))
+
+### 🏡 Chore
+
+- Update deps without docs for now ([eda6389](https://github.com/nuxt-modules/tailwindcss/commit/eda6389))
+
+#### ⚠️ Breaking Changes
+
+- **sources:** ⚠️  Provide sources as object ([255361d](https://github.com/nuxt-modules/tailwindcss/commit/255361d))
+
 ## v7.0.0-beta.0
 
 [compare changes](https://github.com/nuxt-modules/tailwindcss/compare/v6.14.0...v7.0.0-beta.0)
