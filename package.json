@@ -48,27 +48,27 @@
   },
   "dependencies": {
     "@nuxt/kit": "^4.1.0",
-    "@tailwindcss/postcss": "^4.1.12",
-    "@tailwindcss/vite": "^4.1.12",
+    "@tailwindcss/postcss": "^4.1.14",
+    "@tailwindcss/vite": "^4.1.14",
     "exsolve": "^1.0.7",
     "pathe": "^2.0.3",
-    "tailwindcss": "^4.1.12"
+    "tailwindcss": "^4.1.14"
   },
   "devDependencies": {
-    "@nuxt/devtools": "^2.6.3",
+    "@nuxt/devtools": "^2.6.5",
     "@nuxt/eslint": "^1.9.0",
     "@nuxt/eslint-config": "^1.9.0",
     "@nuxt/module-builder": "^1.0.2",
     "@nuxt/test-utils": "^3.19.2",
     "changelogen": "^0.6.2",
-    "eslint": "^9.34.0",
+    "eslint": "^9.37.0",
     "happy-dom": "^18.0.1",
     "nuxt": "^4.1.0",
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
     "vitest": "^3.2.4",
-    "vue-tsc": "^3.0.6"
+    "vue-tsc": "^3.1.1"
   },
-  "packageManager": "pnpm@9.15.3",
+  "packageManager": "pnpm@9.15.9",
   "resolutions": {
     "@nuxtjs/tailwindcss": "link:."
   },
