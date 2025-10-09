@@ -62,7 +62,7 @@
     "@nuxt/test-utils": "^3.19.2",
     "changelogen": "^0.6.2",
     "eslint": "^9.34.0",
-    "happy-dom": "^18.0.1",
+    "happy-dom": "^20.0.0",
     "nuxt": "^4.1.0",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4",
