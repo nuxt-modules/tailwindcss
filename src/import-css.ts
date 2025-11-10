@@ -71,8 +71,8 @@ export default async function importCSS(nuxt = useNuxt()) {
     nuxt.options.css.unshift(file)
   }
 
-  nuxt.options.alias['#tailwindcss'] = file
   nuxt.options.alias['#tailwindcss/sources'] = sourcesTemplate.dst
+  nuxt.options.alias['#tailwindcss'] = file
 
   nuxt.hook('builder:watch', (_e, path) => {
     if (path !== file && projectCSSFiles.includes(path)) {
