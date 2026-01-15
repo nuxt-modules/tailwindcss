@@ -1,1 +1,3 @@
-export const autocompleteUtil = <T extends TemplateStringsArray | string>(tailwindClasses: T) => tailwindClasses
+export function autocompleteUtil<T extends TemplateStringsArray | string>({ tailwindClasses }: { tailwindClasses: T; }) {
+    return tailwindClasses;
+}
