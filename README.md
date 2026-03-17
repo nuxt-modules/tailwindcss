@@ -8,9 +8,14 @@
 [![Nuxt][nuxt-src]][nuxt-href]
 [![Tailwind CSS][tw-src]][tw-href]
 
-Enable [Tailwind CSS](https://tailwindcss.com) for [Nuxt](https://nuxt.com) ⚡️
+> [!NOTE]
+> You’re viewing the **v7** branch for compatibility with Tailwind CSS 4.
+>
+> For the current stable release that uses Tailwind CSS 3, see [v6](https://github.com/nuxt-modules/tailwindcss/tree/v6).
 
-[📖 &nbsp;Documentation](https://tailwindcss.nuxtjs.org) | [▶️ Play online](https://stackblitz.com/github/nuxt-modules/tailwindcss) | [✨ &nbsp;Release Notes](https://github.com/nuxt-modules/tailwindcss/releases)
+<!-- Enable [Tailwind CSS](https://tailwindcss.com) for [Nuxt](https://nuxt.com) ⚡️ -->
+
+<!-- [📖 &nbsp;Documentation](https://tailwindcss.nuxtjs.org) | [▶️ Play online](https://stackblitz.com/github/nuxt-modules/tailwindcss) | [✨ &nbsp;Release Notes](https://github.com/nuxt-modules/tailwindcss/releases) -->
 
 ## Features
 
