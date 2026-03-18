@@ -27,7 +27,7 @@
 Add `@nuxtjs/tailwindcss` using the [Nuxt CLI](https://github.com/nuxt/cli) to your project
 
 ```bash
-npx nuxi@latest module add tailwindcss
+npx nuxt@latest module add tailwindcss
 ```
 
 <details>
